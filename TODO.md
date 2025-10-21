@@ -1,0 +1,2 @@
+- [ ] Update User model: Add 'type' and 'status' to $fillable array
+- [ ] Update UserController: Add validation for 'type' and 'status' in register method, and include them in user creation with defaults
