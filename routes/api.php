@@ -15,3 +15,6 @@ use App\Http\Controllers\Api\UserController;
 */
 
 Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getProfile']);
+Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
