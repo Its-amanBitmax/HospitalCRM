@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-  <link rel="icon" type="image/png" href="{{ asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}">
+  <link rel="icon" type="image/png" href="{{ \App\Models\Admin::first() && \App\Models\Admin::first()->logo ? asset('storage/' . \App\Models\Admin::first()->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}">
     <title>Super Admin Login | Hospital Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 

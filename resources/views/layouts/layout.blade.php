@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="icon" type="image/png" href="{{ asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}">
+    <link rel="icon" type="image/png" href="{{ Auth::guard('admin')->user() && Auth::guard('admin')->user()->logo ? asset('storage/' . Auth::guard('admin')->user()->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}">
     <title>@yield('title', 'Admin Dashboard')</title>
 </head>
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex relative">
         <div class="sidebar-hover-trigger"></div>
-        @include('layouts.sidebar')
+        @include('layouts.sidebar', ['admin' => Auth::guard('admin')->user()])
         <div id="main-content" class="flex-1 flex flex-col ml-16 transition-all duration-300">
             @include('layouts.header')
             <main class="flex-1 p-6">
@@ -474,6 +474,24 @@
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('main-content');
             const sidebarHoverTrigger = document.querySelector('.sidebar-hover-trigger');
+
+            // Profile dropdown functionality
+            const profileDropdownButton = document.getElementById('profileDropdownButton');
+            const profileDropdown = document.getElementById('profileDropdown');
+
+            if (profileDropdownButton && profileDropdown) {
+                profileDropdownButton.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!profileDropdownButton.contains(event.target) && !profileDropdown.contains(event.target)) {
+                        profileDropdown.classList.add('hidden');
+                    }
+                });
+            }
 
             // Theme panel toggle
             themeCustomizeBtn.addEventListener('click', function() {

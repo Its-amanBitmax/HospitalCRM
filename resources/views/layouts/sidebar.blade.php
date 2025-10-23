@@ -1,8 +1,8 @@
 <aside id="sidebar" class="w-50 fixed top-0 left-0 h-screen overflow-y-auto shadow-lg transition-all duration-300 sidebar-collapsed" style="-ms-overflow-style: none; scrollbar-width: none;">
   <!-- Logo Section -->
   <div class="flex items-center justify-center px-4 py-4 border-b border-gray-200 dark:border-gray-700">
-    <img src="{{ asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}" alt="Dreams EMR Logo" class="w-8 h-8 dark:invert">
-    <h1 class="text-xl font-bold sidebar-text ml-2">Dreams EMR</h1>
+    <img src="{{ $admin && $admin->logo ? asset('storage/' . $admin->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}" alt="{{ $admin && $admin->hospital_name ? $admin->hospital_name . ' Logo' : 'Dreams EMR Logo' }}" class="w-8 h-8 dark:invert">
+    <h1 class="text-xl font-bold sidebar-text ml-2">{{ $admin && $admin->hospital_name ? $admin->hospital_name : 'Dreams EMR' }}</h1>
   </div>
   
   <!-- Main Navigation -->
@@ -34,22 +34,24 @@
         <i class="fas fa-chevron-down transition-transform duration-200 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200" id="patients-icon"></i>
       </div>
       <div id="patients-dropdown" class="space-y-1 overflow-hidden transition-all duration-300 max-h-0">
-        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
-          <i class="fas fa-procedures"></i>
-          <span class="sidebar-text">IPD</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
-          <i class="fas fa-stethoscope"></i>
-          <span class="sidebar-text">OPD</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                <a href="{{ route('admin.registered-users') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.registered-users') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
           <i class="fas fa-users"></i>
-          <span class="sidebar-text">Registered Users</span>
+          <span class="sidebar-text">All Patients</span>
         </a>
-        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
-          <i class="fas fa-clipboard-check"></i>
-          <span class="sidebar-text">Test and Check Ups</span>
+        <a href="{{ route('admin.ipd-patients') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.ipd-patients') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
+          <i class="fas fa-procedures"></i>
+          <span class="sidebar-text">IPD Patients</span>
         </a>
+        <a href="{{ route('admin.opd-patients') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.opd-patients') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
+          <i class="fas fa-stethoscope"></i>
+          <span class="sidebar-text">OPD Patients</span>
+        </a>
+
+        <a href="{{ route('admin.discharged-patients') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.discharged-patients') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
+          <i class="fas fa-user-times"></i>
+          <span class="sidebar-text">Discharged Patients</span>
+        </a>
+
       </div>
       <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
         <i class="fas fa-user-md"></i>
@@ -78,7 +80,7 @@
         <i class="fas fa-chevron-down transition-transform duration-200 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200" id="employee-icon"></i>
       </div>
       <div id="employee-dropdown" class="space-y-1 overflow-hidden transition-all duration-300 max-h-0">
-        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+        <a href="{{ route('admin.departments') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.departments') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
           <i class="fas fa-building"></i>
           <span class="sidebar-text">Department</span>
         </a>

@@ -44,10 +44,10 @@ class UserController extends Controller
             ], 400);
         }
 
-        // ✅ Generate unique user_id like USR0001, USR0002
-        $lastUser = User::orderBy('id', 'desc')->first();
-        $nextId = $lastUser ? $lastUser->id + 1 : 1;
-        $userId = 'USR' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
+        // ✅ Generate unique user_id with date and username
+        $date = now()->format('Ymd');
+        $username = strtoupper(substr($request->username, 0, 3));
+        $userId = 'USR' . $date . $username . rand(100, 999);
 
         // ✅ Handle image upload
         $imagePath = null;

@@ -23,6 +23,9 @@ class Admin extends Authenticatable
         'password',
         'role',
         'permission',
+        'profile_image',
+        'hospital_name',
+        'logo',
     ];
 
     /**
