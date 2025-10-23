@@ -8,6 +8,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\WelcomeController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
@@ -93,5 +94,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/get-discharged-patients', [AdminController::class, 'getDischargedPatients'])->name('admin.get-discharged-patients');
         Route::put('/update-discharged-patient/{id}', [AdminController::class, 'updateDischargedPatient'])->name('admin.update-discharged-patient');
         Route::delete('/delete-discharged-patient/{id}', [AdminController::class, 'deleteDischargedPatient'])->name('admin.delete-discharged-patient');
+
+        Route::resource('employees', EmployeeController::class)->names([
+            'index' => 'admin.employees.index',
+            'create' => 'admin.employees.create',
+            'store' => 'admin.employees.store',
+            'show' => 'admin.employees.show',
+            'edit' => 'admin.employees.edit',
+            'update' => 'admin.employees.update',
+            'destroy' => 'admin.employees.destroy',
+        ]);
     });
 });

@@ -84,7 +84,7 @@
           <i class="fas fa-building"></i>
           <span class="sidebar-text">Department</span>
         </a>
-        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+        <a href="{{ route('admin.employees.index') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.employees.*') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
           <i class="fas fa-user"></i>
           <span class="sidebar-text">Employee Details</span>
         </a>
