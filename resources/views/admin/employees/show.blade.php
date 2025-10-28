@@ -14,6 +14,15 @@
         <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
             <!-- Basic Information -->
             <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="text-center mb-4">
+                    @if($employee->image)
+                        <img src="{{ asset('storage/' . $employee->image) }}" alt="{{ $employee->name }}" class="w-32 h-32 object-cover rounded-full border-4 border-gray-300 mx-auto">
+                    @else
+                        <div class="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center mx-auto">
+                            <span class="text-gray-600 text-4xl font-bold">{{ strtoupper(substr($employee->name, 0, 1)) }}</span>
+                        </div>
+                    @endif
+                </div>
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -39,6 +48,10 @@
                     <div>
                         <strong class="text-gray-700 dark:text-gray-300">Hire Date:</strong>
                         <p class="text-gray-900 dark:text-white">{{ $employee->hire_date ? \Carbon\Carbon::parse($employee->hire_date)->format('M d, Y') : 'N/A' }}</p>
+                    </div>
+                    <div>
+                        <strong class="text-gray-700 dark:text-gray-300">Employee Code:</strong>
+                        <p class="text-gray-900 dark:text-white">{{ $employee->employee_code ?? 'N/A' }}</p>
                     </div>
                 </div>
             </div>

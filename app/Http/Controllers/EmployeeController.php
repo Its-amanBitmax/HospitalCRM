@@ -42,7 +42,7 @@ class EmployeeController extends Controller
     {
         DB::transaction(function () use ($request) {
             $data = $request->only([
-                'name', 'email', 'phone', 'date_of_birth', 'gender', 'hire_date'
+                'name', 'email', 'phone', 'date_of_birth', 'gender', 'hire_date', 'employee_code', 'password'
             ]);
 
             if ($request->hasFile('image')) {
@@ -141,7 +141,7 @@ class EmployeeController extends Controller
 
         DB::transaction(function () use ($request, $employee) {
             $data = $request->only([
-                'name', 'email', 'phone', 'date_of_birth', 'gender', 'hire_date'
+                'name', 'email', 'phone', 'date_of_birth', 'gender', 'hire_date', 'employee_code', 'password'
             ]);
 
             if ($request->hasFile('image')) {

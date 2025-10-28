@@ -14,7 +14,18 @@ class Employee extends Model
         'gender',
         'hire_date',
         'image',
+        'employee_code',
+        'password',
     ];
+
+    protected $hidden = [
+        'password',
+    ];
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 
     public function qualifications()
     {
@@ -54,5 +65,10 @@ class Employee extends Model
     public function expertise()
     {
         return $this->hasMany(Expertise::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
     }
 }

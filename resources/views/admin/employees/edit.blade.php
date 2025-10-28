@@ -55,6 +55,18 @@
                     </div>
 
                     <div>
+                        <label for="employee_code" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Employee Code <span class="text-red-500">*</span></label>
+                        <input type="text" name="employee_code" id="employee_code" value="{{ old('employee_code', $employee->employee_code) }}" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required aria-describedby="employee_code-error">
+                        @error('employee_code') <p id="employee_code-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                        <input type="password" name="password" id="password" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" aria-describedby="password-error">
+                        @error('password') <p id="password-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
                         <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Profile Image</label>
                         @if($employee->image)
                             <div class="mt-2">

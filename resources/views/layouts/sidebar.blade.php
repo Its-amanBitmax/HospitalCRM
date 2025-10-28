@@ -17,7 +17,7 @@
         <i class="fas fa-users"></i>
         <span class="sidebar-text">Manage admins</span>
       </a>
-       <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.Roles & Permission') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
+      <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.Roles & Permission') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
         <i class="fas fa-shield-alt"></i>
         <span class="sidebar-text">Roles & Permissions</span>
       </a>
@@ -118,6 +118,10 @@
         <a href="{{ route('admin.stock') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.stock') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
           <i class="fas fa-boxes"></i>
           <span class="sidebar-text">Stock</span>
+        </a>
+        <a href="{{ route('admin.rooms') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.rooms') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
+          <i class="fas fa-door-open"></i>
+          <span class="sidebar-text">Rooms</span>
         </a>
         <a href="{{ route('admin.faq') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
           <i class="fas fa-question-circle"></i>

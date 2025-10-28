@@ -54,6 +54,18 @@
                     </div>
 
                     <div>
+                        <label for="employee_code" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Employee Code *</label>
+                        <input type="text" name="employee_code" id="employee_code" value="{{ old('employee_code') }}" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                        @error('employee_code') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password *</label>
+                        <input type="password" name="password" id="password" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                        @error('password') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
                         <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Profile Image</label>
                         <input type="file" name="image" id="image" accept="image/*" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
                         @error('image') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror

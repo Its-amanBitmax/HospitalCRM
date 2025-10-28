@@ -1,8 +1,20 @@
-# TODO: Add Title and Expertise to Employee Cards
+# TODO: Fix 500 Error on /admin/get-rooms Endpoint
 
-## Steps to Complete:
-- [x] Update resources/views/admin/employees/index.blade.php to display title (from professions) and expertise (skills) in the employee cards.
-  - Add a line for Title: Show the first profession's title if available.
-  - Add a line for Expertise: List the skills from expertise, comma-separated if multiple.
-  - Add a line for Experience: List the years of experience from expertise, comma-separated if multiple.
-- [ ] Test the changes by viewing the employee index page.
+## Issue
+- GET /admin/get-rooms returns 500 Internal Server Error
+- Response is HTML instead of expected JSON
+- Frontend throws SyntaxError when parsing response
+
+## Root Cause
+- Database foreign key constraints causing query failure when rooms reference non-existent departments/employees
+- Eager loading with with() fails when relationships are broken
+
+## Plan
+1. Modify RoomController@getRooms to use robust query with left joins
+2. Test the endpoint to ensure it returns proper JSON
+3. Verify frontend loads rooms correctly
+
+## Steps
+- [ ] Update getRooms method in RoomController.php to use DB::select with left joins
+- [ ] Test the endpoint manually
+- [ ] Verify frontend functionality

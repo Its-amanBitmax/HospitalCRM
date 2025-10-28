@@ -29,6 +29,8 @@ class StoreEmployeeRequest extends FormRequest
             'gender' => 'nullable|in:Male,Female,Other',
             'hire_date' => 'nullable|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'employee_code' => 'required|string|max:255|unique:employees',
+            'password' => 'required|string|min:8',
 
             // Qualifications
             'qualifications' => 'nullable|array',

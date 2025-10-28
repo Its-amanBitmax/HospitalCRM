@@ -104,5 +104,20 @@ Route::prefix('admin')->group(function () {
             'update' => 'admin.employees.update',
             'destroy' => 'admin.employees.destroy',
         ]);
+
+        Route::get('/rooms', [App\Http\Controllers\RoomController::class, 'index'])->name('admin.rooms');
+        Route::get('/get-rooms', [App\Http\Controllers\RoomController::class, 'getRooms'])->name('admin.get-rooms');
+        Route::post('/store-room', [App\Http\Controllers\RoomController::class, 'store'])->name('admin.store-room');
+        Route::get('/room/{id}', [App\Http\Controllers\RoomController::class, 'show'])->name('admin.show-room');
+        Route::put('/update-room/{id}', [App\Http\Controllers\RoomController::class, 'update'])->name('admin.update-room');
+        Route::delete('/delete-room/{id}', [App\Http\Controllers\RoomController::class, 'destroy'])->name('admin.delete-room');
+        Route::post('/assign-room', [App\Http\Controllers\RoomController::class, 'assign'])->name('admin.assign-room');
+        Route::get('/get-room-assignments/{id}', [App\Http\Controllers\RoomController::class, 'getAssignments'])->name('admin.get-room-assignments');
+        Route::put('/update-room-assignment/{id}', [App\Http\Controllers\RoomController::class, 'updateAssignmentStatus'])->name('admin.update-room-assignment');
+        Route::get('/get-professions', [App\Http\Controllers\RoomController::class, 'getProfessions'])->name('admin.get-professions');
+        Route::get('/get-employees', [App\Http\Controllers\RoomController::class, 'getEmployees'])->name('admin.get-employees');
+        Route::get('/get-employees-by-department/{departmentId}', [App\Http\Controllers\RoomController::class, 'getEmployeesByDepartment'])->name('admin.get-employees-by-department');
+        Route::get('/get-assigned-rooms', [App\Http\Controllers\RoomController::class, 'getAssignedRooms'])->name('admin.get-assigned-rooms');
+        Route::delete('/remove-room-assignment/{id}', [App\Http\Controllers\RoomController::class, 'removeAssignment'])->name('admin.remove-room-assignment');
     });
 });
