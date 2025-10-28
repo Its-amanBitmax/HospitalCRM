@@ -123,11 +123,11 @@
           <i class="fas fa-door-open"></i>
           <span class="sidebar-text">Rooms</span>
         </a>
-        <a href="{{ route('admin.faq') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+        <a href="{{ route('admin.faq') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.faq') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
           <i class="fas fa-question-circle"></i>
           <span class="sidebar-text">FAQ</span>
         </a>
-        <a href="{{ route('admin.banner') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+        <a href="{{ route('admin.banner') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.banner') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
           <i class="fas fa-image"></i>
           <span class="sidebar-text">Banners</span>
         </a>
@@ -223,17 +223,13 @@
           <i class="fas fa-calendar-alt"></i>
           <span class="sidebar-text">Appointments</span>
         </a>
-        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+        <a href="{{ route('admin.registered-users') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.registered-users') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
           <i class="fas fa-users"></i>
           <span class="sidebar-text">Patients</span>
         </a>
         <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
           <i class="fas fa-hospital"></i>
           <span class="sidebar-text">Visits</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
-          <i class="fas fa-concierge-bell"></i>
-          <span class="sidebar-text">Reception</span>
         </a>
       </div>
     </div>

@@ -20,18 +20,25 @@ class User extends Authenticatable
      */
   protected $fillable = [
     'user_id',
-    'fullname',
+    'full_name',
     'age',
     'gender',
-    'address',
+    'full_address',
     'username',
     'password',
-    'phone_no',
+    'mobile_no',
     'email',
     'registered_through',
     'type',
     'status',
     'image',
+    'father_spouse_name',
+    'alternate_no',
+    'city',
+    'state',
+    'pin_code',
+    'id_proof_type',
+    'id_number',
 ];
 
 
@@ -56,5 +63,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the patient visits for the user.
+     */
+    public function patientVisits()
+    {
+        return $this->hasMany(PatientVisit::class);
+    }
+
+    /**
+     * Get the patient checkups for the user.
+     */
+    public function patientCheckups()
+    {
+        return $this->hasMany(PatientCheckup::class);
+    }
+
+    /**
+     * Get the patient documents for the user.
+     */
+    public function patientDocuments()
+    {
+        return $this->hasMany(PatientDocument::class);
     }
 }

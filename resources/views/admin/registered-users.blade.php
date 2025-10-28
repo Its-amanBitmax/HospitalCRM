@@ -1,6 +1,14 @@
 @extends('layouts.layout')
 
 @section('content')
+
+<style>
+@media print {
+  .sidebar, header, footer, .topbar, .notification, .grid.grid-cols-1.md\\:grid-cols-4, .flex.justify-between.items-center.bg-white.dark\\:bg-gray-800.p-4.rounded-lg.shadow.mb-6 { display: none !important; }
+  body { margin: 0; padding: 20px; }
+  .bg-white.dark\\:bg-gray-800.rounded-lg.shadow-lg.p-6 { box-shadow: none; border: none; }
+}
+</style>
 <div class="min-h-screen">
   <!-- Notification Area -->
   <div id="notification" class="fixed top-4 right-4 z-50 hidden bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
@@ -14,11 +22,18 @@
   <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-users text-2xl text-blue-600 dark:text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Registered Users</h1>
+      <h1 class="text-xl font-semibold text-gray-800 dark:text-white">All Patients
+      </h1>
     </div>
-    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg" id="addUserBtn">
-      <i class="fas fa-plus mr-2"></i>Add User
-    </button>
+    <div class="flex gap-3">
+      <a href="{{ route('admin.patient-registration') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
+        <i class="fas fa-user-plus mr-2"></i>Registration Form
+      </a>
+      <a href="{{ route('admin.users.create') }}" id="addUserBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
+        <i class="fas fa-plus mr-2"></i>Add Patients
+      </a>
+     
+    </div>
   </div>
 
   <!-- Cards -->
@@ -27,21 +42,21 @@
       <i class="fas fa-users text-3xl text-blue-600 dark:text-blue-400"></i>
       <div>
         <div class="text-2xl font-bold text-gray-800 dark:text-white" id="totalUsers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Total Users</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">Total Patients</div>
       </div>
     </div>
     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-user-check text-3xl text-green-600 dark:text-green-400"></i>
       <div>
         <div class="text-2xl font-bold text-gray-800 dark:text-white" id="activeUsers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Active Users</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">Active Patients</div>
       </div>
     </div>
     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-user-times text-3xl text-red-600 dark:text-red-400"></i>
       <div>
         <div class="text-2xl font-bold text-gray-800 dark:text-white" id="inactiveUsers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Inactive Users</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">Inactive Patients</div>
       </div>
     </div>
     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
@@ -58,7 +73,7 @@
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
         <i class="fas fa-users text-blue-600 dark:text-blue-400"></i>
-        User Details
+        Patient Details
       </h2>
     </div>
     <!-- Filters -->
@@ -114,23 +129,7 @@
     </div>
   </div>
 
-<!-- View User Modal -->
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="viewUserModal">
-  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="viewUserModalContent">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-user text-blue-600 dark:text-blue-400"></i>
-        User Details
-      </h3>
-      <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeViewUserModal">
-        <i class="fas fa-times text-lg"></i>
-      </button>
-    </div>
-    <div class="space-y-4" id="userDetails">
-      <!-- User details will be populated here -->
-    </div>
-  </div>
-</div>
+
 
 <!-- Add User Modal -->
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="addUserModal">
@@ -292,6 +291,7 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 (function() {
 if (window.registeredUsersScriptLoaded) return;
@@ -353,18 +353,19 @@ function renderUsers(filteredUsers = users) {
       <tr class="dark:bg-gray-800">
         <td class="px-4 py-3">${i + 1}</td>
         <td class="px-4 py-3">${u.user_id}</td>
-        <td class="px-4 py-3">${u.fullname}</td>
+        <td class="px-4 py-3">${u.full_name}</td>
         <td class="px-4 py-3">${u.username}</td>
         <td class="px-4 py-3">
           ${u.image ? `<img src="/${u.image}" alt="User Image" class="w-10 h-10 rounded-full object-cover">` : '<span class="text-gray-400">-</span>'}
         </td>
         <td class="px-4 py-3">${u.email || '-'}</td>
-        <td class="px-4 py-3">${u.phone_no || '-'}</td>
+        <td class="px-4 py-3">${u.mobile_no || '-'}</td>
         <td class="px-4 py-3 ${typeClass}">${u.type}</td>
         <td class="px-4 py-3 ${statusClass}">${u.status}</td>
         <td class="px-4 py-3">
-          <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm" onclick="viewUser(${u.id})"><i class="fas fa-eye"></i></button>
-          <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="editUser(${u.id})"><i class="fas fa-edit"></i></button>
+          <a href="/admin/users/${u.id}" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm inline-block"><i class="fas fa-eye"></i></a>
+          <a href="/admin/users/${u.id}/edit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-edit"></i></a>
+          <a href="/admin/users/${u.id}/visits" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-calendar"></i></a>
           <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="deleteUser(${u.id})"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
@@ -380,33 +381,7 @@ function updateDashboard() {
   document.getElementById("registeredUsers").textContent = users.filter(u => u.type === "registered").length;
 }
 
-// View User
-function viewUser(id) {
-  const user = users.find(u => u.id == id);
-  if (!user) return;
 
-  const details = document.getElementById("userDetails");
-  details.innerHTML = `
-    <div><strong>User ID:</strong> ${user.user_id}</div>
-    <div><strong>Full Name:</strong> ${user.fullname}</div>
-    <div><strong>Username:</strong> ${user.username}</div>
-    <div><strong>Email:</strong> ${user.email || '-'}</div>
-    <div><strong>Phone:</strong> ${user.phone_no || '-'}</div>
-    <div><strong>Age:</strong> ${user.age || '-'}</div>
-    <div><strong>Gender:</strong> ${user.gender || '-'}</div>
-    <div><strong>Address:</strong> ${user.address || '-'}</div>
-    <div><strong>Type:</strong> ${user.type}</div>
-    <div><strong>Status:</strong> ${user.status}</div>
-    <div><strong>Registered Through:</strong> ${user.registered_through || '-'}</div>
-    <div><strong>Created At:</strong> ${new Date(user.created_at).toLocaleString()}</div>
-  `;
-
-  document.getElementById("viewUserModal").classList.remove("hidden");
-  setTimeout(() => {
-    document.getElementById("viewUserModalContent").classList.remove("scale-95", "opacity-0");
-    document.getElementById("viewUserModalContent").classList.add("scale-100", "opacity-100");
-  }, 10);
-}
 
 // Edit User
 function editUser(id) {
@@ -414,13 +389,13 @@ function editUser(id) {
   if (!user) return;
 
   document.getElementById("editUserId").value = user.id;
-  document.getElementById("editUserFullname").value = user.fullname;
+  document.getElementById("editUserFullname").value = user.full_name;
   document.getElementById("editUserUsername").value = user.username;
   document.getElementById("editUserEmail").value = user.email || '';
-  document.getElementById("editUserPhone").value = user.phone_no || '';
+  document.getElementById("editUserPhone").value = user.mobile_no || '';
   document.getElementById("editUserAge").value = user.age || '';
   document.getElementById("editUserGender").value = user.gender || '';
-  document.getElementById("editUserAddress").value = user.address || '';
+  document.getElementById("editUserAddress").value = user.full_address || '';
   document.getElementById("editUserType").value = user.type;
   document.getElementById("editUserStatus").value = user.status;
 
@@ -530,12 +505,6 @@ document.getElementById("addUserForm").addEventListener("submit", (e) => {
 });
 
 // Close Modals
-function closeViewUserModal() {
-  document.getElementById("viewUserModalContent").classList.remove("scale-100", "opacity-100");
-  document.getElementById("viewUserModalContent").classList.add("scale-95", "opacity-0");
-  setTimeout(() => document.getElementById("viewUserModal").classList.add("hidden"), 300);
-}
-
 function closeEditUserModal() {
   document.getElementById("editUserModalContent").classList.remove("scale-100", "opacity-100");
   document.getElementById("editUserModalContent").classList.add("scale-95", "opacity-0");
@@ -548,13 +517,11 @@ function closeAddUserModal() {
   setTimeout(() => document.getElementById("addUserModal").classList.add("hidden"), 300);
 }
 
-document.getElementById("closeViewUserModal").onclick = closeViewUserModal;
 document.getElementById("closeEditUserModal").onclick = closeEditUserModal;
 document.getElementById("closeAddUserModal").onclick = closeAddUserModal;
 document.getElementById("addUserBtn").onclick = addUser;
 
 window.onclick = e => {
-  if (e.target === document.getElementById("viewUserModal")) closeViewUserModal();
   if (e.target === document.getElementById("editUserModal")) closeEditUserModal();
   if (e.target === document.getElementById("addUserModal")) closeAddUserModal();
 };
@@ -573,7 +540,7 @@ function filterUsers() {
   const statusFilter = document.getElementById("userStatusFilter").value;
 
   const filteredUsers = users.filter(u => {
-    const matchesName = u.fullname.toLowerCase().includes(nameFilter);
+    const matchesName = u.full_name.toLowerCase().includes(nameFilter);
     const matchesEmail = (u.email || '').toLowerCase().includes(emailFilter);
     const matchesType = typeFilter === "" || u.type === typeFilter;
     const matchesStatus = statusFilter === "" || u.status === statusFilter;
@@ -591,11 +558,12 @@ function clearUserFilters() {
   renderUsers();
 }
 
+
+
 // Load data on page load
 loadUsers();
 
 // Expose functions to global scope
-window.viewUser = viewUser;
 window.editUser = editUser;
 window.deleteUser = deleteUser;
 })();

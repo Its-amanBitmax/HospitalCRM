@@ -10,6 +10,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\PatientVisitController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -74,6 +75,19 @@ Route::prefix('admin')->group(function () {
         Route::put('/update-department/{id}', [DepartmentController::class, 'update'])->name('admin.update-department');
         Route::delete('/delete-department/{id}', [DepartmentController::class, 'destroy'])->name('admin.delete-department');
 
+        Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
+        Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
+        Route::get('/users/{id}', [AdminController::class, 'showUser'])->name('admin.users.show');
+        Route::get('/users/{id}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
+        Route::put('/users/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+        Route::get('/users/{id}/visits', [PatientVisitController::class, 'index'])->name('admin.users.visits');
+        Route::get('/users/{id}/visits/create', [PatientVisitController::class, 'create'])->name('admin.users.visits.create');
+        Route::post('/users/{id}/visits', [PatientVisitController::class, 'store'])->name('admin.users.visits.store');
+        Route::get('/users/{id}/checkups/create', [PatientVisitController::class, 'createCheckup'])->name('admin.users.checkups.create');
+        Route::post('/users/{id}/checkups', [PatientVisitController::class, 'storeCheckup'])->name('admin.users.checkups.store');
+        Route::get('/users/{id}/documents/create', [PatientVisitController::class, 'createDocument'])->name('admin.users.documents.create');
+        Route::post('/users/{id}/documents', [PatientVisitController::class, 'storeDocument'])->name('admin.users.documents.store');
+
         Route::get('/registered-users', [AdminController::class, 'registeredUsers'])->name('admin.registered-users');
         Route::get('/get-registered-users', [AdminController::class, 'getRegisteredUsers'])->name('admin.get-registered-users');
         Route::post('/add-registered-user', [AdminController::class, 'addRegisteredUser'])->name('admin.add-registered-user');
@@ -89,6 +103,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/get-opd-patients', [AdminController::class, 'getOpdPatients'])->name('admin.get-opd-patients');
         Route::put('/update-opd-patient/{id}', [AdminController::class, 'updateOpdPatient'])->name('admin.update-opd-patient');
         Route::delete('/delete-opd-patient/{id}', [AdminController::class, 'deleteOpdPatient'])->name('admin.delete-opd-patient');
+
+        Route::get('/patient-registration', [AdminProfileController::class, 'patientRegistration'])->name('admin.patient-registration');
 
         Route::get('/discharged-patients', [AdminController::class, 'dischargedPatients'])->name('admin.discharged-patients');
         Route::get('/get-discharged-patients', [AdminController::class, 'getDischargedPatients'])->name('admin.get-discharged-patients');

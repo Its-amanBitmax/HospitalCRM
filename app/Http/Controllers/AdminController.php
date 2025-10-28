@@ -134,9 +134,155 @@ class AdminController extends Controller
             $updateData['image'] = 'image/' . $imageName;
         }
 
+        // Map old names to new names
+        $updateData['full_name'] = $updateData['fullname'];
+        $updateData['mobile_no'] = $updateData['phone_no'];
+        $updateData['full_address'] = $updateData['address'];
+        unset($updateData['fullname'], $updateData['phone_no'], $updateData['address']);
+
         $user->update($updateData);
 
         return response()->json(['message' => 'User updated successfully.']);
+    }
+
+    public function createUser()
+    {
+        return view('admin.users.create');
+    }
+
+    public function storeUser(Request $request)
+    {
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username',
+            'email' => 'nullable|email|unique:users,email',
+            'mobile_no' => 'required|string|max:20',
+            'password' => 'required|string|min:8',
+            'age' => 'nullable|integer|min:0|max:150',
+            'gender' => 'nullable|in:male,female,other',
+            'father_spouse_name' => 'nullable|string|max:255',
+            'alternate_no' => 'nullable|string|max:20',
+            'full_address' => 'nullable|string',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'pin_code' => 'nullable|string|max:10',
+            'visit_type' => 'nullable|in:OPD,Emergency,Appointment',
+            'date_of_visit' => 'nullable|date',
+            'chief_complaint' => 'nullable|string',
+            'referred_by' => 'nullable|string|max:255',
+            'department_consultant' => 'nullable|string|max:255',
+            'id_proof_type' => 'nullable|string|max:255',
+            'id_number' => 'nullable|string|max:255',
+            'type' => 'required|in:ipd,opd,registered,discharged',
+            'status' => 'required|in:active,inactive',
+            'registered_through' => 'nullable|in:email,msg,whatsapp,google',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Generate unique user_id with date and username
+        $date = now()->format('Ymd');
+        $username = strtoupper(substr($request->username, 0, 3));
+        $userId = 'USR' . $date . $username . rand(100, 999);
+
+        // Handle image upload
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('image'), $imageName);
+            $imagePath = 'image/' . $imageName;
+        }
+
+        $user = \App\Models\User::create([
+            'user_id' => $userId,
+            'full_name' => $request->full_name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'mobile_no' => $request->mobile_no,
+            'password' => Hash::make($request->password),
+            'age' => $request->age,
+            'gender' => $request->gender,
+            'father_spouse_name' => $request->father_spouse_name,
+            'alternate_no' => $request->alternate_no,
+            'full_address' => $request->full_address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'pin_code' => $request->pin_code,
+            'visit_type' => $request->visit_type,
+            'date_of_visit' => $request->date_of_visit,
+            'chief_complaint' => $request->chief_complaint,
+            'referred_by' => $request->referred_by,
+            'department_consultant' => $request->department_consultant,
+            'id_proof_type' => $request->id_proof_type,
+            'id_number' => $request->id_number,
+            'type' => $request->type,
+            'status' => $request->status,
+            'registered_through' => $request->registered_through,
+            'image' => $imagePath,
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'User created successfully.']);
+    }
+
+    public function showUser($id)
+    {
+        $user = \App\Models\User::findOrFail($id);
+        return view('admin.users.show', compact('user'));
+    }
+
+    public function editUser($id)
+    {
+        $user = \App\Models\User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'email' => 'required|email|unique:users,email,' . $id,
+            'mobile_no' => 'required|string|max:20',
+            'age' => 'nullable|integer|min:0|max:150',
+            'gender' => 'nullable|in:male,female,other',
+            'father_spouse_name' => 'nullable|string|max:255',
+            'alternate_no' => 'nullable|string|max:20',
+            'full_address' => 'nullable|string',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'pin_code' => 'nullable|string|max:10',
+            'visit_type' => 'nullable|in:OPD,Emergency,Appointment',
+            'date_of_visit' => 'nullable|date',
+            'chief_complaint' => 'nullable|string',
+            'referred_by' => 'nullable|string|max:255',
+            'department_consultant' => 'nullable|string|max:255',
+            'id_proof_type' => 'nullable|string|max:255',
+            'id_number' => 'nullable|string|max:255',
+            'type' => 'required|in:ipd,opd,registered,discharged',
+            'status' => 'required|in:active,inactive',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = \App\Models\User::findOrFail($id);
+
+        $updateData = $request->only([
+            'full_name', 'username', 'email', 'mobile_no', 'age', 'gender',
+            'father_spouse_name', 'alternate_no', 'full_address', 'city', 'state', 'pin_code',
+            'visit_type', 'date_of_visit', 'chief_complaint', 'referred_by', 'department_consultant',
+            'id_proof_type', 'id_number', 'type', 'status'
+        ]);
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('image'), $imageName);
+            $updateData['image'] = 'image/' . $imageName;
+        }
+
+        $user->update($updateData);
+
+        return response()->json(['success' => true, 'message' => 'User updated successfully.']);
     }
 
     public function addRegisteredUser(Request $request)
@@ -172,14 +318,14 @@ class AdminController extends Controller
 
         $user = \App\Models\User::create([
             'user_id' => $userId,
-            'fullname' => $request->fullname,
+            'full_name' => $request->fullname,
             'username' => $request->username,
             'email' => $request->email,
-            'phone_no' => $request->phone_no,
+            'mobile_no' => $request->phone_no,
             'password' => Hash::make($request->password),
             'age' => $request->age,
             'gender' => $request->gender,
-            'address' => $request->address,
+            'full_address' => $request->address,
             'type' => $request->type,
             'status' => $request->status,
             'registered_through' => $request->registered_through,
@@ -223,7 +369,13 @@ class AdminController extends Controller
         ]);
 
         $user = \App\Models\User::findOrFail($id);
-        $user->update($request->only(['fullname', 'username', 'email', 'phone_no', 'age', 'gender', 'address', 'type', 'status']));
+        $updateData = $request->only(['fullname', 'username', 'email', 'phone_no', 'age', 'gender', 'address', 'type', 'status']);
+        // Map old names to new names
+        $updateData['full_name'] = $updateData['fullname'];
+        $updateData['mobile_no'] = $updateData['phone_no'];
+        $updateData['full_address'] = $updateData['address'];
+        unset($updateData['fullname'], $updateData['phone_no'], $updateData['address']);
+        $user->update($updateData);
         return response()->json(['message' => 'User updated successfully']);
     }
 
@@ -260,7 +412,13 @@ class AdminController extends Controller
         ]);
 
         $user = \App\Models\User::findOrFail($id);
-        $user->update($request->only(['fullname', 'username', 'email', 'phone_no', 'age', 'gender', 'address', 'type', 'status']));
+        $updateData = $request->only(['fullname', 'username', 'email', 'phone_no', 'age', 'gender', 'address', 'type', 'status']);
+        // Map old names to new names
+        $updateData['full_name'] = $updateData['fullname'];
+        $updateData['mobile_no'] = $updateData['phone_no'];
+        $updateData['full_address'] = $updateData['address'];
+        unset($updateData['fullname'], $updateData['phone_no'], $updateData['address']);
+        $user->update($updateData);
         return response()->json(['message' => 'User updated successfully']);
     }
 
@@ -297,7 +455,13 @@ class AdminController extends Controller
         ]);
 
         $user = \App\Models\User::findOrFail($id);
-        $user->update($request->only(['fullname', 'username', 'email', 'phone_no', 'age', 'gender', 'address', 'type', 'status']));
+        $updateData = $request->only(['fullname', 'username', 'email', 'phone_no', 'age', 'gender', 'address', 'type', 'status']);
+        // Map old names to new names
+        $updateData['full_name'] = $updateData['fullname'];
+        $updateData['mobile_no'] = $updateData['phone_no'];
+        $updateData['full_address'] = $updateData['address'];
+        unset($updateData['fullname'], $updateData['phone_no'], $updateData['address']);
+        $user->update($updateData);
         return response()->json(['message' => 'User updated successfully']);
     }
 
