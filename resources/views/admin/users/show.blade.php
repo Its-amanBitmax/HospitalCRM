@@ -48,15 +48,16 @@
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image</label>
-            @if($user->image)
-              <div class="mt-2">
-                <img src="/{{ $user->image }}" alt="User Image" class="w-20 h-20 rounded-full object-cover">
-              </div>
-            @else
-              <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">-</div>
-            @endif
-          </div>
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image</label>
+    @if($user->image)
+        <div class="mt-2">
+            <img src="{{ asset($user->image) }}" alt="User Image" class="w-20 h-20 rounded-full object-cover">
+        </div>
+    @else
+        <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">-</div>
+    @endif
+</div>
+
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
             <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->full_name }}</div>

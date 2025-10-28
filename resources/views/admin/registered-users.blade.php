@@ -356,8 +356,10 @@ function renderUsers(filteredUsers = users) {
         <td class="px-4 py-3">${u.full_name}</td>
         <td class="px-4 py-3">${u.username}</td>
         <td class="px-4 py-3">
-          ${u.image ? `<img src="/${u.image}" alt="User Image" class="w-10 h-10 rounded-full object-cover">` : '<span class="text-gray-400">-</span>'}
-        </td>
+    ${u.image 
+        ? `<img src="{{ asset('${u.image}') }}" alt="User Image" class="w-10 h-10 rounded-full object-cover">`
+        : '<span class="text-gray-400">-</span>'}
+</td>
         <td class="px-4 py-3">${u.email || '-'}</td>
         <td class="px-4 py-3">${u.mobile_no || '-'}</td>
         <td class="px-4 py-3 ${typeClass}">${u.type}</td>

@@ -156,9 +156,10 @@
               <input type="file" name="image" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" accept="image/*">
               @if($user->image)
                 <div class="mt-2">
-                  <img src="/{{ $user->image }}" alt="Current Image" class="w-20 h-20 rounded-full object-cover">
-                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Current image</p>
-                </div>
+    <img src="{{ asset($user->image) }}" alt="Current Image" class="w-20 h-20 rounded-full object-cover">
+    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Current image</p>
+</div>
+
               @endif
             </div>
           </div>
