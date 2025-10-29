@@ -47,10 +47,11 @@
           <span class="sidebar-text">OPD Patients</span>
         </a>
 
-        <a href="{{ route('admin.discharged-patients') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.discharged-patients') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
-          <i class="fas fa-user-times"></i>
-          <span class="sidebar-text">Discharged Patients</span>
+        <a href="{{ route('admin.emergency-patients') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.emergency-patients') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
+          <i class="fas fa-ambulance"></i>
+          <span class="sidebar-text">Emergency Patients</span>
         </a>
+      
 
       </div>
       <div class="flex items-center space-x-2">

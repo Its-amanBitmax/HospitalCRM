@@ -13,8 +13,8 @@
   <!-- Topbar -->
   <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
-      <i class="fas fa-user-times text-2xl text-red-600 dark:text-red-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Discharged Patients</h1>
+      <i class="fas fa-ambulance text-2xl text-red-600 dark:text-red-400"></i>
+      <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Emergency Patients</h1>
     </div>
   </div>
 
@@ -24,7 +24,7 @@
       <i class="fas fa-users text-3xl text-blue-600 dark:text-blue-400"></i>
       <div>
         <div class="text-2xl font-bold text-gray-800 dark:text-white" id="totalPatients">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Total Discharged Patients</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">Total Emergency Patients</div>
       </div>
     </div>
     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
@@ -44,8 +44,8 @@
     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-user-md text-3xl text-purple-600 dark:text-purple-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="dischargedPatients">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Discharged</div>
+        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="emergencyPatients">0</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">Emergency</div>
       </div>
     </div>
   </div>
@@ -55,7 +55,7 @@
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
         <i class="fas fa-users text-blue-600 dark:text-blue-400"></i>
-        Discharged Patient Details
+        Emergency Patient Details
       </h2>
     </div>
 
@@ -75,6 +75,7 @@
           <option value="">All</option>
           <option>active</option>
           <option>inactive</option>
+          <option>discharged</option>
         </select>
       </div>
       <div class="flex items-end">
@@ -166,6 +167,7 @@
             <select id="editPatientType" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
               <option>ipd</option>
               <option>opd</option>
+              <option>emergency</option>
               <option>registered</option>
               <option>discharged</option>
             </select>
@@ -175,6 +177,7 @@
             <select id="editPatientStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
               <option>active</option>
               <option>inactive</option>
+              <option>discharged</option>
             </select>
           </div>
         </div>
@@ -189,8 +192,8 @@
 
   <script>
   (function() {
-    if (window.dischargedPatientsScriptLoaded) return;
-    window.dischargedPatientsScriptLoaded = true;
+    if (window.emergencyPatientsScriptLoaded) return;
+    window.emergencyPatientsScriptLoaded = true;
 
     let patients = [];
 
@@ -212,7 +215,7 @@
     // ---------- Load Patients ----------
     function loadPatients() {
       showPatientLoading();
-      fetch('/admin/get-discharged-patients')
+      fetch('/admin/get-emergency-patients')
         .then(r => r.json())
         .then(data => {
           patients = data;
@@ -250,7 +253,7 @@
       }
 
       filtered.forEach((p, i) => {
-        const statusClass = p.status === "active" ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400";
+        const statusClass = p.status === "active" ? "text-green-500 dark:text-green-400" : p.status === "discharged" ? "text-purple-500 dark:text-purple-400" : "text-red-500 dark:text-red-400";
 
         tbody.insertAdjacentHTML("beforeend", `
           <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
@@ -277,7 +280,7 @@
       document.getElementById("totalPatients").textContent = patients.length;
       document.getElementById("activePatients").textContent = patients.filter(p => p.status === "active").length;
       document.getElementById("inactivePatients").textContent = patients.filter(p => p.status === "inactive").length;
-      document.getElementById("dischargedPatients").textContent = patients.filter(p => p.type === "discharged").length;
+      document.getElementById("emergencyPatients").textContent = patients.filter(p => p.type === "emergency").length;
     }
 
     // ---------- View Modal ----------
@@ -296,7 +299,7 @@
         <div><strong>Gender:</strong> ${p.gender || '-'}</div>
         <div><strong>Address:</strong> ${p.address || '-'}</div>
         <div><strong>Type:</strong> ${p.type}</div>
-        <div><strong>Status:</strong> <span class="${p.status === 'active' ? 'text-green-600' : 'text-red-600'}">${p.status}</span></div>
+        <div><strong>Status:</strong> <span class="${p.status === 'active' ? 'text-green-600' : p.status === 'discharged' ? 'text-purple-600' : 'text-red-600'}">${p.status}</span></div>
         <div><strong>Registered Through:</strong> ${p.registered_through || '-'}</div>
         <div><strong>Created At:</strong> ${new Date(p.created_at).toLocaleString()}</div>
       `;
@@ -347,7 +350,7 @@
         address: document.getElementById("editPatientAddress").value,
       };
 
-      fetch(`/admin/update-discharged-patient/${id}`, {
+      fetch(`/admin/update-emergency-patient/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -368,7 +371,7 @@
     window.deletePatient = function (id) {
       if (!confirm("Delete this patient? This action cannot be undone.")) return;
 
-      fetch(`/admin/delete-discharged-patient/${id}`, {
+      fetch(`/admin/delete-emergency-patient/${id}`, {
         method: 'DELETE',
         headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
       })

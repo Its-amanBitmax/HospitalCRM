@@ -28,16 +28,27 @@
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Associated Visit</label>
+              <select name="visit_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+                <option value="">Select Visit (Optional)</option>
+                @foreach($visits as $visit)
+                <option value="{{ $visit->id }}" {{ $loop->first ? 'selected' : '' }}>
+                  {{ $visit->date_of_visit ? $visit->date_of_visit->format('d-m-Y') : 'N/A' }} - {{ $visit->visit_type }} - {{ $visit->chief_complaint ?: 'No complaint' }}
+                </option>
+                @endforeach
+              </select>
+            </div>
+            <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Checkup Date *</label>
               <input type="date" name="checkup_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
             </div>
             <div class="md:col-span-2">
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Diagnosis</label>
-              <textarea name="diagnosis" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200"></textarea>
+              <textarea name="diagnosis" rows="3" placeholder="Enter diagnosis" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200"></textarea>
             </div>
             <div class="md:col-span-2">
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Treatment</label>
-              <textarea name="treatment" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200"></textarea>
+              <textarea name="treatment" rows="3" placeholder="Enter treatment" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200"></textarea>
             </div>
           </div>
         </div>

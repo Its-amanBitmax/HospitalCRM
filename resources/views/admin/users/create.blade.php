@@ -142,8 +142,7 @@
               <select name="type" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
                 <option value="ipd">IPD</option>
                 <option value="opd">OPD</option>
-                <option value="registered">Registered</option>
-                <option value="discharged">Discharged</option>
+                <option value="emergency">Emergency</option>
               </select>
             </div>
             <div>
@@ -151,6 +150,7 @@
               <select name="status" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
+                <option value="discharged">Discharged</option>
               </select>
             </div>
             <div>
@@ -159,7 +159,7 @@
                 <option value="email">Email</option>
                 <option value="msg">Message</option>
                 <option value="whatsapp">WhatsApp</option>
-                <option value="google">Google</option>
+                <option value="offline">Offline</option>
               </select>
             </div>
             <div class="md:col-span-2">

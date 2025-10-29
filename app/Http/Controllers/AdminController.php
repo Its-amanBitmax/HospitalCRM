@@ -117,8 +117,8 @@ class AdminController extends Controller
             'age' => 'nullable|integer|min:0|max:150',
             'gender' => 'nullable|in:male,female,other',
             'address' => 'nullable|string|max:500',
-            'type' => 'required|in:ipd,opd,registered,discharged',
-            'status' => 'required|in:active,inactive',
+            'type' => 'required|in:ipd,opd,emergency,registered,discharged',
+            'status' => 'required|in:active,inactive,discharged',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -173,8 +173,8 @@ class AdminController extends Controller
             'department_consultant' => 'nullable|string|max:255',
             'id_proof_type' => 'nullable|string|max:255',
             'id_number' => 'nullable|string|max:255',
-            'type' => 'required|in:ipd,opd,registered,discharged',
-            'status' => 'required|in:active,inactive',
+            'type' => 'required|in:ipd,opd,emergency,registered,discharged',
+            'status' => 'required|in:active,inactive,discharged',
             'registered_through' => 'nullable|in:email,msg,whatsapp,google',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -258,8 +258,8 @@ class AdminController extends Controller
             'department_consultant' => 'nullable|string|max:255',
             'id_proof_type' => 'nullable|string|max:255',
             'id_number' => 'nullable|string|max:255',
-            'type' => 'required|in:ipd,opd,registered,discharged',
-            'status' => 'required|in:active,inactive',
+            'type' => 'required|in:ipd,opd,emergency,registered,discharged',
+            'status' => 'required|in:active,inactive,discharged',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -296,8 +296,8 @@ class AdminController extends Controller
             'age' => 'nullable|integer|min:0|max:150',
             'gender' => 'nullable|in:male,female,other',
             'address' => 'nullable|string|max:500',
-            'type' => 'required|in:ipd,opd,registered,discharged',
-            'status' => 'required|in:active,inactive',
+            'type' => 'required|in:ipd,opd,emergency,registered,discharged',
+            'status' => 'required|in:active,inactive,discharged',
             'registered_through' => 'required|in:email_otp,msg,whatsapp,google',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -343,18 +343,18 @@ class AdminController extends Controller
         return response()->json(['message' => 'User deleted successfully.']);
     }
 
-    public function dischargedPatients()
+    public function emergencyPatients()
     {
-        return view('admin.discharged-patients');
+        return view('admin.emergency-patients');
     }
 
-    public function getDischargedPatients()
+    public function getEmergencyPatients()
     {
-        $users = \App\Models\User::where('type', 'discharged')->get();
+        $users = \App\Models\User::where('type', 'emergency')->get();
         return response()->json($users);
     }
 
-    public function updateDischargedPatient(Request $request, $id)
+    public function updateEmergencyPatient(Request $request, $id)
     {
         $request->validate([
             'fullname' => 'required|string|max:255',
@@ -364,8 +364,8 @@ class AdminController extends Controller
             'age' => 'nullable|integer|min:0|max:150',
             'gender' => 'nullable|in:male,female,other',
             'address' => 'nullable|string|max:500',
-            'type' => 'required|in:ipd,opd,registered,discharged',
-            'status' => 'required|in:active,inactive'
+            'type' => 'required|in:ipd,opd,emergency,registered,discharged',
+            'status' => 'required|in:active,inactive,discharged'
         ]);
 
         $user = \App\Models\User::findOrFail($id);
@@ -379,7 +379,7 @@ class AdminController extends Controller
         return response()->json(['message' => 'User updated successfully']);
     }
 
-    public function deleteDischargedPatient($id)
+    public function deleteEmergencyPatient($id)
     {
         $user = \App\Models\User::findOrFail($id);
         $user->delete();
@@ -407,8 +407,8 @@ class AdminController extends Controller
             'age' => 'nullable|integer|min:0|max:150',
             'gender' => 'nullable|in:male,female,other',
             'address' => 'nullable|string|max:500',
-            'type' => 'required|in:ipd,opd,registered,discharged',
-            'status' => 'required|in:active,inactive'
+            'type' => 'required|in:ipd,opd,emergency,registered,discharged',
+            'status' => 'required|in:active,inactive,discharged'
         ]);
 
         $user = \App\Models\User::findOrFail($id);
@@ -450,8 +450,8 @@ class AdminController extends Controller
             'age' => 'nullable|integer|min:0|max:150',
             'gender' => 'nullable|in:male,female,other',
             'address' => 'nullable|string|max:500',
-            'type' => 'required|in:ipd,opd,registered,discharged',
-            'status' => 'required|in:active,inactive'
+            'type' => 'required|in:ipd,opd,emergency,registered,discharged',
+            'status' => 'required|in:active,inactive,discharged'
         ]);
 
         $user = \App\Models\User::findOrFail($id);
@@ -466,6 +466,49 @@ class AdminController extends Controller
     }
 
     public function deleteOpdPatient($id)
+    {
+        $user = \App\Models\User::findOrFail($id);
+        $user->delete();
+        return response()->json(['message' => 'User deleted successfully']);
+    }
+
+    public function dischargedPatients()
+    {
+        return view('admin.discharged-patients');
+    }
+
+    public function getDischargedPatients()
+    {
+        $users = \App\Models\User::where('status', 'discharged')->get();
+        return response()->json($users);
+    }
+
+    public function updateDischargedPatient(Request $request, $id)
+    {
+        $request->validate([
+            'fullname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone_no' => 'nullable|string|max:20',
+            'age' => 'nullable|integer|min:0|max:150',
+            'gender' => 'nullable|in:male,female,other',
+            'address' => 'nullable|string|max:500',
+            'type' => 'required|in:ipd,opd,emergency,registered,discharged',
+            'status' => 'required|in:active,inactive,discharged'
+        ]);
+
+        $user = \App\Models\User::findOrFail($id);
+        $updateData = $request->only(['fullname', 'username', 'email', 'phone_no', 'age', 'gender', 'address', 'type', 'status']);
+        // Map old names to new names
+        $updateData['full_name'] = $updateData['fullname'];
+        $updateData['mobile_no'] = $updateData['phone_no'];
+        $updateData['full_address'] = $updateData['address'];
+        unset($updateData['fullname'], $updateData['phone_no'], $updateData['address']);
+        $user->update($updateData);
+        return response()->json(['message' => 'User updated successfully']);
+    }
+
+    public function deleteDischargedPatient($id)
     {
         $user = \App\Models\User::findOrFail($id);
         $user->delete();
