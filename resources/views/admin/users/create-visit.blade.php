@@ -31,10 +31,11 @@
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Visit Type *</label>
               <select name="visit_type" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
                 <option value="">Select Visit Type</option>
-                <option value="OPD">OPD</option>
-                <option value="IPD">IPD</option>
+                <option value="Checkup">Checkup</option>
+                <option value="Test">Test</option>
                 <option value="Emergency">Emergency</option>
                 <option value="Follow-up">Follow-up</option>
+                <option value="Other">Other</option>
               </select>
             </div>
             <div>

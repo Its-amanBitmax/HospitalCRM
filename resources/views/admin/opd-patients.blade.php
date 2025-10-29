@@ -247,14 +247,16 @@ function renderPatients(filteredPatients = patients) {
       <tr class="dark:bg-gray-800">
         <td class="px-4 py-3">${i + 1}</td>
         <td class="px-4 py-3">${p.user_id}</td>
-        <td class="px-4 py-3">${p.fullname}</td>
+        <td class="px-4 py-3">${p.full_name}</td>
         <td class="px-4 py-3">${p.username}</td>
         <td class="px-4 py-3">${p.email || '-'}</td>
-        <td class="px-4 py-3">${p.phone_no || '-'}</td>
+        <td class="px-4 py-3">${p.mobile_no || '-'}</td>
         <td class="px-4 py-3 ${statusClass}">${p.status}</td>
         <td class="px-4 py-3">
-          <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm" onclick="viewPatient(${p.id})"><i class="fas fa-eye"></i></button>
-          <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="editPatient(${p.id})"><i class="fas fa-edit"></i></button>
+          <a href="/admin/users/${p.id}" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm inline-block"><i class="fas fa-eye"></i></a>
+          <a href="/admin/users/${p.id}/edit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-edit"></i></a>
+          <a href="/admin/users/${p.id}/visits" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-calendar"></i></a>
+          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="deletePatient(${p.id})"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
     `);
@@ -277,10 +279,10 @@ function viewPatient(id) {
   const details = document.getElementById("patientDetails");
   details.innerHTML = `
     <div><strong>Patient ID:</strong> ${patient.user_id}</div>
-    <div><strong>Full Name:</strong> ${patient.fullname}</div>
+    <div><strong>Full Name:</strong> ${patient.full_name}</div>
     <div><strong>Username:</strong> ${patient.username}</div>
     <div><strong>Email:</strong> ${patient.email || '-'}</div>
-    <div><strong>Phone:</strong> ${patient.phone_no || '-'}</div>
+    <div><strong>Phone:</strong> ${patient.mobile_no || '-'}</div>
     <div><strong>Age:</strong> ${patient.age || '-'}</div>
     <div><strong>Gender:</strong> ${patient.gender || '-'}</div>
     <div><strong>Address:</strong> ${patient.address || '-'}</div>
@@ -303,10 +305,10 @@ function editPatient(id) {
   if (!patient) return;
 
   document.getElementById("editPatientId").value = patient.id;
-  document.getElementById("editPatientFullname").value = patient.fullname || '';
+  document.getElementById("editPatientFullname").value = patient.full_name || '';
   document.getElementById("editPatientUsername").value = patient.username || '';
   document.getElementById("editPatientEmail").value = patient.email || '';
-  document.getElementById("editPatientPhone").value = patient.phone_no || '';
+  document.getElementById("editPatientPhone").value = patient.mobile_no || '';
   document.getElementById("editPatientAge").value = patient.age || '';
   document.getElementById("editPatientGender").value = patient.gender || '';
   document.getElementById("editPatientType").value = patient.type || '';
@@ -384,7 +386,7 @@ function filterPatients() {
   const statusFilter = document.getElementById("patientStatusFilter").value;
 
   const filteredPatients = patients.filter(p => {
-    const matchesName = p.fullname.toLowerCase().includes(nameFilter);
+    const matchesName = p.full_name.toLowerCase().includes(nameFilter);
     const matchesEmail = (p.email || '').toLowerCase().includes(emailFilter);
     const matchesStatus = statusFilter === "" || p.status === statusFilter;
     return matchesName && matchesEmail && matchesStatus;

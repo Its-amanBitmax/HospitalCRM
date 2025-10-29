@@ -28,7 +28,7 @@
       <p class="text-xs text-gray-600 dark:text-gray-400 font-semibold uppercase mt-4 mb-1 sidebar-text">Healthcare</p>
       <div id="patients-toggle" class="flex items-center justify-between mt-4 mb-1 cursor-pointer">
         <div class="flex items-center space-x-2">
-          <i class="fas fa-user-injured"></i>
+        
           <span class="text-xs text-black dark:text-gray-400 font-bold uppercase sidebar-text">Patients</span>
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200" id="patients-icon"></i>
@@ -53,10 +53,10 @@
         </a>
 
       </div>
-      <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
-        <i class="fas fa-user-md"></i>
-        <span class="sidebar-text">Doctors</span>
-      </a>
+      <div class="flex items-center space-x-2">
+        
+          <span class="text-xs text-black dark:text-gray-400 font-bold uppercase sidebar-text">Doctors</span>
+        </div>
       <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
         <i class="fas fa-user-nurse"></i>
         <span class="sidebar-text">Nurse</span>

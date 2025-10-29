@@ -59,7 +59,7 @@
       </h2>
     </div>
     <!-- Filters -->
-    <div class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div class="mb-4 grid grid-cols-1 md:grid-cols-5 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Name</label>
         <input type="text" id="patientNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter patient name">
@@ -67,6 +67,16 @@
       <div>
         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Email</label>
         <input type="text" id="patientEmailFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter email">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Type</label>
+        <select id="patientTypeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+          <option value="">All</option>
+          <option>ipd</option>
+          <option>opd</option>
+          <option>registered</option>
+          <option>discharged</option>
+        </select>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Status</label>
@@ -90,8 +100,9 @@
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Username</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Email</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Phone</th>
+            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Type</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Status</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Action</th>
+            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600 w-48">Action</th>
           </tr>
         </thead>
         <tbody id="patientTable" class="text-gray-800 dark:text-gray-200 divide-y divide-gray-200 dark:divide-gray-600"></tbody>
@@ -211,7 +222,7 @@ function showNotification(message) {
 // Load Patients
 function loadPatients() {
   showPatientLoading();
-  fetch('/admin/get-ipd-patients')
+  fetch('/admin/get-registered-users')
     .then(response => response.json())
     .then(data => {
       patients = data;
@@ -224,7 +235,7 @@ function loadPatients() {
 function showPatientLoading() {
   document.getElementById("patientTable").innerHTML = `
     <tr>
-      <td colspan="8" class="text-center py-4">
+      <td colspan="9" class="text-center py-4">
         <div class="flex items-center justify-center">
           <svg class="animate-spin h-5 w-5 text-blue-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -247,14 +258,17 @@ function renderPatients(filteredPatients = patients) {
       <tr class="dark:bg-gray-800">
         <td class="px-4 py-3">${i + 1}</td>
         <td class="px-4 py-3">${p.user_id}</td>
-        <td class="px-4 py-3">${p.fullname}</td>
+        <td class="px-4 py-3">${p.full_name}</td>
         <td class="px-4 py-3">${p.username}</td>
         <td class="px-4 py-3">${p.email || '-'}</td>
-        <td class="px-4 py-3">${p.phone_no || '-'}</td>
+        <td class="px-4 py-3">${p.mobile_no || '-'}</td>
+        <td class="px-4 py-3">${p.type}</td>
         <td class="px-4 py-3 ${statusClass}">${p.status}</td>
         <td class="px-4 py-3">
-          <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm" onclick="viewPatient(${p.id})"><i class="fas fa-eye"></i></button>
-          <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="editPatient(${p.id})"><i class="fas fa-edit"></i></button>
+          <a href="/admin/users/${p.id}" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm inline-block"><i class="fas fa-eye"></i></a>
+          <a href="/admin/users/${p.id}/edit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-edit"></i></a>
+          <a href="/admin/users/${p.id}/visits" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-calendar"></i></a>
+          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="deleteUser(${p.id})"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
     `);
@@ -277,10 +291,10 @@ function viewPatient(id) {
   const details = document.getElementById("patientDetails");
   details.innerHTML = `
     <div><strong>Patient ID:</strong> ${patient.user_id}</div>
-    <div><strong>Full Name:</strong> ${patient.fullname}</div>
+    <div><strong>Full Name:</strong> ${patient.full_name}</div>
     <div><strong>Username:</strong> ${patient.username}</div>
     <div><strong>Email:</strong> ${patient.email || '-'}</div>
-    <div><strong>Phone:</strong> ${patient.phone_no || '-'}</div>
+    <div><strong>Phone:</strong> ${patient.mobile_no || '-'}</div>
     <div><strong>Age:</strong> ${patient.age || '-'}</div>
     <div><strong>Gender:</strong> ${patient.gender || '-'}</div>
     <div><strong>Address:</strong> ${patient.address || '-'}</div>
@@ -303,10 +317,10 @@ function editPatient(id) {
   if (!patient) return;
 
   document.getElementById("editPatientId").value = patient.id;
-  document.getElementById("editPatientFullname").value = patient.fullname || '';
+  document.getElementById("editPatientFullname").value = patient.full_name || '';
   document.getElementById("editPatientUsername").value = patient.username || '';
   document.getElementById("editPatientEmail").value = patient.email || '';
-  document.getElementById("editPatientPhone").value = patient.phone_no || '';
+  document.getElementById("editPatientPhone").value = patient.mobile_no || '';
   document.getElementById("editPatientAge").value = patient.age || '';
   document.getElementById("editPatientGender").value = patient.gender || '';
   document.getElementById("editPatientType").value = patient.type || '';
@@ -384,7 +398,7 @@ function filterPatients() {
   const statusFilter = document.getElementById("patientStatusFilter").value;
 
   const filteredPatients = patients.filter(p => {
-    const matchesName = p.fullname.toLowerCase().includes(nameFilter);
+    const matchesName = p.full_name.toLowerCase().includes(nameFilter);
     const matchesEmail = (p.email || '').toLowerCase().includes(emailFilter);
     const matchesStatus = statusFilter === "" || p.status === statusFilter;
     return matchesName && matchesEmail && matchesStatus;
@@ -400,12 +414,37 @@ function clearPatientFilters() {
   renderPatients();
 }
 
+// Create Visit
+function createVisit(id) {
+  window.location.href = `/admin/users/create-visit?patient_id=${id}`;
+}
+
+// Delete Patient
+function deletePatient(id) {
+  if (confirm('Are you sure you want to delete this patient? This action cannot be undone.')) {
+    fetch(`/admin/delete-patient/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      showNotification(data.message);
+      loadPatients();
+    })
+    .catch(error => console.error('Error:', error));
+  }
+}
+
 // Load data on page load
 loadPatients();
 
 // Expose functions to global scope
 window.viewPatient = viewPatient;
 window.editPatient = editPatient;
+window.createVisit = createVisit;
+window.deletePatient = deletePatient;
 })();
 </script>
 @endsection
