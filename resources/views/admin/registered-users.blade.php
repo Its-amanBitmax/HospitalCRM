@@ -1,4 +1,8 @@
 @extends('layouts.layout')
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css"
+/>
 
 @section('content')
 
@@ -46,24 +50,24 @@
       </div>
     </div>
     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-user-check text-3xl text-green-600 dark:text-green-400"></i>
+      <i class="fas fa-procedures text-3xl text-blue-600 dark:text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="activeUsers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Active Patients</div>
+        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="ipdUsers">0</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">IPD Patients</div>
       </div>
     </div>
     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-user-times text-3xl text-red-600 dark:text-red-400"></i>
+      <i class="fas fa-stethoscope text-3xl text-green-600 dark:text-green-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="inactiveUsers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Inactive Patients</div>
+        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="opdUsers">0</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">OPD Patients</div>
       </div>
     </div>
     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-user-md text-3xl text-purple-600 dark:text-purple-400"></i>
+      <i class="fas fa-ambulance text-3xl text-red-600 dark:text-red-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="registeredUsers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Registered</div>
+        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="emergencyUsers">0</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">Emergency Patients</div>
       </div>
     </div>
   </div>
@@ -90,10 +94,9 @@
         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Type</label>
         <select id="userTypeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
           <option value="">All</option>
-          <option>ipd</option>
           <option>opd</option>
-          <option>registered</option>
-          <option>discharged</option>
+          <option>emergency</option>
+          <option>online</option>
         </select>
       </div>
       <div>
@@ -367,7 +370,8 @@ function renderUsers(filteredUsers = users) {
         <td class="px-4 py-3">
           <a href="/admin/users/${u.id}" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm inline-block"><i class="fas fa-eye"></i></a>
           <a href="/admin/users/${u.id}/edit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-edit"></i></a>
-          <a href="/admin/users/${u.id}/visits" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-calendar"></i></a>
+          <a href="/admin/users/${u.id}/visits" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fa-solid fa-heart"></i>
+</a>
           <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="deleteUser(${u.id})"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
@@ -378,9 +382,9 @@ function renderUsers(filteredUsers = users) {
 // Update Dashboard
 function updateDashboard() {
   document.getElementById("totalUsers").textContent = users.length;
-  document.getElementById("activeUsers").textContent = users.filter(u => u.status === "active").length;
-  document.getElementById("inactiveUsers").textContent = users.filter(u => u.status === "inactive").length;
-  document.getElementById("registeredUsers").textContent = users.filter(u => u.type === "registered").length;
+  document.getElementById("ipdUsers").textContent = users.filter(u => u.type === "ipd").length;
+  document.getElementById("opdUsers").textContent = users.filter(u => u.type === "opd").length;
+  document.getElementById("emergencyUsers").textContent = users.filter(u => u.type === "emergency").length;
 }
 
 

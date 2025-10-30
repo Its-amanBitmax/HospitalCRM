@@ -100,7 +100,6 @@
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Username</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Email</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Phone</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Type</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Status</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600 w-48">Action</th>
           </tr>
@@ -225,7 +224,7 @@ function loadPatients() {
   fetch('/admin/get-registered-users')
     .then(response => response.json())
     .then(data => {
-      patients = data;
+      patients = data.filter(p => p.type === 'ipd');
       renderPatients();
       updateDashboard();
     });
@@ -262,7 +261,7 @@ function renderPatients(filteredPatients = patients) {
         <td class="px-4 py-3">${p.username}</td>
         <td class="px-4 py-3">${p.email || '-'}</td>
         <td class="px-4 py-3">${p.mobile_no || '-'}</td>
-        <td class="px-4 py-3">${p.type}</td>
+
         <td class="px-4 py-3 ${statusClass}">${p.status}</td>
         <td class="px-4 py-3">
           <a href="/admin/users/${p.id}" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm inline-block"><i class="fas fa-eye"></i></a>
