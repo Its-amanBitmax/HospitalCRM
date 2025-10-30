@@ -12,4 +12,14 @@ class Bed extends Model
     {
         return $this->belongsTo(Ward::class);
     }
+
+    public function bedAssignments()
+    {
+        return $this->hasMany(BedAssignment::class);
+    }
+
+    public function activeAssignment()
+    {
+        return $this->hasOne(BedAssignment::class)->where('status', 'active');
+    }
 }

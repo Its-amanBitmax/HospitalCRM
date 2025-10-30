@@ -88,4 +88,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(PatientDocument::class);
     }
+
+    /**
+     * Get the bed assignments for the user.
+     */
+    public function bedAssignments()
+    {
+        return $this->hasMany(BedAssignment::class);
+    }
+
+    /**
+     * Get the active bed assignment for the user.
+     */
+    public function activeBedAssignment()
+    {
+        return $this->hasOne(BedAssignment::class)->where('status', 'active');
+    }
 }

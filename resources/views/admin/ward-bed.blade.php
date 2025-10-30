@@ -207,6 +207,24 @@
   </div>
 </div>
 
+<!-- Patient Details Modal -->
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="patientModal">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="patientModalContent">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+        <i class="fas fa-user text-purple-600 dark:text-purple-400"></i>
+        Patient Details
+      </h3>
+      <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closePatientModal">
+        <i class="fas fa-times text-lg"></i>
+      </button>
+    </div>
+    <div id="patientDetails" class="space-y-4">
+      <!-- Patient data will be populated here -->
+    </div>
+  </div>
+</div>
+
 <!-- Bed Modal -->
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="bedModal">
   <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="bedModalContent">
@@ -497,6 +515,7 @@ function renderBeds(){
         <td class="${statusClass}">${b.status}</td>
         <td>
           <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm" onclick="editBed(${b.id})"><i class="fas fa-edit"></i></button>
+          ${b.status === 'Occupied' ? `<button class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="viewPatientDetails(${b.patient ? b.patient.id : 0})"><i class="fas fa-user"></i></button>` : ''}
           <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="deleteBed(${b.id})"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
@@ -842,6 +861,7 @@ function renderFilteredBeds(filteredBeds) {
         <td class="${statusClass}">${b.status}</td>
         <td>
           <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm" onclick="editBed(${b.id})"><i class="fas fa-edit"></i></button>
+          ${b.status === 'Occupied' ? `<button class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="viewPatientDetails(${b.patient ? b.patient.id : 0})"><i class="fas fa-user"></i></button>` : ''}
           <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="deleteBed(${b.id})"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
@@ -855,11 +875,98 @@ function updateBedWardFilter() {
   bedWardFilter.innerHTML = '<option value="">All Wards</option>' + wards.map(w => `<option value="${w.id}">${w.name}</option>`).join('');
 }
 
+// View Patient Details
+function viewPatientDetails(patientId) {
+  if (!patientId || patientId === 0) {
+    alert("Patient information not available");
+    return;
+  }
+
+  // Fetch patient data from API
+  fetch(`/api/user/${patientId}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.status) {
+        // Populate modal with patient data
+        const patient = data.data;
+        const patientDetails = document.getElementById("patientDetails");
+        patientDetails.innerHTML = `
+          <div class="flex items-center gap-3 mb-3">
+            ${patient.image ? `<img src="/${patient.image}" alt="Patient Image" class="w-16 h-16 rounded-full object-cover">` : '<i class="fas fa-user-circle text-4xl text-gray-400"></i>'}
+            <div>
+              <h4 class="text-lg font-semibold text-gray-800 dark:text-white">${patient.full_name}</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400">ID: ${patient.user_id}</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Age</label>
+              <p class="text-gray-800 dark:text-white">${patient.age || 'N/A'}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Gender</label>
+              <p class="text-gray-800 dark:text-white">${patient.gender || 'N/A'}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Mobile No</label>
+              <p class="text-gray-800 dark:text-white">${patient.mobile_no || 'N/A'}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+              <p class="text-gray-800 dark:text-white">${patient.email || 'N/A'}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Type</label>
+              <p class="text-gray-800 dark:text-white">${patient.type || 'N/A'}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+              <p class="text-gray-800 dark:text-white">${patient.status || 'N/A'}</p>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
+              <p class="text-gray-800 dark:text-white">${patient.full_address || 'N/A'}</p>
+            </div>
+          </div>
+        `;
+
+        // Show modal
+        const modal = document.getElementById("patientModal");
+        modal.classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("patientModalContent").classList.remove("scale-95", "opacity-0");
+          document.getElementById("patientModalContent").classList.add("scale-100", "opacity-100");
+        }, 10);
+      } else {
+        alert("Failed to load patient details");
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert("Error loading patient details");
+    });
+}
+
+// Close Patient Modal
+function closePatientModal() {
+  document.getElementById("patientModalContent").classList.remove("scale-100", "opacity-100");
+  document.getElementById("patientModalContent").classList.add("scale-95", "opacity-0");
+  setTimeout(() => document.getElementById("patientModal").classList.add("hidden"), 300);
+}
+
+document.getElementById("closePatientModal").addEventListener("click", closePatientModal);
+window.onclick = e => {
+  if(e.target===document.getElementById("patientModal")) closePatientModal();
+  if(e.target===modalWard) closeWardModal();
+  if(e.target===modalBed) closeBedModal();
+};
+
 // Expose functions to global scope for onclick handlers
 window.editWard = editWard;
 window.deleteWard = deleteWard;
 window.editBed = editBed;
 window.deleteBed = deleteBed;
+window.viewPatientDetails = viewPatientDetails;
 })();
 </script>
 </body>

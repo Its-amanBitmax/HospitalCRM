@@ -1,10 +1,16 @@
 <header id="header" class="bg-white dark:bg-gray-800 shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center py-4">
-            <div class="shrink-0 flex items-center">
+            
+            <div class="shrink-0 flex items-center" style="margin-left: -25px;">
+                 <button id="sidebar-toggle" class="mr-4 p-2 rounded-md text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100"> Welcome {{ Auth::guard('admin')->user()->name }}! </h1>
             </div>
             <div class="flex items-center relative">
+                <!-- Sidebar Toggle Button -->
+               
                 <div class="relative">
                     <button id="profileDropdownButton" class="flex items-center space-x-2 focus:outline-none">
                         @if(Auth::guard('admin')->user()->profile_image)

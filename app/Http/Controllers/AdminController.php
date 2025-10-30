@@ -242,7 +242,7 @@ class AdminController extends Controller
             'full_name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $id,
             'email' => 'required|email|unique:users,email,' . $id,
-            'mobile_no' => 'required|string|max:20',
+            'mobile_no' => 'max:20',
             'age' => 'nullable|integer|min:0|max:150',
             'gender' => 'nullable|in:male,female,other',
             'father_spouse_name' => 'nullable|string|max:255',

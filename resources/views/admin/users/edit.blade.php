@@ -49,7 +49,7 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username *</label>
-              <input type="text" name="username" value="{{ $user->username }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+              <input type="text" name="username" value="{{ $user->username }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" >
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
@@ -57,7 +57,7 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Mobile No *</label>
-              <input type="text" name="mobile_no" value="{{ $user->mobile_no }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+              <input type="text" name="mobile_no" value="{{ $user->mobile_no }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" >
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Age</label>
@@ -181,48 +181,60 @@
 if (window.editUserScriptLoaded) return;
 window.editUserScriptLoaded = true;
 
-var notification = document.getElementById("notification");
-var notificationMessage = document.getElementById("notificationMessage");
+document.addEventListener('DOMContentLoaded', function() {
+  var notification = document.getElementById("notification");
+  var notificationMessage = document.getElementById("notificationMessage");
 
-// Function to show notification
-function showNotification(message) {
-  notificationMessage.textContent = message;
-  notification.classList.remove("hidden");
-  notification.classList.add("opacity-100");
-  setTimeout(() => {
-    notification.classList.remove("opacity-100");
-    notification.classList.add("opacity-0");
-    setTimeout(() => notification.classList.add("hidden"), 300);
-  }, 3000);
-}
+  // Function to show notification
+  function showNotification(message) {
+    notificationMessage.textContent = message;
+    notification.classList.remove("hidden");
+    notification.classList.add("opacity-100");
+    setTimeout(() => {
+      notification.classList.remove("opacity-100");
+      notification.classList.add("opacity-0");
+      setTimeout(() => notification.classList.add("hidden"), 300);
+    }, 3000);
+  }
 
-// Form submission
-document.getElementById("editUserForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
+  // Form submission
+  var form = document.getElementById("editUserForm");
+  if (form) {
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
 
-  fetch(this.action, {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      showNotification(data.message);
-      setTimeout(() => {
-        window.location.href = '{{ route("admin.registered-users") }}';
-      }, 2000);
-    } else {
-      showNotification(data.message || 'Error updating user');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    showNotification('Error updating user');
-  });
+      fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRF-TOKEN': '{{ csrf_token() }}',
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          showNotification(data.message);
+          setTimeout(() => {
+            window.location.href = '{{ route("admin.registered-users") }}';
+          }, 2000);
+        } else {
+          showNotification(data.message || 'Error updating user');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error updating user');
+      });
+    });
+  }
 });
 })();
 </script>

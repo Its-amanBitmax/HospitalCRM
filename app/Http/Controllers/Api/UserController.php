@@ -121,7 +121,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        // ✅ Validate request
+        //  Validate request
         $validator = Validator::make($request->all(), [
             'username' => 'required|string',
             'password' => 'required|string',
@@ -135,7 +135,7 @@ class UserController extends Controller
             ], 400);
         }
 
-        // ✅ Find user by username
+        //  Find user by username
         $user = User::where('username', $request->username)->first();
 
         // If user not found
@@ -154,7 +154,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        // ✅ Check if user is active
+        //  Check if user is active
         if ($user->status !== 'active') {
             return response()->json([
                 'status' => false,
@@ -162,7 +162,7 @@ class UserController extends Controller
             ], 403);
         }
 
-        // ✅ Generate token using Sanctum
+        //  Generate token using Sanctum
         $token = $user->createToken('API Token')->plainTextToken;
 
         return response()->json([
@@ -175,7 +175,7 @@ class UserController extends Controller
 
     public function getProfile()
     {
-        // ✅ Get authenticated user
+        //  Get authenticated user
         $user = Auth::user();
 
         // If user not authenticated (though middleware should handle this)
@@ -186,7 +186,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        // ✅ Check if user is active
+        //  Check if user is active
         if ($user->status !== 'active') {
             return response()->json([
                 'status' => false,
@@ -203,7 +203,7 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        // ✅ Get authenticated user
+        //  Get authenticated user
         $user = Auth::user();
 
         // If user not authenticated (though middleware should handle this)
@@ -220,6 +220,106 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Logged out successfully.',
+        ], 200);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        // ✅ Get authenticated user
+        $user = Auth::user();
+
+        // If user not authenticated (though middleware should handle this)
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized.',
+            ], 401);
+        }
+
+        // ✅ Check if user is active
+        if ($user->status !== 'active') {
+            return response()->json([
+                'status' => false,
+                'message' => 'Account is inactive.',
+            ], 403);
+        }
+
+        // ✅ Validate request (excluding email, mobile_no)
+        $validator = Validator::make($request->all(), [
+            'full_name' => 'nullable|string|max:255',
+            'age' => 'nullable|integer|min:1|max:120',
+            'gender' => 'nullable|in:male,female,other',
+            'full_address' => 'nullable|string',
+            'username' => 'nullable|string|unique:users,username,' . $user->id,
+            'password' => 'nullable|string|min:8',
+            'registered_through' => 'nullable|in:email,msg,whatsapp,offline',
+            'type' => 'nullable|in:ipd,opd,emergency,registered,online',
+            'status' => 'nullable|in:active,inactive,discharged',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'father_spouse_name' => 'nullable|string|max:255',
+            'alternate_no' => 'nullable|string|max:15',
+            'id_proof_type' => 'nullable|string|max:255',
+            'id_number' => 'nullable|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 400);
+        }
+
+        // ✅ Handle image upload
+        $imagePath = $user->image; // Keep existing image if not updated
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('image'), $imageName);
+            $imagePath = 'image/' . $imageName;
+        }
+
+        // ✅ Update user fields (excluding email, mobile_no)
+        $user->update([
+            'full_name' => $request->full_name ?? $user->full_name,
+            'age' => $request->age ?? $user->age,
+            'gender' => $request->gender ?? $user->gender,
+            'full_address' => $request->full_address ?? $user->full_address,
+            'username' => $request->username ?? $user->username,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
+            'registered_through' => $request->registered_through ?? $user->registered_through,
+            'type' => $request->type ?? $user->type,
+            'status' => $request->status ?? $user->status,
+            'image' => $imagePath,
+            'father_spouse_name' => $request->father_spouse_name ?? $user->father_spouse_name,
+            'alternate_no' => $request->alternate_no ?? $user->alternate_no,
+            'id_proof_type' => $request->id_proof_type ?? $user->id_proof_type,
+            'id_number' => $request->id_number ?? $user->id_number,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Profile updated successfully.',
+            'data' => $user,
+        ], 200);
+    }
+
+    public function getUserById($id)
+    {
+        // Find user by ID
+        $user = User::find($id);
+
+        // If user not found
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User retrieved successfully.',
+            'data' => $user,
         ], 200);
     }
 }

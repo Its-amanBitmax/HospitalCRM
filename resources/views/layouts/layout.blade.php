@@ -15,96 +15,14 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex relative">
         <div class="sidebar-hover-trigger"></div>
         @include('layouts.sidebar', ['admin' => Auth::guard('admin')->user()])
-        <div id="main-content" class="flex-1 flex flex-col ml-16 transition-all duration-300">
+        <div id="main-content" class="flex-1 flex flex-col ml-64 transition-all duration-300">
             @include('layouts.header')
             <main class="flex-1 p-6">
                 @yield('content')
             </main>
             @include('layouts.footer')
         </div>
-        <!-- Theme Customize Button vertically centered on the right side -->
-        <button id="theme-customize-btn" class="fixed top-1/2 right-4 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 z-40">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" stroke="none" viewBox="0 0 24 24">
-                <path d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"/>
-            </svg>
-        </button>
 
-        <!-- Theme Customize Panel -->
-        <div id="theme-panel" class="fixed top-0 right-0 h-screen w-64 bg-[#0f172a] text-gray-100 shadow-lg transform translate-x-full transition-transform duration-300 z-50">
-            <div class="p-4">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-semibold">Customize</h2>
-                    <button id="close-theme-panel" class="p-1 rounded hover:bg-gray-700">
-                        <i class="fas fa-times w-5 h-5"></i>
-                    </button>
-                </div>
-
-                <!-- Theme Options -->
-                <div class="mb-6">
-                    <h3 class="text-sm font-semibold text-gray-400 uppercase mb-2">Themes</h3>
-                    <div class="space-y-2">
-                        <button class="theme-option w-full text-left px-3 py-2 rounded-md hover:bg-gray-700" data-theme="light">
-                            <span class="flex items-center space-x-2">
-                                <i class="fas fa-sun w-4 h-4"></i>
-                                <span>Light Mode</span>
-                            </span>
-                        </button>
-                        <button class="theme-option w-full text-left px-3 py-2 rounded-md hover:bg-gray-700" data-theme="dark">
-                            <span class="flex items-center space-x-2">
-                                <i class="fas fa-moon w-4 h-4"></i>
-                                <span>Dark Mode</span>
-                            </span>
-                        </button>
-                        <button class="theme-option w-full text-left px-3 py-2 rounded-md hover:bg-gray-700" data-theme="auto">
-                            <span class="flex items-center space-x-2">
-                                <i class="fas fa-adjust w-4 h-4"></i>
-                                <span>Auto</span>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Sidebar Modes -->
-                <div class="mb-6">
-                    <h3 class="text-sm font-semibold text-gray-400 uppercase mb-2">Sidebar Mode</h3>
-                    <div class="space-y-2">
-                        <button class="sidebar-mode-option w-full text-left px-3 py-2 rounded-md hover:bg-gray-700" data-mode="full">
-                            <span class="flex items-center space-x-2">
-                                <i class="fas fa-bars w-4 h-4"></i>
-                                <span>Full</span>
-                            </span>
-                        </button>
-                        <button class="sidebar-mode-option w-full text-left px-3 py-2 rounded-md hover:bg-gray-700" data-mode="mini">
-                            <span class="flex items-center space-x-2">
-                                <i class="fas fa-minus w-4 h-4"></i>
-                                <span>Mini</span>
-                            </span>
-                        </button>
-                        <button class="sidebar-mode-option w-full text-left px-3 py-2 rounded-md hover:bg-gray-700" data-mode="hover-hidden">
-                            <span class="flex items-center space-x-2">
-                                <i class="fas fa-eye-slash w-4 h-4"></i>
-                                <span>Hover Hidden</span>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Layout Options -->
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-400 uppercase mb-2">Layout Options</h3>
-                    <div class="space-y-2">
-                        <label class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-700 cursor-pointer">
-                            <input type="checkbox" id="hide-header" class="form-checkbox h-4 w-4 text-blue-600">
-                            <span>Hide Header</span>
-                        </label>
-                        <label class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-700 cursor-pointer">
-                            <input type="checkbox" id="hide-footer" class="form-checkbox h-4 w-4 text-blue-600">
-                            <span>Hide Footer</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <style>
@@ -469,14 +387,49 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const body = document.body;
+            let sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+
+            // Function to toggle sidebar
+            function toggleSidebar() {
+                sidebarCollapsed = !sidebarCollapsed;
+                localStorage.setItem('sidebarCollapsed', sidebarCollapsed);
+
+                if (sidebarCollapsed) {
+                    sidebar.classList.add('sidebar-collapsed');
+                    mainContent.classList.remove('ml-64');
+                    mainContent.classList.add('ml-16');
+                } else {
+                    sidebar.classList.remove('sidebar-collapsed');
+                    mainContent.classList.remove('ml-16');
+                    mainContent.classList.add('ml-64');
+                }
+            }
+
+            // Set initial state
+            if (sidebarCollapsed) {
+                sidebar.classList.add('sidebar-collapsed');
+                mainContent.classList.remove('ml-64');
+                mainContent.classList.add('ml-16');
+            } else {
+                sidebar.classList.remove('sidebar-collapsed');
+                mainContent.classList.remove('ml-16');
+                mainContent.classList.add('ml-64');
+            }
+
+            // Add event listener to toggle button
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', toggleSidebar);
+            }
+
             const themeCustomizeBtn = document.getElementById('theme-customize-btn');
             const themePanel = document.getElementById('theme-panel');
             const closeThemePanel = document.getElementById('close-theme-panel');
             const themeOptions = document.querySelectorAll('.theme-option');
             const sidebarModeOptions = document.querySelectorAll('.sidebar-mode-option');
-            const body = document.body;
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('main-content');
             const sidebarHoverTrigger = document.querySelector('.sidebar-hover-trigger');
 
             // Profile dropdown functionality

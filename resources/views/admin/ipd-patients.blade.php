@@ -100,6 +100,7 @@
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Username</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Email</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Phone</th>
+            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Bed Status</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Status</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600 w-48">Action</th>
           </tr>
@@ -124,6 +125,98 @@
     <div class="space-y-4" id="patientDetails">
       <!-- Patient details will be populated here -->
     </div>
+  </div>
+</div>
+
+<!-- Bed Details Modal -->
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="bedDetailsModal">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-2xl border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="bedDetailsModalContent">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+        <i class="fas fa-bed text-blue-600 dark:text-blue-400"></i>
+        Bed Details
+      </h3>
+      <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeBedDetailsModal">
+        <i class="fas fa-times text-lg"></i>
+      </button>
+    </div>
+    <div id="bedDetailsContent">
+      <!-- Bed details will be populated here -->
+    </div>
+  </div>
+</div>
+
+<!-- Assign Bed Modal -->
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="assignBedModal">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="assignBedModalContent">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+        <i class="fas fa-plus text-blue-600 dark:text-blue-400"></i>
+        Assign Bed
+      </h3>
+      <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeAssignBedModal">
+        <i class="fas fa-times text-lg"></i>
+      </button>
+    </div>
+    <form id="assignBedForm" class="space-y-4">
+      <input type="hidden" id="assignBedUserId">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Ward</label>
+          <select id="assignBedWardId" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+            <option value="">Select Ward</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Bed</label>
+          <select id="assignBedBedId" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+            <option value="">Select Bed</option>
+          </select>
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Assigned Date</label>
+          <input type="date" id="assignBedDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+        </div>
+      </div>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Assign Bed</button>
+    </form>
+  </div>
+</div>
+
+<!-- Transfer Bed Modal -->
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="transferBedModal">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="transferBedModalContent">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+        <i class="fas fa-exchange-alt text-yellow-600 dark:text-yellow-400"></i>
+        Transfer Patient
+      </h3>
+      <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeTransferBedModal">
+        <i class="fas fa-times text-lg"></i>
+      </button>
+    </div>
+    <form id="transferBedForm" class="space-y-4">
+      <input type="hidden" id="transferBedAssignmentId">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select New Ward</label>
+          <select id="transferBedWardId" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+            <option value="">Select Ward</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select New Bed</label>
+          <select id="transferBedBedId" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+            <option value="">Select Bed</option>
+          </select>
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Transfer Date</label>
+          <input type="date" id="transferBedDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+        </div>
+      </div>
+      <button type="submit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Transfer Patient</button>
+    </form>
   </div>
 </div>
 
@@ -225,6 +318,19 @@ function loadPatients() {
     .then(response => response.json())
     .then(data => {
       patients = data.filter(p => p.type === 'ipd');
+      // Load bed assignments for each patient
+      const promises = patients.map(patient => {
+        return fetch(`/admin/ward-bed/get-bed-assignments/${patient.id}`)
+          .then(response => response.json())
+          .then(assignments => {
+            patient.bedAssignments = assignments;
+            patient.activeBedAssignment = assignments.find(a => a.status === 'active');
+            return patient;
+          });
+      });
+      return Promise.all(promises);
+    })
+    .then(() => {
       renderPatients();
       updateDashboard();
     });
@@ -253,6 +359,9 @@ function renderPatients(filteredPatients = patients) {
   patientTable.innerHTML = "";
   filteredPatients.forEach((p, i) => {
     const statusClass = p.status === "active" ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400";
+    const bedStatus = p.activeBedAssignment ?
+      `<span class="text-green-500 dark:text-green-400">Assigned (${p.activeBedAssignment.bed.bed_id})</span>` :
+      `<span class="text-red-500 dark:text-red-400">Not Assigned</span>`;
     patientTable.insertAdjacentHTML("beforeend", `
       <tr class="dark:bg-gray-800">
         <td class="px-4 py-3">${i + 1}</td>
@@ -261,12 +370,13 @@ function renderPatients(filteredPatients = patients) {
         <td class="px-4 py-3">${p.username}</td>
         <td class="px-4 py-3">${p.email || '-'}</td>
         <td class="px-4 py-3">${p.mobile_no || '-'}</td>
-
+        <td class="px-4 py-3">${bedStatus}</td>
         <td class="px-4 py-3 ${statusClass}">${p.status}</td>
         <td class="px-4 py-3">
           <a href="/admin/users/${p.id}" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm inline-block"><i class="fas fa-eye"></i></a>
           <a href="/admin/users/${p.id}/edit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-edit"></i></a>
           <a href="/admin/users/${p.id}/visits" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-calendar"></i></a>
+          <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="viewBedDetails(${p.id})"><i class="fas fa-bed"></i></button>
           <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="deleteUser(${p.id})"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
@@ -418,6 +528,154 @@ function createVisit(id) {
   window.location.href = `/admin/users/create-visit?patient_id=${id}`;
 }
 
+// View Bed Details
+function viewBedDetails(userId) {
+  const patient = patients.find(p => p.id == userId);
+  if (!patient) return;
+
+  const content = document.getElementById("bedDetailsContent");
+
+  if (patient.bedAssignments && patient.bedAssignments.length > 0) {
+    let html = `
+      <div class="mb-4">
+        <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">Bed Assignment History</h4>
+        <div class="space-y-3">
+    `;
+
+    patient.bedAssignments.forEach(assignment => {
+      const statusClass = assignment.status === 'active' ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400';
+      html += `
+        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <strong>Bed ID:</strong> ${assignment.bed.bed_id}
+            </div>
+            <div>
+              <strong>Ward:</strong> ${assignment.bed.ward ? assignment.bed.ward.name : 'N/A'}
+            </div>
+            <div>
+              <strong>Status:</strong> <span class="${statusClass}">${assignment.status}</span>
+            </div>
+            <div>
+              <strong>Assigned Date:</strong> ${new Date(assignment.assigned_date).toLocaleDateString()}
+            </div>
+            <div>
+              <strong>Discharge Date:</strong> ${assignment.discharge_date ? new Date(assignment.discharge_date).toLocaleDateString() : 'N/A'}
+            </div>
+            <div>
+              ${assignment.status === 'active' ?
+                `<button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm" onclick="dischargePatient(${assignment.id})">Discharge</button>
+                <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="transferPatient(${assignment.id})">Transfer</button>` :
+                `<button class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" disabled>Discharged</button>`
+              }
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `
+        </div>
+      </div>
+    `;
+
+    if (!patient.activeBedAssignment) {
+      html += `
+        <div class="flex justify-end">
+          <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" onclick="assignBed(${userId})">Assign New Bed</button>
+        </div>
+      `;
+    }
+
+    content.innerHTML = html;
+  } else {
+    content.innerHTML = `
+      <div class="text-center py-8">
+        <i class="fas fa-bed text-4xl text-gray-400 dark:text-gray-500 mb-4"></i>
+        <p class="text-gray-600 dark:text-gray-400 mb-4">No bed assigned to this patient yet.</p>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" onclick="assignBed(${userId})">Assign Bed</button>
+      </div>
+    `;
+  }
+
+  document.getElementById("bedDetailsModal").classList.remove("hidden");
+  setTimeout(() => {
+    document.getElementById("bedDetailsModalContent").classList.remove("scale-95", "opacity-0");
+    document.getElementById("bedDetailsModalContent").classList.add("scale-100", "opacity-100");
+  }, 10);
+}
+
+// Assign Bed
+function assignBed(userId) {
+  closeBedDetailsModal();
+  document.getElementById("assignBedUserId").value = userId;
+  document.getElementById("assignBedDate").value = new Date().toISOString().split('T')[0];
+
+  // Load wards
+  fetch('/admin/ward-bed/get-wards')
+    .then(response => response.json())
+    .then(wards => {
+      const wardSelect = document.getElementById("assignBedWardId");
+      wardSelect.innerHTML = '<option value="">Select Ward</option>';
+      wards.forEach(ward => {
+        wardSelect.insertAdjacentHTML("beforeend", `<option value="${ward.id}">${ward.name} (Floor ${ward.floor})</option>`);
+      });
+    });
+
+  document.getElementById("assignBedModal").classList.remove("hidden");
+  setTimeout(() => {
+    document.getElementById("assignBedModalContent").classList.remove("scale-95", "opacity-0");
+    document.getElementById("assignBedModalContent").classList.add("scale-100", "opacity-100");
+  }, 10);
+}
+
+// Discharge Patient
+function dischargePatient(assignmentId) {
+  if (confirm('Are you sure you want to discharge this patient from the bed?')) {
+    fetch(`/admin/ward-bed/update-bed-assignment/${assignmentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+      body: JSON.stringify({
+        discharge_date: new Date().toISOString().split('T')[0]
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      showNotification(data.message);
+      loadPatients();
+      closeBedDetailsModal();
+    })
+    .catch(error => console.error('Error:', error));
+  }
+}
+
+// Transfer Patient
+function transferPatient(assignmentId) {
+  closeBedDetailsModal();
+  document.getElementById("transferBedAssignmentId").value = assignmentId;
+  document.getElementById("transferBedDate").value = new Date().toISOString().split('T')[0];
+
+  // Load wards
+  fetch('/admin/ward-bed/get-wards')
+    .then(response => response.json())
+    .then(wards => {
+      const wardSelect = document.getElementById("transferBedWardId");
+      wardSelect.innerHTML = '<option value="">Select Ward</option>';
+      wards.forEach(ward => {
+        wardSelect.insertAdjacentHTML("beforeend", `<option value="${ward.id}">${ward.name} (Floor ${ward.floor})</option>`);
+      });
+    });
+
+  document.getElementById("transferBedModal").classList.remove("hidden");
+  setTimeout(() => {
+    document.getElementById("transferBedModalContent").classList.remove("scale-95", "opacity-0");
+    document.getElementById("transferBedModalContent").classList.add("scale-100", "opacity-100");
+  }, 10);
+}
+
 // Delete Patient
 function deletePatient(id) {
   if (confirm('Are you sure you want to delete this patient? This action cannot be undone.')) {
@@ -436,6 +694,137 @@ function deletePatient(id) {
   }
 }
 
+// Close Bed Details Modal
+function closeBedDetailsModal() {
+  document.getElementById("bedDetailsModalContent").classList.remove("scale-100", "opacity-100");
+  document.getElementById("bedDetailsModalContent").classList.add("scale-95", "opacity-0");
+  setTimeout(() => document.getElementById("bedDetailsModal").classList.add("hidden"), 300);
+}
+
+// Close Assign Bed Modal
+function closeAssignBedModal() {
+  document.getElementById("assignBedModalContent").classList.remove("scale-100", "opacity-100");
+  document.getElementById("assignBedModalContent").classList.add("scale-95", "opacity-0");
+  setTimeout(() => document.getElementById("assignBedModal").classList.add("hidden"), 300);
+}
+
+// Close Transfer Bed Modal
+function closeTransferBedModal() {
+  document.getElementById("transferBedModalContent").classList.remove("scale-100", "opacity-100");
+  document.getElementById("transferBedModalContent").classList.add("scale-95", "opacity-0");
+  setTimeout(() => document.getElementById("transferBedModal").classList.add("hidden"), 300);
+}
+
+// Ward change handler for assign bed
+document.getElementById("assignBedWardId").addEventListener("change", function() {
+  const wardId = this.value;
+  const bedSelect = document.getElementById("assignBedBedId");
+  bedSelect.innerHTML = '<option value="">Select Bed</option>';
+
+  if (wardId) {
+    fetch('/admin/ward-bed/get-beds')
+      .then(response => response.json())
+      .then(beds => {
+        beds.filter(bed => bed.ward_id == wardId && bed.status === 'Active').forEach(bed => {
+          bedSelect.insertAdjacentHTML("beforeend", `<option value="${bed.id}">${bed.bed_id} (${bed.type})</option>`);
+        });
+      });
+  }
+});
+
+// Ward change handler for transfer bed
+document.getElementById("transferBedWardId").addEventListener("change", function() {
+  const wardId = this.value;
+  const bedSelect = document.getElementById("transferBedBedId");
+  bedSelect.innerHTML = '<option value="">Select Bed</option>';
+
+  if (wardId) {
+    fetch('/admin/ward-bed/get-beds')
+      .then(response => response.json())
+      .then(beds => {
+        beds.filter(bed => bed.ward_id == wardId && bed.status === 'Active').forEach(bed => {
+          bedSelect.insertAdjacentHTML("beforeend", `<option value="${bed.id}">${bed.bed_id} (${bed.type})</option>`);
+        });
+      });
+  }
+});
+
+// Assign bed form submission
+document.getElementById("assignBedForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const formData = new FormData(this);
+  const data = {
+    user_id: document.getElementById("assignBedUserId").value,
+    bed_id: document.getElementById("assignBedBedId").value,
+    assigned_date: document.getElementById("assignBedDate").value,
+  };
+
+  fetch('/admin/ward-bed/assign-bed', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.error) {
+      showNotification(data.error, 'error');
+    } else {
+      showNotification(data.message);
+      loadPatients();
+      closeAssignBedModal();
+    }
+  })
+  .catch(error => console.error('Error:', error));
+});
+
+// Transfer bed form submission
+document.getElementById("transferBedForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const assignmentId = document.getElementById("transferBedAssignmentId").value;
+  const data = {
+    bed_id: document.getElementById("transferBedBedId").value,
+    assigned_date: document.getElementById("transferBedDate").value,
+  };
+
+  fetch(`/admin/ward-bed/transfer-bed/${assignmentId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.error) {
+      showNotification(data.error, 'error');
+    } else {
+      showNotification(data.message);
+      loadPatients();
+      closeTransferBedModal();
+    }
+  })
+  .catch(error => console.error('Error:', error));
+});
+
+// Modal close handlers
+document.getElementById("closeBedDetailsModal").onclick = closeBedDetailsModal;
+document.getElementById("closeAssignBedModal").onclick = closeAssignBedModal;
+document.getElementById("closeTransferBedModal").onclick = closeTransferBedModal;
+
+window.onclick = e => {
+  if (e.target === document.getElementById("viewPatientModal")) closeViewPatientModal();
+  if (e.target === document.getElementById("editPatientModal")) closeEditPatientModal();
+  if (e.target === document.getElementById("bedDetailsModal")) closeBedDetailsModal();
+  if (e.target === document.getElementById("assignBedModal")) closeAssignBedModal();
+  if (e.target === document.getElementById("transferBedModal")) closeTransferBedModal();
+};
+
 // Load data on page load
 loadPatients();
 
@@ -444,6 +833,10 @@ window.viewPatient = viewPatient;
 window.editPatient = editPatient;
 window.createVisit = createVisit;
 window.deletePatient = deletePatient;
+window.viewBedDetails = viewBedDetails;
+window.assignBed = assignBed;
+window.dischargePatient = dischargePatient;
+window.transferPatient = transferPatient;
 })();
 </script>
 @endsection

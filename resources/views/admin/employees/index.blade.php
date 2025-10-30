@@ -20,7 +20,7 @@
             <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
                 <!-- Card Header (Image/Placeholder) -->
                 <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-                    <p class="text-sm text-dark-800 dark:text-dark-800" style="background-color:blue;border-radius:10px;"> {{ $employee->employee_code ?? 'N/A' }}</p>
+                    <p class="text-sm text-dark-800 dark:text-dark-800"> Employee Code : <b>{{ $employee->employee_code ?? 'N/A' }}</b></p>
                     <div class="text-center">
                         @if($employee->image)
                             <img src="{{ asset('storage/' . $employee->image) }}" alt="{{ $employee->name }}" class="w-24 h-24 object-cover rounded-full border-2 border-gray-300 mx-auto mb-2">

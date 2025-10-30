@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ward;
 use App\Models\Bed;
+use App\Models\BedAssignment;
 
 class WardBedController extends Controller
 {
@@ -63,6 +64,18 @@ class WardBedController extends Controller
     public function getBeds()
     {
         $beds = Bed::with('ward')->get();
+
+        // Add patient information for occupied beds
+        $beds->transform(function ($bed) {
+            if ($bed->status === 'Occupied') {
+                $activeAssignment = $bed->bedAssignments()->where('status', 'active')->with('user')->first();
+                if ($activeAssignment) {
+                    $bed->patient = $activeAssignment->user;
+                }
+            }
+            return $bed;
+        });
+
         return response()->json($beds);
     }
 
@@ -120,5 +133,130 @@ class WardBedController extends Controller
         $bed->delete();
 
         return response()->json(['message' => 'Bed deleted successfully']);
+    }
+
+    public function assignBed(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'bed_id' => 'required|exists:beds,id',
+            'assigned_date' => 'required|date',
+        ]);
+
+        // Check if bed is already occupied
+        $existingAssignment = BedAssignment::where('bed_id', $request->bed_id)
+            ->where('status', 'active')
+            ->first();
+
+        if ($existingAssignment) {
+            return response()->json(['error' => 'Bed is already occupied'], 400);
+        }
+
+        // Check if user already has an active bed assignment
+        $userAssignment = BedAssignment::where('user_id', $request->user_id)
+            ->where('status', 'active')
+            ->first();
+
+        if ($userAssignment) {
+            return response()->json(['error' => 'User already has an active bed assignment'], 400);
+        }
+
+        BedAssignment::create([
+            'user_id' => $request->user_id,
+            'bed_id' => $request->bed_id,
+            'assigned_date' => $request->assigned_date,
+            'status' => 'active',
+        ]);
+
+        // Update bed status to occupied
+        $bed = Bed::find($request->bed_id);
+        $bed->update(['status' => 'Occupied']);
+
+        return response()->json(['message' => 'Bed assigned successfully']);
+    }
+
+    public function getBedAssignments($userId)
+    {
+        $assignments = BedAssignment::with(['bed.ward'])
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($assignments);
+    }
+
+    public function updateBedAssignment(Request $request, $id)
+    {
+        $request->validate([
+            'discharge_date' => 'required|date',
+        ]);
+
+        $assignment = BedAssignment::findOrFail($id);
+        $assignment->update([
+            'discharge_date' => $request->discharge_date,
+            'status' => 'discharged',
+        ]);
+
+        // Update bed status to active
+        $bed = $assignment->bed;
+        $bed->update(['status' => 'Active']);
+
+        return response()->json(['message' => 'Bed assignment updated successfully']);
+    }
+
+    public function removeBedAssignment($id)
+    {
+        $assignment = BedAssignment::findOrFail($id);
+
+        // Update bed status to active
+        $bed = $assignment->bed;
+        $bed->update(['status' => 'Active']);
+
+        $assignment->delete();
+
+        return response()->json(['message' => 'Bed assignment removed successfully']);
+    }
+
+    public function transferBed(Request $request, $assignmentId)
+    {
+        $request->validate([
+            'bed_id' => 'required|exists:beds,id',
+            'assigned_date' => 'required|date',
+        ]);
+
+        $currentAssignment = BedAssignment::findOrFail($assignmentId);
+
+        // Check if the new bed is already occupied
+        $existingAssignment = BedAssignment::where('bed_id', $request->bed_id)
+            ->where('status', 'active')
+            ->first();
+
+        if ($existingAssignment) {
+            return response()->json(['error' => 'New bed is already occupied'], 400);
+        }
+
+        // Update current assignment to discharged
+        $currentAssignment->update([
+            'discharge_date' => $request->assigned_date,
+            'status' => 'discharged',
+        ]);
+
+        // Update old bed status to active
+        $oldBed = $currentAssignment->bed;
+        $oldBed->update(['status' => 'Active']);
+
+        // Create new assignment
+        BedAssignment::create([
+            'user_id' => $currentAssignment->user_id,
+            'bed_id' => $request->bed_id,
+            'assigned_date' => $request->assigned_date,
+            'status' => 'active',
+        ]);
+
+        // Update new bed status to occupied
+        $newBed = Bed::find($request->bed_id);
+        $newBed->update(['status' => 'Occupied']);
+
+        return response()->json(['message' => 'Patient transferred successfully']);
     }
 }

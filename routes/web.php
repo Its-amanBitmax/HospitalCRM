@@ -45,6 +45,11 @@ Route::prefix('admin')->group(function () {
         Route::delete('/ward-bed/delete-ward/{id}', [WardBedController::class, 'deleteWard'])->name('admin.delete-ward');
         Route::put('/ward-bed/update-bed/{id}', [WardBedController::class, 'updateBed'])->name('admin.update-bed');
         Route::delete('/ward-bed/delete-bed/{id}', [WardBedController::class, 'deleteBed'])->name('admin.delete-bed');
+        Route::post('/ward-bed/assign-bed', [WardBedController::class, 'assignBed'])->name('admin.assign-bed');
+        Route::get('/ward-bed/get-bed-assignments/{userId}', [WardBedController::class, 'getBedAssignments'])->name('admin.get-bed-assignments');
+        Route::put('/ward-bed/update-bed-assignment/{id}', [WardBedController::class, 'updateBedAssignment'])->name('admin.update-bed-assignment');
+        Route::delete('/ward-bed/remove-bed-assignment/{id}', [WardBedController::class, 'removeBedAssignment'])->name('admin.remove-bed-assignment');
+        Route::put('/ward-bed/transfer-bed/{assignmentId}', [WardBedController::class, 'transferBed'])->name('admin.transfer-bed');
 
         Route::get('/stock', [StockController::class, 'index'])->name('admin.stock');
         Route::post('/stock/store-supplier', [StockController::class, 'storeSupplier'])->name('admin.store-supplier');

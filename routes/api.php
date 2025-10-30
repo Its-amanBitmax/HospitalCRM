@@ -18,3 +18,5 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getProfile']);
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
+Route::middleware('auth:sanctum')->put('/update-profile', [UserController::class, 'updateProfile']);
+Route::get('/user/{id}', [UserController::class, 'getUserById']);

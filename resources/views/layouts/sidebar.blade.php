@@ -1,4 +1,4 @@
-<aside id="sidebar" class="w-50 fixed top-0 left-0 h-screen overflow-y-auto shadow-lg transition-all duration-300 sidebar-collapsed" style="-ms-overflow-style: none; scrollbar-width: none;">
+<aside id="sidebar" class="w-64 fixed top-0 left-0 h-screen overflow-y-auto shadow-lg transition-all duration-300 bg-white" style="-ms-overflow-style: none; scrollbar-width: none;" style>
   <!-- Logo Section -->
   <div class="flex items-center justify-center px-4 py-4 border-b border-gray-200 dark:border-gray-700">
     <img src="{{ $admin && $admin->logo ? asset('storage/' . $admin->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}" alt="{{ $admin && $admin->hospital_name ? $admin->hospital_name . ' Logo' : 'Dreams EMR Logo' }}" class="w-8 h-8 dark:invert">
