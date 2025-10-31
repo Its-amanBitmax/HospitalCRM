@@ -32,6 +32,17 @@
 
   <!-- Form -->
   <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+    @if ($errors->any())
+      <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Error!</strong>
+        <span class="block sm:inline">Please correct the following errors:</span>
+        <ul class="mt-2">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
     <form id="createUserForm" action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data">
       @csrf
       <div class="space-y-6">
@@ -47,8 +58,8 @@
               <input type="text" name="full_name" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username *</label>
-              <input type="text" name="username" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
+              <input type="text" name="username" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
@@ -134,8 +145,8 @@
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password *</label>
-              <input type="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+              <input type="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type *</label>
@@ -185,48 +196,10 @@
 if (window.createUserScriptLoaded) return;
 window.createUserScriptLoaded = true;
 
-var notification = document.getElementById("notification");
-var notificationMessage = document.getElementById("notificationMessage");
-
-// Function to show notification
-function showNotification(message) {
-  notificationMessage.textContent = message;
-  notification.classList.remove("hidden");
-  notification.classList.add("opacity-100");
-  setTimeout(() => {
-    notification.classList.remove("opacity-100");
-    notification.classList.add("opacity-0");
-    setTimeout(() => notification.classList.add("hidden"), 300);
-  }, 3000);
-}
-
-// Form submission
+// Form submission - let it submit normally since we're using redirect
 document.getElementById("createUserForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
-
-  fetch(this.action, {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      showNotification(data.message);
-      setTimeout(() => {
-        window.location.href = '{{ route("admin.registered-users") }}';
-      }, 2000);
-    } else {
-      showNotification(data.message || 'Error creating user');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    showNotification('Error creating user');
-  });
+  // Remove preventDefault to allow normal form submission
+  // e.preventDefault(); // Commented out
 });
 })();
 </script>

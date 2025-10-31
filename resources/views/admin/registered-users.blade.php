@@ -33,12 +33,18 @@
       <a href="{{ route('admin.patient-registration') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
         <i class="fas fa-user-plus mr-2"></i>Registration Form
       </a>
-      <a href="{{ route('admin.users.create') }}" id="addUserBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
+      <a href="{{ route('admin.users.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
         <i class="fas fa-plus mr-2"></i>Add Patients
       </a>
-     
+
     </div>
   </div>
+
+  @if(session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+      <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+  @endif
 
   <!-- Cards -->
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -532,9 +538,9 @@ function closeAddUserModal() {
   setTimeout(() => document.getElementById("addUserModal").classList.add("hidden"), 300);
 }
 
-document.getElementById("closeEditUserModal").onclick = closeEditUserModal;
-document.getElementById("closeAddUserModal").onclick = closeAddUserModal;
-document.getElementById("addUserBtn").onclick = addUser;
+document.getElementById("closeEditUserModal").addEventListener("click", closeEditUserModal);
+document.getElementById("closeAddUserModal").addEventListener("click", closeAddUserModal);
+// Removed addUserBtn onclick since it's now a link
 
 window.onclick = e => {
   if (e.target === document.getElementById("editUserModal")) closeEditUserModal();

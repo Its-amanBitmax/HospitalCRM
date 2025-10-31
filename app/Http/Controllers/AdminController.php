@@ -154,10 +154,10 @@ class AdminController extends Controller
     {
         $request->validate([
             'full_name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username',
+            'username' => 'nullable|string|max:255|unique:users,username',
             'email' => 'nullable|email|unique:users,email',
             'mobile_no' => 'required|string|max:20',
-            'password' => 'required|string|min:8',
+            'password' => 'nullable|string|min:8',
             'age' => 'nullable|integer|min:0|max:150',
             'gender' => 'nullable|in:male,female,other',
             'father_spouse_name' => 'nullable|string|max:255',
@@ -175,13 +175,13 @@ class AdminController extends Controller
             'id_number' => 'nullable|string|max:255',
             'type' => 'required|in:ipd,opd,emergency,registered,discharged',
             'status' => 'required|in:active,inactive,discharged',
-            'registered_through' => 'nullable|in:email,msg,whatsapp,google',
+            'registered_through' => 'nullable|in:email,msg,whatsapp,offline',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Generate unique user_id with date and username
         $date = now()->format('Ymd');
-        $username = strtoupper(substr($request->username, 0, 3));
+        $username = $request->username ? strtoupper(substr($request->username, 0, 3)) : 'USR';
         $userId = 'USR' . $date . $username . rand(100, 999);
 
         // Handle image upload
@@ -199,7 +199,7 @@ class AdminController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'mobile_no' => $request->mobile_no,
-            'password' => Hash::make($request->password),
+            'password' => $request->password ? Hash::make($request->password) : null,
             'age' => $request->age,
             'gender' => $request->gender,
             'father_spouse_name' => $request->father_spouse_name,
@@ -221,7 +221,7 @@ class AdminController extends Controller
             'image' => $imagePath,
         ]);
 
-        return response()->json(['success' => true, 'message' => 'User created successfully.']);
+        return redirect()->route('admin.registered-users')->with('success', 'User created successfully.');
     }
 
     public function showUser($id)
@@ -240,9 +240,10 @@ class AdminController extends Controller
     {
         $request->validate([
             'full_name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'username' => 'nullable|string|max:255|unique:users,username,' . $id,
             'email' => 'required|email|unique:users,email,' . $id,
             'mobile_no' => 'max:20',
+            'password' => 'nullable|string|min:8',
             'age' => 'nullable|integer|min:0|max:150',
             'gender' => 'nullable|in:male,female,other',
             'father_spouse_name' => 'nullable|string|max:255',
@@ -271,6 +272,11 @@ class AdminController extends Controller
             'visit_type', 'date_of_visit', 'chief_complaint', 'referred_by', 'department_consultant',
             'id_proof_type', 'id_number', 'type', 'status'
         ]);
+
+        // Handle password update
+        if ($request->filled('password')) {
+            $updateData['password'] = Hash::make($request->password);
+        }
 
         // Handle image upload
         if ($request->hasFile('image')) {

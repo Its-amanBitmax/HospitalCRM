@@ -1,12 +1,17 @@
+# TODO: Update Navbar in Laravel Hospital CRM
 
-# TODO: Redesign Welcome Page for Hospital Website
-
-## Tasks
-- [ ] Create resources/views/layouts/navbar.blade.php with navigation menu, logo, and mobile toggle.
-- [ ] Create resources/views/layouts/footer.blade.php with contact info and social links.
-- [ ] Update resources/views/welcome.blade.php to include header, main content sections (Hero, Health Gateway, About, Why Choose, Doctors, Testimonials, Stats, Help), and footer.
-- [ ] Adapt HTML to Blade syntax, include inline CSS and JS.
-- [ ] Adjust asset paths to Laravel public directory (e.g., /image/banner1.jpg).
-- [ ] Test the page for responsiveness and functionality.
-- [ ] Ensure images and assets are available in public/image/.
-- [ ] Run the app to verify the welcome page loads correctly.
+## Approved Plan Steps
+- [x] Update `resources/views/website/layout/navbar.blade.php` to replace the content with the new navbar structure, converted to Blade syntax.
+  - [x] Use `@guest` for auth-links (Login/Signup).
+  - [x] Use `@auth` for user-actions (Book Appointment/Logout).
+  - [x] Implement role-based home link: If authenticated and user type is 'user', href='index2.html'; if 'employee', href='employee-dashboard.html'; else 'index.html'.
+  - [x] Implement profile link logic: If authenticated, redirect to 'User-profile.html'; else 'employee-userlogin.html'.
+  - [x] Include the provided CSS styles (inlined).
+  - [x] Include the JS script, adapted to use Laravel routes/URLs instead of hardcoded ones, remove localStorage checks (use Blade-rendered variables), keep mobile toggle JS, and handle logout via POST to Laravel logout route.
+- [x] Ensure mobile toggle and other JS work; logout triggers POST to /logout.
+- [x] Dependent files: `resources/views/website/layout/navbar.blade.php` (primary edit). No external CSS/JS files created yet.
+- [x] Followup steps:
+  - [x] Test the navbar on pages where it's included (e.g., welcome.blade.php). (Server started at http://127.0.0.1:8000; browser tool disabled, so manual testing needed.)
+  - [ ] Verify auth redirects work (may need to adjust routes if URLs like 'index2.html' don't exist).
+  - [ ] Run the app and check mobile responsiveness/console for errors.
+  - [ ] If issues, debug JS or auth logic.

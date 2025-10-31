@@ -26,6 +26,7 @@ class Admin extends Authenticatable
         'profile_image',
         'hospital_name',
         'logo',
+        'favicon',
         'company_address',
         'company_contact',
         'company_email',
