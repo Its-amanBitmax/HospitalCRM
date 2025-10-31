@@ -393,6 +393,8 @@
             const body = document.body;
             let sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
 
+            if (!sidebar || !mainContent || !body) return;
+
             // Function to toggle sidebar
             function toggleSidebar() {
                 sidebarCollapsed = !sidebarCollapsed;

@@ -70,7 +70,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/banner', [BannerController::class, 'index'])->name('admin.banner');
         Route::post('/banner/store', [BannerController::class, 'store'])->name('admin.store-banner');
         Route::get('/banner/get-banners', [BannerController::class, 'getBanners'])->name('admin.get-banners');
-        Route::put('/banner/update/{id}', [BannerController::class, 'update'])->name('admin.update-banner');
+        Route::post('/banner/update/{id}', [BannerController::class, 'update'])->name('admin.update-banner');
         Route::delete('/banner/delete/{id}', [BannerController::class, 'delete'])->name('admin.delete-banner');
 
         Route::get('/departments', [DepartmentController::class, 'index'])->name('admin.departments');

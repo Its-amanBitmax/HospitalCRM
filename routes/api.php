@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getP
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
 Route::middleware('auth:sanctum')->put('/update-profile', [UserController::class, 'updateProfile']);
 Route::get('/user/{id}', [UserController::class, 'getUserById']);
+Route::post('/check-user', [UserController::class, 'checkUserExists']);
+Route::post('/update-credentials', [UserController::class, 'updateCredentials']);
