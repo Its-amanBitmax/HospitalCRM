@@ -88,7 +88,7 @@
       <div class="grid grid-cols-2 gap-4 mb-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Banner ID</label>
-          <input type="number" id="bannerId" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="Enter Banner ID">
+          <input type="text" id="bannerId" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-gray-100 dark:bg-gray-600 dark:text-white cursor-not-allowed" placeholder="Auto-generated" readonly>
         </div>
 
         <div>
@@ -202,6 +202,10 @@ document.addEventListener('DOMContentLoaded', function() {
       content.classList.remove("scale-95", "opacity-0");
       content.classList.add("scale-100", "opacity-100");
     }, 10);
+    // Set auto-generated ID for new banners
+    if (!editingId) {
+      document.getElementById("bannerId").value = generateBannerId();
+    }
   }
 
   function closeModal() {
@@ -345,16 +349,26 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch(() => showToast("Delete failed"));
   }
 
+  // Generate Banner ID
+  function generateBannerId() {
+    const existingIds = banners.map(b => b.banner_id);
+    let nextId = 1;
+    while (existingIds.includes(`BR${nextId.toString().padStart(3, '0')}`)) {
+      nextId++;
+    }
+    return `BR${nextId.toString().padStart(3, '0')}`;
+  }
+
   // Save / Update
   if (saveBannerBtn) saveBannerBtn.onclick = () => {
-    const bannerId = document.getElementById("bannerId").value.trim();
+    const bannerId = editingId ? document.getElementById("bannerId").value.trim() : generateBannerId();
     const title = document.getElementById("bannerTitle").value.trim();
     const redirectUrl = document.getElementById("bannerRedirectUrl").value.trim();
     const position = document.getElementById("bannerPosition").value;
     const status = document.getElementById("bannerStatus").value;
     const file = document.getElementById("bannerImageFile").files[0];
 
-    if (!bannerId || !title || !redirectUrl || (!file && !editingId)) {
+    if (!title || !redirectUrl || (!file && !editingId)) {
       showToast("Please fill all required fields");
       return;
     }

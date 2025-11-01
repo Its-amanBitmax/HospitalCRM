@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-
+use App\Http\Controllers\BannerController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->put('/update-profile', [UserController::class
 Route::get('/user/{id}', [UserController::class, 'getUserById']);
 Route::post('/check-user', [UserController::class, 'checkUserExists']);
 Route::post('/update-credentials', [UserController::class, 'updateCredentials']);
+Route::get('/banners', [BannerController::class, 'getBanners']);

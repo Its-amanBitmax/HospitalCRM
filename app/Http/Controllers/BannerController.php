@@ -17,7 +17,7 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'banner_id' => 'required|integer|unique:banners,banner_id',
+            'banner_id' => 'required|string|unique:banners,banner_id',
             'title' => 'required|string|max:150',
             'redirect_url' => 'required|string|max:255',
             'position' => 'required|in:Top,Sidebar,Bottom,HomePage',
@@ -53,7 +53,7 @@ class BannerController extends Controller
         $banner = Banner::findOrFail($id);
 
         $request->validate([
-            'banner_id' => 'required|integer|unique:banners,banner_id,' . $id,
+            'banner_id' => 'required|string|unique:banners,banner_id,' . $id,
             'title' => 'required|string|max:150',
             'redirect_url' => 'required|string|max:255',
             'position' => 'required|in:Top,Sidebar,Bottom,HomePage',

@@ -1,17 +1,23 @@
-# TODO: Update Navbar in Laravel Hospital CRM
+# TODO: Update Banner Images from Assets to Storage
 
 ## Approved Plan Steps
-- [x] Update `resources/views/website/layout/navbar.blade.php` to replace the content with the new navbar structure, converted to Blade syntax.
-  - [x] Use `@guest` for auth-links (Login/Signup).
-  - [x] Use `@auth` for user-actions (Book Appointment/Logout).
-  - [x] Implement role-based home link: If authenticated and user type is 'user', href='index2.html'; if 'employee', href='employee-dashboard.html'; else 'index.html'.
-  - [x] Implement profile link logic: If authenticated, redirect to 'User-profile.html'; else 'employee-userlogin.html'.
-  - [x] Include the provided CSS styles (inlined).
-  - [x] Include the JS script, adapted to use Laravel routes/URLs instead of hardcoded ones, remove localStorage checks (use Blade-rendered variables), keep mobile toggle JS, and handle logout via POST to Laravel logout route.
-- [x] Ensure mobile toggle and other JS work; logout triggers POST to /logout.
-- [x] Dependent files: `resources/views/website/layout/navbar.blade.php` (primary edit). No external CSS/JS files created yet.
-- [x] Followup steps:
-  - [x] Test the navbar on pages where it's included (e.g., welcome.blade.php). (Server started at http://127.0.0.1:8000; browser tool disabled, so manual testing needed.)
-  - [ ] Verify auth redirects work (may need to adjust routes if URLs like 'index2.html' don't exist).
-  - [ ] Run the app and check mobile responsiveness/console for errors.
-  - [ ] If issues, debug JS or auth logic.
+- [x] Create storage link if not exists (php artisan storage:link). (Already exists)
+- [x] Move banner images from public/assets/image/ to storage/app/public/uploads/banners/. (Already moved)
+- [x] Create a migration to update image_url in banners table for existing records to use /storage/uploads/banners/ path.
+- [x] Run the migration to update database.
+- [ ] Test banner display in admin panel.
+
+## Information Gathered
+- BannerController stores new images to 'uploads/banners' in 'public' disk, image_url set to '/storage/' . $imagePath.
+- Existing banner images: banner1.jpg, Banner2.jpg, banner3.jpg, banner4.jpg, banner5.jpg in public/assets/image/.
+- Banners table likely has image_url pointing to /assets/image/... for existing records.
+- Need to move files and update DB to /storage/uploads/banners/... .
+
+## Dependent Files to be edited
+- None (file move via command, DB update via migration).
+
+## Followup steps
+- Run php artisan storage:link.
+- Move files manually or via command.
+- Run migration.
+- Verify in admin banner page.

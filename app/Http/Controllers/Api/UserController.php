@@ -389,7 +389,7 @@ public function checkUserExists(Request $request)
         }
 
         // Check if at least one of email or phone is provided
-        if (empty($request->email) && empty($request->phone)) {
+        if (empty($request->email) && empty($request->mobile_no)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Either email or phone is required.',
@@ -398,7 +398,7 @@ public function checkUserExists(Request $request)
 
         // Find user by email or phone
         $user = User::where('email', $request->email)
-            ->orWhere('mobile_no', $request->phone)
+            ->orWhere('mobile_no', $request->mobile_no)
             ->first();
 
         if (!$user) {
