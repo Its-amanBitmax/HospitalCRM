@@ -14,84 +14,106 @@ class BannerController extends Controller
     }
 
     // ✅ Store new banner
-    public function store(Request $request)
-    {
-        $request->validate([
-            'banner_id' => 'required|string|unique:banners,banner_id',
-            'title' => 'required|string|max:150',
-            'redirect_url' => 'required|string|max:255',
-            'position' => 'required|in:Top,Sidebar,Bottom,HomePage',
-            'status' => 'required|in:Active,Inactive',
-            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
-        ]);
+  public function store(Request $request)
+{
+    $request->validate([
+        'banner_id' => 'required|string|unique:banners,banner_id',
+        'title' => 'required|string|max:150',
+        'redirect_url' => 'required|string|max:255',
+        'position' => 'required|in:Top,Sidebar,Bottom,HomePage',
+        'status' => 'required|in:Active,Inactive',
+        'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+    ]);
 
-        // ✅ Save image file
-        $imagePath = $request->file('image')->store('uploads/banners', 'public');
+    // ✅ Move file directly to public/uploads/banners
+    $image = $request->file('image');
+    $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+    $image->move(public_path('uploads/banners'), $filename);
 
-        Banner::create([
-            'banner_id' => $request->banner_id,
-            'title' => $request->title,
-            'image_url' => '/storage/' . $imagePath,
-            'redirect_url' => $request->redirect_url,
-            'position' => $request->position,
-            'status' => $request->status,
-        ]);
+    Banner::create([
+        'banner_id' => $request->banner_id,
+        'title' => $request->title,
+        'image_url' => $filename, // only filename saved
+        'redirect_url' => $request->redirect_url,
+        'position' => $request->position,
+        'status' => $request->status,
+    ]);
 
-        return response()->json(['message' => 'Banner added successfully']);
-    }
+    return response()->json(['message' => 'Banner added successfully']);
+}
+
 
     // ✅ Fetch all banners
     public function getBanners()
     {
         $banners = Banner::all();
+        $banners = $banners->map(function($banner) {
+            return [
+                'banner_id' => $banner->banner_id,
+                'title' => $banner->title,
+                'image_url' => '/uploads/banners/' . $banner->image_url,
+                'redirect_url' => $banner->redirect_url,
+                'position' => $banner->position,
+                'status' => $banner->status,
+            ];
+        });
         return response()->json($banners);
     }
 
-    // ✅ Update banner
-    public function update(Request $request, $id)
-    {
-        $banner = Banner::findOrFail($id);
+public function update(Request $request, $id)
+{
+    $banner = Banner::findOrFail($id);
 
-        $request->validate([
-            'banner_id' => 'required|string|unique:banners,banner_id,' . $id,
-            'title' => 'required|string|max:150',
-            'redirect_url' => 'required|string|max:255',
-            'position' => 'required|in:Top,Sidebar,Bottom,HomePage',
-            'status' => 'required|in:Active,Inactive',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-        ]);
+    $request->validate([
+        'banner_id' => 'required|string|unique:banners,banner_id,' . $id,
+        'title' => 'required|string|max:150',
+        'redirect_url' => 'required|string|max:255',
+        'position' => 'required|in:Top,Sidebar,Bottom,HomePage',
+        'status' => 'required|in:Active,Inactive',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+    ]);
 
-        $imagePath = $banner->image_url;
+    $filename = $banner->image_url;
 
-        // ✅ If new image uploaded
-        if ($request->hasFile('image')) {
-            if ($banner->image_url && file_exists(public_path($banner->image_url))) {
-                unlink(public_path($banner->image_url));
-            }
-            $imagePath = '/storage/' . $request->file('image')->store('uploads/banners', 'public');
+    // ✅ If new image uploaded
+    if ($request->hasFile('image')) {
+        $oldPath = public_path('uploads/banners/' . $banner->image_url);
+        if (file_exists($oldPath)) {
+            unlink($oldPath);
         }
 
-        $banner->update([
-            'banner_id' => $request->banner_id,
-            'title' => $request->title,
-            'image_url' => $imagePath,
-            'redirect_url' => $request->redirect_url,
-            'position' => $request->position,
-            'status' => $request->status,
-        ]);
-
-        return response()->json(['message' => 'Banner updated successfully']);
+        $image = $request->file('image');
+        $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('uploads/banners'), $filename);
     }
+
+    $banner->update([
+        'banner_id' => $request->banner_id,
+        'title' => $request->title,
+        'image_url' => $filename,
+        'redirect_url' => $request->redirect_url,
+        'position' => $request->position,
+        'status' => $request->status,
+    ]);
+
+    return response()->json(['message' => 'Banner updated successfully']);
+}
+
 
     // ✅ Delete banner
-    public function delete($id)
-    {
-        $banner = Banner::findOrFail($id);
-        if ($banner->image_url && file_exists(public_path($banner->image_url))) {
-            unlink(public_path($banner->image_url));
-        }
-        $banner->delete();
+public function delete($id)
+{
+    $banner = Banner::findOrFail($id);
+    $path = public_path('uploads/banners/' . $banner->image_url);
 
-        return response()->json(['message' => 'Banner deleted successfully']);
+    if (file_exists($path)) {
+        unlink($path);
     }
+
+    $banner->delete();
+
+    return response()->json(['message' => 'Banner deleted successfully']);
+}
+
+
 }
