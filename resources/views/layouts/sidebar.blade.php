@@ -89,6 +89,10 @@
           <i class="fas fa-user"></i>
           <span class="sidebar-text">Employee Details</span>
         </a>
+        <a href="{{ route('admin.specialities.index') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 {{ request()->routeIs('admin.specialities.*') ? 'bg-gray-200 text-gray-900 dark:bg-primary dark:text-white' : '' }}">
+          <i class="fas fa-star"></i>
+          <span class="sidebar-text">Specialities</span>
+        </a>
         <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
           <i class="fas fa-calendar-alt"></i>
           <span class="sidebar-text">Attendance</span>

@@ -87,12 +87,11 @@ class UpdateEmployeeRequest extends FormRequest
             'professions.*.title' => 'nullable|string|max:255',
             'professions.*.department_id' => 'nullable|exists:departments,id',
 
-            // Expertise
-            'expertise' => 'nullable|array',
-            'expertise.*.id' => 'nullable|integer|exists:expertise,id',
-            'expertise.*.skill' => 'nullable|string|max:255',
-            'expertise.*.proficiency_level' => 'nullable|in:Beginner,Intermediate,Advanced,Expert',
-            'expertise.*.years_of_experience' => 'nullable|integer|min:0',
+            // Specialities
+            'specialities' => 'nullable|array',
+            'specialities.*.speciality_id' => 'nullable|exists:specialities,id',
+            'specialities.*.proficiency_level' => 'nullable|in:Beginner,Intermediate,Advanced,Expert',
+            'specialities.*.years_of_experience' => 'nullable|integer|min:0',
         ];
     }
 }

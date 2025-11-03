@@ -9,12 +9,21 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PatientVisitController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/login-selection', function () {
+    $admin = \App\Models\Admin::first();
+    $logo = $admin && $admin->logo ? asset('storage/' . $admin->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png');
+    $hospital_name = $admin ? $admin->hospital_name : 'Hospital';
+    return view('website.login-selection', compact('logo', 'hospital_name'));
+})->name('login.selection');
+
+
 
 Route::get('/login', function () {
     return redirect()->route('admin.login.form');
@@ -136,6 +145,16 @@ Route::prefix('admin')->group(function () {
             'edit' => 'admin.employees.edit',
             'update' => 'admin.employees.update',
             'destroy' => 'admin.employees.destroy',
+        ]);
+
+        Route::resource('specialities', SpecialityController::class)->names([
+            'index' => 'admin.specialities.index',
+            'create' => 'admin.specialities.create',
+            'store' => 'admin.specialities.store',
+            'show' => 'admin.specialities.show',
+            'edit' => 'admin.specialities.edit',
+            'update' => 'admin.specialities.update',
+            'destroy' => 'admin.specialities.destroy',
         ]);
 
         Route::get('/rooms', [App\Http\Controllers\RoomController::class, 'index'])->name('admin.rooms');

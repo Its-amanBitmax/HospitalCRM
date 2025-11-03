@@ -234,25 +234,33 @@
             </div>
             @endif
 
-            <!-- Expertise -->
-            @if($employee->expertise->count() > 0)
+            <!-- Specialities -->
+            @if($employee->specialities->count() > 0)
             <div class="p-6">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Expertise</h2>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Specialities</h2>
                 <div class="space-y-4">
-                    @foreach($employee->expertise as $expertise)
+                    @foreach($employee->specialities as $speciality)
                         <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                                 <div>
                                     <strong class="text-gray-700 dark:text-gray-300">Skill:</strong>
-                                    <p class="text-gray-900 dark:text-white">{{ $expertise->skill }}</p>
+                                    <p class="text-gray-900 dark:text-white">{{ $speciality->skill }}</p>
                                 </div>
                                 <div>
                                     <strong class="text-gray-700 dark:text-gray-300">Proficiency:</strong>
-                                    <p class="text-gray-900 dark:text-white">{{ $expertise->proficiency_level }}</p>
+                                    <p class="text-gray-900 dark:text-white">{{ $speciality->pivot->proficiency_level ?? 'N/A' }}</p>
                                 </div>
                                 <div>
                                     <strong class="text-gray-700 dark:text-gray-300">Years of Experience:</strong>
-                                    <p class="text-gray-900 dark:text-white">{{ $expertise->years_of_experience ?? 'N/A' }}</p>
+                                    <p class="text-gray-900 dark:text-white">{{ $speciality->pivot->years_of_experience ?? 'N/A' }}</p>
+                                </div>
+                                <div>
+                                    <strong class="text-gray-700 dark:text-gray-300">Image:</strong>
+                                    @if($speciality->pivot->image)
+                                        <img src="{{ asset('storage/' . $speciality->pivot->image) }}" alt="{{ $speciality->skill }}" class="w-16 h-16 object-cover rounded">
+                                    @else
+                                        <span class="text-gray-500">No image</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>

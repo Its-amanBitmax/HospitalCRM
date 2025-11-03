@@ -10,7 +10,7 @@ use App\Models\Address;
 use App\Models\FamilyDetail;
 use App\Models\Shift;
 use App\Models\Profession;
-use App\Models\Expertise;
+use App\Models\Speciality;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
@@ -23,7 +23,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::with(['qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions.department', 'expertise'])->get();
+        $employees = Employee::with(['qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions.department', 'specialities'])->get();
         return view('admin.employees.index', compact('employees'));
     }
 
@@ -102,12 +102,17 @@ class EmployeeController extends Controller
                 }
             }
 
-            if ($request->has('expertise')) {
-                foreach ($request->expertise as $expertise) {
-                    if (!empty($expertise['skill'])) {
-                        $employee->expertise()->create($expertise);
+            if ($request->has('specialities')) {
+                $syncData = [];
+                foreach ($request->specialities as $speciality) {
+                    if (!empty($speciality['speciality_id'])) {
+                        $syncData[$speciality['speciality_id']] = [
+                            'proficiency_level' => $speciality['proficiency_level'] ?? 'Beginner',
+                            'years_of_experience' => $speciality['years_of_experience'] ?? null,
+                        ];
                     }
                 }
+                $employee->specialities()->sync($syncData);
             }
         });
 
@@ -119,7 +124,7 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        $employee = Employee::with(['qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions', 'expertise'])->findOrFail($id);
+        $employee = Employee::with(['qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions', 'specialities'])->findOrFail($id);
         return view('admin.employees.show', compact('employee'));
     }
 
@@ -128,7 +133,7 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
-        $employee = Employee::with(['qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions', 'expertise'])->findOrFail($id);
+        $employee = Employee::with(['qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions', 'specialities'])->findOrFail($id);
         return view('admin.employees.edit', compact('employee'));
     }
 
@@ -318,29 +323,17 @@ class EmployeeController extends Controller
                 $employee->professions()->whereNotIn('id', $existingIds)->delete();
             }
 
-            if ($request->has('expertise')) {
-                $existingIds = [];
-                foreach ($request->expertise as $expertise) {
-                    if (isset($expertise['id']) && $expertise['id']) {
-                        // Update existing expertise
-                        $exp = $employee->expertise()->find($expertise['id']);
-                        if ($exp) {
-                            $exp->skill = $expertise['skill'] ?? $exp->skill;
-                            $exp->proficiency_level = $expertise['proficiency_level'] ?? $exp->proficiency_level;
-                            $exp->years_of_experience = $expertise['years_of_experience'] ?? $exp->years_of_experience;
-                            $exp->save();
-                            $existingIds[] = $exp->id;
-                        }
-                    } else {
-                        // Create new expertise if skill is filled
-                        if (!empty($expertise['skill'])) {
-                            $newExp = $employee->expertise()->create($expertise);
-                            $existingIds[] = $newExp->id;
-                        }
+            if ($request->has('specialities')) {
+                $syncData = [];
+                foreach ($request->specialities as $speciality) {
+                    if (!empty($speciality['speciality_id'])) {
+                        $syncData[$speciality['speciality_id']] = [
+                            'proficiency_level' => $speciality['proficiency_level'] ?? 'Beginner',
+                            'years_of_experience' => $speciality['years_of_experience'] ?? null,
+                        ];
                     }
                 }
-                // Delete expertise not in the request
-                $employee->expertise()->whereNotIn('id', $existingIds)->delete();
+                $employee->specialities()->sync($syncData);
             }
         });
 

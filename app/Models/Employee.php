@@ -62,9 +62,9 @@ class Employee extends Model
         return $this->hasMany(Profession::class);
     }
 
-    public function expertise()
+    public function specialities()
     {
-        return $this->hasMany(Expertise::class);
+        return $this->belongsToMany(Speciality::class, 'employee_speciality')->withPivot('proficiency_level', 'years_of_experience');
     }
 
     public function department()

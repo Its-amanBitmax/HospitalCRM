@@ -216,7 +216,7 @@
     <div class="nav-container">
       <!-- Logo -->
       <a href="{{ url('/') }}" class="logo">
-            <img src="{{ $logo ?? asset('assets/image/logo.png') }}" alt="{{ $hospital_name ?? 'MediCare Hospital' }} Logo">
+            <img class="logo-icon" src="{{ $logo ?? asset('assets/image/logo.png') }}" alt="{{ $hospital_name ?? 'MediCare Hospital' }} Logo">
             <span>{{ $hospital_name ?? 'MediCare Hospital' }}</span>
         </a>
 
@@ -273,7 +273,7 @@
   document.getElementById("signupBtn").onclick = () => location.href = "register.html";
 
   // Login Link
-  document.getElementById("loginBtn").onclick = () => location.href = "employee-userlogin.html";
+  document.getElementById("loginBtn").onclick = () => location.href = "{{ route('login.selection') }}";
 
   // Notifications
   const notificationBell = document.getElementById("notificationBell");

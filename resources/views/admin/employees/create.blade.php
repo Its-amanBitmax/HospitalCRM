@@ -284,35 +284,38 @@
                 <button type="button" id="add-profession" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Add Profession</button>
             </div>
 
-            <!-- Expertise -->
+            <!-- Specialities -->
             <div class="mb-8">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Expertise</h2>
-                <div id="expertise-container">
-                    <div class="expertise-item bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Specialities</h2>
+                <div id="specialities-container">
+                    <div class="speciality-item bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Skill *</label>
-                                <input type="text" name="expertise[0][skill]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proficiency Level *</label>
-                                <select name="expertise[0][proficiency_level]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
-                                    <option value="">Select Level</option>
-                                    <option value="Beginner">Beginner</option>
-                                    <option value="Intermediate">Intermediate</option>
-                                    <option value="Advanced">Advanced</option>
-                                    <option value="Expert">Expert</option>
+                                <select name="specialities[0][speciality_id]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                                    <option value="">Select Skill</option>
+                                    @foreach(\App\Models\Speciality::all() as $speciality)
+                                        <option value="{{ $speciality->id }}">{{ $speciality->skill }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proficiency Level</label>
+                                <input type="text" name="specialities[0][proficiency_level]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., Beginner, Intermediate, Expert">
+                            </div>
+                            <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Years of Experience</label>
-                                <input type="number" name="expertise[0][years_of_experience]" min="0" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                <input type="number" name="specialities[0][years_of_experience]" min="0" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., 5">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Image</label>
+                                <input type="file" name="specialities[0][image]" accept="image/*" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
                             </div>
                         </div>
-                        <button type="button" class="remove-expertise mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" style="display: none;">Remove</button>
+                        <button type="button" class="remove-speciality mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" style="display: none;">Remove</button>
                     </div>
                 </div>
-                <button type="button" id="add-expertise" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Add Expertise</button>
+                <button type="button" id="add-speciality" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Add Speciality</button>
             </div>
 
             <!-- Submit Button -->
@@ -410,18 +413,18 @@ document.addEventListener('DOMContentLoaded', function() {
         professionIndex++;
     });
 
-    // Expertise
-    let expertiseIndex = 1;
-    document.getElementById('add-expertise').addEventListener('click', function() {
-        const container = document.getElementById('expertise-container');
-        const newItem = container.querySelector('.expertise-item').cloneNode(true);
+    // Specialities
+    let specialityIndex = 1;
+    document.getElementById('add-speciality').addEventListener('click', function() {
+        const container = document.getElementById('specialities-container');
+        const newItem = container.querySelector('.speciality-item').cloneNode(true);
         newItem.querySelectorAll('input, select').forEach(input => {
-            input.name = input.name.replace('[0]', '[' + expertiseIndex + ']');
+            input.name = input.name.replace('[0]', '[' + specialityIndex + ']');
             input.value = '';
         });
-        newItem.querySelector('.remove-expertise').style.display = 'block';
+        newItem.querySelector('.remove-speciality').style.display = 'block';
         container.appendChild(newItem);
-        expertiseIndex++;
+        specialityIndex++;
     });
 
     // Remove functionality
@@ -444,8 +447,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.classList.contains('remove-profession')) {
             e.target.closest('.profession-item').remove();
         }
-        if (e.target.classList.contains('remove-expertise')) {
-            e.target.closest('.expertise-item').remove();
+        if (e.target.classList.contains('remove-speciality')) {
+            e.target.closest('.speciality-item').remove();
         }
     });
 });

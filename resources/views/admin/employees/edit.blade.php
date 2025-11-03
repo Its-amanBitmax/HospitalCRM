@@ -470,66 +470,80 @@
                 <button type="button" id="add-profession" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200" aria-label="Add new profession">Add Profession</button>
             </div>
 
-            <!-- Expertise -->
+            <!-- Specialities -->
             <div class="mb-8">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Expertise</h2>
-                <div id="expertise-container">
-                    @foreach($employee->expertise as $index => $expertise)
-                        <div class="expertise-item bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4 border border-gray-200 dark:border-gray-600">
-                            <input type="hidden" name="expertise[{{ $index }}][id]" value="{{ $expertise->id }}">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Specialities</h2>
+                <div id="specialities-container">
+                    @foreach($employee->specialities as $index => $speciality)
+                        <div class="speciality-item bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4 border border-gray-200 dark:border-gray-600">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Skill <span class="text-red-500">*</span></label>
-                                    <input type="text" name="expertise[{{ $index }}][skill]" value="{{ old('expertise.' . $index . '.skill', $expertise->skill) }}" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required aria-describedby="expertise-skill-{{ $index }}-error">
-                                    @error('expertise.' . $index . '.skill') <p id="expertise-skill-{{ $index }}-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                    <select name="specialities[{{ $index }}][speciality_id]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required aria-describedby="speciality-speciality_id-{{ $index }}-error">
+                                        <option value="">Select Skill</option>
+                                        @foreach(\App\Models\Speciality::all() as $spec)
+                                            <option value="{{ $spec->id }}" {{ old('specialities.' . $index . '.speciality_id', $speciality->pivot->speciality_id ?? $speciality->id) == $spec->id ? 'selected' : '' }}>{{ $spec->skill }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if($speciality->image)
+                                        <div class="mt-2">
+                                            <img src="{{ asset('storage/' . $speciality->image) }}" alt="Speciality Image" class="w-16 h-16 object-cover rounded">
+                                        </div>
+                                    @endif
+                                    @error('specialities.' . $index . '.speciality_id') <p id="speciality-speciality_id-{{ $index }}-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proficiency Level <span class="text-red-500">*</span></label>
-                                    <select name="expertise[{{ $index }}][proficiency_level]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required aria-describedby="expertise-proficiency-{{ $index }}-error">
-                                        <option value="">Select Level</option>
-                                        <option value="Beginner" {{ old('expertise.' . $index . '.proficiency_level', $expertise->proficiency_level) == 'Beginner' ? 'selected' : '' }}>Beginner</option>
-                                        <option value="Intermediate" {{ old('expertise.' . $index . '.proficiency_level', $expertise->proficiency_level) == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
-                                        <option value="Advanced" {{ old('expertise.' . $index . '.proficiency_level', $expertise->proficiency_level) == 'Advanced' ? 'selected' : '' }}>Advanced</option>
-                                        <option value="Expert" {{ old('expertise.' . $index . '.proficiency_level', $expertise->proficiency_level) == 'Expert' ? 'selected' : '' }}>Expert</option>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proficiency Level</label>
+                                    <select name="specialities[{{ $index }}][proficiency_level]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" aria-describedby="speciality-proficiency-{{ $index }}-error">
+                                        <option value="">Select Proficiency Level</option>
+                                        <option value="Beginner" {{ old('specialities.' . $index . '.proficiency_level', $speciality->pivot->proficiency_level ?? '') == 'Beginner' ? 'selected' : '' }}>Beginner</option>
+                                        <option value="Intermediate" {{ old('specialities.' . $index . '.proficiency_level', $speciality->pivot->proficiency_level ?? '') == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
+                                        <option value="Advanced" {{ old('specialities.' . $index . '.proficiency_level', $speciality->pivot->proficiency_level ?? '') == 'Advanced' ? 'selected' : '' }}>Advanced</option>
+                                        <option value="Expert" {{ old('specialities.' . $index . '.proficiency_level', $speciality->pivot->proficiency_level ?? '') == 'Expert' ? 'selected' : '' }}>Expert</option>
                                     </select>
-                                    @error('expertise.' . $index . '.proficiency_level') <p id="expertise-proficiency-{{ $index }}-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                    @error('specialities.' . $index . '.proficiency_level') <p id="speciality-proficiency-{{ $index }}-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Years of Experience</label>
-                                    <input type="number" name="expertise[{{ $index }}][years_of_experience]" min="0" max="100" value="{{ old('expertise.' . $index . '.years_of_experience', $expertise->years_of_experience) }}" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" aria-describedby="expertise-years-{{ $index }}-error">
-                                    @error('expertise.' . $index . '.years_of_experience') <p id="expertise-years-{{ $index }}-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                    <input type="number" name="specialities[{{ $index }}][years_of_experience]" min="0" value="{{ old('specialities.' . $index . '.years_of_experience', $speciality->pivot->years_of_experience ?? '') }}" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., 5" aria-describedby="speciality-experience-{{ $index }}-error">
+                                    @error('specialities.' . $index . '.years_of_experience') <p id="speciality-experience-{{ $index }}-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
                             </div>
-                            <button type="button" class="remove-expertise mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" {{ $loop->first ? 'style="display: none;"' : '' }} aria-label="Remove expertise">Remove</button>
+                            <button type="button" class="remove-speciality mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" {{ $loop->first ? 'style="display: none;"' : '' }} aria-label="Remove speciality">Remove</button>
                         </div>
                     @endforeach
-                    <div class="expertise-template" style="display: none;">
-                        <div class="expertise-item bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4 border border-gray-200 dark:border-gray-600">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Skill <span class="text-red-500">*</span></label>
-                                    <input type="text" name="expertise[0][skill]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proficiency Level <span class="text-red-500">*</span></label>
-                                    <select name="expertise[0][proficiency_level]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                                        <option value="">Select Level</option>
-                                        <option value="Beginner">Beginner</option>
-                                        <option value="Intermediate">Intermediate</option>
-                                        <option value="Advanced">Advanced</option>
-                                        <option value="Expert">Expert</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Years of Experience</label>
-                                    <input type="number" name="expertise[0][years_of_experience]" min="0" max="100" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                                </div>
-                            </div>
-                            <button type="button" class="remove-expertise mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" aria-label="Remove expertise">Remove</button>
-                        </div>
-                    </div>
+                  <div class="speciality-template" style="display: none;">
+    <div class="speciality-item bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4 border border-gray-200 dark:border-gray-600">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Skill <span class="text-red-500">*</span></label>
+                <select name="specialities[0][speciality_id]" class="mt-1 block w-full ..." data-required="true">
+                    <option value="">Select Skill</option>
+                    @foreach(\App\Models\Speciality::all() as $spec)
+                        <option value="{{ $spec->id }}">{{ $spec->skill }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proficiency Level</label>
+                <select name="specialities[0][proficiency_level]" class="mt-1 block w-full ...">
+                    <option value="">Select Level</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Expert">Expert</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Years of Experience</label>
+                <input type="number" name="specialities[0][years_of_experience]" min="0" class="mt-1 block w-full ...">
+            </div>
+        </div>
+        <button type="button" class="remove-speciality mt-2 text-red-600 ...">Remove</button>
+    </div>
+</div>
                 </div>
-                <button type="button" id="add-expertise" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200" aria-label="Add new expertise">Add Expertise</button>
+                <button type="button" id="add-speciality" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200" aria-label="Add new speciality">Add Speciality</button>
             </div>
 
             <!-- Submit Button -->
@@ -540,126 +554,165 @@
         </form>
     </div>
 </div>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Input sanitization function
-    const sanitizeInput = (input) => {
-        return input.replace(/[<>"'&]/g, '');
-    };
+document.addEventListener('DOMContentLoaded', function () {
+    // Input sanitization (XSS protection)
+    const sanitizeInput = (input) => input.replace(/[<>"'&]/g, '');
 
-    // Generic function to add new items
-    const addItem = (containerId, templateClass, indexVar, buttonId, type) => {
-        let index = parseInt(document.querySelector(`#${containerId}`).dataset[`${type}Index`] || window[indexVar]);
-        document.getElementById(buttonId).addEventListener('click', function() {
-            const container = document.getElementById(containerId);
-            let template = container.querySelector(`.${type}-item`);
-            if (!template) {
-                template = container.querySelector(`.${type}-template .${type}-item`);
-            }
-            const newItem = template.cloneNode(true);
-            newItem.querySelectorAll('input, select').forEach(input => {
-                input.name = input.name.replace(/\[\d+\]/, `[${index}]`);
-                input.value = input.type === 'file' ? '' : sanitizeInput(input.value);
-                // Add required attribute to cloned inputs
-                if (input.dataset.required === 'true') {
-                    input.required = true;
+    // Generic function to re-index all items before submit
+    const reindexItems = (containerId, itemClass, fieldPrefix) => {
+        const items = document.querySelectorAll(`#${containerId} .${itemClass}`);
+        items.forEach((item, index) => {
+            item.querySelectorAll('input, select, textarea').forEach(input => {
+                const name = input.getAttribute('name');
+                if (name && name.includes(fieldPrefix)) {
+                    const newName = name.replace(new RegExp(`${fieldPrefix}\\[\\d+\\]`), `${fieldPrefix}[${index}]`);
+                    input.setAttribute('name', newName);
                 }
-                input.addEventListener('input', () => {
-                    if (input.type !== 'file' && input.type !== 'date' && input.type !== 'time') {
-                        input.value = sanitizeInput(input.value);
-                    }
-                });
             });
-            newItem.querySelector(`.remove-${type}`).style.display = 'block';
-            container.appendChild(newItem);
-            index++;
-            container.dataset[`${type}Index`] = index;
         });
     };
 
-    // Initialize indices
-    document.getElementById('qualifications-container').dataset.qualificationIndex = {{ $employee->qualifications->count() }};
-    document.getElementById('documents-container').dataset.documentIndex = {{ $employee->documents->count() }};
-    document.getElementById('addresses-container').dataset.addressIndex = {{ $employee->addresses->count() }};
-    document.getElementById('family-details-container').dataset.familyDetailIndex = {{ $employee->familyDetails->count() }};
-    document.getElementById('shifts-container').dataset.shiftIndex = {{ $employee->shifts->count() }};
-    document.getElementById('professions-container').dataset.professionIndex = {{ $employee->professions->count() }};
-    document.getElementById('expertise-container').dataset.expertiseIndex = {{ $employee->expertise->count() }};
+    // Generic add item function
+    const setupAddItem = (containerId, buttonId, templateSelector, fieldPrefix, initialIndex) => {
+        const container = document.getElementById(containerId);
+        const addButton = document.getElementById(buttonId);
+        let index = initialIndex;
 
-    // Add data-required attribute to template inputs
-    document.querySelectorAll('.qualification-template input, .qualification-template select').forEach(input => {
-        if (input.required) {
+        container.dataset.index = index;
+
+        addButton.addEventListener('click', function () {
+            const template = document.querySelector(templateSelector);
+            if (!template) return;
+
+            const newItem = template.cloneNode(true);
+            const itemContainer = newItem.tagName === 'DIV' ? newItem : newItem.querySelector('.item');
+
+            // Update all input names
+            itemContainer.querySelectorAll('input, select, textarea').forEach(input => {
+                const name = input.getAttribute('name');
+                if (name) {
+                    input.setAttribute('name', name.replace(/\[\d+\]/, `[${index}]`));
+                }
+                // Reset values
+                if (input.type === 'file') input.value = '';
+                else if (input.tagName === 'SELECT') input.selectedIndex = 0;
+                else input.value = '';
+
+                // Re-apply required if needed
+                if (input.dataset.required === 'true') {
+                    input.required = true;
+                }
+
+                // Sanitize on input
+                if (input.type !== 'file' && input.type !== 'date' && input.type !== 'time') {
+                    input.addEventListener('input', () => {
+                        input.value = sanitizeInput(input.value);
+                    });
+                }
+            });
+
+            // Show remove button
+            const removeBtn = itemContainer.querySelector(`.remove-${fieldPrefix}`);
+            if (removeBtn) removeBtn.style.display = 'block';
+
+            // Insert before template
+            container.insertBefore(newItem, container.querySelector(`.${fieldPrefix}-template`));
+            index++;
+            container.dataset.index = index;
+        });
+    };
+
+    // Generic remove handler
+    const setupRemoveItem = (className, itemClass) => {
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains(className)) {
+                e.target.closest(`.${itemClass}`).remove();
+            }
+        });
+    };
+
+    // Initialize all sections with count
+    const initSection = (containerId, count) => {
+        document.getElementById(containerId).dataset.index = count;
+    };
+
+    // === Initialize All Sections ===
+    initSection('qualifications-container', {{ $employee->qualifications->count() }});
+    initSection('documents-container', {{ $employee->documents->count() }});
+    initSection('addresses-container', {{ $employee->addresses->count() }});
+    initSection('family-details-container', {{ $employee->familyDetails->count() }});
+    initSection('shifts-container', {{ $employee->shifts->count() }});
+    initSection('professions-container', {{ $employee->professions->count() }});
+    initSection('specialities-container', {{ $employee->specialities->count() }});
+
+    // === Setup Add Buttons ===
+    setupAddItem('qualifications-container', 'add-qualification', '.qualification-template .qualification-item', 'qualification');
+    setupAddItem('documents-container', 'add-document', '.document-template .document-item', 'document');
+    setupAddItem('addresses-container', 'add-address', '.address-template .address-item', 'address');
+    setupAddItem('family-details-container', 'add-family-detail', '.family-detail-template .family-detail-item', 'family-detail');
+    setupAddItem('shifts-container', 'add-shift', '.shift-template .shift-item', 'shift');
+    setupAddItem('professions-container', 'add-profession', '.profession-template .profession-item', 'profession');
+    setupAddItem('specialities-container', 'add-speciality', '.speciality-template .speciality-item', 'speciality');
+
+    // === Setup Remove Buttons ===
+    setupRemoveItem('remove-qualification', 'qualification-item');
+    setupRemoveItem('remove-document', 'document-item');
+    setupRemoveItem('remove-address', 'address-item');
+    setupRemoveItem('remove-family-detail', 'family-detail-item');
+    setupRemoveItem('remove-shift', 'shift-item');
+    setupRemoveItem('remove-profession', 'profession-item');
+    setupRemoveItem('remove-speciality', 'speciality-item');
+
+    // === Mark required fields in templates (but don't apply `required` yet) ===
+    document.querySelectorAll('.qualification-template input, .qualification-template select, ' +
+        '.document-template input, .document-template select, ' +
+        '.address-template input, .address-template select, ' +
+        '.family-detail-template input, .family-detail-template select, ' +
+        '.shift-template input, .shift-template select, ' +
+        '.profession-template input, .profession-template select, ' +
+        '.speciality-template input, .speciality-template select').forEach(input => {
+        if (input.hasAttribute('required')) {
             input.dataset.required = 'true';
-            input.required = false;
-        }
-    });
-    document.querySelectorAll('.document-template input, .document-template select').forEach(input => {
-        if (input.required) {
-            input.dataset.required = 'true';
-            input.required = false;
-        }
-    });
-    document.querySelectorAll('.address-template input, .address-template select').forEach(input => {
-        if (input.required) {
-            input.dataset.required = 'true';
-            input.required = false;
-        }
-    });
-    document.querySelectorAll('.family-detail-template input, .family-detail-template select').forEach(input => {
-        if (input.required) {
-            input.dataset.required = 'true';
-            input.required = false;
-        }
-    });
-    document.querySelectorAll('.shift-template input, .shift-template select').forEach(input => {
-        if (input.required) {
-            input.dataset.required = 'true';
-            input.required = false;
-        }
-    });
-    document.querySelectorAll('.profession-template input, .profession-template select').forEach(input => {
-        if (input.required) {
-            input.dataset.required = 'true';
-            input.required = false;
-        }
-    });
-    document.querySelectorAll('.expertise-template input, .expertise-template select').forEach(input => {
-        if (input.required) {
-            input.dataset.required = 'true';
-            input.required = false;
+            input.removeAttribute('required'); // Remove from template
         }
     });
 
-    // Add items for each section
-    addItem('qualifications-container', 'qualification-item', 'qualificationIndex', 'add-qualification', 'qualification');
-    addItem('documents-container', 'document-item', 'documentIndex', 'add-document', 'document');
-    addItem('addresses-container', 'address-item', 'addressIndex', 'add-address', 'address');
-    addItem('family-details-container', 'family-detail-item', 'familyDetailIndex', 'add-family-detail', 'family-detail');
-    addItem('shifts-container', 'shift-item', 'shiftIndex', 'add-shift', 'shift');
-    addItem('professions-container', 'profession-item', 'professionIndex', 'add-profession', 'profession');
-    addItem('expertise-container', 'expertise-item', 'expertiseIndex', 'add-expertise', 'expertise');
+    // === Form Submit: Re-index ALL dynamic fields ===
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function (e) {
+        // Re-index all dynamic sections
+        reindexItems('qualifications-container', 'qualification-item', 'qualifications');
+        reindexItems('documents-container', 'document-item', 'documents');
+        reindexItems('addresses-container', 'address-item', 'addresses');
+        reindexItems('family-details-container', 'family-detail-item', 'family_details');
+        reindexItems('shifts-container', 'shift-item', 'shifts');
+        reindexItems('professions-container', 'profession-item', 'professions');
+        reindexItems('specialities-container', 'speciality-item', 'specialities');
 
-    // Remove functionality
-    document.addEventListener('click', function(e) {
-        const classes = ['remove-qualification', 'remove-document', 'remove-address', 'remove-family-detail', 'remove-shift', 'remove-profession', 'remove-expertise'];
-        if (classes.some(cls => e.target.classList.contains(cls))) {
-            e.target.closest(`.${e.target.classList[0].replace('remove-', '')}-item`).remove();
+        // Optional: Remove empty specialities to avoid sync([]) clearing all
+        const specItems = document.querySelectorAll('#specialities-container .speciality-item');
+        let hasValidSpec = false;
+        specItems.forEach(item => {
+            const select = item.querySelector('select[name*="speciality_id"]');
+            if (select && select.value) hasValidSpec = true;
+        });
+        if (!hasValidSpec) {
+            const container = document.getElementById('specialities-container');
+            container.innerHTML = '<input type="hidden" name="specialities" value="">';
         }
-    });
 
-    // Form submission validation
-    document.querySelector('form').addEventListener('submit', function(e) {
+        // Client-side required validation
         let hasErrors = false;
-        this.querySelectorAll('input[required], select[required]').forEach(input => {
+        form.querySelectorAll('input[required], select[required]').forEach(input => {
             if (!input.value.trim()) {
                 hasErrors = true;
                 input.classList.add('border-red-500');
-                const errorElement = document.createElement('p');
-                errorElement.className = 'mt-1 text-sm text-red-600';
-                errorElement.textContent = 'This field is required';
                 if (!input.nextElementSibling?.classList.contains('text-red-600')) {
-                    input.parentNode.appendChild(errorElement);
+                    const err = document.createElement('p');
+                    err.className = 'mt-1 text-sm text-red-600';
+                    err.textContent = 'This field is required';
+                    input.parentNode.appendChild(err);
                 }
             } else {
                 input.classList.remove('border-red-500');

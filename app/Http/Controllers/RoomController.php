@@ -35,7 +35,7 @@ class RoomController extends Controller
                     $assignments = RoomAssignment::where('room_id', $room->id)
                         ->leftJoin('employees', 'room_assignments.employee_id', '=', 'employees.id')
                         ->leftJoin('professions', 'employees.id', '=', 'professions.employee_id')
-                        ->leftJoin('expertise', 'employees.id', '=', 'expertise.employee_id')
+                        ->leftJoin('specialities', 'employees.id', '=', 'specialities.employee_id')
                         ->leftJoin('admins', 'room_assignments.assigned_by', '=', 'admins.id')
                         ->select(
                             'room_assignments.id as assignment_id',
@@ -44,7 +44,7 @@ class RoomController extends Controller
                             'employees.name as employee_name',
                             'employees.employee_code',
                             'professions.title as employee_profession_title',
-                            'expertise.years_of_experience',
+                            'specialities.years_of_experience',
                             'admins.name as assigned_by_name'
                         )
                         ->orderBy('room_assignments.assigned_at', 'desc')
@@ -211,7 +211,7 @@ class RoomController extends Controller
             $assignments = RoomAssignment::where('room_id', $id)
                 ->leftJoin('employees', 'room_assignments.employee_id', '=', 'employees.id')
                 ->leftJoin('professions', 'employees.id', '=', 'professions.employee_id')
-                ->leftJoin('expertise', 'employees.id', '=', 'expertise.employee_id')
+                ->leftJoin('specialities', 'employees.id', '=', 'specialities.employee_id')
                 ->select(
                     'room_assignments.id as assignment_id',
                     'room_assignments.assigned_at',
@@ -219,7 +219,7 @@ class RoomController extends Controller
                     'employees.name as employee_name',
                     'employees.employee_code',
                     'professions.title as employee_profession_title',
-                    'expertise.years_of_experience'
+                    'specialities.years_of_experience'
                 )
                 ->orderBy('room_assignments.assigned_at', 'desc')
                 ->get()

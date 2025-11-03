@@ -60,6 +60,8 @@ class BannerController extends Controller
         return response()->json($banners);
     }
 
+
+    
 public function update(Request $request, $id)
 {
     $banner = Banner::findOrFail($id);

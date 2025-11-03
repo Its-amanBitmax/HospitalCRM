@@ -80,11 +80,11 @@ class StoreEmployeeRequest extends FormRequest
             'professions.*.title' => 'required|string|max:255',
             'professions.*.department_id' => 'nullable|exists:departments,id',
 
-            // Expertise
-            'expertise' => 'nullable|array',
-            'expertise.*.skill' => 'required|string|max:255',
-            'expertise.*.proficiency_level' => 'required|in:Beginner,Intermediate,Advanced,Expert',
-            'expertise.*.years_of_experience' => 'nullable|integer|min:0',
+            // Specialities
+            'specialities' => 'nullable|array',
+            'specialities.*.speciality_id' => 'required|exists:specialities,id',
+            'specialities.*.proficiency_level' => 'nullable|in:Beginner,Intermediate,Advanced,Expert',
+            'specialities.*.years_of_experience' => 'nullable|integer|min:0',
         ];
     }
 
@@ -110,8 +110,8 @@ class StoreEmployeeRequest extends FormRequest
             'shifts.*.end_time.required' => 'End time is required for each shift.',
             'professions.*.title.required' => 'Title is required for each profession.',
             'professions.*.department.required' => 'Department is required for each profession.',
-            'expertise.*.skill.required' => 'Skill is required for each expertise.',
-            'expertise.*.proficiency_level.required' => 'Proficiency level is required for each expertise.',
+            'specialities.*.speciality_id.required' => 'Skill is required for each speciality.',
+            'specialities.*.speciality_id.exists' => 'Selected skill does not exist.',
         ];
     }
 }

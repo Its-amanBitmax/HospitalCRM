@@ -223,7 +223,7 @@
             <h1>We Are Providing Best & Affordable Health Care.</h1>
             <p>Our goal is to deliver the highest quality healthcare services. Everyone deserves access to excellent medical care without compromising on quality.</p>
             <a href="#" class="btn">Read More</a>
-            <a href="#" class="btn-video">Watch Video</a>
+           
         </div>
         <div class="hero-images" data-aos="fade-left">
             <img src="{{ asset('assets/image/banner1.jpg') }}" alt="Doctor">

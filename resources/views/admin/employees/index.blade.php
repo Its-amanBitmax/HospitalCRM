@@ -46,9 +46,9 @@
                     @if($employee->professions->isNotEmpty())
                         <p class="text-sm text-gray-600 dark:text-gray-400"><strong>Title:</strong> {{ $employee->professions->first()->title }}</p>
                     @endif
-                    @if($employee->expertise->isNotEmpty())
-                        <p class="text-sm text-gray-600 dark:text-gray-400"><strong>Expertise:</strong> {{ $employee->expertise->pluck('skill')->implode(', ') }}</p>
-                        <p class="text-sm text-gray-600 dark:text-gray-400"><strong>Experience:</strong> {{ $employee->expertise->pluck('years_of_experience')->implode(', ') }} years</p>
+                    @if($employee->specialities->isNotEmpty())
+                        <p class="text-sm text-gray-600 dark:text-gray-400"><strong>Specialities:</strong> {{ $employee->specialities->pluck('skill')->implode(', ') }}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400"><strong>Experience:</strong> {{ $employee->specialities->pluck('pivot.years_of_experience')->implode(', ') }} years</p>
                     @endif
                 </div>
 

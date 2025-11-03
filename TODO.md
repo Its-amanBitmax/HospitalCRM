@@ -1,23 +1,12 @@
-# TODO: Update Banner Images from Assets to Storage
+# Task: Rename 'expertise' table to 'specialities', replace references, add image column
 
-## Approved Plan Steps
-- [x] Create storage link if not exists (php artisan storage:link). (Already exists)
-- [x] Move banner images from public/assets/image/ to storage/app/public/uploads/banners/. (Already moved)
-- [x] Create a migration to update image_url in banners table for existing records to use /storage/uploads/banners/ path.
-- [x] Run the migration to update database.
-- [ ] Test banner display in admin panel.
-
-## Information Gathered
-- BannerController stores new images to 'uploads/banners' in 'public' disk, image_url set to '/storage/' . $imagePath.
-- Existing banner images: banner1.jpg, Banner2.jpg, banner3.jpg, banner4.jpg, banner5.jpg in public/assets/image/.
-- Banners table likely has image_url pointing to /assets/image/... for existing records.
-- Need to move files and update DB to /storage/uploads/banners/... .
-
-## Dependent Files to be edited
-- None (file move via command, DB update via migration).
-
-## Followup steps
-- Run php artisan storage:link.
-- Move files manually or via command.
-- Run migration.
-- Verify in admin banner page.
+## Steps:
+1. Create migration to rename 'expertise' table to 'specialities' and add 'image' column (string, nullable). ✅
+2. Rename app/Models/Expertise.php to app/Models/Speciality.php and update class name, table name, add 'image' to fillable. ✅
+3. Update app/Models/Employee.php: change relationship from 'expertise' to 'specialities'. ✅
+4. Update app/Http/Controllers/EmployeeController.php: replace 'expertise' with 'specialities' in store, update, etc. ✅
+5. Update resources/views/admin/employees/index.blade.php: replace 'expertise' with 'specialities', add image display. ✅
+6. Update resources/views/admin/employees/edit.blade.php: replace 'expertise' with 'specialities', add image input field. ✅
+7. Update resources/views/admin/employees/show.blade.php: replace 'expertise' with 'specialities', add image display. ✅
+8. Run php artisan migrate to apply changes. ✅
+9. Test employee CRUD to ensure everything works. ✅
