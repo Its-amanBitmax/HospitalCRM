@@ -371,75 +371,104 @@ public function checkUserExists(Request $request)
     ], 200);
 }
 
-    public function updateCredentials(Request $request)
-    {
-        // Validate request: at least one of email or phone, and password required
-        $validator = Validator::make($request->all(), [
-            'email' => 'nullable|email',
-            'mobile_no' => 'nullable|string|max:15',
-            'username' => 'nullable|string',
-            'password' => 'required|string|min:8',
-        ]);
+  public function updateCredentials(Request $request)
+{
+    // ✅ Validate input
+    $validator = Validator::make($request->all(), [
+        'email' => 'nullable|email',
+        'mobile_no' => 'nullable|string|max:15',
+        'username' => 'nullable|string',
+        'password' => 'required|string|min:8',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => $validator->errors()->first(),
-            ], 400);
-        }
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => false,
+            'message' => $validator->errors()->first(),
+        ], 400);
+    }
 
-        // Check if at least one of email or phone is provided
-        if (empty($request->email) && empty($request->mobile_no)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Either email or phone is required.',
-            ], 400);
-        }
+    // ✅ Require either email or mobile_no
+    if (empty($request->email) && empty($request->mobile_no)) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Either email or phone number is required.',
+        ], 400);
+    }
 
-        // Find user by email or phone
-        $user = User::where('email', $request->email)
-            ->orWhere('mobile_no', $request->mobile_no)
+    // ✅ Find user more safely
+    $user = User::when($request->email, function ($query) use ($request) {
+                $query->where('email', $request->email);
+            })
+            ->when($request->mobile_no, function ($query) use ($request) {
+                $query->where('mobile_no', $request->mobile_no);
+            })
             ->first();
 
-        if (!$user) {
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'User not found.',
+        ], 404);
+    }
+
+    // ✅ Update logic based on username existence
+    if (!empty($user->username)) {
+        // If username already exists, prevent username update
+        if (!empty($request->username) && $request->username !== $user->username) {
             return response()->json([
                 'status' => false,
-                'message' => 'User not found.',
-            ], 404);
+                'message' => 'Username already exists, cannot update username.',
+            ], 400);
         }
 
-        // Check if username exists
-        if ($user->username) {
-            // Username exists, only update password
-            if ($request->username) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Username already exists, cannot update username.',
-                ], 400);
-            }
-            $user->update([
-                'password' => bcrypt($request->password),
-            ]);
-            $message = 'Password updated successfully.';
-        } else {
-            // No username, update both username and password
-            if (!$request->username) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Username is required since it does not exist.',
-                ], 400);
-            }
-            $user->update([
-                'username' => $request->username,
-                'password' => bcrypt($request->password),
-            ]);
-            $message = 'Username and password updated successfully.';
+        // Only update password
+        $user->update([
+            'password' => bcrypt($request->password),
+        ]);
+
+        $message = 'Password updated successfully.';
+    } 
+    else {
+        // If username is null or empty, username is required
+        if (empty($request->username)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Username is required since it does not exist.',
+            ], 400);
         }
 
-        return response()->json([
-            'status' => true,
-            'message' => $message,
-            'data' => $user,
-        ], 200);
+        // ✅ Check if the new username already exists for another user
+        $exists = User::where('username', $request->username)
+            ->where('id', '!=', $user->id)
+            ->exists();
+
+        if ($exists) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This username is already taken by another user.',
+            ], 400);
+        }
+
+        // ✅ Update both username and password
+        $user->update([
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+        ]);
+
+        $message = 'Username and password updated successfully.';
     }
+
+    // ✅ Return response
+    return response()->json([
+        'status' => true,
+        'message' => $message,
+        'data' => [
+            'id' => $user->id,
+            'username' => $user->username,
+            'email' => $user->email,
+            'mobile_no' => $user->mobile_no,
+        ],
+    ], 200);
+}
 }

@@ -13,8 +13,10 @@ class Speciality extends Model
         'image',
     ];
 
+
     public function employees()
-    {
-        return $this->belongsToMany(Employee::class, 'employee_speciality');
-    }
+{
+    return $this->belongsToMany(Employee::class, 'employee_speciality')
+                ->withPivot('proficiency_level', 'years_of_experience');
+}
 }

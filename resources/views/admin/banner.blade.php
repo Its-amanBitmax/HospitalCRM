@@ -380,7 +380,7 @@ document.addEventListener('DOMContentLoaded', function() {
     formData.append('position', position);
     formData.append('status', status);
     if (file) formData.append('image', file);
-    if (editingId) formData.append('_method', 'PUT');
+    if (editingId) formData.append('_method', 'POST');
 
     const url = editingId ? `/admin/banner/update/${editingId}` : '/admin/banner/store';
 

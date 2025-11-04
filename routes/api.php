@@ -27,3 +27,4 @@ Route::post('/check-user', [UserController::class, 'checkUserExists']);
 Route::post('/update-credentials', [UserController::class, 'updateCredentials']);
 Route::get('/banners', [BannerController::class, 'getBanners']);
 Route::get('/skills', [SkillController::class, 'index']);
+Route::get('/doctors', [SkillController::class, 'getDoctors']);

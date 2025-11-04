@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Banner;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class BannerController extends Controller
 {
@@ -44,7 +45,7 @@ class BannerController extends Controller
 
 
     // ✅ Fetch all banners
-    public function getBanners()
+    public function getBannersApi()
     {
         $banners = Banner::all();
         $banners = $banners->map(function($banner) {
@@ -59,15 +60,36 @@ class BannerController extends Controller
         });
         return response()->json($banners);
     }
-
-
     
+     public function getBanners()
+    {
+        $banners = Banner::all();
+        $banners = $banners->map(function($banner) {
+            return [
+                'banner_id' => $banner->banner_id,
+                'title' => $banner->title,
+                'image_url' => '/public/uploads/banners/' . $banner->image_url,
+                'redirect_url' => $banner->redirect_url,
+                'position' => $banner->position,
+                'status' => $banner->status,
+            ];
+        });
+        return response()->json($banners);
+    }
+
+
 public function update(Request $request, $id)
 {
-    $banner = Banner::findOrFail($id);
+    // ✅ Fetch banner using banner_id, not id
+    $banner = Banner::where('banner_id', $id)->firstOrFail();
 
+    // ✅ Validation using Rule::unique — ignore current banner_id
     $request->validate([
-        'banner_id' => 'required|string|unique:banners,banner_id,' . $id,
+        'banner_id' => [
+            'required',
+            'string',
+            Rule::unique('banners', 'banner_id')->ignore($id, 'banner_id'),
+        ],
         'title' => 'required|string|max:150',
         'redirect_url' => 'required|string|max:255',
         'position' => 'required|in:Top,Sidebar,Bottom,HomePage',
@@ -89,6 +111,7 @@ public function update(Request $request, $id)
         $image->move(public_path('uploads/banners'), $filename);
     }
 
+    // ✅ Update the banner
     $banner->update([
         'banner_id' => $request->banner_id,
         'title' => $request->title,

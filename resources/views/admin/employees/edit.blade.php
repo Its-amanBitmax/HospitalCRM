@@ -111,15 +111,15 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Degree *</label>
-                                    <input type="text" name="qualifications[0][degree]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                                    <input type="text" name="qualifications[0][degree]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Institution *</label>
-                                    <input type="text" name="qualifications[0][institution]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                                    <input type="text" name="qualifications[0][institution]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Year Completed *</label>
-                                    <input type="number" name="qualifications[0][year_completed]" min="1901" max="{{ date('Y') + 10 }}" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                                    <input type="number" name="qualifications[0][year_completed]" min="1901" max="{{ date('Y') + 10 }}" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                             </div>
                             <button type="button" class="remove-qualification mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" aria-label="Remove qualification">Remove</button>
@@ -159,7 +159,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Document Name <span class="text-red-500">*</span></label>
-                                    <input type="text" name="documents[0][document_type]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., Aadhar Card, Passport">
+                                    <input type="text" name="documents[0][document_type]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., Aadhar Card, Passport" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Upload Document</label>
@@ -274,7 +274,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Address Type <span class="text-red-500">*</span></label>
-                                    <select name="addresses[0][address_type]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <select name="addresses[0][address_type]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                         <option value="">Select Type</option>
                                         <option value="Home">Home</option>
                                         <option value="Work">Work</option>
@@ -283,19 +283,19 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Street <span class="text-red-500">*</span></label>
-                                    <input type="text" name="addresses[0][street]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <input type="text" name="addresses[0][street]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">City <span class="text-red-500">*</span></label>
-                                    <input type="text" name="addresses[0][city]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <input type="text" name="addresses[0][city]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">State <span class="text-red-500">*</span></label>
-                                    <input type="text" name="addresses[0][state]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <input type="text" name="addresses[0][state]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Country <span class="text-red-500">*</span></label>
-                                    <input type="text" name="addresses[0][country]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <input type="text" name="addresses[0][country]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Postal Code</label>
@@ -346,11 +346,11 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name <span class="text-red-500">*</span></label>
-                                    <input type="text" name="family_details[0][name]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <input type="text" name="family_details[0][name]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Relationship <span class="text-red-500">*</span></label>
-                                    <input type="text" name="family_details[0][relationship]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <input type="text" name="family_details[0][relationship]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Date of Birth</label>
@@ -400,15 +400,15 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Shift Name <span class="text-red-500">*</span></label>
-                                    <input type="text" name="shifts[0][shift_name]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <input type="text" name="shifts[0][shift_name]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Time <span class="text-red-500">*</span></label>
-                                    <input type="time" name="shifts[0][start_time]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <input type="time" name="shifts[0][start_time]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">End Time <span class="text-red-500">*</span></label>
-                                    <input type="time" name="shifts[0][end_time]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <input type="time" name="shifts[0][end_time]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                             </div>
                             <button type="button" class="remove-shift mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" aria-label="Remove shift">Remove</button>
@@ -441,7 +441,6 @@
                                     </select>
                                     @error('professions.' . $index . '.department_id') <p id="profession-department-{{ $index }}-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
-
                             </div>
                             <button type="button" class="remove-profession mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" {{ $loop->first ? 'style="display: none;"' : '' }} aria-label="Remove profession">Remove</button>
                         </div>
@@ -451,7 +450,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Title <span class="text-red-500">*</span></label>
-                                    <input type="text" name="professions[0][title]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                                    <input type="text" name="professions[0][title]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" data-required="true">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Department</label>
@@ -470,81 +469,134 @@
                 <button type="button" id="add-profession" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200" aria-label="Add new profession">Add Profession</button>
             </div>
 
-            <!-- Specialities -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Specialities</h2>
-                <div id="specialities-container">
-                    @foreach($employee->specialities as $index => $speciality)
-                        <div class="speciality-item bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4 border border-gray-200 dark:border-gray-600">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Skill <span class="text-red-500">*</span></label>
-                                    <select name="specialities[{{ $index }}][speciality_id]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required aria-describedby="speciality-speciality_id-{{ $index }}-error">
-                                        <option value="">Select Skill</option>
-                                        @foreach(\App\Models\Speciality::all() as $spec)
-                                            <option value="{{ $spec->id }}" {{ old('specialities.' . $index . '.speciality_id', $speciality->pivot->speciality_id ?? $speciality->id) == $spec->id ? 'selected' : '' }}>{{ $spec->skill }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if($speciality->image)
-                                        <div class="mt-2">
-                                            <img src="{{ asset('storage/' . $speciality->image) }}" alt="Speciality Image" class="w-16 h-16 object-cover rounded">
-                                        </div>
-                                    @endif
-                                    @error('specialities.' . $index . '.speciality_id') <p id="speciality-speciality_id-{{ $index }}-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proficiency Level</label>
-                                    <select name="specialities[{{ $index }}][proficiency_level]" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" aria-describedby="speciality-proficiency-{{ $index }}-error">
-                                        <option value="">Select Proficiency Level</option>
-                                        <option value="Beginner" {{ old('specialities.' . $index . '.proficiency_level', $speciality->pivot->proficiency_level ?? '') == 'Beginner' ? 'selected' : '' }}>Beginner</option>
-                                        <option value="Intermediate" {{ old('specialities.' . $index . '.proficiency_level', $speciality->pivot->proficiency_level ?? '') == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
-                                        <option value="Advanced" {{ old('specialities.' . $index . '.proficiency_level', $speciality->pivot->proficiency_level ?? '') == 'Advanced' ? 'selected' : '' }}>Advanced</option>
-                                        <option value="Expert" {{ old('specialities.' . $index . '.proficiency_level', $speciality->pivot->proficiency_level ?? '') == 'Expert' ? 'selected' : '' }}>Expert</option>
-                                    </select>
-                                    @error('specialities.' . $index . '.proficiency_level') <p id="speciality-proficiency-{{ $index }}-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Years of Experience</label>
-                                    <input type="number" name="specialities[{{ $index }}][years_of_experience]" min="0" value="{{ old('specialities.' . $index . '.years_of_experience', $speciality->pivot->years_of_experience ?? '') }}" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., 5" aria-describedby="speciality-experience-{{ $index }}-error">
-                                    @error('specialities.' . $index . '.years_of_experience') <p id="speciality-experience-{{ $index }}-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                </div>
-                            </div>
-                            <button type="button" class="remove-speciality mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" {{ $loop->first ? 'style="display: none;"' : '' }} aria-label="Remove speciality">Remove</button>
+            <!-- Specialities (Updated with Image Support) -->
+<!-- Specialities (Updated with Image Support) -->
+<div class="mb-8">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Specialities</h2>
+
+    <div id="specialities-container">
+        @forelse($employee->specialities as $index => $speciality)
+            <div class="speciality-item bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4 border border-gray-200 dark:border-gray-600">
+                {{-- pivot id is NOT needed for sync() – we only need the speciality_id --}}
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Skill <span class="text-red-500">*</span></label>
+                        <select
+                            name="specialities[{{ $index }}][speciality_id]"
+                            class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white speciality-select"
+                            required
+                            onchange="updateSpecialityImage(this)"
+                            data-image-container="speciality-image-{{ $index }}"
+                        >
+                            <option value="">Select Skill</option>
+                            @foreach(\App\Models\Speciality::all() as $spec)
+                                <option
+                                    value="{{ $spec->id }}"
+                                    data-image="{{ $spec->image ? asset('storage/'.$spec->image) : '' }}"
+                                    {{ old("specialities.$index.speciality_id", $speciality->pivot->speciality_id) == $spec->id ? 'selected' : '' }}
+                                >{{ $spec->skill }}</option>
+                            @endforeach
+                        </select>
+
+                        <div id="speciality-image-{{ $index }}" class="mt-2">
+                            @if($speciality->image)
+                                <img src="{{ asset('storage/'.$speciality->image) }}" alt="Speciality Image"
+                                     class="w-16 h-16 object-cover rounded">
+                            @endif
                         </div>
-                    @endforeach
-                  <div class="speciality-template" style="display: none;">
-    <div class="speciality-item bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4 border border-gray-200 dark:border-gray-600">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Skill <span class="text-red-500">*</span></label>
-                <select name="specialities[0][speciality_id]" class="mt-1 block w-full ..." data-required="true">
-                    <option value="">Select Skill</option>
-                    @foreach(\App\Models\Speciality::all() as $spec)
-                        <option value="{{ $spec->id }}">{{ $spec->skill }}</option>
-                    @endforeach
-                </select>
+
+                        @error("specialities.$index.speciality_id")
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proficiency Level</label>
+                        <select name="specialities[{{ $index }}][proficiency_level]"
+                                class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="">Select Level</option>
+                            @foreach(['Beginner','Intermediate','Advanced','Expert'] as $lvl)
+                                <option value="{{ $lvl }}"
+                                    {{ old("specialities.$index.proficiency_level", $speciality->pivot->proficiency_level) == $lvl ? 'selected' : '' }}>
+                                    {{ $lvl }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error("specialities.$index.proficiency_level")
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Years of Experience</label>
+                        <input type="number" name="specialities[{{ $index }}][years_of_experience]" min="0"
+                               value="{{ old('specialities.'.$index.'.years_of_experience', $speciality->pivot->years_of_experience) }}"
+                               class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                               placeholder="e.g., 5">
+                        @error("specialities.$index.years_of_experience")
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <button type="button"
+                        class="remove-speciality mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                        {{ $loop->first ? 'style=display:none' : '' }}>
+                    Remove
+                </button>
             </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proficiency Level</label>
-                <select name="specialities[0][proficiency_level]" class="mt-1 block w-full ...">
-                    <option value="">Select Level</option>
-                    <option value="Beginner">Beginner</option>
-                    <option value="Intermediate">Intermediate</option>
-                    <option value="Advanced">Advanced</option>
-                    <option value="Expert">Expert</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Years of Experience</label>
-                <input type="number" name="specialities[0][years_of_experience]" min="0" class="mt-1 block w-full ...">
+        @empty
+            <!-- no rows -->
+        @endforelse
+
+        <!-- TEMPLATE (hidden) -->
+        <div class="speciality-template" style="display:none;">
+            <div class="speciality-item bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4 border border-gray-200 dark:border-gray-600">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Skill <span class="text-red-500">*</span></label>
+                        <select name="specialities[0][speciality_id]"
+                                class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white speciality-select"
+                                required data-required="true"
+                                onchange="updateSpecialityImage(this)"
+                                data-image-container="speciality-image-TPL">
+                            <option value="">Select Skill</option>
+                            @foreach(\App\Models\Speciality::all() as $spec)
+                                <option value="{{ $spec->id }}"
+                                        data-image="{{ $spec->image ? asset('storage/'.$spec->image) : '' }}">
+                                    {{ $spec->skill }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <div id="speciality-image-TPL" class="mt-2"></div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proficiency Level</label>
+                        <select name="specialities[0][proficiency_level]"
+                                class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="">Select Level</option>
+                            <option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>Expert</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Years of Experience</label>
+                        <input type="number" name="specialities[0][years_of_experience]" min="0"
+                               class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+                </div>
+                <button type="button"
+                        class="remove-speciality mt-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                    Remove
+                </button>
             </div>
         </div>
-        <button type="button" class="remove-speciality mt-2 text-red-600 ...">Remove</button>
     </div>
+
+    <button type="button" id="add-speciality"
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+        Add Speciality
+    </button>
 </div>
-                </div>
-                <button type="button" id="add-speciality" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200" aria-label="Add new speciality">Add Speciality</button>
-            </div>
 
             <!-- Submit Button -->
             <div class="flex justify-end gap-4">
@@ -554,161 +606,209 @@
         </form>
     </div>
 </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Input sanitization (XSS protection)
-    const sanitizeInput = (input) => input.replace(/[<>"'&]/g, '');
+    /* --------------------------------------------------------------------- *
+     *  Helper: XSS-safe sanitisation (only for text inputs)
+     * --------------------------------------------------------------------- */
+    const sanitizeInput = (value) => value.replace(/[<>"'&]/g, '');
 
-    // Generic function to re-index all items before submit
+    /* --------------------------------------------------------------------- *
+     *  Update speciality image when the <select> changes
+     * --------------------------------------------------------------------- */
+    window.updateSpecialityImage = function (select) {
+        const imageUrl    = select.options[select.selectedIndex]?.dataset.image || '';
+        const containerId = select.dataset.imageContainer;
+        const container   = document.getElementById(containerId);
+        if (!container) return;
+
+        container.innerHTML = '';
+        if (imageUrl) {
+            const img = document.createElement('img');
+            img.src      = imageUrl;
+            img.alt      = 'Speciality Image';
+            img.className = 'w-16 h-16 object-cover rounded';
+            container.appendChild(img);
+        }
+    };
+
+    /* --------------------------------------------------------------------- *
+     *  Generic re-indexing (runs on form submit)
+     * --------------------------------------------------------------------- */
     const reindexItems = (containerId, itemClass, fieldPrefix) => {
         const items = document.querySelectorAll(`#${containerId} .${itemClass}`);
         items.forEach((item, index) => {
             item.querySelectorAll('input, select, textarea').forEach(input => {
                 const name = input.getAttribute('name');
                 if (name && name.includes(fieldPrefix)) {
-                    const newName = name.replace(new RegExp(`${fieldPrefix}\\[\\d+\\]`), `${fieldPrefix}[${index}]`);
+                    const newName = name.replace(/\[\d+\]/g, `[${index}]`);
                     input.setAttribute('name', newName);
                 }
             });
         });
     };
 
-    // Generic add item function
-    const setupAddItem = (containerId, buttonId, templateSelector, fieldPrefix, initialIndex) => {
+    /* --------------------------------------------------------------------- *
+     *  Generic “Add” button handler
+     * --------------------------------------------------------------------- */
+    const setupAddItem = (containerId, buttonId, templateSelector, fieldPrefix, startIdx = 0) => {
         const container = document.getElementById(containerId);
-        const addButton = document.getElementById(buttonId);
-        let index = initialIndex;
+        const addBtn    = document.getElementById(buttonId);
+        const template  = document.querySelector(templateSelector);
+        if (!container || !addBtn || !template) return;
 
-        container.dataset.index = index;
+        let index = parseInt(startIdx) || 0;
 
-        addButton.addEventListener('click', function () {
-            const template = document.querySelector(templateSelector);
-            if (!template) return;
+        addBtn.addEventListener('click', () => {
+            const clone = template.cloneNode(true);
+            clone.style.display = '';
+            clone.classList.remove('hidden');
 
-            const newItem = template.cloneNode(true);
-            const itemContainer = newItem.tagName === 'DIV' ? newItem : newItem.querySelector('.item');
-
-            // Update all input names
-            itemContainer.querySelectorAll('input, select, textarea').forEach(input => {
-                const name = input.getAttribute('name');
-                if (name) {
-                    input.setAttribute('name', name.replace(/\[\d+\]/, `[${index}]`));
-                }
-                // Reset values
-                if (input.type === 'file') input.value = '';
-                else if (input.tagName === 'SELECT') input.selectedIndex = 0;
-                else input.value = '';
-
-                // Re-apply required if needed
-                if (input.dataset.required === 'true') {
-                    input.required = true;
+            /* ---- rename every field ---- */
+            clone.querySelectorAll('input, select, textarea').forEach(el => {
+                const oldName = el.getAttribute('name');
+                if (oldName) {
+                    el.setAttribute('name', oldName.replace(/\[\d+\]/, `[${index}]`));
                 }
 
-                // Sanitize on input
-                if (input.type !== 'file' && input.type !== 'date' && input.type !== 'time') {
-                    input.addEventListener('input', () => {
-                        input.value = sanitizeInput(input.value);
+                /* reset values */
+                if (el.type === 'file') el.value = '';
+                else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+                else el.value = '';
+
+                /* restore required flag from template */
+                if (el.dataset.required === 'true') el.required = true;
+
+                /* ---- speciality image container handling ---- */
+                if (fieldPrefix === 'specialities' && el.classList.contains('speciality-select')) {
+                    el.dataset.imageContainer = `speciality-image-${index}`;
+                    const imgDiv = clone.querySelector(`[id^="speciality-image-"]`);
+                    if (imgDiv) imgDiv.id = `speciality-image-${index}`;
+                }
+
+                /* XSS sanitisation (skip files, dates, times) */
+                if (el.type !== 'file' && el.type !== 'date' && el.type !== 'time') {
+                    el.addEventListener('input', () => {
+                        el.value = sanitizeInput(el.value);
                     });
                 }
             });
 
-            // Show remove button
-            const removeBtn = itemContainer.querySelector(`.remove-${fieldPrefix}`);
-            if (removeBtn) removeBtn.style.display = 'block';
+            /* show the remove button */
+            const rmBtn = clone.querySelector(`.remove-${fieldPrefix}`);
+            if (rmBtn) rmBtn.style.display = 'block';
 
-            // Insert before template
-            container.insertBefore(newItem, container.querySelector(`.${fieldPrefix}-template`));
+            container.appendChild(clone);
             index++;
-            container.dataset.index = index;
         });
     };
 
-    // Generic remove handler
-    const setupRemoveItem = (className, itemClass) => {
-        document.addEventListener('click', function (e) {
-            if (e.target.classList.contains(className)) {
+    /* --------------------------------------------------------------------- *
+     *  Generic “Remove” button handler (delegated)
+     * --------------------------------------------------------------------- */
+    const setupRemoveItem = (btnClass, itemClass) => {
+        document.addEventListener('click', e => {
+            if (e.target.classList.contains(btnClass)) {
                 e.target.closest(`.${itemClass}`).remove();
             }
         });
     };
 
-    // Initialize all sections with count
-    const initSection = (containerId, count) => {
-        document.getElementById(containerId).dataset.index = count;
+    /* --------------------------------------------------------------------- *
+     *  Initialise section counters (used by the generic add function)
+     * --------------------------------------------------------------------- */
+    const initSection = (id, count) => {
+        const el = document.getElementById(id);
+        if (el) el.dataset.index = count;
     };
 
-    // === Initialize All Sections ===
+    /* --------------------------------------------------------------------- *
+     *  ==== 1. Initialise every dynamic section ==========================
+     * --------------------------------------------------------------------- */
     initSection('qualifications-container', {{ $employee->qualifications->count() }});
-    initSection('documents-container', {{ $employee->documents->count() }});
-    initSection('addresses-container', {{ $employee->addresses->count() }});
+    initSection('documents-container',       {{ $employee->documents->count() }});
+    initSection('addresses-container',      {{ $employee->addresses->count() }});
     initSection('family-details-container', {{ $employee->familyDetails->count() }});
-    initSection('shifts-container', {{ $employee->shifts->count() }});
-    initSection('professions-container', {{ $employee->professions->count() }});
-    initSection('specialities-container', {{ $employee->specialities->count() }});
+    initSection('shifts-container',         {{ $employee->shifts->count() }});
+    initSection('professions-container',    {{ $employee->professions->count() }});
+    initSection('specialities-container',   {{ $employee->specialities->count() }});
 
-    // === Setup Add Buttons ===
-    setupAddItem('qualifications-container', 'add-qualification', '.qualification-template .qualification-item', 'qualification');
-    setupAddItem('documents-container', 'add-document', '.document-template .document-item', 'document');
-    setupAddItem('addresses-container', 'add-address', '.address-template .address-item', 'address');
-    setupAddItem('family-details-container', 'add-family-detail', '.family-detail-template .family-detail-item', 'family-detail');
-    setupAddItem('shifts-container', 'add-shift', '.shift-template .shift-item', 'shift');
-    setupAddItem('professions-container', 'add-profession', '.profession-template .profession-item', 'profession');
-    setupAddItem('specialities-container', 'add-speciality', '.speciality-template .speciality-item', 'speciality');
+    /* --------------------------------------------------------------------- *
+     *  ==== 2. Wire-up “Add” buttons =====================================
+     * --------------------------------------------------------------------- */
+    setupAddItem('qualifications-container', 'add-qualification', '.qualification-template .qualification-item', 'qualification', {{ $employee->qualifications->count() }});
+    setupAddItem('documents-container',      'add-document',      '.document-template .document-item',          'document',      {{ $employee->documents->count() }});
+    setupAddItem('addresses-container',      'add-address',       '.address-template .address-item',           'address',       {{ $employee->addresses->count() }});
+    setupAddItem('family-details-container', 'add-family-detail', '.family-detail-template .family-detail-item','family-detail',{{ $employee->familyDetails->count() }});
+    setupAddItem('shifts-container',         'add-shift',         '.shift-template .shift-item',               'shift',         {{ $employee->shifts->count() }});
+    setupAddItem('professions-container',    'add-profession',    '.profession-template .profession-item',     'profession',    {{ $employee->professions->count() }});
+    setupAddItem('specialities-container',   'add-speciality',    '.speciality-template .speciality-item',     'specialities',  {{ $employee->specialities->count() }});
 
-    // === Setup Remove Buttons ===
+    /* --------------------------------------------------------------------- *
+     *  ==== 3. Wire-up “Remove” buttons ================================
+     * --------------------------------------------------------------------- */
     setupRemoveItem('remove-qualification', 'qualification-item');
-    setupRemoveItem('remove-document', 'document-item');
-    setupRemoveItem('remove-address', 'address-item');
+    setupRemoveItem('remove-document',      'document-item');
+    setupRemoveItem('remove-address',       'address-item');
     setupRemoveItem('remove-family-detail', 'family-detail-item');
-    setupRemoveItem('remove-shift', 'shift-item');
-    setupRemoveItem('remove-profession', 'profession-item');
-    setupRemoveItem('remove-speciality', 'speciality-item');
+    setupRemoveItem('remove-shift',         'shift-item');
+    setupRemoveItem('remove-profession',    'profession-item');
+    setupRemoveItem('remove-speciality',    'speciality-item');
 
-    // === Mark required fields in templates (but don't apply `required` yet) ===
-    document.querySelectorAll('.qualification-template input, .qualification-template select, ' +
-        '.document-template input, .document-template select, ' +
-        '.address-template input, .address-template select, ' +
-        '.family-detail-template input, .family-detail-template select, ' +
-        '.shift-template input, .shift-template select, ' +
-        '.profession-template input, .profession-template select, ' +
-        '.speciality-template input, .speciality-template select').forEach(input => {
-        if (input.hasAttribute('required')) {
-            input.dataset.required = 'true';
-            input.removeAttribute('required'); // Remove from template
+    /* --------------------------------------------------------------------- *
+     *  ==== 4. Restore required flags on template fields ================
+     * --------------------------------------------------------------------- */
+    document.querySelectorAll(`
+        .qualification-template input, .qualification-template select,
+        .document-template input, .document-template select,
+        .address-template input, .address-template select,
+        .family-detail-template input, .family-detail-template select,
+        .shift-template input, .shift-template select,
+        .profession-template input, .profession-template select,
+        .speciality-template input, .speciality-template select
+    `).forEach(el => {
+        if (el.hasAttribute('required')) {
+            el.dataset.required = 'true';
+            el.removeAttribute('required');
         }
     });
 
-    // === Form Submit: Re-index ALL dynamic fields ===
+    /* --------------------------------------------------------------------- *
+     *  ==== 5. Show images for already-loaded specialities ==============
+     * --------------------------------------------------------------------- */
+    document.querySelectorAll('.speciality-select').forEach(select => {
+        if (select.value) updateSpecialityImage(select);
+    });
+
+    /* --------------------------------------------------------------------- *
+     *  ==== 6. Form submit – re-index + clean empty specialities =======
+     * --------------------------------------------------------------------- */
     const form = document.querySelector('form');
     form.addEventListener('submit', function (e) {
-        // Re-index all dynamic sections
+        /* ---- re-index every section ---- */
         reindexItems('qualifications-container', 'qualification-item', 'qualifications');
-        reindexItems('documents-container', 'document-item', 'documents');
-        reindexItems('addresses-container', 'address-item', 'addresses');
-        reindexItems('family-details-container', 'family-detail-item', 'family_details');
-        reindexItems('shifts-container', 'shift-item', 'shifts');
-        reindexItems('professions-container', 'profession-item', 'professions');
-        reindexItems('specialities-container', 'speciality-item', 'specialities');
+        reindexItems('documents-container',       'document-item',       'documents');
+        reindexItems('addresses-container',       'address-item',        'addresses');
+        reindexItems('family-details-container',  'family-detail-item',  'family_details');
+        reindexItems('shifts-container',          'shift-item',          'shifts');
+        reindexItems('professions-container',     'profession-item',     'professions');
+        reindexItems('specialities-container',    'speciality-item',     'specialities');
 
-        // Optional: Remove empty specialities to avoid sync([]) clearing all
+        /* ---- remove empty speciality rows (prevents “null speciality_id”) ---- */
         const specItems = document.querySelectorAll('#specialities-container .speciality-item');
-        let hasValidSpec = false;
         specItems.forEach(item => {
-            const select = item.querySelector('select[name*="speciality_id"]');
-            if (select && select.value) hasValidSpec = true;
+            const sel = item.querySelector('select[name*="[speciality_id]"]');
+            if (!sel || !sel.value) item.remove();
         });
-        if (!hasValidSpec) {
-            const container = document.getElementById('specialities-container');
-            container.innerHTML = '<input type="hidden" name="specialities" value="">';
-        }
 
-        // Client-side required validation
+        /* ---- client-side required-field validation (nice UX) ---- */
         let hasErrors = false;
         form.querySelectorAll('input[required], select[required]').forEach(input => {
             if (!input.value.trim()) {
                 hasErrors = true;
                 input.classList.add('border-red-500');
-                if (!input.nextElementSibling?.classList.contains('text-red-600')) {
+                if (!input.parentNode.querySelector('.text-red-600')) {
                     const err = document.createElement('p');
                     err.className = 'mt-1 text-sm text-red-600';
                     err.textContent = 'This field is required';
@@ -716,9 +816,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             } else {
                 input.classList.remove('border-red-500');
-                if (input.nextElementSibling?.classList.contains('text-red-600')) {
-                    input.nextElementSibling.remove();
-                }
+                const err = input.parentNode.querySelector('.text-red-600');
+                if (err && !err.querySelector('p')) err.remove();
             }
         });
 
@@ -727,6 +826,18 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Please fill in all required fields.');
         }
     });
+
+    /* --------------------------------------------------------------------- *
+     *  ==== 7. Phone number formatting (max 10 digits) ==================
+     * --------------------------------------------------------------------- */
+    document.querySelectorAll('input[type="tel"]').forEach(input => {
+        input.addEventListener('input', e => {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 10) v = v.slice(0, 10);
+            e.target.value = v;
+        });
+    });
 });
 </script>
+
 @endsection
