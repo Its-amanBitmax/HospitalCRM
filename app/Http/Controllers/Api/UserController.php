@@ -10,6 +10,22 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    private function generateUsername($fullName)
+    {
+        // Generate base username from full_name (first 3 letters, uppercase)
+        $baseUsername = strtoupper(substr(str_replace(' ', '', $fullName), 0, 3));
+
+        // Ensure uniqueness by appending numbers if needed
+        $username = $baseUsername;
+        $counter = 1;
+        while (User::where('username', $username)->exists()) {
+            $username = $baseUsername . $counter;
+            $counter++;
+        }
+
+        return $username;
+    }
+
    public function register(Request $request)
 {
     // ✅ Basic validation (without unique rules, we'll handle uniqueness manually)
@@ -20,7 +36,7 @@ class UserController extends Controller
         'age' => 'nullable|integer|min:1|max:120',
         'gender' => 'nullable|in:male,female,other',
         'full_address' => 'nullable|string',
-        'username' => 'required|string',
+        'username' => 'nullable|string',
         'password' => 'required|string|min:8',
         'registered_through' => 'required|in:email,msg,whatsapp,offline',
         'type' => 'nullable|in:ipd,opd,emergency,registered,online',
@@ -88,8 +104,8 @@ class UserController extends Controller
 
     // ✅ Create new user if not found
     $date = now()->format('Ymd');
-    $username = strtoupper(substr($request->username, 0, 3));
-    $userId = 'USR' . $date . $username . rand(100, 999);
+    $username = $request->username ?: $this->generateUsername($request->full_name);
+    $userId = 'USR' . $date . strtoupper(substr($username, 0, 3)) . rand(100, 999);
 
     $user = User::create([
         'user_id' => $userId,
@@ -97,7 +113,7 @@ class UserController extends Controller
         'age' => $request->age,
         'gender' => $request->gender,
         'full_address' => $request->full_address,
-        'username' => $request->username,
+        'username' => $username,
         'password' => $request->password,
         'mobile_no' => $request->mobile_no,
         'email' => $request->email,

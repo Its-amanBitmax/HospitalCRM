@@ -16,10 +16,16 @@ class Employee extends Model
         'image',
         'employee_code',
         'password',
+        'department_id',
     ];
 
     protected $hidden = [
         'password',
+    ];
+
+    protected $casts = [
+        'date_of_birth' => 'date',
+        'hire_date' => 'date',
     ];
 
     public function setPasswordAttribute($value)

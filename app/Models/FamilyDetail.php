@@ -14,6 +14,10 @@ class FamilyDetail extends Model
         'contact_number',
     ];
 
+    protected $casts = [
+        'date_of_birth' => 'date',
+    ];
+
     public function employee()
     {
         return $this->belongsTo(Employee::class);

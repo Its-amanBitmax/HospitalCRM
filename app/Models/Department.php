@@ -22,4 +22,9 @@ class Department extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function getNameAttribute()
+    {
+        return $this->department_name;
+    }
 }

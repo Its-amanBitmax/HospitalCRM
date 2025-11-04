@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Department;
+use App\Models\Speciality;
 use App\Models\Qualification;
 use App\Models\Document;
 use App\Models\Payroll;
@@ -10,11 +12,12 @@ use App\Models\Address;
 use App\Models\FamilyDetail;
 use App\Models\Shift;
 use App\Models\Profession;
-use App\Models\Speciality;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class EmployeeController extends Controller
 {
@@ -23,8 +26,21 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::with(['qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions.department', 'specialities'])->get();
+        $employees = Employee::with(['department', 'specialities', 'professions'])->paginate(10);
         return view('admin.employees.index', compact('employees'));
+    }
+
+    /**
+     * Display a listing of doctors.
+     */
+    public function doctors()
+    {
+        $employees = Employee::with(['department', 'specialities', 'professions'])
+            ->whereHas('professions', function($query) {
+                $query->where('title', 'Doctor');
+            })
+            ->paginate(10);
+        return view('admin.employees.doctors', compact('employees'));
     }
 
     /**
@@ -32,7 +48,9 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('admin.employees.create');
+        $departments = Department::all();
+        $specialities = Speciality::all();
+        return view('admin.employees.create', compact('departments', 'specialities'));
     }
 
     /**
@@ -40,81 +58,95 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            $data = $request->only([
-                'name', 'email', 'phone', 'date_of_birth', 'gender', 'hire_date', 'employee_code', 'password'
-            ]);
+        $data = $request->validated();
 
-            if ($request->hasFile('image')) {
-                $data['image'] = $request->file('image')->store('images', 'public');
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('employees', 'public');
+        }
+
+        $employee = Employee::create($data);
+
+        // Handle Qualifications
+        if ($request->has('qualifications')) {
+            foreach ($request->qualifications as $qualificationData) {
+                $employee->qualifications()->create($qualificationData);
             }
+        }
 
-            $employee = Employee::create($data);
-
-            // Create related records if provided
-            if ($request->has('qualifications')) {
-                foreach ($request->qualifications as $qualification) {
-                    $employee->qualifications()->create($qualification);
-                }
-            }
-
-            if ($request->has('documents')) {
-                foreach ($request->documents as $document) {
-                    $documentData = [
-                        'document_type' => $document['document_type'],
-                        'document_path' => null,
-                    ];
-                    if (isset($document['document_file']) && $document['document_file']->isValid()) {
-                        $path = $document['document_file']->store('documents', 'public');
-                        $documentData['document_path'] = $path;
+        // Handle Documents
+        if ($request->has('documents')) {
+            foreach ($request->documents as $documentData) {
+                if (isset($documentData['id'])) {
+                    // Update existing document
+                    $document = Document::find($documentData['id']);
+                    if ($document) {
+                        $updateData = ['document_type' => $documentData['document_type'] ?? null];
+                        if (isset($documentData['document_file'])) {
+                            Storage::disk('public')->delete($document->document_path);
+                            $path = $documentData['document_file']->store('employee_documents', 'public');
+                            $updateData['document_path'] = $path;
+                            $updateData['uploaded_at'] = now();
+                        }
+                        $document->update($updateData);
                     }
-                    $employee->documents()->create($documentData);
-                }
-            }
-
-            if ($request->has('payroll')) {
-                $employee->payroll()->create($request->payroll);
-            }
-
-            if ($request->has('addresses')) {
-                foreach ($request->addresses as $address) {
-                    $employee->addresses()->create($address);
-                }
-            }
-
-            if ($request->has('family_details')) {
-                foreach ($request->family_details as $familyDetail) {
-                    $employee->familyDetails()->create($familyDetail);
-                }
-            }
-
-            if ($request->has('shifts')) {
-                foreach ($request->shifts as $shift) {
-                    $employee->shifts()->create($shift);
-                }
-            }
-
-            if ($request->has('professions')) {
-                foreach ($request->professions as $profession) {
-                    if (!empty($profession['title'])) {
-                        $employee->professions()->create($profession);
+                } else {
+                    // Create new document
+                    if (isset($documentData['document_file'])) {
+                        $path = $documentData['document_file']->store('employee_documents', 'public');
+                        $employee->documents()->create([
+                            'document_type' => $documentData['document_type'] ?? null,
+                            'document_path' => $path,
+                            'uploaded_at' => now(),
+                        ]);
                     }
                 }
             }
+        }
 
-            if ($request->has('specialities')) {
-                $syncData = [];
-                foreach ($request->specialities as $speciality) {
-                    if (!empty($speciality['speciality_id'])) {
-                        $syncData[$speciality['speciality_id']] = [
-                            'proficiency_level' => $speciality['proficiency_level'] ?? 'Beginner',
-                            'years_of_experience' => $speciality['years_of_experience'] ?? null,
-                        ];
-                    }
-                }
-                $employee->specialities()->sync($syncData);
+        // Handle Payroll
+        if ($request->has('payroll')) {
+            $employee->payroll()->create($request->payroll);
+        }
+
+        // Handle Addresses
+        if ($request->has('addresses')) {
+            foreach ($request->addresses as $addressData) {
+                $employee->addresses()->create($addressData);
             }
-        });
+        }
+
+        // Handle Family Details
+        if ($request->has('family_details')) {
+            foreach ($request->family_details as $familyData) {
+                $employee->familyDetails()->create($familyData);
+            }
+        }
+
+        // Handle Shifts
+        if ($request->has('shifts')) {
+            foreach ($request->shifts as $shiftData) {
+                $employee->shifts()->create($shiftData);
+            }
+        }
+
+        // Handle Professions
+        if ($request->has('professions')) {
+            foreach ($request->professions as $professionData) {
+                $employee->professions()->create($professionData);
+            }
+        }
+
+        // Handle Specialities
+        if ($request->has('specialities')) {
+            $specialityData = [];
+            foreach ($request->specialities as $speciality) {
+                $specialityData[$speciality['speciality_id']] = [
+                    'proficiency_level' => $speciality['proficiency_level'] ?? null,
+                    'years_of_experience' => $speciality['years_of_experience'] ?? null,
+                ];
+            }
+            $employee->specialities()->attach($specialityData);
+        }
 
         return redirect()->route('admin.employees.index')->with('success', 'Employee created successfully.');
     }
@@ -122,215 +154,215 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Employee $employee)
     {
-        $employee = Employee::with(['qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions', 'specialities'])->findOrFail($id);
+        $employee->load(['department', 'specialities', 'qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions']);
         return view('admin.employees.show', compact('employee'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Employee $employee)
     {
-        $employee = Employee::with(['qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions', 'specialities'])->findOrFail($id);
-        return view('admin.employees.edit', compact('employee'));
+        $departments = Department::all();
+        $specialities = Speciality::all();
+        $employee->load(['specialities', 'qualifications', 'documents', 'payroll', 'addresses', 'familyDetails', 'shifts', 'professions']);
+        return view('admin.employees.edit', compact('employee', 'departments', 'specialities'));
     }
 
     /**
      * Update the specified resource in storage.
      */
- public function update(UpdateEmployeeRequest $request, string $id)
-{
-    $employee = Employee::findOrFail($id);
+    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    {
+        try {
+            $data = $request->validated();
 
-    DB::transaction(function () use ($request, $employee) {
-        $data = $request->only([
-            'name', 'email', 'phone', 'date_of_birth', 'gender', 'hire_date', 'employee_code', 'password'
-        ]);
+            if ($request->hasFile('image')) {
+                if ($employee->image) {
+                    Storage::disk('public')->delete($employee->image);
+                }
+                $data['image'] = $request->file('image')->store('employees', 'public');
+            }
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('images', 'public');
-        }
+            $employee->update($data);
 
-        $employee->update($data);
-
-        // Update or create related records
+            // Handle Qualifications
         if ($request->has('qualifications')) {
-            $existingIds = [];
-            foreach ($request->qualifications as $qualification) {
-                if (isset($qualification['id']) && $qualification['id']) {
-                    $qual = $employee->qualifications()->find($qualification['id']);
-                    if ($qual) {
-                        $qual->degree = $qualification['degree'] ?? $qual->degree;
-                        $qual->institution = $qualification['institution'] ?? $qual->institution;
-                        $qual->year_completed = $qualification['year_completed'] ?? $qual->year_completed;
-                        $qual->save();
-                        $existingIds[] = $qual->id;
+            foreach ($request->qualifications as $qualificationData) {
+                if (isset($qualificationData['id'])) {
+                    $qualification = Qualification::find($qualificationData['id']);
+                    if ($qualification) {
+                        $qualification->update($qualificationData);
                     }
                 } else {
-                    if (!empty($qualification['degree']) || !empty($qualification['institution']) || !empty($qualification['year_completed'])) {
-                        $newQual = $employee->qualifications()->create($qualification);
-                        $existingIds[] = $newQual->id;
-                    }
+                    $employee->qualifications()->create($qualificationData);
                 }
             }
-            $employee->qualifications()->whereNotIn('id', $existingIds)->delete();
         }
 
+        // Handle Documents
         if ($request->has('documents')) {
-            $existingIds = [];
-            foreach ($request->documents as $document) {
-                if (isset($document['id']) && $document['id']) {
-                    $doc = $employee->documents()->find($document['id']);
-                    if ($doc) {
-                        $doc->document_type = $document['document_type'];
-                        if (isset($document['document_file']) && $document['document_file']->isValid()) {
-                            $path = $document['document_file']->store('documents', 'public');
-                            $doc->document_path = $path;
+            foreach ($request->documents as $documentData) {
+                if (isset($documentData['id'])) {
+                    // Update existing document
+                    $document = Document::find($documentData['id']);
+                    if ($document) {
+                        $updateData = ['document_type' => $documentData['document_type'] ?? null];
+                        if (isset($documentData['document_file'])) {
+                            Storage::disk('public')->delete($document->document_path);
+                            $path = $documentData['document_file']->store('employee_documents', 'public');
+                            $updateData['document_path'] = $path;
+                            $updateData['uploaded_at'] = now();
                         }
-                        $doc->save();
-                        $existingIds[] = $doc->id;
+                        $document->update($updateData);
                     }
                 } else {
-                    if (!empty($document['document_type'])) {
-                        $documentData = [
-                            'document_type' => $document['document_type'],
-                            'document_path' => null,
-                        ];
-                        if (isset($document['document_file']) && $document['document_file']->isValid()) {
-                            $path = $document['document_file']->store('documents', 'public');
-                            $documentData['document_path'] = $path;
-                        }
-                        $newDoc = $employee->documents()->create($documentData);
-                        $existingIds[] = $newDoc->id;
+                    // Create new document
+                    if (isset($documentData['document_file'])) {
+                        $path = $documentData['document_file']->store('employee_documents', 'public');
+                        $employee->documents()->create([
+                            'document_type' => $documentData['document_type'] ?? null,
+                            'document_path' => $path,
+                            'uploaded_at' => now(),
+                        ]);
                     }
                 }
             }
-            $employee->documents()->whereNotIn('id', $existingIds)->delete();
         }
 
+        // Handle Payroll
         if ($request->has('payroll')) {
-            $employee->payroll()->updateOrCreate([], $request->payroll);
+            if ($employee->payroll) {
+                $employee->payroll->update($request->payroll);
+            } else {
+                $employee->payroll()->create($request->payroll);
+            }
         }
 
+        // Handle Addresses
         if ($request->has('addresses')) {
-            $existingIds = [];
-            foreach ($request->addresses as $address) {
-                if (isset($address['id']) && $address['id']) {
-                    $addr = $employee->addresses()->find($address['id']);
-                    if ($addr) {
-                        $addr->address_type = $address['address_type'] ?? $addr->address_type;
-                        $addr->street = $address['street'] ?? $addr->street;
-                        $addr->city = $address['city'] ?? $addr->city;
-                        $addr->state = $address['state'] ?? $addr->state;
-                        $addr->country = $address['country'] ?? $addr->country;
-                        $addr->postal_code = $address['postal_code'] ?? $addr->postal_code;
-                        $addr->save();
-                        $existingIds[] = $addr->id;
+            foreach ($request->addresses as $addressData) {
+                if (isset($addressData['id'])) {
+                    $address = Address::find($addressData['id']);
+                    if ($address) {
+                        $address->update($addressData);
                     }
                 } else {
-                    if (!empty($address['address_type']) || !empty($address['street']) || !empty($address['city']) || !empty($address['state']) || !empty($address['country'])) {
-                        $newAddr = $employee->addresses()->create($address);
-                        $existingIds[] = $newAddr->id;
-                    }
+                    $employee->addresses()->create($addressData);
                 }
             }
-            $employee->addresses()->whereNotIn('id', $existingIds)->delete();
         }
 
+        // Handle Family Details
         if ($request->has('family_details')) {
-            $existingIds = [];
-            foreach ($request->family_details as $familyDetail) {
-                if (isset($familyDetail['id']) && $familyDetail['id']) {
-                    $fam = $employee->familyDetails()->find($familyDetail['id']);
-                    if ($fam) {
-                        $fam->name = $familyDetail['name'] ?? $fam->name;
-                        $fam->relationship = $familyDetail['relationship'] ?? $fam->relationship;
-                        $fam->date_of_birth = $familyDetail['date_of_birth'] ?? $fam->date_of_birth;
-                        $fam->contact_number = $familyDetail['contact_number'] ?? $fam->contact_number;
-                        $fam->save();
-                        $existingIds[] = $fam->id;
+            foreach ($request->family_details as $familyData) {
+                if (isset($familyData['id'])) {
+                    $familyDetail = FamilyDetail::find($familyData['id']);
+                    if ($familyDetail) {
+                        $familyDetail->update($familyData);
                     }
                 } else {
-                    if (!empty($familyDetail['name']) || !empty($familyDetail['relationship'])) {
-                        $newFam = $employee->familyDetails()->create($familyDetail);
-                        $existingIds[] = $newFam->id;
-                    }
+                    $employee->familyDetails()->create($familyData);
                 }
             }
-            $employee->familyDetails()->whereNotIn('id', $existingIds)->delete();
         }
 
+        // Handle Shifts
         if ($request->has('shifts')) {
-            $existingIds = [];
-            foreach ($request->shifts as $shift) {
-                if (isset($shift['id']) && $shift['id']) {
-                    $sh = $employee->shifts()->find($shift['id']);
-                    if ($sh) {
-                        $sh->shift_name = $shift['shift_name'] ?? $sh->shift_name;
-                        $sh->start_time = $shift['start_time'] ?? $sh->start_time;
-                        $sh->end_time = $shift['end_time'] ?? $sh->end_time;
-                        $sh->save();
-                        $existingIds[] = $sh->id;
+            foreach ($request->shifts as $shiftData) {
+                if (isset($shiftData['id'])) {
+                    $shift = Shift::find($shiftData['id']);
+                    if ($shift) {
+                        $shift->update($shiftData);
                     }
                 } else {
-                    if (!empty($shift['shift_name']) || !empty($shift['start_time']) || !empty($shift['end_time'])) {
-                        $newSh = $employee->shifts()->create($shift);
-                        $existingIds[] = $newSh->id;
-                    }
+                    $employee->shifts()->create($shiftData);
                 }
             }
-            $employee->shifts()->whereNotIn('id', $existingIds)->delete();
         }
 
+        // Handle Professions
         if ($request->has('professions')) {
-            $existingIds = [];
-            foreach ($request->professions as $profession) {
-                if (isset($profession['id']) && $profession['id']) {
-                    $prof = $employee->professions()->find($profession['id']);
-                    if ($prof) {
-                        $prof->title = $profession['title'] ?? $prof->title;
-                        $prof->department_id = $profession['department_id'] ?? $prof->department_id;
-                        $prof->save();
-                        $existingIds[] = $prof->id;
+            foreach ($request->professions as $professionData) {
+                if (isset($professionData['id'])) {
+                    $profession = Profession::find($professionData['id']);
+                    if ($profession) {
+                        $profession->update($professionData);
                     }
                 } else {
-                    if (!empty($profession['title'])) {
-                        $newProf = $employee->professions()->create($profession);
-                        $existingIds[] = $newProf->id;
-                    }
+                    $employee->professions()->create($professionData);
                 }
             }
-            $employee->professions()->whereNotIn('id', $existingIds)->delete();
         }
 
-        // SPECIALITIES - YE CODE BILKUL SAHI HAI
+        // Handle Specialities
         if ($request->has('specialities')) {
-            $syncData = [];
+            $specialityData = [];
             foreach ($request->specialities as $speciality) {
-                if (!empty($speciality['speciality_id'])) {
-                    $syncData[$speciality['speciality_id']] = [
-                        'proficiency_level' => $speciality['proficiency_level'] ?? 'Beginner',
-                        'years_of_experience' => $speciality['years_of_experience'] ?? null,
-                    ];
-                }
+                $specialityData[$speciality['speciality_id']] = [
+                    'proficiency_level' => $speciality['proficiency_level'] ?? null,
+                    'years_of_experience' => $speciality['years_of_experience'] ?? null,
+                ];
             }
-            $employee->specialities()->sync($syncData);
+            $employee->specialities()->sync($specialityData);
+        } else {
+            $employee->specialities()->detach();
         }
-        // END SPECIALITIES
-    }); // Transaction ends here
 
- 
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Employee updated successfully.'
+            ]);
+        }
 
-    return redirect()->route('admin.employees.index')->with('success', 'Employee updated successfully.');
-}
+        return redirect()->route('admin.employees.index')->with('success', 'Employee updated successfully.');
+        } catch (ValidationException $e) {
+            Log::error('Validation error during employee update: ' . $e->getMessage(), [
+                'employee_id' => $employee->id,
+                'errors' => $e->errors(),
+                'request_data' => $request->all()
+            ]);
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed.',
+                    'errors' => $e->errors()
+                ], 422);
+            }
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (Exception $e) {
+            Log::error('Error during employee update: ' . $e->getMessage(), [
+                'employee_id' => $employee->id,
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->all()
+            ]);
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'An error occurred while updating the employee: ' . $e->getMessage()
+                ], 500);
+            }
+            return redirect()->back()->with('error', 'An error occurred while updating the employee: ' . $e->getMessage())->withInput();
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Employee $employee)
     {
-        $employee = Employee::findOrFail($id);
+        if ($employee->image) {
+            Storage::disk('public')->delete($employee->image);
+        }
+
+        // Delete related documents
+        foreach ($employee->documents as $document) {
+            Storage::disk('public')->delete($document->document_path);
+        }
+
         $employee->delete();
 
         return redirect()->route('admin.employees.index')->with('success', 'Employee deleted successfully.');

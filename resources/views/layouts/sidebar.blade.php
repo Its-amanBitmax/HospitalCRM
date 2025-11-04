@@ -54,22 +54,35 @@
       
 
       </div>
-      <div class="flex items-center space-x-2">
-        
+      <div id="doctors-toggle" class="flex items-center justify-between mt-4 mb-1 cursor-pointer">
+        <div class="flex items-center space-x-2">
+
           <span class="text-xs text-black dark:text-gray-400 font-bold uppercase sidebar-text">Doctors</span>
         </div>
-      <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
-        <i class="fas fa-user-nurse"></i>
-        <span class="sidebar-text">Nurse</span>
-      </a>
-      <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
-        <i class="fas fa-tint"></i>
-        <span class="sidebar-text">Blood Bank</span>
-      </a>
-      <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
-        <i class="fas fa-video"></i>
-        <span class="sidebar-text">Online Consult History</span>
-      </a>
+        <i class="fas fa-chevron-down transition-transform duration-200 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200" id="doctors-icon"></i>
+      </div>
+      <div id="doctors-dropdown" class="space-y-1 overflow-hidden transition-all duration-300 max-h-0">
+        <a href="{{ route('admin.doctors') }}" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+          <i class="fas fa-user-md"></i>
+          <span class="sidebar-text">All Doctors</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="sidebar-text">Appointments</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+          <i class="fas fa-user-nurse"></i>
+          <span class="sidebar-text">Nurse</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+          <i class="fas fa-tint"></i>
+          <span class="sidebar-text">Blood Bank</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+          <i class="fas fa-video"></i>
+          <span class="sidebar-text">Online Consult History</span>
+        </a>
+      </div>
 
     </div>
    
@@ -407,6 +420,33 @@
         } else {
           labDropdown.style.maxHeight = '0px';
           labIcon.style.transform = 'rotate(0deg)';
+        }
+      });
+
+      // Doctors dropdown functionality
+      const doctorsToggle = document.getElementById('doctors-toggle');
+      const doctorsDropdown = document.getElementById('doctors-dropdown');
+      const doctorsIcon = document.getElementById('doctors-icon');
+      let doctorsOpen = localStorage.getItem('doctorsDropdownOpen') === 'true';
+
+      // Set initial state for doctors dropdown
+      if (doctorsOpen) {
+        doctorsDropdown.style.maxHeight = '300px';
+        doctorsIcon.style.transform = 'rotate(180deg)';
+      } else {
+        doctorsDropdown.style.maxHeight = '0px';
+        doctorsIcon.style.transform = 'rotate(0deg)';
+      }
+
+      doctorsToggle.addEventListener('click', function() {
+        doctorsOpen = !doctorsOpen;
+        localStorage.setItem('doctorsDropdownOpen', doctorsOpen);
+        if (doctorsOpen) {
+          doctorsDropdown.style.maxHeight = '300px';
+          doctorsIcon.style.transform = 'rotate(180deg)';
+        } else {
+          doctorsDropdown.style.maxHeight = '0px';
+          doctorsIcon.style.transform = 'rotate(0deg)';
         }
       });
 

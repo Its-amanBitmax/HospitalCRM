@@ -25,9 +25,11 @@
   <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
     <div class="mb-6">
       <nav class="flex flex-wrap gap-2" aria-label="Tabs">
+        @if($user->type !== 'ipd')
         <button onclick="showTab('visits')" id="visits-tab" class="tab-button px-4 py-2 rounded-lg flex items-center gap-2 transition">
           <i class="fas fa-calendar"></i> Visits
         </button>
+        @endif
         <button onclick="showTab('checkups')" id="checkups-tab" class="tab-button px-4 py-2 rounded-lg flex items-center gap-2 transition">
           <i class="fas fa-stethoscope"></i> Checkups
         </button>
@@ -316,21 +318,27 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Show Summary tab by default
-    showTab('summary');
+    // Determine default tab based on user type
+    const userType = '{{ $user->type }}';
+    let defaultTab = 'summary';
+    if (userType === 'ipd') {
+      defaultTab = 'checkups';
+    }
+    showTab(defaultTab);
   });
 
   function showTab(tabName) {
-    const tabs = ['visits', 'checkups', 'documents', 'summary'];
-    
+    const allTabs = ['visits', 'checkups', 'documents', 'summary'];
+    const availableTabs = allTabs.filter(tab => document.getElementById(tab + '-tab'));
+
     // Hide all content
-    tabs.forEach(tab => {
+    availableTabs.forEach(tab => {
       const content = document.getElementById(tab + '-content');
       if (content) content.classList.add('hidden');
     });
 
     // Deactivate all buttons
-    tabs.forEach(tab => {
+    availableTabs.forEach(tab => {
       const btn = document.getElementById(tab + '-tab');
       if (btn) {
         btn.classList.remove('active', 'bg-blue-600', 'text-white');
@@ -341,7 +349,7 @@
     // Show selected
     const selectedContent = document.getElementById(tabName + '-content');
     const selectedBtn = document.getElementById(tabName + '-tab');
-    
+
     if (selectedContent) selectedContent.classList.remove('hidden');
     if (selectedBtn) {
       selectedBtn.classList.remove('bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-300');

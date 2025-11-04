@@ -147,6 +147,8 @@ Route::prefix('admin')->group(function () {
             'destroy' => 'admin.employees.destroy',
         ]);
 
+        Route::get('/doctors', [EmployeeController::class, 'doctors'])->name('admin.doctors');
+
         Route::resource('specialities', SpecialityController::class)->names([
             'index' => 'admin.specialities.index',
             'create' => 'admin.specialities.create',

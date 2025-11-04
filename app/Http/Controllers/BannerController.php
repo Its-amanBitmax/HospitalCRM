@@ -68,7 +68,7 @@ class BannerController extends Controller
             return [
                 'banner_id' => $banner->banner_id,
                 'title' => $banner->title,
-                'image_url' => '/public/uploads/banners/' . $banner->image_url,
+                'image_url' => '/uploads/banners/' . $banner->image_url,
                 'redirect_url' => $banner->redirect_url,
                 'position' => $banner->position,
                 'status' => $banner->status,

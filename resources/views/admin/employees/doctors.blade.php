@@ -13,52 +13,52 @@
     <!-- Topbar -->
     <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
         <div class="flex items-center gap-3">
-            <i class="fas fa-users text-2xl text-blue-600 dark:text-blue-400"></i>
-            <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Employee Management</h1>
+            <i class="fas fa-user-md text-2xl text-blue-600 dark:text-blue-400"></i>
+            <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Doctors Management</h1>
         </div>
         <a href="{{ route('admin.employees.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
-            <i class="fa fa-plus mr-2"></i>Add Employee
+            <i class="fa fa-plus mr-2"></i>Add Doctor
         </a>
     </div>
 
     <!-- Summary Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-            <i class="fas fa-users text-3xl text-blue-600 dark:text-blue-400"></i>
+            <i class="fas fa-user-md text-3xl text-blue-600 dark:text-blue-400"></i>
             <div>
                 <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $employees->total() }}</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400">Total Employees</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Total Doctors</div>
             </div>
         </div>
         <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-            <i class="fas fa-user-md text-3xl text-green-600 dark:text-green-400"></i>
+            <i class="fas fa-stethoscope text-3xl text-green-600 dark:text-green-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $employees->filter(function($e) { return ($e->professions->first()->department->name ?? $e->department->name) == 'Doctor'; })->count() }}</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400">Doctors</div>
+                <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $employees->filter(function($e) { return $e->specialities->count() > 0; })->count() }}</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Specialized Doctors</div>
             </div>
         </div>
         <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-            <i class="fas fa-user-nurse text-3xl text-purple-600 dark:text-purple-400"></i>
+            <i class="fas fa-clock text-3xl text-purple-600 dark:text-purple-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $employees->filter(function($e) { return ($e->professions->first()->department->name ?? $e->department->name) == 'Nurse'; })->count() }}</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400">Nurses</div>
+                <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $employees->filter(function($e) { return $e->shifts->count() > 0; })->count() }}</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">On Duty</div>
             </div>
         </div>
         <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-            <i class="fas fa-user-tie text-3xl text-orange-600 dark:text-orange-400"></i>
+            <i class="fas fa-graduation-cap text-3xl text-orange-600 dark:text-orange-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $employees->filter(function($e) { $dept = $e->professions->first()->department->name ?? $e->department->name; return $dept != 'Doctor' && $dept != 'Nurse'; })->count() }}</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400">Other Staff</div>
+                <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $employees->filter(function($e) { return $e->qualifications->count() > 0; })->count() }}</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Qualified Doctors</div>
             </div>
         </div>
     </div>
 
-    
+
     <!-- Employee Cards Grid -->
    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     @forelse($employees as $employee)
         <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 flex flex-col h-full">
-            
+
             <!-- Card Header -->
             <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                 <p class="text-sm text-gray-800 dark:text-gray-300">
@@ -67,9 +67,9 @@
                 <div class="text-center mt-3">
                     <!-- Profile Image or Initial -->
                     @if($employee->image)
-                        <img 
-                            src="{{ asset('storage/' . $employee->image) }}" 
-                            alt="{{ $employee->name }}" 
+                        <img
+                            src="{{ asset('storage/' . $employee->image) }}"
+                            alt="{{ $employee->name }}"
                             class="w-24 h-24 object-cover rounded-full border-2 border-gray-300 dark:border-gray-600 mx-auto mb-2"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                         >
@@ -115,13 +115,13 @@
 
                 @if($employee->specialities->isNotEmpty())
                     <p class="text-sm text-gray-600 dark:text-gray-400">
-                        <strong>Specialities:</strong> 
+                        <strong>Specialities:</strong>
                         <span class="font-medium text-gray-800 dark:text-gray-200">
                             {{ $employee->specialities->pluck('skill')->implode(', ') }}
                         </span>
                     </p>
                     <p class="text-sm text-gray-600 dark:text-gray-400">
-                        <strong>Experience:</strong> 
+                        <strong>Experience:</strong>
                         <span class="font-medium text-gray-800 dark:text-gray-200">
                             {{ $employee->specialities->pluck('pivot.years_of_experience')->implode(', ') }} years
                         </span>
@@ -141,8 +141,8 @@
                    class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded text-sm text-center transition">
                    Edit
                 </a>
-                <form action="{{ route('admin.employees.destroy', $employee) }}" 
-                      method="POST" 
+                <form action="{{ route('admin.employees.destroy', $employee) }}"
+                      method="POST"
                       class="flex-1"
                       onsubmit="return confirm('Are you sure you want to delete {{ addslashes($employee->name) }}?')">
                     @csrf
@@ -156,7 +156,7 @@
         </div>
     @empty
         <div class="col-span-full text-center py-10">
-            <p class="text-gray-500 dark:text-gray-400 text-lg">No employees found.</p>
+            <p class="text-gray-500 dark:text-gray-400 text-lg">No doctors found.</p>
         </div>
     @endforelse
 </div>

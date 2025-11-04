@@ -1,103 +1,135 @@
 @extends('layouts.layout')
 
 @section('content')
-<div class="container mx-auto px-4 py-10">
-    <div class="max-w-7xl mx-auto">
-
-        <!-- Header -->
-        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
-            <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Specialities</h1>
-            <a href="{{ route('admin.specialities.create') }}"
-               class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition transform hover:scale-105">
-                + Add New Speciality
-            </a>
+<div class="min-h-screen">
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 z-50 hidden">
+        <div class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-fade-in">
+            <i class="fas fa-check-circle text-xl"></i>
+            <span id="toastMessage"></span>
         </div>
+    </div>
 
-        <!-- Success Message -->
-        @if(session('success'))
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg mb-6 shadow">
-                <p class="font-medium">{{ session('success') }}</p>
+    <!-- Topbar -->
+    <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
+        <div class="flex items-center gap-3">
+            <i class="fas fa-stethoscope text-2xl text-blue-600 dark:text-blue-400"></i>
+            <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Specialities Management</h1>
+        </div>
+        <a href="{{ route('admin.specialities.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+            <i class="fa fa-plus mr-2"></i>Add Speciality
+        </a>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
+            <i class="fas fa-stethoscope text-3xl text-blue-600 dark:text-blue-400"></i>
+            <div>
+                <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $specialities->count() }}</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Total Specialities</div>
             </div>
-        @endif
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
+            <i class="fas fa-clock text-3xl text-green-600 dark:text-green-400"></i>
+            <div>
+                <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $specialities->where('created_at', '>=', now()->startOfDay())->count() }}</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">Added Today</div>
+            </div>
+        </div>
+    </div>
 
-        <!-- Grid of Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            @forelse($specialities as $speciality)
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+    <!-- Specialities Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @forelse($specialities as $speciality)
+            <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 flex flex-col h-full">
 
-                    <!-- Image Section -->
-                    <div class="relative h-48 bg-gray-100 dark:bg-gray-700">
+                <!-- Card Header -->
+                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="text-center mt-3">
+                        <!-- Speciality Image or Icon -->
                         @if($speciality->image)
-                            <img src="{{ asset('storage/' . $speciality->image) }}"
-                                 alt="{{ $speciality->skill }}"
-                                 class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                            <img
+                                src="{{ asset('storage/' . $speciality->image) }}"
+                                alt="{{ $speciality->skill }}"
+                                class="w-24 h-24 object-cover rounded-full border-2 border-gray-300 dark:border-gray-600 mx-auto mb-2"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                            >
+                            <div class="hidden w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-2 text-white text-2xl font-bold">
+                                {{ strtoupper(substr($speciality->skill, 0, 1)) }}
+                            </div>
                         @else
-                            <div class="flex items-center justify-center h-full">
-                                <div class="text-center">
-                                    <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    <p class="text-gray-500 mt-2">No Image</p>
-                                </div>
+                            <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-2 text-white text-2xl font-bold">
+                                {{ strtoupper(substr($speciality->skill, 0, 1)) }}
                             </div>
                         @endif
-                    </div>
 
-                    <!-- Content -->
-                    <div class="p-5">
-                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-1">
+                        <!-- Skill Name -->
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mt-2">
                             {{ $speciality->skill }}
                         </h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                            Added {{ $speciality->created_at->diffForHumans() }}
-                        </p>
-
-                        <!-- Actions -->
-                        <div class="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-700">
-                            <div class="flex gap-3">
-                                <a href="{{ route('admin.specialities.show', $speciality) }}"
-                                   class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 text-sm font-medium">View</a>
-                                <a href="{{ route('admin.specialities.edit', $speciality) }}"
-                                   class="text-blue-600 hover:text-blue-800 dark:text-blue-400 text-sm font-medium">Edit</a>
-                            </div>
-
-                            <form action="{{ route('admin.specialities.destroy', $speciality) }}" method="POST"
-                                  onsubmit="return confirm('Delete {{ addslashes($speciality->skill) }}? This cannot be undone.');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        class="text-red-600 hover:text-red-800 dark:text-red-400 text-sm font-medium">
-                                    Delete
-                                </button>
-                            </form>
-                        </div>
                     </div>
                 </div>
-            @empty
-                <!-- No Records -->
-                <div class="col-span-full text-center py-16">
-                    <svg class="mx-auto h-20 w-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2"/>
-                    </svg>
-                    <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">No Specialities Found</h3>
-                    <p class="mt-2 text-gray-500 dark:text-gray-400">Start by creating your first speciality.</p>
-                    <a href="{{ route('admin.specialities.create') }}"
-                       class="mt-4 inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
-                        Add First Speciality
-                    </a>
-                </div>
-            @endforelse
-        </div>
 
-        <!-- Pagination -->
-        @if(method_exists($specialities, 'links'))
-            <div class="mt-10">
-                {{ $specialities->links() }}
+                <!-- Card Body -->
+                <div class="p-4 space-y-2 flex-1">
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        <strong>Added:</strong> {{ $speciality->created_at ? $speciality->created_at->format('M d, Y') : 'N/A' }}
+                    </p>
+                </div>
+
+                <!-- Card Footer (Actions) -->
+                <div class="p-4 bg-gray-50 dark:bg-gray-900 flex justify-between space-x-2 border-t border-gray-200 dark:border-gray-700 mt-auto">
+                 
+                    <a href="{{ route('admin.specialities.edit', $speciality) }}"
+                       class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded text-sm text-center transition">
+                       Edit
+                    </a>
+                    <form action="{{ route('admin.specialities.destroy', $speciality) }}"
+                          method="POST"
+                          class="flex-1"
+                          onsubmit="return confirm('Are you sure you want to delete {{ addslashes($speciality->skill) }}?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3 rounded text-sm transition">
+                            Delete
+                        </button>
+                    </form>
+                </div>
             </div>
+        @empty
+            <div class="col-span-full text-center py-10">
+                <p class="text-gray-500 dark:text-gray-400 text-lg">No specialities found.</p>
+            </div>
+        @endforelse
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-8 flex justify-center">
+        @if(method_exists($specialities, 'links'))
+            {{ $specialities->links() }}
         @endif
     </div>
 </div>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(session('success'))
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = '{{ session('success') }}';
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        @endif
+    });
+</script>
 @endsection

@@ -21,17 +21,17 @@ class UpdateEmployeeRequest extends FormRequest
      */
     public function rules(): array
     {
-        $employeeId = $this->route('employee');
+        $employeeId = $this->route('employee')->id;
 
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:employees,email,' . $employeeId,
+            'email' => 'required|string|email|max:255|unique:employees,email,' . $employeeId . ',id',
             'phone' => 'nullable|string|max:20',
             'date_of_birth' => 'nullable|date',
             'gender' => 'nullable|in:Male,Female,Other',
             'hire_date' => 'nullable|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'employee_code' => 'sometimes|required|string|max:255|unique:employees,employee_code,' . $employeeId,
+            'employee_code' => 'sometimes|required|string|max:255|unique:employees,employee_code,' . $employeeId . ',id',
             'password' => 'sometimes|nullable|string|min:8',
 
             // Qualifications
