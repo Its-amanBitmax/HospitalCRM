@@ -83,6 +83,10 @@
             <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->gender ?: '-' }}</div>
           </div>
           <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Blood Group</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->blood_group ?: '-' }}</div>
+          </div>
+          <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Father / Spouse Name</label>
             <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->father_spouse_name ?: '-' }}</div>
           </div>

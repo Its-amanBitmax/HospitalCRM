@@ -30,6 +30,7 @@ class UpdateEmployeeRequest extends FormRequest
             'date_of_birth' => 'nullable|date',
             'gender' => 'nullable|in:Male,Female,Other',
             'hire_date' => 'nullable|date',
+            'status' => 'nullable|in:Active,Inactive',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'employee_code' => 'sometimes|required|string|max:255|unique:employees,employee_code,' . $employeeId . ',id',
             'password' => 'sometimes|nullable|string|min:8',

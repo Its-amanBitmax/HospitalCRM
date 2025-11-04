@@ -56,6 +56,14 @@
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Department</label>
                     <p class="text-gray-900 dark:text-white">{{ $employee->professions->first()->department->name ?? $employee->department->name ?? 'N/A' }}</p>
                 </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                    <p class="text-gray-900 dark:text-white">
+                        <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full {{ $employee->status == 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-200' }}">
+                            {{ $employee->status ?? 'Active' }}
+                        </span>
+                    </p>
+                </div>
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Profile Image</label>
                     @if($employee->image)

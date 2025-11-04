@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Patient Registration - City Care Hospital</title>
+  <title>Patient Registration - {{ $admin->hospital_name ?? 'Hospital' }}</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -236,11 +236,17 @@
   <div class="container" id="form-content">
     <div>
       <div class="header">
-        <div class="logo">CCH</div>
+        <div class="logo">
+          @if($admin->logo)
+            <img src="{{ asset('storage/' . $admin->logo) }}" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+          @else
+            CCH
+          @endif
+        </div>
         <div class="hospital-info">
-          <h1>City Care Hospital</h1>
-          <p>123 Green Street, Sector-12, New Delhi - 110001</p>
-          <p>Phone: +91 98765 43210 | Email: info@citycarehospital.com</p>
+          <h1>{{ $admin->hospital_name ?? 'Hospital Name' }}</h1>
+          <p>{{ $admin->company_address ?? 'Address' }}</p>
+          <p>Phone: {{ $admin->company_contact ?? 'Phone' }} | Email: {{ $admin->company_email ?? 'Email' }}</p>
         </div>
       </div>
 
@@ -251,7 +257,8 @@
         <h2>Personal Information</h2>
         <div class="form-row">
           <div class="form-group"><label>Patient Name</label><input type="text"></div>
-          <div class="form-group"><label>Age</label><div class="age-group"><input type="text"><span>Years</span></div></div>
+          <div class="form-group"><label>Age</label><input type="text"></div>
+          <div class="form-group"><label>Blood Group</label><input type="text"></div>
         </div>
         <div class="form-row">
           <div class="form-group"><label>Gender</label>
@@ -311,7 +318,7 @@
       </div>
 
       <div class="declaration">
-        <strong>Declaration:</strong> I declare all information is correct. I authorize City Care Hospital to use my details for treatment and records.
+        <strong>Declaration:</strong> I declare all information is correct. I authorize {{ $admin->hospital_name ?? 'Hospital' }} to use my details for treatment and records.
       </div>
     </div>
 
@@ -326,19 +333,46 @@
 <script>
   function downloadPDF() {
     const element = document.getElementById('form-content');
+    if (!element) {
+      alert('Form content not found. Please try again.');
+      return;
+    }
+
     const actionBar = document.querySelector('.action-bar');
-    actionBar.style.display = 'none';
+    if (actionBar) {
+      actionBar.style.display = 'none';
+    }
 
     const opt = {
-      margin: [0, 0, 0, 0],
-      filename: 'Patient_Registration_CityCare.pdf',
-      image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      margin: [5, 5, 5, 5], // Add small margins for better printing
+      filename: 'Patient_Registration_{{ $admin->hospital_name ?? 'Hospital' }}.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        allowTaint: true,
+        letterRendering: true
+      },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait',
+        compress: true
+      }
     };
 
     html2pdf().set(opt).from(element).save().then(() => {
-      actionBar.style.display = 'flex';
+      if (actionBar) {
+        actionBar.style.display = 'flex';
+      }
+      console.log('PDF downloaded successfully');
+    }).catch((error) => {
+      console.error('PDF generation failed:', error);
+      alert('Failed to generate PDF. Please try again.');
+      if (actionBar) {
+        actionBar.style.display = 'flex';
+      }
     });
   }
 

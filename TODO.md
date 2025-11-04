@@ -1,8 +1,3 @@
-# TODO: Implement Doctors Page
-
-## Tasks
-- [x] Add `doctors()` method in EmployeeController.php to fetch employees with profession title "Doctor"
-- [x] Create `resources/views/admin/employees/doctors.blade.php` view (copy from index.blade.php and modify)
-- [x] Add route in `routes/web.php` for '/admin/doctors'
-- [x] Update `resources/views/layouts/sidebar.blade.php` to add "Doctors" link in Employee Management dropdown
-- [x] Test the new route and verify filtering
+- [x] Add overflow-x: hidden to body in resources/views/layouts/layout.blade.php to remove horizontal scrollbar
+- [x] Wrap main content in a card and apply overflow-x: hidden to it instead
+- [x] Add html2pdf.js script to all patient pages (ipd-patients, opd-patients, emergency-patients, registered-users)

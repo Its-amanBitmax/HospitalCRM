@@ -125,7 +125,7 @@ Route::prefix('admin')->group(function () {
         Route::put('/update-opd-patient/{id}', [AdminController::class, 'updateOpdPatient'])->name('admin.update-opd-patient');
         Route::delete('/delete-opd-patient/{id}', [AdminController::class, 'deleteOpdPatient'])->name('admin.delete-opd-patient');
 
-        Route::get('/patient-registration', [AdminProfileController::class, 'patientRegistration'])->name('admin.patient-registration');
+        Route::get('/patient-registration', [AdminController::class, 'patientRegistration'])->name('admin.patient-registration');
 
         Route::get('/emergency-patients', [AdminController::class, 'emergencyPatients'])->name('admin.emergency-patients');
         Route::get('/get-emergency-patients', [AdminController::class, 'getEmergencyPatients'])->name('admin.get-emergency-patients');

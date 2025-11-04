@@ -13,6 +13,7 @@ class Employee extends Model
         'date_of_birth',
         'gender',
         'hire_date',
+        'status',
         'image',
         'employee_code',
         'password',

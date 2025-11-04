@@ -1,6 +1,20 @@
 @extends('layouts.layout')
 
 @section('content')
+
+<style>
+@media print {
+  .sidebar, header, footer, .topbar, .notification, .grid.grid-cols-1.md\\:grid-cols-4, .flex.justify-between.items-center.bg-white.dark\\:bg-gray-800.p-4.rounded-lg.shadow.mb-6 { display: none !important; }
+  body { margin: 0; padding: 20px; }
+  .bg-white.dark\\:bg-gray-800.rounded-lg.shadow-lg.p-6 { box-shadow: none; border: none; }
+}
+#main-content {
+  overflow-x: auto !important;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+</style>
 <div class="min-h-screen">
   <!-- Notification Area -->
   <div id="notification" class="fixed top-4 right-4 z-50 hidden bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
@@ -187,6 +201,7 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 (function() {
 if (window.opdPatientsScriptLoaded) return;

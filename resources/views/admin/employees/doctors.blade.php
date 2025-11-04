@@ -87,14 +87,12 @@
                         {{ $employee->name }}
                     </h3>
 
-                    <!-- Department -->
-                    @if($employee->professions->isNotEmpty() && $employee->professions->first()->department)
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                            {{ $employee->professions->first()->department->department_name ?? $employee->professions->first()->department->name ?? 'N/A' }}
-                        </p>
-                    @else
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">No Department</p>
-                    @endif
+                    <!-- Status -->
+                    <div class="mt-1">
+                        <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full {{ $employee->status == 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-200' }}">
+                            {{ $employee->status ?? 'Active' }}
+                        </span>
+                    </div>
                 </div>
             </div>
 

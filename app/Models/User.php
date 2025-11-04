@@ -23,6 +23,7 @@ class User extends Authenticatable
         'full_name',
         'age',
         'gender',
+        'blood_group',
         'full_address',
         'username',
         'password',

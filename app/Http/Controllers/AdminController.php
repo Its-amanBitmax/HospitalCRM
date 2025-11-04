@@ -160,6 +160,7 @@ class AdminController extends Controller
             'password' => 'nullable|string|min:8',
             'age' => 'nullable|integer|min:0|max:150',
             'gender' => 'nullable|in:male,female,other',
+            'blood_group' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
             'father_spouse_name' => 'nullable|string|max:255',
             'alternate_no' => 'nullable|string|max:20',
             'full_address' => 'nullable|string',
@@ -202,6 +203,7 @@ class AdminController extends Controller
             'password' => $request->password ? Hash::make($request->password) : null,
             'age' => $request->age,
             'gender' => $request->gender,
+            'blood_group' => $request->blood_group,
             'father_spouse_name' => $request->father_spouse_name,
             'alternate_no' => $request->alternate_no,
             'full_address' => $request->full_address,
@@ -246,6 +248,7 @@ class AdminController extends Controller
             'password' => 'nullable|string|min:8',
             'age' => 'nullable|integer|min:0|max:150',
             'gender' => 'nullable|in:male,female,other',
+            'blood_group' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
             'father_spouse_name' => 'nullable|string|max:255',
             'alternate_no' => 'nullable|string|max:20',
             'full_address' => 'nullable|string',
@@ -267,7 +270,7 @@ class AdminController extends Controller
         $user = \App\Models\User::findOrFail($id);
 
         $updateData = $request->only([
-            'full_name', 'username', 'email', 'mobile_no', 'age', 'gender',
+            'full_name', 'username', 'email', 'mobile_no', 'age', 'gender', 'blood_group',
             'father_spouse_name', 'alternate_no', 'full_address', 'city', 'state', 'pin_code',
             'visit_type', 'date_of_visit', 'chief_complaint', 'referred_by', 'department_consultant',
             'id_proof_type', 'id_number', 'type', 'status'
@@ -519,5 +522,11 @@ class AdminController extends Controller
         $user = \App\Models\User::findOrFail($id);
         $user->delete();
         return response()->json(['message' => 'User deleted successfully']);
+    }
+
+    public function patientRegistration()
+    {
+        $admin = Auth::guard('admin')->user();
+        return view('admin.patient-registration', compact('admin'));
     }
 }

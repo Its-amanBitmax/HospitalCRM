@@ -12,6 +12,12 @@
   body { margin: 0; padding: 20px; }
   .bg-white.dark\\:bg-gray-800.rounded-lg.shadow-lg.p-6 { box-shadow: none; border: none; }
 }
+#main-content {
+  overflow-x: auto !important;
+}
+::-webkit-scrollbar {
+  display: none;
+}
 </style>
 <div class="min-h-screen">
   <!-- Notification Area -->
@@ -37,6 +43,7 @@
         <i class="fas fa-plus mr-2"></i>Add Patients
       </a>
 
+
     </div>
   </div>
 
@@ -47,7 +54,7 @@
   @endif
 
   <!-- Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6" >
     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-users text-3xl text-blue-600 dark:text-blue-400"></i>
       <div>
@@ -79,7 +86,7 @@
   </div>
 
   <!-- Users Table -->
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700 overflow-x-auto">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
         <i class="fas fa-users text-blue-600 dark:text-blue-400"></i>
@@ -117,20 +124,20 @@
         <button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition" id="clearUserFilters">Clear Filters</button>
       </div>
     </div>
-    <div class="">
-      <table class="w-full table-auto border-collapse overflow-x-auto">
+    <div class="overflow-x-auto">
+      <table class="w-full table-auto border-collapse min-w-max">
         <thead class="bg-gray-100 dark:bg-gray-700">
           <tr>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">S.No</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">User ID</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Full Name</th>
+            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600 min-w-[350px]">Full Name</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Username</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Image</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Email</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Phone</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Type</th>
             <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Status</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Action</th>
+            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600 min-w-[350px]">Action</th>
           </tr>
         </thead>
         <tbody id="userTable" class="text-gray-800 dark:text-gray-200 divide-y divide-gray-200 dark:divide-gray-600"></tbody>
@@ -362,7 +369,7 @@ function renderUsers(filteredUsers = users) {
       <tr class="dark:bg-gray-800">
         <td class="px-4 py-3">${i + 1}</td>
         <td class="px-4 py-3">${u.user_id}</td>
-        <td class="px-4 py-3">${u.full_name}</td>
+        <td class="px-4 py-3 whitespace-nowrap">${u.full_name}</td>
         <td class="px-4 py-3">${u.username}</td>
         <td class="px-4 py-3">
     ${u.image 
@@ -373,21 +380,19 @@ function renderUsers(filteredUsers = users) {
         <td class="px-4 py-3">${u.mobile_no || '-'}</td>
         <td class="px-4 py-3 ${typeClass}">${u.type}</td>
         <td class="px-4 py-3 ${statusClass}">${u.status}</td>
-        <td class="px-4 py-3">
+        <td class="px-4 py-3 whitespace-nowrap">
           <a href="/admin/users/${u.id}" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm inline-block"><i class="fas fa-eye"></i></a>
           <a href="/admin/users/${u.id}/edit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm ml-2 inline-block"><i class="fas fa-edit"></i></a>
-<a href="/admin/users/${u.id}/visits"
-   class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm ml-2 inline-flex items-center gap-2"
-   aria-label="View visits">
-  <!-- SVG calendar icon (uses currentColor) -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <rect x="3" y="4" width="16" height="18" rx="2" ry="2"></rect>
-    <line x1="16" y1="2" x2="16" y2="6"></line>
-    <line x1="8" y1="2" x2="8" y2="6"></line>
-    <line x1="3" y1="10" x2="21" y2="10"></line>
-  </svg>
-  <span class="sr-only">Visits</span>
-</a>          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="deleteUser(${u.id})"><i class="fas fa-trash"></i></button>
+          <a href="/admin/users/${u.id}/visits" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm ml-2 inline-flex items-center gap-2" aria-label="View visits">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="16" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span class="sr-only">Visits</span>
+          </a>
+          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="deleteUser(${u.id})"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
     `);
