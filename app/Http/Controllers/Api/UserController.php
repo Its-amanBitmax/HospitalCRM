@@ -260,9 +260,11 @@ class UserController extends Controller
             ], 403);
         }
 
-        // ✅ Validate request (excluding email, mobile_no)
+        // ✅ Validate request (including email, mobile_no as nullable)
         $validator = Validator::make($request->all(), [
             'full_name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|unique:users,email,' . $user->id,
+            'mobile_no' => 'nullable|string|max:15|unique:users,mobile_no,' . $user->id,
             'age' => 'nullable|integer|min:1|max:120',
             'gender' => 'nullable|in:male,female,other',
             'full_address' => 'nullable|string',
@@ -294,9 +296,11 @@ class UserController extends Controller
             $imagePath = 'image/' . $imageName;
         }
 
-        // ✅ Update user fields (excluding email, mobile_no)
+        // ✅ Update user fields (including email, mobile_no)
         $user->update([
             'full_name' => $request->full_name ?? $user->full_name,
+            'email' => $request->email ?? $user->email,
+            'mobile_no' => $request->mobile_no ?? $user->mobile_no,
             'age' => $request->age ?? $user->age,
             'gender' => $request->gender ?? $user->gender,
             'full_address' => $request->full_address ?? $user->full_address,

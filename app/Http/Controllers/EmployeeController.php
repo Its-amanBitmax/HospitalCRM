@@ -350,6 +350,17 @@ class EmployeeController extends Controller
     }
 
     /**
+     * Toggle the status of the employee (Active/Inactive).
+     */
+    public function toggleStatus(Employee $employee)
+    {
+        $employee->status = $employee->status === 'Active' ? 'Inactive' : 'Active';
+        $employee->save();
+
+        return redirect()->back()->with('success', 'Employee status updated successfully.');
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Employee $employee)

@@ -132,12 +132,6 @@
                             <option value="">Select Department</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Profession</label>
-                        <select id="addRoomProfession" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
-                            <option value="">Select Profession</option>
-                        </select>
-                    </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
                         <select id="addRoomStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
@@ -177,12 +171,7 @@
                             <option value="">Select Department</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Profession</label>
-                        <select id="editRoomProfession" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
-                            <option value="">Select Profession</option>
-                        </select>
-                    </div>
+
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
                         <select id="editRoomStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
@@ -311,7 +300,7 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
     let rooms = [];
     let departments = [];
-    let professions = [];
+
     let employees = [];
     const notification = document.getElementById("notification");
     const notificationMessage = document.getElementById("notificationMessage");
@@ -340,16 +329,16 @@
         try {
             const form = document.getElementById(formId);
             if (!form) return false; // No form means no unsaved changes
-            return Array.from(form.elements).some(el => el.value !== el.defaultValue);
+            return Array.from(form.elements).some(el => el && el.value !== el.defaultValue);
         } catch (e) {
             return false; // If anything goes wrong, assume no unsaved changes
         }
     }
 
     // Generic Modal Closing
-    function closeModal(modalId, contentId) {
+    function closeModal(modalId, contentId, skipUnsavedCheck = false) {
         const formId = modalId.replace('Modal', 'Form');
-        if (hasUnsavedChanges(formId) && !confirm("You have unsaved changes. Are you sure you want to close?")) return;
+        if (!skipUnsavedCheck && hasUnsavedChanges(formId) && !confirm("You have unsaved changes. Are you sure you want to close?")) return;
         const content = document.getElementById(contentId);
         content.classList.remove("scale-100", "opacity-100");
         content.classList.add("scale-95", "opacity-0");
@@ -368,17 +357,7 @@
             .catch(error => handleError(error, "Failed to load departments"));
     }
 
-    // Load Professions
-    function loadProfessions() {
-        document.getElementById("addRoomProfession").innerHTML = '<option value="">Loading...</option>';
-        fetch('/admin/get-professions')
-            .then(response => response.json())
-            .then(data => {
-                professions = data;
-                populateProfessionSelects();
-            })
-            .catch(error => handleError(error, "Failed to load professions"));
-    }
+
 
     // Load Employees (not used directly, but kept for completeness)
     function loadEmployees() {
@@ -472,17 +451,7 @@
         });
     }
 
-    // Populate Profession Selects
-    function populateProfessionSelects() {
-        const selects = ['addRoomProfession', 'editRoomProfession'];
-        selects.forEach(selectId => {
-            const select = document.getElementById(selectId);
-            select.innerHTML = '<option value="">Select Profession</option>';
-            professions.forEach(p => {
-                select.insertAdjacentHTML('beforeend', `<option value="${p.id}">${p.title}</option>`);
-            });
-        });
-    }
+
 
     // Load Employees by Department
     function loadEmployeesByDepartment(departmentId) {
@@ -530,7 +499,6 @@
         document.getElementById("editRoomId").value = room.id;
         document.getElementById("editRoomNo").value = room.room_no;
         document.getElementById("editRoomDepartment").value = room.department_id || '';
-        document.getElementById("editRoomProfession").value = room.profession_id || '';
         document.getElementById("editRoomStatus").value = room.status;
 
         document.getElementById("editRoomModal").classList.remove("hidden");
@@ -576,7 +544,6 @@
         const formData = new FormData();
         formData.append('room_no', document.getElementById("addRoomNo").value);
         formData.append('department_id', document.getElementById("addRoomDepartment").value);
-        formData.append('profession_id', document.getElementById("addRoomProfession").value);
         formData.append('status', document.getElementById("addRoomStatus").value);
 
         fetch('/admin/store-room', {
@@ -594,8 +561,8 @@
                 } else {
                     showNotification(data.message);
                     loadRooms();
-                    closeModal("addRoomModal", "addRoomModalContent");
                     document.getElementById("addRoomForm").reset();
+                    closeModal("addRoomModal", "addRoomModalContent", true);
                 }
             })
             .catch(error => handleError(error, "Failed to add room"));
@@ -611,7 +578,6 @@
         const formData = new FormData();
         formData.append('room_no', document.getElementById("editRoomNo").value);
         formData.append('department_id', document.getElementById("editRoomDepartment").value);
-        formData.append('profession_id', document.getElementById("editRoomProfession").value);
         formData.append('status', document.getElementById("editRoomStatus").value);
 
         fetch(`/admin/update-room/${id}`, {
@@ -786,10 +752,10 @@
     };
 
     // Close Modals
-    document.getElementById("closeAddRoomModal").onclick = () => closeModal("addRoomModal", "addRoomModalContent");
+    document.getElementById("closeAddRoomModal").onclick = () => closeModal("addRoomModal", "addRoomModalContent", true);
     document.getElementById("closeEditRoomModal").onclick = () => closeModal("editRoomModal", "editRoomModalContent");
-    document.getElementById("closeAssignRoomModal").onclick = () => closeModal("assignRoomModal", "assignRoomModalContent");
-    document.getElementById("closeViewAssignmentModal").onclick = () => closeModal("viewAssignmentModal", "viewAssignmentModalContent");
+    document.getElementById("closeAssignRoomModal").onclick = () => closeModal("assignRoomModal", "assignRoomModalContent", true);
+    document.getElementById("closeViewAssignmentModal").onclick = () => closeModal("viewAssignmentModal", "viewAssignmentModalContent", true);
 
     window.onclick = e => {
         if (e.target === document.getElementById("addRoomModal")) closeModal("addRoomModal", "addRoomModalContent");
@@ -832,7 +798,6 @@
 
     // Load data on page load
     loadDepartments();
-    loadProfessions();
     loadEmployees();
     loadRooms();
 })();

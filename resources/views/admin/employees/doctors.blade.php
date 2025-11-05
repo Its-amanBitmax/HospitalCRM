@@ -131,23 +131,18 @@
 
             <!-- Card Footer (Actions) -->
             <div class="p-4 bg-gray-50 dark:bg-gray-900 flex justify-between space-x-2 border-t border-gray-200 dark:border-gray-700 mt-auto">
-                <a href="{{ route('admin.employees.show', $employee) }}"
+                <a href="#"
                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded text-sm text-center transition">
-                   View
+                   Schedule
                 </a>
-                <a href="{{ route('admin.employees.edit', $employee) }}"
-                   class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded text-sm text-center transition">
-                   Edit
-                </a>
-                <form action="{{ route('admin.employees.destroy', $employee) }}"
+                <form action="{{ route('admin.employees.toggle-status', $employee) }}"
                       method="POST"
                       class="flex-1"
-                      onsubmit="return confirm('Are you sure you want to delete {{ addslashes($employee->name) }}?')">
+                      onsubmit="return confirm('Are you sure you want to toggle the status of {{ addslashes($employee->name) }}?')">
                     @csrf
-                    @method('DELETE')
                     <button type="submit"
-                            class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3 rounded text-sm transition">
-                        Delete
+                            class="w-full {{ $employee->status == 'Active' ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700' }} text-white font-bold py-2 px-3 rounded text-sm transition">
+                        {{ $employee->status == 'Active' ? 'Deactivate' : 'Activate' }}
                     </button>
                 </form>
             </div>

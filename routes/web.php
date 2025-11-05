@@ -148,6 +148,7 @@ Route::prefix('admin')->group(function () {
         ]);
 
         Route::get('/doctors', [EmployeeController::class, 'doctors'])->name('admin.doctors');
+        Route::post('/employees/{employee}/toggle-status', [EmployeeController::class, 'toggleStatus'])->name('admin.employees.toggle-status');
 
         Route::resource('specialities', SpecialityController::class)->names([
             'index' => 'admin.specialities.index',

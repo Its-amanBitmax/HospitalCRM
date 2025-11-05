@@ -1,3 +1,5 @@
-- [x] Add overflow-x: hidden to body in resources/views/layouts/layout.blade.php to remove horizontal scrollbar
-- [x] Wrap main content in a card and apply overflow-x: hidden to it instead
-- [x] Add html2pdf.js script to all patient pages (ipd-patients, opd-patients, emergency-patients, registered-users)
+# TODO: Create API to Get Organization Details from Admin Table
+
+- [x] Create app/Http/Controllers/Api/AdminController.php with getOrganizationDetails method
+- [x] Add route in routes/api.php for /organization endpoint with auth:sanctum middleware
+- [x] Test the API endpoint to ensure it returns correct organization data (route registered successfully)

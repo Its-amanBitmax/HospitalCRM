@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\Api\SkillController;
+use App\Http\Controllers\Api\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,4 @@ Route::post('/update-credentials', [UserController::class, 'updateCredentials'])
 Route::get('/banners', [BannerController::class, 'getBanners']);
 Route::get('/skills', [SkillController::class, 'index']);
 Route::get('/doctors', [SkillController::class, 'getDoctors']);
+Route::middleware('auth:sanctum')->get('/organization', [AdminController::class, 'getOrganizationDetails']);
