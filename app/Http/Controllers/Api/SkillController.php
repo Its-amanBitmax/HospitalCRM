@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Speciality;
 use App\Models\Employee;
+use Carbon\Carbon;
 
 class SkillController extends Controller
 {
@@ -75,4 +76,71 @@ public function getDoctors()
         'count' => $doctors->count(),
     ]);
 }
+
+public function getAvailability(Employee $doctor, Request $request)
+{
+    $startDate = $request->query('from', Carbon::now()->toDateString());
+    $endDate = $request->query('to', Carbon::now()->addDays(7)->toDateString());
+
+    // ✅ Fetch doctor's shifts
+    $shifts = $doctor->shifts()
+        ->get(['shift_name', 'start_time', 'end_time'])
+        ->map(function ($shift) {
+            return [
+                'shift_name' => $shift->shift_name,
+                'start_time' => Carbon::parse($shift->start_time)->format('H:i:s'),
+                'end_time'   => Carbon::parse($shift->end_time)->format('H:i:s'),
+            ];
+        });
+
+    // ✅ Fetch both Appointment & Video Consultation tasks
+    $tasks = $doctor->schedules()
+        ->whereIn('task_type', ['Appointment', 'Video Consultation'])
+        ->whereBetween('start_date', [$startDate, $endDate])
+        ->get(['start_date', 'end_date', 'start_time', 'end_time', 'task_type']);
+
+    // ✅ Match each task to its shift
+    $availability = $tasks->map(function ($task) use ($shifts) {
+        $taskStart = Carbon::parse($task->start_time)->format('H:i:s');
+        $taskEnd   = Carbon::parse($task->end_time)->format('H:i:s');
+        $shiftName = 'Unknown';
+
+        foreach ($shifts as $shift) {
+            $shiftStart = Carbon::parse($shift['start_time']);
+            $shiftEnd   = Carbon::parse($shift['end_time']);
+
+            // Normal shift (same day)
+            if ($shift['start_time'] <= $taskStart && $taskEnd <= $shift['end_time']) {
+                $shiftName = $shift['shift_name'];
+                break;
+            }
+
+            // Overnight shift (e.g., 20:00 → 03:00)
+            if ($shiftEnd->lt($shiftStart)) {
+                if ($taskStart >= $shift['start_time'] || $taskEnd <= $shift['end_time']) {
+                    $shiftName = $shift['shift_name'];
+                    break;
+                }
+            }
+        }
+
+        return [
+            'shift_name' => $shiftName,
+            'start_date' => $task->start_date,
+            'end_date'   => $task->end_date,
+            'start_time' => Carbon::parse($task->start_time)->format('h:i A'),
+            'end_time'   => Carbon::parse($task->end_time)->format('h:i A'),
+            'task_type'  => $task->task_type,
+        ];
+    })->values();
+
+    // ✅ Final JSON Response
+    return response()->json([
+        'doctor_id' => $doctor->id,
+        'doctor_name' => $doctor->name,
+        'availability' => $availability,
+    ]);
+}
+
+
 }

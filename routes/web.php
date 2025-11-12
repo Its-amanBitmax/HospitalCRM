@@ -12,6 +12,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PatientVisitController;
+use App\Http\Controllers\ScheduleController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -34,6 +35,13 @@ Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminController::class, 'showLoginForm'])->name('admin.login.form');
     Route::post('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+        Route::get('/employees/{employee}/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
+        Route::get('/employees/{employee}/schedules/create', [ScheduleController::class, 'create'])->name('schedules.create');
+        Route::post('/employees/{employee}/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
+        Route::delete('/schedules/{schedule}', [ScheduleController::class, 'destroy'])->name('schedules.destroy');
+Route::get('admin/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])->name('schedules.edit');
+Route::put('admin/schedules/{schedule}', [ScheduleController::class, 'update'])->name('schedules.update');
 
     // Forgot password routes
     Route::post('/forgot-password', [AdminController::class, 'sendOTP'])->name('admin.send.otp');
@@ -174,5 +182,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/get-employees-by-department/{departmentId}', [App\Http\Controllers\RoomController::class, 'getEmployeesByDepartment'])->name('admin.get-employees-by-department');
         Route::get('/get-assigned-rooms', [App\Http\Controllers\RoomController::class, 'getAssignedRooms'])->name('admin.get-assigned-rooms');
         Route::delete('/remove-room-assignment/{id}', [App\Http\Controllers\RoomController::class, 'removeAssignment'])->name('admin.remove-room-assignment');
+
+
     });
 });

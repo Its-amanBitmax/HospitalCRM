@@ -30,3 +30,4 @@ Route::get('/banners', [BannerController::class, 'getBanners']);
 Route::get('/skills', [SkillController::class, 'index']);
 Route::get('/doctors', [SkillController::class, 'getDoctors']);
 Route::middleware('auth:sanctum')->get('/organization', [AdminController::class, 'getOrganizationDetails']);
+Route::get('/doctors/{doctor}/availability', [SkillController::class, 'getAvailability']);

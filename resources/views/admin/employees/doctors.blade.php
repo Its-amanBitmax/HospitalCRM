@@ -131,7 +131,7 @@
 
             <!-- Card Footer (Actions) -->
             <div class="p-4 bg-gray-50 dark:bg-gray-900 flex justify-between space-x-2 border-t border-gray-200 dark:border-gray-700 mt-auto">
-                <a href="#"
+                <a href="{{ route('schedules.index', $employee) }}"
                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded text-sm text-center transition">
                    Schedule
                 </a>
