@@ -6,7 +6,8 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\Api\SkillController;
 use App\Http\Controllers\Api\AdminController;
-
+use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\RelativeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,3 +32,15 @@ Route::get('/skills', [SkillController::class, 'index']);
 Route::get('/doctors', [SkillController::class, 'getDoctors']);
 Route::middleware('auth:sanctum')->get('/organization', [AdminController::class, 'getOrganizationDetails']);
 Route::get('/doctors/{doctor}/availability', [SkillController::class, 'getAvailability']);
+Route::middleware('auth:sanctum')->prefix('appointments')->group(function () {
+    Route::post('/book', [AppointmentController::class, 'bookAppointment']);
+    Route::get('/user', [AppointmentController::class, 'getUserAppointments']);
+    Route::post('/cancel/{appointment_id}', [AppointmentController::class, 'cancelAppointment']);
+});
+Route::middleware('auth:sanctum')->prefix('relatives')->group(function () {
+    Route::post('/add', [RelativeController::class, 'store']);
+    Route::get('/', [RelativeController::class, 'index']);
+    Route::get('/{relative_id}', [RelativeController::class, 'show']);
+    Route::post('/{relative_id}', [RelativeController::class, 'update']);
+    Route::delete('/{relative_id}', [RelativeController::class, 'destroy']);
+});
