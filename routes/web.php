@@ -13,6 +13,7 @@ use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PatientVisitController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\AppointmentController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,13 +37,26 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
-        Route::get('/employees/{employee}/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
-        Route::get('/employees/{employee}/schedules/create', [ScheduleController::class, 'create'])->name('schedules.create');
-        Route::post('/employees/{employee}/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
-        Route::delete('/schedules/{schedule}', [ScheduleController::class, 'destroy'])->name('schedules.destroy');
-Route::get('admin/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])->name('schedules.edit');
-Route::put('admin/schedules/{schedule}', [ScheduleController::class, 'update'])->name('schedules.update');
+    Route::get('/employees/{employee}/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
+    Route::get('/employees/{employee}/schedules/create', [ScheduleController::class, 'create'])->name('schedules.create');
+    Route::post('/employees/{employee}/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
+    Route::delete('/schedules/{schedule}', [ScheduleController::class, 'destroy'])->name('schedules.destroy');
+    Route::get('admin/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])->name('schedules.edit');
+    Route::put('admin/schedules/{schedule}', [ScheduleController::class, 'update'])->name('schedules.update');
 
+     Route::get('/appointments', [AppointmentController::class, 'index'])
+        ->name('admin.appointments'); 
+    Route::put('/appointments/{appointment}/accept', [AppointmentController::class, 'accept'])
+    ->name('admin.appointments.accept');
+
+Route::put('/appointments/{appointment}/reject', [AppointmentController::class, 'reject'])
+    ->name('admin.appointments.reject');
+
+Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])
+    ->name('admin.appointments.destroy');
+
+Route::get('/video-consultations', [AppointmentController::class, 'videoConsultations'])
+    ->name('admin.video-consultations');
     // Forgot password routes
     Route::post('/forgot-password', [AdminController::class, 'sendOTP'])->name('admin.send.otp');
     Route::post('/verify-otp', [AdminController::class, 'verifyOTP'])->name('admin.verify.otp');
@@ -182,6 +196,7 @@ Route::put('admin/schedules/{schedule}', [ScheduleController::class, 'update'])-
         Route::get('/get-employees-by-department/{departmentId}', [App\Http\Controllers\RoomController::class, 'getEmployeesByDepartment'])->name('admin.get-employees-by-department');
         Route::get('/get-assigned-rooms', [App\Http\Controllers\RoomController::class, 'getAssignedRooms'])->name('admin.get-assigned-rooms');
         Route::delete('/remove-room-assignment/{id}', [App\Http\Controllers\RoomController::class, 'removeAssignment'])->name('admin.remove-room-assignment');
+
 
 
     });

@@ -79,8 +79,8 @@ public function getDoctors()
 
 public function getAvailability(Employee $doctor, Request $request)
 {
-    $startDate = $request->query('from', Carbon::now()->toDateString());
-    $endDate = $request->query('to', Carbon::now()->addDays(7)->toDateString());
+    $startDate = $request->query('from', Carbon::now()->subDays(30)->toDateString());
+    $endDate = $request->query('to', Carbon::now()->addDays(30)->toDateString());
 
     // ✅ Fetch doctor's shifts
     $shifts = $doctor->shifts()

@@ -1,10 +1,5 @@
 @extends('layouts.layout')
 
 @section('content')
-<div class="border-4 border-dashed border-gray-200 dark:border-gray-700 rounded-lg h-96 flex items-center justify-center">
-    <div class="text-center">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Welcome to the Admin Dashboard</h2>
-        <p class="text-gray-600 dark:text-gray-400">This is your admin dashboard. You can manage your application from here.</p>
-    </div>
-</div>
+<img src="{{ asset('image/Gemini_Generated_Image_b8bxjyb8bxjyb8bx (1).png') }}" alt="Coming Soon" style="max-height: 445px; width: 80%;margin-left: 100px; ">
 @endsection

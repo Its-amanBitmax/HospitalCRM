@@ -20,6 +20,8 @@ class Appointment extends Model
         'issue',
         'description',
         'status',
+        'type',
+        'shift_name',
     ];
 
     public static function boot()
