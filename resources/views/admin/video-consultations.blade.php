@@ -6,7 +6,7 @@
     <!-- Header -->
     <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
         <h1 class="text-xl font-semibold text-gray-800 dark:text-white">
-            Video Consultations
+            Consultations
         </h1>
         <a href="{{ route('admin.appointments') }}"
            class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition">
@@ -62,7 +62,7 @@
                 </div>
                 <div>
                     <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
-                        Upcoming Video Consultations
+                        Upcoming Consultations
                     </h2>
                     <p class="text-xs text-gray-500 dark:text-gray-400">(Next 3 Days)</p>
                 </div>
@@ -85,6 +85,7 @@
                             <th class="px-6 py-3 text-left">Time</th>
                             <th class="px-6 py-3 text-left">Doctor</th>
                             <th class="px-6 py-3 text-left">Patient</th>
+                            <th class="px-6 py-3 text-left">Subtype</th>
                             <th class="px-6 py-3 text-left">Issue</th>
                             <th class="px-6 py-3 text-left">Status</th>
                             <th class="px-6 py-3 text-center">Actions</th>
@@ -118,6 +119,9 @@
                                         <p class="text-sm text-gray-800 dark:text-gray-200 font-medium">{{ $app->relative->name ?? 'Relative' }}</p>
                                         <p class="text-xs text-gray-500">{{ $app->relative->relation ?? '' }}</p>
                                     @endif
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
+                                    {{ $app->subtype ?? '—' }}
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
                                     {{ $app->issue ? Str::limit($app->issue, 30) : '—' }}
@@ -196,6 +200,7 @@ function showAppointmentDetails(app) {
             <p><strong>Doctor:</strong> ${app.doctor?.name ?? 'N/A'}</p>
             <p><strong>Date:</strong> ${app.appointment_date}</p>
             <p><strong>Time:</strong> ${formatTime(app.appointment_time)}</p>
+            <p><strong>Subtype:</strong> ${app.subtype ?? '—'}</p>
             <p><strong>Issue:</strong> ${app.issue ?? '—'}</p>
             <p><strong>Description:</strong> ${app.description ?? '—'}</p>
             <p><strong>Status:</strong> <span class="font-semibold ${getStatusClass(app.status)}">${app.status}</span></p>

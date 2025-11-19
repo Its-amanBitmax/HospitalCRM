@@ -24,11 +24,12 @@ class AppointmentController extends Controller
         'relative_id' => 'nullable|exists:relatives,relative_id',
         'doctor_id' => 'required|exists:employees,id',
         'appointment_date' => 'required|date|after_or_equal:today',
-        'appointment_time' => 'required|date_format:H:i',
+        'appointment_time' => 'required|date_format:h:i A',
         'issue' => 'nullable|string|max:100',
         'description' => 'nullable|string',
         'shift_name' => 'nullable|string',
-        'type' => 'required|in:Appointment,Video Consultation', // ✅ new field
+        'type' => 'required|in:Appointment,consultation',
+        'subtype' => 'nullable|in:by voicecall,by chat,by video call',
     ]);
 
     if ($validator->fails()) {
@@ -40,11 +41,15 @@ class AppointmentController extends Controller
 
     $data = $validator->validated();
 
-    // ✅ Prevent double booking for same doctor & time (for same type)
+    // ✅ Convert appointment_time from 12-hour to 24-hour format
+    $data['appointment_time'] = Carbon::createFromFormat('h:i A', $data['appointment_time'])->format('H:i');
+
+    // ✅ Prevent double booking for same doctor & time (for same type and subtype)
     $exists = Appointment::where('doctor_id', $data['doctor_id'])
         ->where('appointment_date', $data['appointment_date'])
         ->where('appointment_time', $data['appointment_time'])
         ->where('type', $data['type'])
+        ->where('subtype', $data['subtype'] ?? null)
         ->where('status', '!=', 'Cancelled')
         ->exists();
 
@@ -71,8 +76,12 @@ class AppointmentController extends Controller
         'issue' => $data['issue'] ?? null,
         'description' => $data['description'] ?? null,
         'type' => $data['type'], // ✅ Store the type
+        'subtype' => $data['subtype'] ?? null, // ✅ Store the subtype
         'status' => 'Pending',
     ]);
+
+    // ✅ Format appointment time to 12-hour format with AM/PM for response
+    $appointment->appointment_time = Carbon::createFromFormat('H:i', $appointment->appointment_time)->format('h:i A');
 
     return response()->json([
         'status' => true,

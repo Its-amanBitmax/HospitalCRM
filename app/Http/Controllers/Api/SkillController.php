@@ -93,9 +93,9 @@ public function getAvailability(Employee $doctor, Request $request)
             ];
         });
 
-    // ✅ Fetch both Appointment & Video Consultation tasks
+    // ✅ Fetch both Appointment & consultation tasks
     $tasks = $doctor->schedules()
-        ->whereIn('task_type', ['Appointment', 'Video Consultation'])
+        ->whereIn('task_type', ['Appointment', 'consultation'])
         ->whereBetween('start_date', [$startDate, $endDate])
         ->get(['start_date', 'end_date', 'start_time', 'end_time', 'task_type']);
 

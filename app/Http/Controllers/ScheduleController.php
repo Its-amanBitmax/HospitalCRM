@@ -30,7 +30,7 @@ public function store(Request $request, Employee $employee)
         'end_date' => 'required|date|after_or_equal:start_date',
         'start_time' => 'required',
         'end_time' => 'required|after:start_time',
-        'task_type' => 'required|string|in:Appointment,Video Consultation,OPD,IPD,Emergency,Room Duty,Other',
+        'task_type' => 'required|string|in:Appointment,consultation,OPD,IPD,Emergency,Room Duty,Other',
     ]);
 
     // 🧠 Instead of creating one per day, create a single entry for the whole range
@@ -66,7 +66,7 @@ public function update(Request $request, Schedule $schedule)
         'end_date' => 'required|date|after_or_equal:start_date',
         'start_time' => 'required',
         'end_time' => 'required|after:start_time',
-        'task_type' => 'required|string|in:Appointment,Video Consultation,OPD,IPD,Emergency,Room Duty,Other',
+        'task_type' => 'required|string|in:Appointment,consultation,OPD,IPD,Emergency,Room Duty,Other',
     ]);
 
     $schedule->update($request->only('start_date', 'end_date', 'start_time', 'end_time', 'task_type'));

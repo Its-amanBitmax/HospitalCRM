@@ -48,7 +48,7 @@
             <select name="task_type" class="w-full border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
                 <option value="">Select Task</option>
                 <option value="Appointment">Appointment</option>
-                <option value="Video Consultation">Video Consultation</option>
+                <option value="consultation">consultation</option>
                 <option value="OPD">OPD</option>
                 <option value="IPD">IPD</option>
                 <option value="Emergency">Emergency</option>

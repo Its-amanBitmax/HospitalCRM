@@ -12,14 +12,18 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased dark:bg-black dark:text-white/50" style="overflow-x: hidden;">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex" >
-        @include('layouts.sidebar', ['admin' => Auth::guard('admin')->user()])
-        <div id="main-content" class="flex-1 flex flex-col ml-16 transition-all duration-300">
-            @include('layouts.header')
-            <main class="flex-1 p-6">
-                @yield('content')
-            </main>
-            @include('layouts.footer')
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
+        <div class="flex flex-1">
+            @include('layouts.sidebar', ['admin' => Auth::guard('admin')->user()])
+            <div id="main-content" class="flex-1 flex flex-col ml-16 transition-all duration-300">
+                @include('layouts.header')
+                <main class="flex-1 p-6">
+                    @yield('content')
+                </main>
+                @if(!isset($hideFooter))
+                    @include('layouts.footer')
+                @endif
+            </div>
         </div>
     </div>
 
@@ -46,6 +50,12 @@
             justify-content: center;
             padding-left: 0;
             padding-right: 0;
+        }
+        #sidebar.sidebar-collapsed ~ #main-content {
+            margin-left: 4rem;
+        }
+        #sidebar.sidebar-collapsed ~ #main-content #footer {
+            margin-left: 4rem;
         }
     </style>
 

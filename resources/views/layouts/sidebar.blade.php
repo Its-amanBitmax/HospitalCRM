@@ -1,4 +1,4 @@
-<aside id="sidebar" class="w-64 fixed top-0 left-0 h-screen overflow-y-auto shadow-xl transition-all duration-300 bg-cyan-400" style="-ms-overflow-style: none; scrollbar-width: none;">
+<aside id="sidebar" class="w-64 fixed top-0 left-0 h-screen overflow-y-auto shadow-xl transition-all duration-300 bg-cyan-400" style="-ms-overflow-style: none; scrollbar-width: none; z-index: 1006;">
   <!-- Logo Section -->
   <div class="flex items-center justify-center px-4 py-5 border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm" style="height: 80px;">
     <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-cyan-50 dark:bg-cyan-900/20">
@@ -73,18 +73,37 @@
           <i class="fas fa-calendar-alt text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Appointments</span>
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group text-gray-700 dark:text-gray-300">
-          <i class="fas fa-user-nurse text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
-          <span class="sidebar-text text-sm">Nurse</span>
-        </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group text-gray-700 dark:text-gray-300">
-          <i class="fas fa-tint text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
-          <span class="sidebar-text text-sm">Blood Bank</span>
-        </a>
         <a href="{{ route('admin.video-consultations') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group text-gray-700 dark:text-gray-300">
           <i class="fas fa-video text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Online Consult</span>
         </a>
+      </div>
+
+      <div id="nurses-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 border border-transparent hover:border-cyan-200 group">
+        <div class="flex items-center space-x-3">
+          <i class="fas fa-user-nurse text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
+          <span class="text-sm text-cyan-700 dark:text-cyan-300 font-semibold sidebar-text group-hover:text-cyan-800 dark:group-hover:text-cyan-200">Nurses</span>
+        </div>
+        <i class="fas fa-chevron-down transition-transform duration-200 text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 text-sm" id="nurses-icon"></i>
+      </div>
+
+      <div id="nurses-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-cyan-200 dark:border-cyan-700 pl-3 mt-1">
+        <a href="{{ route('admin.nurses') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group {{ request()->routeIs('admin.nurses') ? 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
+          <i class="fas fa-user-nurse text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
+          <span class="sidebar-text text-sm">All Nurses</span>
+        </a>
+      </div>
+
+      <div id="bloodbank-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 border border-transparent hover:border-cyan-200 group">
+        <div class="flex items-center space-x-3">
+          <i class="fas fa-tint text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
+          <span class="text-sm text-cyan-700 dark:text-cyan-300 font-semibold sidebar-text group-hover:text-cyan-800 dark:group-hover:text-cyan-200">Blood Bank</span>
+        </div>
+        <i class="fas fa-chevron-down transition-transform duration-200 text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 text-sm" id="bloodbank-icon"></i>
+      </div>
+
+      <div id="bloodbank-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-cyan-200 dark:border-cyan-700 pl-3 mt-1">
+        <!-- Blood Bank sub-links will be added here later -->
       </div>
     </div>
    
@@ -276,7 +295,7 @@
           <i class="fas fa-users text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Patients</span>
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group text-gray-700 dark:text-gray-300">
+        <a href="{{ route('admin.visits.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group {{ request()->routeIs('admin.visits.*') ? 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
           <i class="fas fa-hospital text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Visits</span>
         </a>
@@ -348,6 +367,60 @@
         } else {
           doctorsDropdown.style.maxHeight = '0px';
           doctorsIcon.style.transform = 'rotate(0deg)';
+        }
+      });
+
+      // Nurses dropdown functionality
+      const nursesToggle = document.getElementById('nurses-toggle');
+      const nursesDropdown = document.getElementById('nurses-dropdown');
+      const nursesIcon = document.getElementById('nurses-icon');
+      let nursesOpen = localStorage.getItem('nursesDropdownOpen') === 'true';
+
+      // Set initial state for nurses dropdown
+      if (nursesOpen) {
+        nursesDropdown.style.maxHeight = '400px';
+        nursesIcon.style.transform = 'rotate(180deg)';
+      } else {
+        nursesDropdown.style.maxHeight = '0px';
+        nursesIcon.style.transform = 'rotate(0deg)';
+      }
+
+      nursesToggle.addEventListener('click', function() {
+        nursesOpen = !nursesOpen;
+        localStorage.setItem('nursesDropdownOpen', nursesOpen);
+        if (nursesOpen) {
+          nursesDropdown.style.maxHeight = '400px';
+          nursesIcon.style.transform = 'rotate(180deg)';
+        } else {
+          nursesDropdown.style.maxHeight = '0px';
+          nursesIcon.style.transform = 'rotate(0deg)';
+        }
+      });
+
+      // Blood Bank dropdown functionality
+      const bloodbankToggle = document.getElementById('bloodbank-toggle');
+      const bloodbankDropdown = document.getElementById('bloodbank-dropdown');
+      const bloodbankIcon = document.getElementById('bloodbank-icon');
+      let bloodbankOpen = localStorage.getItem('bloodbankDropdownOpen') === 'true';
+
+      // Set initial state for bloodbank dropdown
+      if (bloodbankOpen) {
+        bloodbankDropdown.style.maxHeight = '400px';
+        bloodbankIcon.style.transform = 'rotate(180deg)';
+      } else {
+        bloodbankDropdown.style.maxHeight = '0px';
+        bloodbankIcon.style.transform = 'rotate(0deg)';
+      }
+
+      bloodbankToggle.addEventListener('click', function() {
+        bloodbankOpen = !bloodbankOpen;
+        localStorage.setItem('bloodbankDropdownOpen', bloodbankOpen);
+        if (bloodbankOpen) {
+          bloodbankDropdown.style.maxHeight = '400px';
+          bloodbankIcon.style.transform = 'rotate(180deg)';
+        } else {
+          bloodbankDropdown.style.maxHeight = '0px';
+          bloodbankIcon.style.transform = 'rotate(0deg)';
         }
       });
 

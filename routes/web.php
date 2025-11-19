@@ -12,6 +12,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PatientVisitController;
+use App\Http\Controllers\HospitalVisitController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AppointmentController;
 use App\Mail\OtpMail;
@@ -170,6 +171,7 @@ Route::get('/video-consultations', [AppointmentController::class, 'videoConsulta
         ]);
 
         Route::get('/doctors', [EmployeeController::class, 'doctors'])->name('admin.doctors');
+        Route::get('/nurses', [EmployeeController::class, 'nurses'])->name('admin.nurses');
         Route::post('/employees/{employee}/toggle-status', [EmployeeController::class, 'toggleStatus'])->name('admin.employees.toggle-status');
 
         Route::resource('specialities', SpecialityController::class)->names([
@@ -197,7 +199,23 @@ Route::get('/video-consultations', [AppointmentController::class, 'videoConsulta
         Route::get('/get-assigned-rooms', [App\Http\Controllers\RoomController::class, 'getAssignedRooms'])->name('admin.get-assigned-rooms');
         Route::delete('/remove-room-assignment/{id}', [App\Http\Controllers\RoomController::class, 'removeAssignment'])->name('admin.remove-room-assignment');
 
+        // Hospital Visits routes
+        Route::resource('visits', HospitalVisitController::class)->names([
+            'index' => 'admin.visits.index',
+            'create' => 'admin.visits.create',
+            'store' => 'admin.visits.store',
+            'show' => 'admin.visits.show',
+            'edit' => 'admin.visits.edit',
+            'update' => 'admin.visits.update',
+            'destroy' => 'admin.visits.destroy',
+        ]);
 
+        // Additional visit actions
+        Route::post('/visits/{visit}/check-in', [HospitalVisitController::class, 'checkIn'])->name('admin.visits.check-in');
+        Route::post('/visits/{visit}/check-out', [HospitalVisitController::class, 'checkOut'])->name('admin.visits.check-out');
+        Route::post('/visits/{visit}/accept-invite', [HospitalVisitController::class, 'acceptInvite'])->name('admin.visits.accept-invite');
+        Route::post('/visits/{visit}/decline-invite', [HospitalVisitController::class, 'declineInvite'])->name('admin.visits.decline-invite');
+        Route::get('/visits/{visit}/invitation-pdf', [HospitalVisitController::class, 'generateInvitationPDF'])->name('admin.visits.invitation-pdf');
 
     });
 });

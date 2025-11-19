@@ -52,9 +52,9 @@ public function destroy(Appointment $appointment)
 
 public function videoConsultations()
 {
-    // Fetch only video consultation appointments
+    // Fetch only consultation appointments
     $consultations = Appointment::with(['doctor', 'user', 'relative'])
-        ->where('type', 'Video Consultation')
+        ->where('type', 'consultation')
         ->orderBy('appointment_date', 'desc')
         ->orderBy('appointment_time', 'asc')
         ->get();

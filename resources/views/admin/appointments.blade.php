@@ -1,10 +1,22 @@
 @extends('layouts.layout')
+<style>
+    #appointmentModal {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh; /* full viewport height */
+        overflow-y: auto; /* ensure modal scrolls, not the page */
+    }
+</style>
+
+@php
+    $hideFooter = true;
+@endphp
 
 @section('content')
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-
-    <!-- Main Content -->
-    <div class="flex-1 p-6">
+<!-- Main Content -->
+<div class="p-6 flex-1">
         
         <!-- Stats Row -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -71,7 +83,7 @@
             <!-- Table -->
             <div class="overflow-x-auto">
                 @if($upcoming->isEmpty())
-                    <div009 class="p-16 text-center">
+                    <div class="p-16 text-center">
                         <i class="fas fa-calendar-times text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
                         <p class="text-gray-500 dark:text-gray-400">No upcoming appointments</p>
                     </div>
@@ -183,6 +195,7 @@
 </div>
 
 <!-- Appointment Details Modal -->
+ 
 <div id="appointmentModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-lg mx-4 relative">
         

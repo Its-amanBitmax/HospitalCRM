@@ -33,7 +33,7 @@
         <div class="mb-4">
             <label class="block mb-1 text-gray-700 dark:text-gray-300">Task Type</label>
             <select name="task_type" class="w-full border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
-                @foreach(['Appointment','Video Consultation','OPD','IPD','Emergency','Room Duty','Other'] as $type)
+                @foreach(['Appointment','consultation','OPD','IPD','Emergency','Room Duty','Other'] as $type)
                     <option value="{{ $type }}" {{ $schedule->task_type == $type ? 'selected' : '' }}>
                         {{ $type }}
                     </option>

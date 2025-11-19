@@ -44,6 +44,19 @@ class EmployeeController extends Controller
     }
 
     /**
+     * Display a listing of nurses.
+     */
+    public function nurses()
+    {
+        $employees = Employee::with(['department', 'specialities', 'professions'])
+            ->whereHas('professions', function($query) {
+                $query->where('title', 'Nurse');
+            })
+            ->paginate(10);
+        return view('admin.employees.nurses', compact('employees'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

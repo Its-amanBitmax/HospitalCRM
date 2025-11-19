@@ -21,6 +21,7 @@ class Appointment extends Model
         'description',
         'status',
         'type',
+        'subtype',
         'shift_name',
     ];
 
