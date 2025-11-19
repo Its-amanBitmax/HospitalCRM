@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
-class Employee extends Model
+class Employee extends Authenticatable
 {
+    use HasApiTokens;
     protected $fillable = [
         'name',
         'email',
@@ -22,6 +25,7 @@ class Employee extends Model
 
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     protected $casts = [
@@ -78,9 +82,9 @@ class Employee extends Model
     {
         return $this->belongsTo(Department::class);
     }
-    public function schedules()
-{
-    return $this->hasMany(Schedule::class);
-}
 
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }

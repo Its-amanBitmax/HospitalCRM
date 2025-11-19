@@ -465,7 +465,8 @@
             </div>
 
             <div class="login-card">
-                <form id="login-form" autocomplete="off">
+                <form id="login-form" method="POST" autocomplete="off">
+                    @csrf
                     <div class="form-group">
                         <label for="login-identifier" id="identifier-label">Username</label>
                         <div class="input-with-icon">
@@ -502,132 +503,158 @@
         </div>
     </div>
 
-    <script>
-        // Toggle between patient and employee login
-        const patientToggle = document.getElementById('patient-toggle');
-        const employeeToggle = document.getElementById('employee-toggle');
-        const identifierLabel = document.getElementById('identifier-label');
-        const identifierIcon = document.getElementById('identifier-icon');
-        const identifierInput = document.getElementById('login-identifier');
-        const identifierHint = document.getElementById('identifier-hint');
-        const loginBtn = document.getElementById('login-btn');
-        const forgotLink = document.getElementById('forgot-link');
-        const signupLink = document.getElementById('signup-link');
+<script>
 
-        function setPatientMode() {
-            patientToggle.classList.add('active');
-            employeeToggle.classList.remove('active');
-            identifierLabel.textContent = 'Username';
-            identifierIcon.className = 'fas fa-user';
-            identifierInput.placeholder = 'Enter your username';
-            loginBtn.textContent = 'Login to Account';
-            forgotLink.innerHTML = '<i class="fas fa-key"></i> Forgot Password?';
-            signupLink.style.display = 'block';
+// Toggle between patient and employee login
+const patientToggle = document.getElementById('patient-toggle');
+const employeeToggle = document.getElementById('employee-toggle');
+const identifierLabel = document.getElementById('identifier-label');
+const identifierIcon = document.getElementById('identifier-icon');
+const identifierInput = document.getElementById('login-identifier');
+const loginBtn = document.getElementById('login-btn');
+const signupLink = document.getElementById('signup-link');
+
+// Default: Patient Mode
+function setPatientMode() {
+    patientToggle.classList.add('active');
+    employeeToggle.classList.remove('active');
+
+    identifierLabel.textContent = 'Username';
+    identifierIcon.className = 'fas fa-user';
+    identifierInput.placeholder = 'Enter your username';
+
+    loginBtn.textContent = 'Login to Account';
+    signupLink.style.display = 'block';
+}
+
+function setEmployeeMode() {
+    employeeToggle.classList.add('active');
+    patientToggle.classList.remove('active');
+
+identifierLabel.textContent = 'Employee Code';
+identifierInput.placeholder = 'Enter your employee code';
+identifierIcon.className = 'fas fa-id-card';
+
+    loginBtn.textContent = 'Access Portal';
+    signupLink.style.display = 'none';
+}
+
+patientToggle.addEventListener('click', setPatientMode);
+employeeToggle.addEventListener('click', setEmployeeMode);
+
+
+// ---------------------
+// FORM SUBMIT
+// ---------------------
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const identifier = identifierInput.value.trim();
+    const password = document.getElementById('login-password').value;
+    const isPatient = patientToggle.classList.contains('active');
+
+    if (isPatient) {
+        if (identifier === 'user123' && password === 'pass123') {
+            successMessage("Login Successful!");
+            setTimeout(() => window.location.href = '/patient/dashboard', 1200);
+        } else {
+            showError("Invalid Patient Credentials!");
+        }
+        return;
+    }
+
+    // Employee Login
+    const formData = new FormData();
+    formData.append('identifier', identifier);
+    formData.append('password', password);
+    formData.append('_token', document.querySelector('input[name="_token"]').value);
+
+    fetch('/employee/userlogin', {
+        method: 'POST',
+        body: formData
+    })
+    .then(async res => {
+
+        if (res.redirected) {
+            window.location.href = res.url;
+            return;
         }
 
-        function setEmployeeMode() {
-            employeeToggle.classList.add('active');
-            patientToggle.classList.remove('active');
-            identifierLabel.textContent = 'Employee Code';
-            identifierIcon.className = 'fas fa-id-badge';
-            identifierInput.placeholder = 'Enter your employee code';
-            loginBtn.textContent = 'Access Portal';
-            forgotLink.innerHTML = '<i class="fas fa-key"></i> Forgot Password?';
-            signupLink.style.display = 'none';
+        let data = await res.json();
+
+        if (data.error) {
+            showError(data.error);
+        } else {
+            showError("Invalid employee credentials");
         }
+    })
+    .catch(() => showError("Server error, please try again."));
+});
 
-        patientToggle.addEventListener('click', setPatientMode);
-        employeeToggle.addEventListener('click', setEmployeeMode);
 
-        // Form submission
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+// ---------------------
+// SUCCESS UI
+// ---------------------
+function successMessage(msg) {
+    const btn = document.querySelector('.auth-btn');
+    btn.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+    btn.style.background = 'linear-gradient(to right, #4CAF50, #45a049)';
+}
 
-            const identifier = document.getElementById('login-identifier').value.trim();
-            const password = document.getElementById('login-password').value;
-            const isPatient = patientToggle.classList.contains('active');
 
-            if (isPatient) {
-                // Patient login logic
-                if (identifier === 'user123' && password === 'pass123') {
-                    // Show success message
-                    const btn = document.querySelector('.auth-btn');
-                    const originalText = btn.textContent;
-                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Login Successful!';
-                    btn.style.background = 'linear-gradient(to right, #4CAF50, #45a049)';
+// ---------------------
+// ERROR UI + Animation
+// ---------------------
+function showError(message) {
+    const btn = document.querySelector('.auth-btn');
+    const originalText = btn.textContent;
 
-                    setTimeout(() => {
-                        // Redirect to patient dashboard
-                        window.location.href = 'index2.html';
-                    }, 1500);
-                } else {
-                    // Show error
-                    showError('Invalid Credentials!');
-                }
-            } else {
-                // Employee login logic (allow any code/password for demo)
-                if (identifier && password) {
-                    // Show success message
-                    const btn = document.querySelector('.auth-btn');
-                    const originalText = btn.textContent;
-                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Access Granted!';
-                    btn.style.background = 'linear-gradient(to right, #4CAF50, #45a049)';
+    btn.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+    btn.style.background = 'linear-gradient(to right, #f44336, #d32f2f)';
 
-                    setTimeout(() => {
-                        // Redirect to employee dashboard
-                        window.location.href = 'index2.html';
-                    }, 1500);
-                } else {
-                    // Show error
-                    showError('Please Enter Credentials');
-                }
-            }
-        });
+    setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = 'linear-gradient(to right, #0B717A, #2CC1C1)';
+    }, 2000);
 
-        function showError(message) {
-            const btn = document.querySelector('.auth-btn');
-            const originalText = btn.textContent;
-            btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
-            btn.style.background = 'linear-gradient(to right, #f44336, #d32f2f)';
+    const card = document.querySelector('.login-card');
+    card.style.animation = 'shake 0.5s';
+    setTimeout(() => card.style.animation = '', 500);
+}
 
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.style.background = 'linear-gradient(to right, #0B717A, #2CC1C1)';
-            }, 2000);
 
-            // Shake animation
-            document.querySelector('.login-card').style.animation = 'shake 0.5s';
-            setTimeout(() => {
-                document.querySelector('.login-card').style.animation = '';
-            }, 500);
-        }
+// ---------------------
+// Password Toggle
+// ---------------------
+document.getElementById('password-toggle').addEventListener('click', function() {
+    const pwd = document.getElementById('login-password');
+    const icon = this.querySelector('i');
 
-        // Password visibility toggle
-        document.getElementById('password-toggle').addEventListener('click', function() {
-            const passwordInput = document.getElementById('login-password');
-            const icon = this.querySelector('i');
+    if (pwd.type === 'password') {
+        pwd.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        pwd.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+});
 
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
 
-        // Add shake animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                20%, 40%, 60%, 80% { transform: translateX(5px); }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
+// Shake Animation Inject
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+`;
+document.head.appendChild(style);
+
+</script>
+
+
+
+
 </body>
 </html>

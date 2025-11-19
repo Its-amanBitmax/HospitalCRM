@@ -44,3 +44,4 @@ Route::middleware('auth:sanctum')->prefix('relatives')->group(function () {
     Route::post('/{relative_id}', [RelativeController::class, 'update']);
     Route::delete('/{relative_id}', [RelativeController::class, 'destroy']);
 });
+Route::post('/doctor/login', [\App\Http\Controllers\Api\DoctorLoginController::class, 'login']);

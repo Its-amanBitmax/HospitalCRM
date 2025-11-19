@@ -15,6 +15,7 @@ use App\Http\Controllers\PatientVisitController;
 use App\Http\Controllers\HospitalVisitController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\EmployeeLoginController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -218,4 +219,21 @@ Route::get('/video-consultations', [AppointmentController::class, 'videoConsulta
         Route::get('/visits/{visit}/invitation-pdf', [HospitalVisitController::class, 'generateInvitationPDF'])->name('admin.visits.invitation-pdf');
 
     });
+});
+
+// Employee routes
+Route::prefix('employee')->group(function () {
+
+    Route::post('/userlogin', [EmployeeLoginController::class, 'login'])
+        ->name('employee.userlogin');
+
+    Route::get('/dashboard', function () {
+        return view('employee.dashboard');
+    })->name('employee.dashboard')->middleware('auth:doctor');
+
+   Route::get('/employee/doctor-dashboard', function () {
+    return view('employee.doctor-dashboard');
+})->name('employee.doctor.dashboard')->middleware('auth:doctor');
+
+
 });
