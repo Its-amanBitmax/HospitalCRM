@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
-     public function index()
+    public function index()
     {
         $total = Appointment::count();
         $pending = Appointment::where('status', 'Pending')->count();
@@ -18,14 +18,21 @@ class AppointmentController extends Controller
         // Upcoming appointments (today + next 3 days)
         $today = Carbon::today();
         $upcoming = Appointment::with(['doctor', 'user', 'relative'])
-    ->whereDate('appointment_date', '>=', Carbon::today())
-    ->whereDate('appointment_date', '<=', Carbon::today()->addDays(3))
-    ->orderBy('appointment_date', 'asc')
-    ->orderBy('appointment_time', 'asc')
-    ->get();
+            ->whereDate('appointment_date', '>=', Carbon::today())
+            ->whereDate('appointment_date', '<=', Carbon::today()->addDays(3))
+            ->orderBy('appointment_date', 'asc')
+            ->orderBy('appointment_time', 'asc')
+            ->get();
+
+        // All offline appointments (type = 'Appointment')
+        $offline = Appointment::with(['doctor', 'user', 'relative'])
+            ->where('type', 'Appointment')
+            ->orderBy('appointment_date', 'desc')
+            ->orderBy('appointment_time', 'asc')
+            ->get();
 
         return view('admin.appointments', compact(
-            'total', 'pending', 'confirmed', 'cancelled', 'upcoming'
+            'total', 'pending', 'confirmed', 'cancelled', 'upcoming', 'offline'
         ));
     }
 
