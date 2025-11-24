@@ -1,5 +1,6 @@
-# Doctor Login API Implementation
-
-- [x] Update Employee model to include HasApiTokens for Sanctum
-- [x] Create Api\DoctorLoginController.php with login method
-- [x] Add route in routes/api.php for /doctor/login
+- [x] Add 'employee_id' to the fillable property in app/Models/Attendance.php to allow mass assignment
+- [x] Create app/Console/Kernel.php with scheduling for MarkAbsentCommand daily at 6:00 PM
+- [x] Create app/Console/Commands/MarkAbsentCommand.php to mark absent employees
+- [x] Test the command manually using `php artisan attendance:mark-absent`
+- [x] Verify scheduling by running `php artisan schedule:run` or setting up cron for production
+- [x] Check logs for any errors during execution

@@ -36,7 +36,7 @@
                     <span class="sidebar-text">Dashboard</span>
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700">
+                <a href="{{ route('employee.doctor.appointments') }}" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700">
                     <i class="fa-solid fa-calendar-check"></i>
                     <span class="sidebar-text">Appointments</span>
                 </a>
@@ -56,10 +56,13 @@
                     <span class="sidebar-text">Settings</span>
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 text-red-500">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span class="sidebar-text">Logout</span>
-                </a>
+                <form method="POST" action="{{ route('employee.logout') }}" class="inline" onsubmit="localStorage.clear();">
+                    @csrf
+                    <button type="submit" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 text-red-500 w-full text-left">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="sidebar-text">Logout</span>
+                    </button>
+                </form>
             </nav>
         </aside>
 
@@ -70,11 +73,11 @@
             <header class="bg-white dark:bg-gray-800 shadow-md p-4 flex justify-between items-center">
                 <h1 class="text-xl font-bold">@yield('header-title', 'Dashboard')</h1>
 
-                <div class="flex items-center gap-3">
-                    <span class="text-sm">Welcome, {{ Auth::user()->name ?? 'Employee' }}</span>
-                    <img src="{{ Auth::user()->image ?? asset('image/default.png') }}"
-                         class="w-10 h-10 rounded-full object-cover border">
-                </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm">Welcome, {{ Auth::user()->name ?? 'Employee' }}</span>
+                        <img src="{{ Auth::user()->image ?? asset('image/default.png') }}"
+                            class="w-10 h-10 rounded-full object-cover border">
+                    </div>
             </header>
 
             <!-- =================== MAIN PAGE CONTENT ================== -->
@@ -83,9 +86,7 @@
             </main>
 
             <!-- ======================== FOOTER ======================== -->
-            <footer class="bg-white dark:bg-gray-800 text-center py-3 shadow-inner mt-auto">
-                <p class="text-sm">© {{ date('Y') }} Doctor Dashboard — All Rights Reserved.</p>
-            </footer>
+           
 
         </div>
     </div>

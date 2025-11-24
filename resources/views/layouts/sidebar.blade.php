@@ -132,7 +132,7 @@
           <i class="fas fa-star text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Specialities</span>
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group text-gray-700 dark:text-gray-300">
+        <a href="{{ route('admin.attendance.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group {{ request()->routeIs('admin.attendance.*') ? 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
           <i class="fas fa-calendar-alt text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Attendance</span>
         </a>

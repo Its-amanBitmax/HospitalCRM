@@ -72,5 +72,29 @@ public function videoConsultations()
     return view('admin.video-consultations', compact('consultations', 'confirmed', 'cancelled', 'total', 'upcoming'));
 }
 
+public function doctorAppointments()
+{
+    $doctorId = auth('doctor')->id();
+
+    $total = Appointment::where('doctor_id', $doctorId)->count();
+    $pending = Appointment::where('doctor_id', $doctorId)->where('status', 'Pending')->count();
+    $confirmed = Appointment::where('doctor_id', $doctorId)->where('status', 'Confirmed')->count();
+    $cancelled = Appointment::where('doctor_id', $doctorId)->where('status', 'Cancelled')->count();
+
+    // Upcoming appointments (today + next 3 days) for this doctor
+    $today = Carbon::today();
+    $upcoming = Appointment::with(['doctor', 'user', 'relative'])
+        ->where('doctor_id', $doctorId)
+        ->whereDate('appointment_date', '>=', Carbon::today())
+        ->whereDate('appointment_date', '<=', Carbon::today()->addDays(3))
+        ->orderBy('appointment_date', 'asc')
+        ->orderBy('appointment_time', 'asc')
+        ->get();
+
+    return view('employee.appointments', compact(
+        'total', 'pending', 'confirmed', 'cancelled', 'upcoming'
+    ));
+}
+
 
 }

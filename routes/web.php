@@ -18,6 +18,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EmployeeLoginController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\AttendanceController;
 
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/login-selection', function () {
@@ -43,8 +44,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/employees/{employee}/schedules/create', [ScheduleController::class, 'create'])->name('schedules.create');
     Route::post('/employees/{employee}/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
     Route::delete('/schedules/{schedule}', [ScheduleController::class, 'destroy'])->name('schedules.destroy');
-    Route::get('admin/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])->name('schedules.edit');
-    Route::put('admin/schedules/{schedule}', [ScheduleController::class, 'update'])->name('schedules.update');
+    Route::get('/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])->name('schedules.edit');
+    Route::put('/schedules/{schedule}', [ScheduleController::class, 'update'])->name('schedules.update');
 
      Route::get('/appointments', [AppointmentController::class, 'index'])
         ->name('admin.appointments'); 
@@ -218,6 +219,14 @@ Route::get('/video-consultations', [AppointmentController::class, 'videoConsulta
         Route::post('/visits/{visit}/decline-invite', [HospitalVisitController::class, 'declineInvite'])->name('admin.visits.decline-invite');
         Route::get('/visits/{visit}/invitation-pdf', [HospitalVisitController::class, 'generateInvitationPDF'])->name('admin.visits.invitation-pdf');
 
+        // Attendance routes
+        Route::get('/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
+        Route::post('/attendance/mark', [AttendanceController::class, 'markAttendance'])->name('admin.attendance.mark');
+        Route::get('/attendance/{employeeId}', [AttendanceController::class, 'show'])->name('admin.attendance.show');
+        Route::post('/attendance/bulk-mark', [AttendanceController::class, 'bulkMark'])->name('admin.attendance.bulk-mark');
+        Route::get('/attendance-report', [AttendanceController::class, 'report'])->name('admin.attendance.report');
+        Route::get('/attendance/monthly-view', [AttendanceController::class, 'monthlyView'])->name('admin.attendance.monthly-view');
+
     });
 });
 
@@ -227,6 +236,9 @@ Route::prefix('employee')->group(function () {
     Route::post('/userlogin', [EmployeeLoginController::class, 'login'])
         ->name('employee.userlogin');
 
+    Route::post('/logout', [EmployeeLoginController::class, 'logout'])
+        ->name('employee.logout');
+
     Route::get('/dashboard', function () {
         return view('employee.dashboard');
     })->name('employee.dashboard')->middleware('auth:doctor');
@@ -234,6 +246,8 @@ Route::prefix('employee')->group(function () {
    Route::get('/employee/doctor-dashboard', function () {
     return view('employee.doctor-dashboard');
 })->name('employee.doctor.dashboard')->middleware('auth:doctor');
-
+    
+   Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])
+       ->name('employee.doctor.appointments')->middleware('auth:doctor');
 
 });
