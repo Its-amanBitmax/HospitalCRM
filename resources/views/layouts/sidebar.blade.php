@@ -1,6 +1,6 @@
-<aside id="sidebar" class="w-64 fixed top-0 left-0 h-screen overflow-y-auto shadow-xl transition-all duration-300 bg-cyan-400" style="-ms-overflow-style: none; scrollbar-width: none; z-index: 1006;">
+<aside id="sidebar" class="w-64 fixed top-0 left-0 h-screen overflow-y-auto shadow-xl transition-all duration-300 " style="-ms-overflow-style: none; scrollbar-width: none; z-index: 1006;">
   <!-- Logo Section -->
-  <div class="flex items-center justify-center px-4 py-5 border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm" style="height: 80px;">
+  <div class="flex items-center justify-center px-4 py-5 border-b border-gray-100 dark:border-gray-700 bg-cyan-300 dark:bg-gray-800 shadow-sm" style="height: 80px;">
     <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-cyan-50 dark:bg-cyan-900/20">
       <img src="{{ $admin && $admin->logo ? asset('storage/' . $admin->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}" alt="{{ $admin && $admin->hospital_name ? $admin->hospital_name . ' Logo' : 'Dreams EMR Logo' }}" class="w-8 h-8 dark:invert">
     </div>
@@ -12,53 +12,53 @@
     <div>
       <p class="text-xs text-cyan-600 dark:text-cyan-400 font-semibold uppercase mb-3 tracking-wider bg-cyan-50 dark:bg-cyan-900/20 px-3 py-2 rounded-lg border border-cyan-100 dark:border-cyan-800">Main</p>
       <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group {{ request()->routeIs('admin.dashboard') ? 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
-        <i class="fas fa-tachometer-alt text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
+        <i class="fas fa-tachometer-alt text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
         <span class="sidebar-text font-medium">Dashboard</span>
       </a>
       <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group {{ request()->routeIs('admin.manage.admin') ? 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
-        <i class="fas fa-users text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
+        <i class="fas fa-users text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
         <span class="sidebar-text font-medium">Manage admins</span>
       </a>
       <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group {{ request()->routeIs('admin.Roles & Permission') ? 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
-        <i class="fas fa-shield-alt text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
+        <i class="fas fa-shield-alt text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
         <span class="sidebar-text font-medium">Roles & Permissions</span>
       </a>
     </div>
    
     <!-- Healthcare Section -->
     <div>
-      <p class="text-xs text-cyan-600 dark:text-cyan-400 font-semibold uppercase mt-6 mb-3 tracking-wider bg-cyan-50 dark:bg-cyan-900/20 px-3 py-2 rounded-lg border border-cyan-100 dark:border-cyan-800 sidebar-text">Healthcare</p>
+      <p class="text-xs text-black dark:text-cyan-400 font-semibold uppercase mt-6 mb-3 tracking-wider bg-cyan-50 dark:bg-cyan-900/20 px-3 py-2 rounded-lg border border-cyan-100 dark:border-cyan-800 sidebar-text">Healthcare</p>
       
       <div id="patients-toggle" class="flex items-center justify-between mt-2 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 border border-transparent hover:border-cyan-200 group">
         <div class="flex items-center space-x-3">
-          <i class="fas fa-user-injured text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
-          <span class="text-sm text-cyan-700 dark:text-cyan-300 font-semibold sidebar-text group-hover:text-cyan-800 dark:group-hover:text-cyan-200">Patients</span>
+          <i class="fas fa-user-injured text-black dark:text-cyan-400 group-hover:text-black dark:group-hover:text-black w-5 text-center"></i>
+          <span class="text-sm text-black dark:text-cyan-300 font-semibold sidebar-text group-hover:text-black dark:group-hover:text-cyan-200">Patients</span>
         </div>
-        <i class="fas fa-chevron-down transition-transform duration-200 text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 text-sm" id="patients-icon"></i>
+        <i class="fas fa-chevron-down transition-transform duration-200 text-black dark:text-cyan-400 group-hover:text-black dark:group-hover:text-cyan-300 text-sm" id="patients-icon"></i>
       </div>
       
       <div id="patients-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-cyan-200 dark:border-cyan-700 pl-3 mt-1">
         <a href="{{ route('admin.registered-users') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group {{ request()->routeIs('admin.registered-users') ? 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
-          <i class="fas fa-users text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
+          <i class="fas fa-users text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">All Patients</span>
         </a>
         <a href="{{ route('admin.ipd-patients') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group {{ request()->routeIs('admin.ipd-patients') ? 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
-          <i class="fas fa-procedures text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
+          <i class="fas fa-procedures text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">IPD Patients</span>
         </a>
         <a href="{{ route('admin.opd-patients') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group {{ request()->routeIs('admin.opd-patients') ? 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
-          <i class="fas fa-stethoscope text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
+          <i class="fas fa-stethoscope text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">OPD Patients</span>
         </a>
         <a href="{{ route('admin.emergency-patients') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group {{ request()->routeIs('admin.emergency-patients') ? 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
-          <i class="fas fa-ambulance text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
+          <i class="fas fa-ambulance text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Emergency Patients</span>
         </a>
       </div>
       
       <div id="doctors-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 border border-transparent hover:border-cyan-200 group">
         <div class="flex items-center space-x-3">
-          <i class="fas fa-user-md text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
+          <i class="fas fa-user-md text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
           <span class="text-sm text-cyan-700 dark:text-cyan-300 font-semibold sidebar-text group-hover:text-cyan-800 dark:group-hover:text-cyan-200">Doctors</span>
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 text-sm" id="doctors-icon"></i>
@@ -66,22 +66,22 @@
       
       <div id="doctors-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-cyan-200 dark:border-cyan-700 pl-3 mt-1">
         <a href="{{ route('admin.doctors') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group text-gray-700 dark:text-gray-300">
-          <i class="fas fa-user-md text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
+          <i class="fas fa-user-md text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">All Doctors</span>
         </a>
         <a href="{{ route('admin.appointments') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group text-gray-700 dark:text-gray-300">
-          <i class="fas fa-calendar-alt text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
+          <i class="fas fa-calendar-alt text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Appointments</span>
         </a>
         <a href="{{ route('admin.video-consultations') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 group text-gray-700 dark:text-gray-300">
-          <i class="fas fa-video text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
+          <i class="fas fa-video text-black dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Online Consult</span>
         </a>
       </div>
 
       <div id="nurses-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 border border-transparent hover:border-cyan-200 group">
         <div class="flex items-center space-x-3">
-          <i class="fas fa-user-nurse text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 w-5 text-center"></i>
+          <i class="fas fa-user-nurse text-black dark:text-cyan-400 group-hover:text-black dark:group-hover:text-cyan-300 w-5 text-center"></i>
           <span class="text-sm text-cyan-700 dark:text-cyan-300 font-semibold sidebar-text group-hover:text-cyan-800 dark:group-hover:text-cyan-200">Nurses</span>
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-cyan-500 dark:text-cyan-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 text-sm" id="nurses-icon"></i>
