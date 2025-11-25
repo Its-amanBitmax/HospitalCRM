@@ -17,6 +17,8 @@
                 <button onclick="bulkMarkAttendance()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200">
                     <i class="fas fa-check-circle mr-2"></i>Bulk Mark
                 </button>
+               
+
                 <a href="{{ route('admin.attendance.monthly-view') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition duration-200">
                     <i class="fas fa-calendar mr-2"></i>Monthly View
                 </a>

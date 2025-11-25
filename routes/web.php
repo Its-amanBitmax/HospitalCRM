@@ -225,10 +225,15 @@ Route::get('/video-consultations', [AppointmentController::class, 'videoConsulta
         Route::get('/attendance/{employeeId}', [AttendanceController::class, 'show'])->name('admin.attendance.show');
         Route::post('/attendance/bulk-mark', [AttendanceController::class, 'bulkMark'])->name('admin.attendance.bulk-mark');
         Route::get('/attendance-report', [AttendanceController::class, 'report'])->name('admin.attendance.report');
-        Route::get('/attendance/monthly-view', [AttendanceController::class, 'monthlyView'])->name('admin.attendance.monthly-view');
+        
+       
 
+       
     });
 });
+
+ Route::get('attendance/monthly-view', [AttendanceController::class, 'monthlyView'])->name('admin.attendance.monthly-view');
+
 
 // Employee routes
 Route::prefix('employee')->group(function () {

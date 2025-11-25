@@ -9,6 +9,7 @@ use App\Models\Qualification;
 use App\Models\Document;
 use App\Models\Payroll;
 use App\Models\Address;
+use App\Models\Appointment;
 use App\Models\FamilyDetail;
 use App\Models\Shift;
 use App\Models\Profession;
@@ -377,18 +378,20 @@ class EmployeeController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Employee $employee)
-    {
-        if ($employee->image) {
-            Storage::disk('public')->delete($employee->image);
-        }
+{
+    Appointment::where('doctor_id', $employee->id)->delete();
 
-        // Delete related documents
-        foreach ($employee->documents as $document) {
-            Storage::disk('public')->delete($document->document_path);
-        }
-
-        $employee->delete();
-
-        return redirect()->route('admin.employees.index')->with('success', 'Employee deleted successfully.');
+    if ($employee->image) {
+        Storage::disk('public')->delete($employee->image);
     }
+
+    foreach ($employee->documents as $document) {
+        Storage::disk('public')->delete($document->document_path);
+    }
+
+    $employee->delete();
+
+    return redirect()->route('admin.employees.index')->with('success', 'Employee deleted.');
+}
+
 }

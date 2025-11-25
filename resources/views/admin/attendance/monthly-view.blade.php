@@ -3,7 +3,7 @@
 @section('title', 'Monthly Attendance View')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+<div class="container  px-4 py-8" style="width:75%;">
     <div class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-between items-center mb-6">
             <div>
@@ -63,7 +63,7 @@
                         @endforeach
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-gray-200 ">
                     @foreach($employees as $employee)
                     <tr class="hover:bg-gray-50">
                         <td class="px-4 py-4 whitespace-nowrap sticky left-0 bg-white border-r border-gray-300 z-10">
