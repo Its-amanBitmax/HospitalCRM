@@ -36,7 +36,7 @@
                     <span class="sidebar-text">Dashboard</span>
                 </a>
 
-                <a href="{{ route('employee.doctor.appointments') }}" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700">
+                <a href="{{ route('employee.doctor_appointments') }}" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700">
                     <i class="fa-solid fa-calendar-check"></i>
                     <span class="sidebar-text">Appointments</span>
                 </a>

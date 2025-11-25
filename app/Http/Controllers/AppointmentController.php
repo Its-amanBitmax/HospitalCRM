@@ -79,29 +79,72 @@ public function videoConsultations()
     return view('admin.video-consultations', compact('consultations', 'confirmed', 'cancelled', 'total', 'upcoming'));
 }
 
-public function doctorAppointments()
-{
-    $doctorId = auth('doctor')->id();
+    public function doctorAppointments()
+    {
+        $doctorId = auth('doctor')->id();
 
-    $total = Appointment::where('doctor_id', $doctorId)->count();
-    $pending = Appointment::where('doctor_id', $doctorId)->where('status', 'Pending')->count();
-    $confirmed = Appointment::where('doctor_id', $doctorId)->where('status', 'Confirmed')->count();
-    $cancelled = Appointment::where('doctor_id', $doctorId)->where('status', 'Cancelled')->count();
+        // Summary counts
+        $total = Appointment::where('doctor_id', $doctorId)->count();
+        $pending = Appointment::where('doctor_id', $doctorId)->where('status', 'Pending')->count();
+        $confirmed = Appointment::where('doctor_id', $doctorId)->where('status', 'Confirmed')->count();
+        $cancelled = Appointment::where('doctor_id', $doctorId)->where('status', 'Cancelled')->count();
 
-    // Upcoming appointments (today + next 3 days) for this doctor
-    $today = Carbon::today();
-    $upcoming = Appointment::with(['doctor', 'user', 'relative'])
-        ->where('doctor_id', $doctorId)
-        ->whereDate('appointment_date', '>=', Carbon::today())
-        ->whereDate('appointment_date', '<=', Carbon::today()->addDays(3))
-        ->orderBy('appointment_date', 'asc')
-        ->orderBy('appointment_time', 'asc')
-        ->get();
+        // All appointments for this doctor
+        $allAppointments = Appointment::with(['doctor', 'user', 'relative'])
+            ->where('doctor_id', $doctorId)
+            ->orderBy('appointment_date', 'desc')
+            ->orderBy('appointment_time', 'desc')
+            ->get();
 
-    return view('employee.appointments', compact(
-        'total', 'pending', 'confirmed', 'cancelled', 'upcoming'
-    ));
-}
+        // Upcoming appointments (today + next 3 days)
+        $upcoming = Appointment::with(['doctor', 'user', 'relative'])
+            ->where('doctor_id', $doctorId)
+            ->whereDate('appointment_date', '>=', Carbon::today())
+            ->whereDate('appointment_date', '<=', Carbon::today()->addDays(3))
+            ->orderBy('appointment_date', 'asc')
+            ->orderBy('appointment_time', 'asc')
+            ->get();
+
+        \Log::info("DoctorAppointments Debug: doctorId={$doctorId}, upcomingCount={$upcoming->count()}");
+
+        return view('employee.doctor_appointments', compact(
+            'total', 'pending', 'confirmed', 'cancelled', 'allAppointments', 'upcoming'
+        ));
+    }
+
+    public function doctorConsultations()
+    {
+        $doctorId = auth('doctor')->id();
+
+        // Summary counts for consultation type
+        $total = Appointment::where('doctor_id', $doctorId)->where('type', 'consultation')->count();
+        $pending = Appointment::where('doctor_id', $doctorId)->where('status', 'Pending')->where('type', 'consultation')->count();
+        $confirmed = Appointment::where('doctor_id', $doctorId)->where('status', 'Confirmed')->where('type', 'consultation')->count();
+        $cancelled = Appointment::where('doctor_id', $doctorId)->where('status', 'Cancelled')->where('type', 'consultation')->count();
+
+        // All consultations for this doctor
+        $allConsultations = Appointment::with(['doctor', 'user', 'relative'])
+            ->where('doctor_id', $doctorId)
+            ->where('type', 'consultation')
+            ->orderBy('appointment_date', 'desc')
+            ->orderBy('appointment_time', 'desc')
+            ->get();
+
+        // Upcoming consultations (today + next 3 days)
+        $upcoming = Appointment::with(['doctor', 'user', 'relative'])
+            ->where('doctor_id', $doctorId)
+            ->where('type', 'consultation')
+            ->whereDate('appointment_date', '>=', Carbon::today())
+            ->whereDate('appointment_date', '<=', Carbon::today()->addDays(3))
+            ->orderBy('appointment_date', 'asc')
+            ->orderBy('appointment_time', 'asc')
+            ->get();
+
+        return view('employee.doctor_consultations', compact(
+            'total', 'pending', 'confirmed', 'cancelled', 'allConsultations', 'upcoming'
+        ));
+    }
+
 
 
 }

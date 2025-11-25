@@ -81,7 +81,7 @@
 <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 mt-8">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-bold">Recent Appointments</h3>
-        <a href="{{ route('employee.doctor.appointments') }}" class="text-blue-500 text-sm hover:underline">View All</a>
+        <a href="{{ route('employee.doctor_appointments') }}" class="text-blue-500 text-sm hover:underline">View All</a>
     </div>
 
     <div class="overflow-x-auto">

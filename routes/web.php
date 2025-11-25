@@ -239,6 +239,13 @@ Route::prefix('employee')->group(function () {
     Route::post('/logout', [EmployeeLoginController::class, 'logout'])
         ->name('employee.logout');
 
+    // Accept/Reject routes for appointments
+    Route::put('/appointments/{appointment}/accept', [AppointmentController::class, 'accept'])
+        ->name('employee.appointments.accept')->middleware('auth:doctor');
+
+    Route::put('/appointments/{appointment}/reject', [AppointmentController::class, 'reject'])
+        ->name('employee.appointments.reject')->middleware('auth:doctor');
+
     Route::get('/dashboard', function () {
         return view('employee.dashboard');
     })->name('employee.dashboard')->middleware('auth:doctor');
@@ -248,6 +255,9 @@ Route::prefix('employee')->group(function () {
 })->name('employee.doctor.dashboard')->middleware('auth:doctor');
     
    Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])
-       ->name('employee.doctor.appointments')->middleware('auth:doctor');
+       ->name('employee.doctor_appointments')->middleware('auth:doctor');
+
+   Route::get('/doctor/consultations', [AppointmentController::class, 'doctorConsultations'])
+       ->name('employee.doctor_consultations')->middleware('auth:doctor');
 
 });
