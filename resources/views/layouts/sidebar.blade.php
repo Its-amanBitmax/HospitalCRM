@@ -1,14 +1,14 @@
 <aside id="sidebar" class="w-64 fixed top-0 left-0 h-screen overflow-y-auto shadow-xl transition-all duration-300 " style="-ms-overflow-style: none; scrollbar-width: none; z-index: 1006;">
   <!-- Logo Section -->
-  <div class="flex items-center justify-center px-4 py-5 border-b border-gray-100 dark:border-gray-700 bg-black-300 dark:bg-gray-800 shadow-sm" style="height: 80px;">
+  <div class="flex items-center justify-center px-4 py-5 border-b border-gray-100 dark:border-gray-700 bg-black-300 dark:bg-gray-800 shadow-sm" style="height: 80px; background-color:#eaf9f9">
     <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-black-50 dark:bg-black-900/20">
       <img src="{{ $admin && $admin->logo ? asset('storage/' . $admin->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}" alt="{{ $admin && $admin->hospital_name ? $admin->hospital_name . ' Logo' : 'Dreams EMR Logo' }}" class="w-8 h-8 dark:invert">
     </div>
-    <h1 class="text-lg font-bold sidebar-text ml-3 text-black-600 dark:text-black-400">{{ $admin && $admin->hospital_name ? $admin->hospital_name : 'Dreams EMR' }}</h1>
+    <h1 class="text-lg font-bold sidebar-text ml-3 text-cyan-600 dark:text-cyan-400">{{ $admin && $admin->hospital_name ? $admin->hospital_name : 'Dreams EMR' }}</h1>
   </div>
   
   <!-- Main Navigation -->
-  <nav class="p-4 space-y-4">
+  <nav class="p-4 space-y-4" style="background-color:#eaf9f9;">
     <div>
       <p class="text-xs text-black dark:text-black-400 font-semibold uppercase mb-3 tracking-wider bg-black-50  px-3 py-2 rounded-lg border border-black-100 dark:border-black-800">Main</p>
       <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group {{ request()->routeIs('admin.dashboard') ? ' text-black-700 border-black-200 dark:bg-black-900/30 dark:text-black-300 dark:border-black-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
@@ -140,14 +140,14 @@
           <i class="fas fa-money-bill-wave text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Salary</span>
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group text-gray-700 dark:text-gray-300">
+        <!-- <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group text-gray-700 dark:text-gray-300">
           <i class="fas fa-id-card text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Identity Card</span>
         </a>
         <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group text-gray-700 dark:text-gray-300">
           <i class="fas fa-clock text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">OT Handling</span>
-        </a>
+        </a> -->
       </div>
       
       <div id="services-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-black-50 dark:hover:bg-black-900/20 border border-transparent hover:border-black-200 group">

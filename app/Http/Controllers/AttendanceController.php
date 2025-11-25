@@ -157,7 +157,37 @@ class AttendanceController extends Controller
         return view('admin.attendance.report', compact('attendances', 'summary', 'startDate', 'endDate', 'departments'));
     }
 
-    public function monthlyView(Request $request)
+    // public function monthlyView(Request $request)
+    // {
+    //     $month = $request->input('month', now()->format('Y-m'));
+    //     $departmentId = $request->input('department_id');
+
+    //     $departments = Department::all();
+
+    //     $employeesQuery = Employee::query();
+    //     if ($departmentId) {
+    //         $employeesQuery->where('department_id', $departmentId);
+    //     }
+    //     $employees = $employeesQuery->with(['attendances' => function($q) use ($month) {
+    //         $q->whereBetween('date', [
+    //             \Carbon\Carbon::parse($month . '-01')->startOfMonth()->toDateString(),
+    //             \Carbon\Carbon::parse($month . '-01')->endOfMonth()->toDateString()
+    //         ]);
+    //     }])->get();
+
+    //     $start = \Carbon\Carbon::parse($month . '-01')->startOfMonth();
+    //     $end = \Carbon\Carbon::parse($month . '-01')->endOfMonth();
+    //     $dates = [];
+    //     for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+    //         $dates[] = $date->format('Y-m-d');
+    //     }
+
+    //     return view('admin.attendance.389monthly-view', compact('month', 'departments', 'employees', 'dates'));
+    // }
+
+
+
+     public function monthlyView(Request $request)
     {
         $month = $request->input('month', now()->format('Y-m'));
         $departmentId = $request->input('department_id');
