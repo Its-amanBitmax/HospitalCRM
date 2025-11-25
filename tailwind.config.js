@@ -15,7 +15,7 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: '#42e3d4',
+                primary: '#eaf9f9',
             },
             // Yeh 2 lines add karo
             backgroundImage: {

@@ -9,6 +9,19 @@
         height: 100vh;
         overflow-y: auto;
     }
+    .custom-icon {
+    color: #FF6347;
+    font-size: 1.5rem;
+}
+.custom-icon1 {
+    color: #034807ff;
+    font-size: 1.5rem;
+}
+.custom-icon2 {
+    color: #8b0505ff;
+    font-size: 1.5rem;
+}
+
 </style>
 
 @php
@@ -22,18 +35,20 @@
     <!-- Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow border p-6">
-            <p class="text-sm text-gray-500">Confirmed</p>
+        <div class=" dark:bg-gray-800 rounded-2xl shadow border p-6 bg-white">
+            <p class="text-xl text-black"><i class="fas fa-check-circle custom-icon1"></i>Confirmed</p>
             <p class="text-4xl font-bold mt-2">{{ $confirmed }}</p>
         </div>
 
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow border p-6">
-            <p class="text-sm text-gray-500">Cancelled</p>
+            <p class="text-xl text-black"><i class="fas fa-times-circle custom-icon2"></i> 
+Cancelled</p>
             <p class="text-4xl font-bold mt-2">{{ $cancelled }}</p>
         </div>
 
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow border p-6">
-            <p class="text-sm text-gray-500">Total Today</p>
+            <p class="text-xl text-black "><i class="fas fa-calendar custom-icon"></i>
+Total Today</p>
             <p class="text-4xl font-bold mt-2">{{ $total }}</p>
         </div>
 

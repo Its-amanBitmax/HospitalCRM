@@ -96,24 +96,38 @@ class AppointmentController extends Controller
     /**
      * 👤 Get all appointments for the authenticated user
      */
-    public function getUserAppointments(Request $request)
-    {
-        $user = $request->user();
+ public function getUserAppointments(Request $request)
+{
+    $user = $request->user();
 
-        $appointments = Appointment::with(['doctor', 'relative'])
-            ->where('booked_by_user_id', $user->id)
-            ->orderBy('appointment_date', 'desc')
-            ->get();
+    $appointments = Appointment::with(['doctor', 'relative'])
+        ->where('booked_by_user_id', $user->id)
+        ->orderBy('appointment_date', 'desc')
+        ->get();
 
-        return response()->json([
-            'status' => true,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->full_name,
-            ],
-            'appointments' => $appointments,
-        ]);
-    }
+    // Loop through each appointment and handle doctor and relative images
+    $appointments->each(function ($appointment) {
+        // Check for doctor and relative and modify the image field to full URL
+        foreach (['doctor', 'relative'] as $relation) {
+            if ($appointment->$relation && $appointment->$relation->image) {
+                // Replace the image field with the full image URL
+                $appointment->$relation->image = url('storage/' . $appointment->$relation->image);
+            }
+        }
+    });
+
+    // Return the response
+    return response()->json([
+        'status' => true,
+        'user' => [
+            'id' => $user->id,
+            'name' => $user->full_name,
+        ],
+        'appointments' => $appointments,
+    ]);
+}
+
+
 
     /**
      * ❌ Cancel appointment (Authenticated User)
@@ -147,4 +161,30 @@ class AppointmentController extends Controller
             'message' => 'Appointment cancelled successfully.'
         ]);
     }
+
+
+//      public function UserByAppointments(Request $request)
+// {
+//     $user = $request->user();
+
+   
+//     $appointments = $user->appointments()
+//         ->with(['doctor', 'relative']) 
+//         ->orderBy('appointment_date', 'asc') 
+//         ->get();
+
+//     $appointmentsCount = $appointments->count();
+
+//     return response()->json([
+//         'status' => true,
+//         'appointments_count' => $appointmentsCount,  
+//         'appointments' => $appointments,
+//         'user' => [
+//             'id' => $user->id,
+//             'name' => $user->full_name ?? $user->name ?? 'Unknown',
+//         ]
+//     ]);
+// }
+
+
 }
