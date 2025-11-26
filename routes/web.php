@@ -7,6 +7,7 @@ use App\Http\Controllers\WardBedController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SpecialityController;
@@ -47,19 +48,19 @@ Route::prefix('admin')->group(function () {
     Route::get('/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])->name('schedules.edit');
     Route::put('/schedules/{schedule}', [ScheduleController::class, 'update'])->name('schedules.update');
 
-     Route::get('/appointments', [AppointmentController::class, 'index'])
-        ->name('admin.appointments'); 
+    Route::get('/appointments', [AppointmentController::class, 'index'])
+        ->name('admin.appointments');
     Route::put('/appointments/{appointment}/accept', [AppointmentController::class, 'accept'])
-    ->name('admin.appointments.accept');
+        ->name('admin.appointments.accept');
 
-Route::put('/appointments/{appointment}/reject', [AppointmentController::class, 'reject'])
-    ->name('admin.appointments.reject');
+    Route::put('/appointments/{appointment}/reject', [AppointmentController::class, 'reject'])
+        ->name('admin.appointments.reject');
 
-Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])
-    ->name('admin.appointments.destroy');
+    Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])
+        ->name('admin.appointments.destroy');
 
-Route::get('/video-consultations', [AppointmentController::class, 'videoConsultations'])
-    ->name('admin.video-consultations');
+    Route::get('/video-consultations', [AppointmentController::class, 'videoConsultations'])
+        ->name('admin.video-consultations');
     // Forgot password routes
     Route::post('/forgot-password', [AdminController::class, 'sendOTP'])->name('admin.send.otp');
     Route::post('/verify-otp', [AdminController::class, 'verifyOTP'])->name('admin.verify.otp');
@@ -225,14 +226,9 @@ Route::get('/video-consultations', [AppointmentController::class, 'videoConsulta
         Route::get('/attendance/{employeeId}', [AttendanceController::class, 'show'])->name('admin.attendance.show');
         Route::post('/attendance/bulk-mark', [AttendanceController::class, 'bulkMark'])->name('admin.attendance.bulk-mark');
         Route::get('/attendance-report', [AttendanceController::class, 'report'])->name('admin.attendance.report');
-        
-       
-
-       
     });
 });
-
- Route::get('attendance/monthly-view', [AttendanceController::class, 'monthlyView'])->name('admin.attendance.monthly-view');
+Route::get('attendance/monthly-view', [AttendanceController::class, 'monthlyView'])->name('admin.attendance.monthly-view');
 
 
 // Employee routes
@@ -255,14 +251,27 @@ Route::prefix('employee')->group(function () {
         return view('employee.dashboard');
     })->name('employee.dashboard')->middleware('auth:doctor');
 
-   Route::get('/employee/doctor-dashboard', function () {
-    return view('employee.doctor-dashboard');
-})->name('employee.doctor.dashboard')->middleware('auth:doctor');
-    
-   Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])
-       ->name('employee.doctor_appointments')->middleware('auth:doctor');
+    Route::get('/employee/doctor-dashboard', function () {
+        return view('employee.doctor-dashboard');
+    })->name('employee.doctor.dashboard')->middleware('auth:doctor');
 
-   Route::get('/doctor/consultations', [AppointmentController::class, 'doctorConsultations'])
-       ->name('employee.doctor_consultations')->middleware('auth:doctor');
+    Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])
+        ->name('employee.doctor_appointments')->middleware('auth:doctor');
 
+    Route::get('/doctor/consultations', [AppointmentController::class, 'doctorConsultations'])
+        ->name('employee.doctor_consultations')->middleware('auth:doctor');
+});
+
+
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('/reception/index', [ReceptionController::class, 'index'])->name('admin.reception.index');
+    Route::get('create', [ReceptionController::class, 'create'])->name('admin.reception.create');
+    Route::post('/reception/store', [ReceptionController::class, 'store'])->name('admin.reception.store');
+    Route::post('/reception/update', [ReceptionController::class, 'update'])->name('admin.reception.update');
+    Route::post('/reception/{id}/delete', [ReceptionController::class, 'destroy'])->name('admin.reception.destroy');
+    Route::post('/receptions/{receptionId}/assign', [ReceptionController::class, 'assignReceptionEmployee'])->name('receptions.assign');
+    Route::get('/receptions/visit', [ReceptionController::class, 'reception_visit'])->name('admin.receptions.visit');
+    Route::get('/receptions/{id}/visits', [ReceptionController::class, 'reception_visit_users'])->name('admin.receptions.visits');
 });

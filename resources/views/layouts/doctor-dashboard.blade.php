@@ -41,6 +41,11 @@
                     <span class="sidebar-text">Appointments</span>
                 </a>
 
+               <a href="{{ route('employee.doctor_consultations') }}" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span class="sidebar-text">Consultations</span>
+                </a>
+
                 <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200 dark:hover:bg-gray-700">
                     <i class="fa-solid fa-users"></i>
                     <span class="sidebar-text">Patients</span>

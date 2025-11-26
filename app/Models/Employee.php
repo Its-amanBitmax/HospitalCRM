@@ -92,4 +92,11 @@ class Employee extends Authenticatable
     return $this->hasMany(Attendance::class, 'employee_id', 'id');
 }
 
+
+public function receptions()
+{
+    return $this->hasMany(\App\Models\Reception::class, 'assigned_employee');
+}
+
+
 }

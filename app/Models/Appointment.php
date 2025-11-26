@@ -23,6 +23,7 @@ class Appointment extends Model
         'type',
         'subtype',
         'shift_name',
+        'cancel_reason',
     ];
 
     public static function boot()

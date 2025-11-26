@@ -477,7 +477,7 @@
                 });
             })
             .catch(error => {
-                employeeSelection.innerHTML = '<p class="text-red-500 text-sm">Error loading employees</p>';
+                employeeSelection.innerHTML = '<p class="text-red-500 text-sm">Error kaif employees</p>';
                 handleError(error, "Failed to load employees");
             });
     }

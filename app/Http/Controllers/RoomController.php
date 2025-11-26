@@ -276,16 +276,18 @@ class RoomController extends Controller
         return response()->json($employees);
     }
 
-    public function getEmployeesByDepartment($departmentId)
-    {
-        $employees = Employee::join('professions', 'employees.id', '=', 'professions.employee_id')
-            ->join('departments', 'professions.department_id', '=', 'departments.id')
-            ->where('departments.id', $departmentId)
-            ->select('employees.id', 'employees.name', 'employees.employee_code')
-            ->distinct()
-            ->get();
-        return response()->json($employees);
-    }
+  public function getEmployeesByDepartment($departmentId)
+{
+    $employees = Employee::join('professions', 'employees.id', '=', 'professions.employee_id')
+        ->join('departments', 'professions.department_id', '=', 'departments.id')
+        ->where('departments.id', $departmentId)
+        ->where('professions.title', 'doctor')
+        ->select('employees.id', 'employees.name', 'employees.employee_code')
+        ->distinct()
+        ->get();
+
+    return response()->json($employees);
+}
 
     public function getAssignedRooms()
     {

@@ -6,7 +6,7 @@
     </div>
     <h1 class="text-lg font-bold sidebar-text ml-3 text-cyan-600 dark:text-cyan-400">{{ $admin && $admin->hospital_name ? $admin->hospital_name : 'Dreams EMR' }}</h1>
   </div>
-  
+
   <!-- Main Navigation -->
   <nav class="p-4 space-y-4" style="background-color:#eaf9f9;">
     <div>
@@ -24,11 +24,11 @@
         <span class="sidebar-text font-medium text-black">Roles & Permissions</span>
       </a>
     </div>
-   
+
     <!-- Healthcare Section -->
     <div>
       <p class="text-xs text-black dark:text-black-400 font-semibold uppercase mt-6 mb-3 tracking-wider bg-black-50 dark:bg-black-900/20 px-3 py-2 rounded-lg border border-black-100 dark:border-black-800 sidebar-text">Healthcare</p>
-      
+
       <div id="patients-toggle" class="flex items-center justify-between mt-2 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-black-50 dark:hover:bg-black-900/20 border border-transparent hover:border-black-200 group">
         <div class="flex items-center space-x-3">
           <i class="fas fa-user-injured text-black dark:text-black-400 group-hover:text-black dark:group-hover:text-black w-5 text-center"></i>
@@ -36,7 +36,7 @@
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-black dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 text-sm" id="patients-icon"></i>
       </div>
-      
+
       <div id="patients-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-black-200 dark:border-black-700 pl-3 mt-1">
         <a href="{{ route('admin.registered-users') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group {{ request()->routeIs('admin.registered-users') ? 'bg-black-100 text-black-700 border-black-200 dark:bg-black-900/30 dark:text-black-300 dark:border-black-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
           <i class="fas fa-users text-black dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
@@ -53,9 +53,9 @@
         <a href="{{ route('admin.emergency-patients') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group {{ request()->routeIs('admin.emergency-patients') ? 'bg-black-100 text-black-700 border-black-200 dark:bg-black-900/30 dark:text-black-300 dark:border-black-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
           <i class="fas fa-ambulance text-black dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm text-black">Emergency Patients</span>
-        </a> 
+        </a>
       </div>
-      
+
       <div id="doctors-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-black-50 dark:hover:bg-black-900/20 border border-transparent hover:border-black-200 group">
         <div class="flex items-center space-x-3">
           <i class="fas fa-user-md text-black dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-5 text-center"></i>
@@ -63,7 +63,7 @@
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-black dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 text-sm" id="doctors-icon"></i>
       </div>
-      
+
       <div id="doctors-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-black-200 dark:border-black-700 pl-3 mt-1">
         <a href="{{ route('admin.doctors') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group text-gray-700 dark:text-gray-300">
           <i class="fas fa-user-md text-black dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
@@ -106,11 +106,11 @@
         <!-- Blood Bank sub-links will be added here later -->
       </div>
     </div>
-   
+
     <!-- Manage Section -->
     <div>
       <p class="text-xs text-black dark:text-black-400 font-semibold uppercase mt-6 mb-3 tracking-wider bg-black-50 dark:bg-black-900/20 px-3 py-2 rounded-lg border border-black-100 dark:border-black-800 sidebar-text">Management</p>
-      
+
       <div id="employee-toggle" class="flex items-center justify-between mt-2 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-black-50 dark:hover:bg-black-900/20 border border-transparent hover:border-black-200 group">
         <div class="flex items-center space-x-3">
           <i class="fas fa-users-cog text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-5 text-center"></i>
@@ -118,7 +118,7 @@
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 text-sm" id="employee-icon"></i>
       </div>
-      
+
       <div id="employee-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-black-200 dark:border-black-700 pl-3 mt-1">
         <a href="{{ route('admin.departments') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group {{ request()->routeIs('admin.departments') ? 'bg-black-100 text-black-700 border-black-200 dark:bg-black-900/30 dark:text-black-300 dark:border-black-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
           <i class="fas fa-building text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
@@ -149,7 +149,7 @@
           <span class="sidebar-text text-sm">OT Handling</span>
         </a> -->
       </div>
-      
+
       <div id="services-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-black-50 dark:hover:bg-black-900/20 border border-transparent hover:border-black-200 group">
         <div class="flex items-center space-x-3">
           <i class="fas fa-headset text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-5 text-center"></i>
@@ -157,7 +157,7 @@
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 text-sm" id="services-icon"></i>
       </div>
-      
+
       <div id="services-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-black-200 dark:border-black-700 pl-3 mt-1">
         <a href="{{ route('admin.ward-bed') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group {{ request()->routeIs('admin.ward-bed') ? 'bg-black-100 text-black-700 border-black-200 dark:bg-black-900/30 dark:text-black-300 dark:border-black-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
           <i class="fas fa-bed text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
@@ -184,7 +184,7 @@
           <span class="sidebar-text text-sm">Support & Help Desk</span>
         </a>
       </div>
-      
+
       <div id="pharmacy-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-black-50 dark:hover:bg-black-900/20 border border-transparent hover:border-black-200 group">
         <div class="flex items-center space-x-3">
           <i class="fas fa-pills text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-5 text-center"></i>
@@ -192,7 +192,7 @@
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 text-sm" id="pharmacy-icon"></i>
       </div>
-      
+
       <div id="pharmacy-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-black-200 dark:border-black-700 pl-3 mt-1">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group text-gray-700 dark:text-gray-300">
           <i class="fas fa-shopping-cart text-black-500 dark:text-black-400 group-hover:text-black dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
@@ -219,7 +219,7 @@
           <span class="sidebar-text text-sm">Store</span>
         </a>
       </div>
-      
+
       <div id="account-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-black-50 dark:hover:bg-black-900/20 border border-transparent hover:border-black-200 group">
         <div class="flex items-center space-x-3">
           <i class="fas fa-file-invoice-dollar text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 w-5 text-center"></i>
@@ -227,7 +227,7 @@
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 text-sm" id="account-icon"></i>
       </div>
-      
+
       <div id="account-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-black-200 dark:border-black-700 pl-3 mt-1">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group text-gray-700 dark:text-gray-300">
           <i class="fas fa-money-bill-wave text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
@@ -250,7 +250,7 @@
           <span class="sidebar-text text-sm">Accounts</span>
         </a>
       </div>
-      
+
       <div id="lab-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-black-50 dark:hover:bg-black-900/20 border border-transparent hover:border-black-200 group">
         <div class="flex items-center space-x-3">
           <i class="fas fa-flask text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 w-5 text-center"></i>
@@ -258,7 +258,7 @@
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 text-sm" id="lab-icon"></i>
       </div>
-      
+
       <div id="lab-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-black-200 dark:border-black-700 pl-3 mt-1">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group text-gray-700 dark:text-gray-300">
           <i class="fas fa-flask text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
@@ -273,7 +273,7 @@
           <span class="sidebar-text text-sm">Reports</span>
         </a>
       </div>
-      
+
       <div id="reception-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-black-50 dark:hover:bg-black-900/20 border border-transparent hover:border-black-200 group">
         <div class="flex items-center space-x-3">
           <i class="fas fa-concierge-bell text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 w-5 text-center"></i>
@@ -281,9 +281,9 @@
         </div>
         <i class="fas fa-chevron-down transition-transform duration-200 text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 text-sm" id="reception-icon"></i>
       </div>
-      
+
       <div id="reception-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-black-200 dark:border-black-700 pl-3 mt-1">
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group text-gray-700 dark:text-gray-300">
+        <a href="{{ route('admin.reception.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group text-gray-700 dark:text-gray-300">
           <i class="fas fa-concierge-bell text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Reception</span>
         </a>
@@ -291,7 +291,7 @@
           <i class="fas fa-calendar-alt text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Appointments</span>
         </a>
-        <a href="{{ route('admin.registered-users') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group {{ request()->routeIs('admin.registered-users') ? 'bg-black-100 text-black-700 border-black-200 dark:bg-black-900/30 dark:text-black-300 dark:border-black-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
+        <a href="{{ route('admin.receptions.visit') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-black-200 hover:bg-black-50 dark:hover:bg-black-900/20 group {{ request()->routeIs('admin.registered-users') ? 'bg-black-100 text-black-700 border-black-200 dark:bg-black-900/30 dark:text-black-300 dark:border-black-700 shadow-sm' : 'text-gray-700 dark:text-gray-300' }}">
           <i class="fas fa-users text-black-500 dark:text-black-400 group-hover:text-black-600 dark:group-hover:text-black-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Patients</span>
         </a>
@@ -304,14 +304,14 @@
   </nav>
 
   <style>
-    {{ route('admin.dashboard') }}sidebar::-webkit-scrollbar {
-      display: none;
-    }
-    
-    {{ route('admin.dashboard') }}sidebar {
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
+  {{ route('admin.dashboard') }}sidebar::-webkit-scrollbar {
+  display: none;
+  }
+
+  {{ route('admin.dashboard') }}sidebar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  }
   </style>
 
   <script>

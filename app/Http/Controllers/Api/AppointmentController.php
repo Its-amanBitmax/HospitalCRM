@@ -132,35 +132,45 @@ class AppointmentController extends Controller
     /**
      * ❌ Cancel appointment (Authenticated User)
      */
-    public function cancelAppointment($appointment_id, Request $request)
-    {
-        $user = $request->user();
+  public function cancelAppointment($appointment_id, Request $request)
+{
+    $user = $request->user();
 
-        $appointment = Appointment::where('appointment_id', $appointment_id)
-            ->where('booked_by_user_id', $user->id)
-            ->first();
+    $request->validate([
+        'cancel_reason' => 'required|string',
+    ]);
 
-        if (!$appointment) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Appointment not found or not yours.'
-            ], 404);
-        }
+    $appointment = Appointment::where('appointment_id', $appointment_id)
+        ->where('booked_by_user_id', $user->id)
+        ->first();
 
-        if ($appointment->status === 'Cancelled') {
-            return response()->json([
-                'status' => false,
-                'message' => 'Appointment already cancelled.'
-            ], 400);
-        }
-
-        $appointment->update(['status' => 'Cancelled']);
-
+    if (!$appointment) {
         return response()->json([
-            'status' => true,
-            'message' => 'Appointment cancelled successfully.'
-        ]);
+            'status' => false,
+            'message' => 'Appointment not found or not yours.'
+        ], 404);
     }
+
+    if ($appointment->status === 'Cancelled') {
+        return response()->json([
+            'status' => false,
+            'message' => 'Appointment already cancelled.'
+        ], 400);
+    }
+
+    $appointment->update([
+        'status'        => 'Cancelled',
+        'cancel_reason' => $request->cancel_reason,
+    ]);
+
+    return response()->json([
+        'status'        => true,
+        'message'       => 'Appointment cancelled successfully.',
+        'cancel_reason' => $appointment->cancel_reason,
+    ]);
+}
+
+
 
 
 //      public function UserByAppointments(Request $request)

@@ -11,7 +11,7 @@
 </style>
 
 @php
-    $hideFooter = true;
+$hideFooter = true;
 @endphp
 
 @section('content')
@@ -84,32 +84,92 @@
         <div class="overflow-x-auto">
 
             @if($upcoming->isEmpty())
-                <div class="p-16 text-center">
-                    <i class="fas fa-calendar-times text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
-                    <p class="text-gray-500 dark:text-gray-400">No upcoming consultations</p>
-                </div>
+            <div class="p-16 text-center">
+                <i class="fas fa-calendar-times text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
+                <p class="text-gray-500 dark:text-gray-400">No upcoming consultations</p>
+            </div>
             @else
 
-                <table class="w-full">
-                    <thead>
-                        <tr class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-gray-50 dark:bg-gray-700/30">
-                            <th class="px-6 py-3 text-left">Code</th>
-                            <th class="px-6 py-3 text-left">Date</th>
-                            <th class="px-6 py-3 text-left">Time</th>
-                            <th class="px-6 py-3 text-left">Patient</th>
-                            <th class="px-6 py-3 text-left">Issue</th>
-                            <th class="px-6 py-3 text-left">Status</th>
-                            <th class="px-6 py-3 text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+            <table class="w-full">
+                <thead>
+                    <tr class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-gray-50 dark:bg-gray-700/30">
+                        <th class="px-6 py-3 text-left">Code</th>
+                        <th class="px-6 py-3 text-left">Date</th>
+                        <th class="px-6 py-3 text-left">Time</th>
+                        <th class="px-6 py-3 text-left">Patient</th>
+                        <th class="px-6 py-3 text-left">Issue</th>
+                        <th class="px-6 py-3 text-left">Status</th>
+                        <th class="px-6 py-3 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 
-                        @foreach($upcoming as $app)
-                            @include('consultation_list_row')
-                        @endforeach
+                    @forelse($upcoming->take(3) as $app)
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
 
-                    </tbody>
-                </table>
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-800 dark:text-gray-200">
+                            {{ $app->appointment_code }}
+                        </td>
+
+                        <td class="px-6 py-4 text-sm">
+                            {{ \Carbon\Carbon::parse($app->appointment_date)->format('d M Y') }}
+                        </td>
+
+                        <td class="px-6 py-4 text-sm">
+                            {{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+                                    {{ substr($app->user->full_name ?? $app->relative->name ?? 'NA', 0, 2) }}
+                                </div>
+
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ $app->user->full_name ?? $app->relative->name ?? 'Unknown' }}
+                                    </p>
+                                    <p class="text-xs text-gray-500">
+                                        {{ $app->for_user_type === 'self' ? 'Self' : 'Relative' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="px-6 py-4 text-sm">
+                            {{ $app->issue ? \Illuminate\Support\Str::limit($app->issue, 30) : '—' }}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+                @if($app->status == 'Pending') bg-yellow-100 text-yellow-800
+                @elseif($app->status == 'Confirmed') bg-green-100 text-green-800
+                @elseif($app->status == 'Cancelled') bg-red-100 text-red-800
+                @else bg-gray-100 text-gray-800 @endif">
+                                {{ $app->status }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            <button onclick='showConsultationDetails(@json($app, JSON_HEX_TAG))'
+                                class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                <i class="fa fa-eye mr-1"></i> View
+                            </button>
+                        </td>
+
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-300">
+                            No upcoming consultations available.
+                        </td>
+                    </tr>
+                    @endforelse
+
+                </tbody>
+
+
+            </table>
 
             @endif
         </div>
@@ -120,7 +180,7 @@
     <!--         ALL CONSULTATIONS        -->
     <!-- ================================ -->
 
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mt-10">
 
         <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <div class="flex items-center gap-3">
@@ -138,85 +198,85 @@
         <div class="overflow-x-auto">
 
             @if($allConsultations->isEmpty())
-                <div class="p-16 text-center">
-                    <i class="fas fa-folder-open text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
-                    <p class="text-gray-500 dark:text-gray-400">No consultation records found</p>
-                </div>
+            <div class="p-16 text-center">
+                <i class="fas fa-folder-open text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
+                <p class="text-gray-500 dark:text-gray-400">No consultation records found</p>
+            </div>
             @else
 
-                <table class="w-full">
-                    <thead>
-                        <tr class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-gray-50 dark:bg-gray-700/30">
-                            <th class="px-6 py-3 text-left">Code</th>
-                            <th class="px-6 py-3 text-left">Date</th>
-                            <th class="px-6 py-3 text-left">Time</th>
-                            <th class="px-6 py-3 text-left">Patient</th>
-                            <th class="px-6 py-3 text-left">Issue</th>
-                            <th class="px-6 py-3 text-left">Status</th>
-                            <th class="px-6 py-3 text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+            <table class="w-full">
+                <thead>
+                    <tr class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-gray-50 dark:bg-gray-700/30">
+                        <th class="px-6 py-3 text-left">Code</th>
+                        <th class="px-6 py-3 text-left">Date</th>
+                        <th class="px-6 py-3 text-left">Time</th>
+                        <th class="px-6 py-3 text-left">Patient</th>
+                        <th class="px-6 py-3 text-left">Issue</th>
+                        <th class="px-6 py-3 text-left">Status</th>
+                        <th class="px-6 py-3 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 
-                        @foreach($allConsultations as $app)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                    @foreach($allConsultations as $app)
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
 
-                            <td class="px-6 py-4 text-sm font-semibold text-gray-800 dark:text-gray-200">
-                                {{ $app->appointment_code }}
-                            </td>
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-800 dark:text-gray-200">
+                            {{ $app->appointment_code }}
+                        </td>
 
-                            <td class="px-6 py-4 text-sm">
-                                {{ \Carbon\Carbon::parse($app->appointment_date)->format('d M Y') }}
-                            </td>
+                        <td class="px-6 py-4 text-sm">
+                            {{ \Carbon\Carbon::parse($app->appointment_date)->format('d M Y') }}
+                        </td>
 
-                            <td class="px-6 py-4 text-sm">
-                                {{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}
-                            </td>
+                        <td class="px-6 py-4 text-sm">
+                            {{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}
+                        </td>
 
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
-                                        {{ substr($app->user->full_name ?? $app->relative->name ?? 'NA', 0, 2) }}
-                                    </div>
-
-                                    <div>
-                                        <p class="text-sm font-medium text-gray-900 dark:text-white">
-                                            {{ $app->user->full_name ?? $app->relative->name ?? 'Unknown' }}
-                                        </p>
-
-                                        <p class="text-xs text-gray-500">
-                                            {{ $app->for_user_type === 'self' ? 'Self' : 'Relative' }}
-                                        </p>
-                                    </div>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+                                    {{ substr($app->user->full_name ?? $app->relative->name ?? 'NA', 0, 2) }}
                                 </div>
-                            </td>
 
-                            <td class="px-6 py-4 text-sm">
-                                {{ $app->issue ? \Illuminate\Support\Str::limit($app->issue, 30) : '—' }}
-                            </td>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ $app->user->full_name ?? $app->relative->name ?? 'Unknown' }}
+                                    </p>
 
-                            <td class="px-6 py-4">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+                                    <p class="text-xs text-gray-500">
+                                        {{ $app->for_user_type === 'self' ? 'Self' : 'Relative' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="px-6 py-4 text-sm">
+                            {{ $app->issue ? \Illuminate\Support\Str::limit($app->issue, 30) : '—' }}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
                                     @if($app->status == 'Pending') bg-yellow-100 text-yellow-800
                                     @elseif($app->status == 'Confirmed') bg-green-100 text-green-800
                                     @elseif($app->status == 'Cancelled') bg-red-100 text-red-800
                                     @else bg-gray-100 text-gray-800 @endif">
-                                    {{ $app->status }}
-                                </span>
-                            </td>
+                                {{ $app->status }}
+                            </span>
+                        </td>
 
-                            <td class="px-6 py-4 text-center">
-                                <button onclick='showConsultationDetails(@json($app))'
-                                    class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                                    <i class="fa fa-eye mr-1"></i> View
-                                </button>
-                            </td>
+                        <td class="px-6 py-4 text-center">
+                            <button onclick='showConsultationDetails(@json($app))'
+                                class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                <i class="fa fa-eye mr-1"></i> View
+                            </button>
+                        </td>
 
-                        </tr>
-                        @endforeach
+                    </tr>
+                    @endforeach
 
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
 
             @endif
 
@@ -255,15 +315,15 @@
 </div>
 
 <script>
-function showConsultationDetails(app) {
-    const modal = document.getElementById('consultationModal');
-    const detailsDiv = document.getElementById('consultationDetails');
+    function showConsultationDetails(app) {
+        const modal = document.getElementById('consultationModal');
+        const detailsDiv = document.getElementById('consultationDetails');
 
-    const bookedBy = app.for_user_type === 'self'
-        ? `<strong>Booked By:</strong> ${app.user?.full_name ?? 'User'} (Self)`
-        : `<strong>Booked For:</strong> ${app.relative?.name ?? 'Relative'} (${app.relative?.relation ?? '-'})`;
+        const bookedBy = app.for_user_type === 'self' ?
+            `<strong>Booked By:</strong> ${app.user?.full_name ?? 'User'} (Self)` :
+            `<strong>Booked For:</strong> ${app.relative?.name ?? 'Relative'} (${app.relative?.relation ?? '-'})`;
 
-    detailsDiv.innerHTML = `
+        detailsDiv.innerHTML = `
         <div class="space-y-2 text-gray-700 dark:text-gray-300">
             <p><strong>Consultation Code:</strong> ${app.appointment_code}</p>
             <p>${bookedBy}</p>
@@ -278,47 +338,51 @@ function showConsultationDetails(app) {
         </div>
     `;
 
-    // Set form actions and visibility for accept/reject based on status
-    const acceptForm = document.getElementById('acceptConsultationForm');
-    const rejectForm = document.getElementById('rejectConsultationForm');
+        // Set form actions and visibility for accept/reject based on status
+        const acceptForm = document.getElementById('acceptConsultationForm');
+        const rejectForm = document.getElementById('rejectConsultationForm');
 
-    if (app.status === 'Pending') {
-        acceptForm.style.display = 'inline-block';
-        rejectForm.style.display = 'inline-block';
+        if (app.status === 'Pending') {
+            acceptForm.style.display = 'inline-block';
+            rejectForm.style.display = 'inline-block';
 
-        acceptForm.action = `/employee/appointments/${app.appointment_id}/accept`;
-        rejectForm.action = `/employee/appointments/${app.appointment_id}/reject`;
-    } else {
-        acceptForm.style.display = 'none';
-        rejectForm.style.display = 'none';
+            acceptForm.action = `/employee/appointments/${app.appointment_id}/accept`;
+            rejectForm.action = `/employee/appointments/${app.appointment_id}/reject`;
+        } else {
+            acceptForm.style.display = 'none';
+            rejectForm.style.display = 'none';
+        }
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
     }
 
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-}
-
-function closeConsultationModal() {
-    const modal = document.getElementById('consultationModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-}
-
-function getStatusClass(status) {
-    switch (status) {
-        case 'Confirmed': return 'text-green-600 dark:text-green-400';
-        case 'Pending': return 'text-yellow-600 dark:text-yellow-400';
-        case 'Cancelled': return 'text-red-600 dark:text-red-400';
-        default: return 'text-gray-600 dark:text-gray-300';
+    function closeConsultationModal() {
+        const modal = document.getElementById('consultationModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
     }
-}
 
-function formatTime(timeStr) {
-    const [hour, minute] = timeStr.split(':');
-    const h = parseInt(hour);
-    const suffix = h >= 12 ? 'PM' : 'AM';
-    const formattedHour = ((h + 11) % 12 + 1);
-    return `${formattedHour}:${minute} ${suffix}`;
-}
+    function getStatusClass(status) {
+        switch (status) {
+            case 'Confirmed':
+                return 'text-green-600 dark:text-green-400';
+            case 'Pending':
+                return 'text-yellow-600 dark:text-yellow-400';
+            case 'Cancelled':
+                return 'text-red-600 dark:text-red-400';
+            default:
+                return 'text-gray-600 dark:text-gray-300';
+        }
+    }
+
+    function formatTime(timeStr) {
+        const [hour, minute] = timeStr.split(':');
+        const h = parseInt(hour);
+        const suffix = h >= 12 ? 'PM' : 'AM';
+        const formattedHour = ((h + 11) % 12 + 1);
+        return `${formattedHour}:${minute} ${suffix}`;
+    }
 </script>
 
 @endsection
