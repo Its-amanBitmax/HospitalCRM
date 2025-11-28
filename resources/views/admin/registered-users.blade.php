@@ -21,7 +21,7 @@
 </style>
 <div class="min-h-screen">
   <!-- Notification Area -->
-  <div id="notification" class="fixed top-4 right-4 z-50 hidden bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
+  <div id="notification" class="fixed top-4 right-4 z-50 hidden bg-green-500 text-black px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
     <div class="flex items-center gap-2">
       <i class="fas fa-check-circle"></i>
       <span id="notificationMessage"></span>
@@ -32,7 +32,7 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-users text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">All Patients
+      <h1 class="text-xl font-semibold text-gray-800 text-black">All Patients
       </h1>
     </div>
     <div class="flex gap-3">
@@ -58,37 +58,37 @@
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-users text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="totalUsers">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="totalUsers">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Total Patients</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-procedures text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="ipdUsers">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="ipdUsers">0</div>
         <div class="text-sm text-gray-600 text-gray-400">IPD Patients</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-stethoscope text-3xl text-green-600 text-green-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="opdUsers">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="opdUsers">0</div>
         <div class="text-sm text-gray-600 text-gray-400">OPD Patients</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-ambulance text-3xl text-red-600 text-red-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="emergencyUsers">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="emergencyUsers">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Emergency Patients</div>
       </div>
     </div>
   </div>
 
   <!-- Users Table -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700 overflow-x-auto">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 overflow-x-auto">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h2 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-users text-blue-600 text-blue-400"></i>
         Patient Details
       </h2>
@@ -97,15 +97,15 @@
     <div class="mb-4 grid grid-cols-1 md:grid-cols-5 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Name</label>
-        <input type="text" id="userNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter user name">
+        <input type="text" id="userNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter user name">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Email</label>
-        <input type="text" id="userEmailFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter email">
+        <input type="text" id="userEmailFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter email">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Type</label>
-        <select id="userTypeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+        <select id="userTypeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
           <option value="">All</option>
           <option>opd</option>
           <option>emergency</option>
@@ -114,14 +114,14 @@
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
-        <select id="userStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+        <select id="userStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
           <option value="">All</option>
           <option>active</option>
           <option>inactive</option>
         </select>
       </div>
       <div class="flex items-end">
-        <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearUserFilters">Clear Filters</button>
+        <button class="bg-gray-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearUserFilters">Clear Filters</button>
       </div>
     </div>
     <div class="overflow-x-auto">
@@ -140,7 +140,7 @@
             <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600 min-w-[350px]">Action</th>
           </tr>
         </thead>
-        <tbody id="userTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
+        <tbody id="userTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200"></tbody>
       </table>
     </div>
   </div>

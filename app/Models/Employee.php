@@ -98,5 +98,14 @@ public function receptions()
     return $this->hasMany(\App\Models\Reception::class, 'assigned_employee');
 }
 
+// App/Models/Employee.php
+
+public function appointments()
+{
+    return $this->hasMany(Appointment::class, 'doctor_id', 'id');
+}
+
+
+
 
 }

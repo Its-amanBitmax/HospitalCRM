@@ -12,7 +12,7 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-calendar-alt text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">Patient Visits & Records - {{ $user->full_name }}</h1>
+      <h1 class="text-xl font-semibold text-gray-800 ">Patient Visits & Records - {{ $user->full_name }}</h1>
     </div>
     <div class="flex gap-3">
       <a href="{{ route('admin.users.show', $user->id) }}" class="bg-white-200 hover:bg-white-300 text-gray-900 px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
@@ -22,11 +22,11 @@
   </div>
 
   <!-- Tabs -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200">
     <div class="mb-6">
       <nav class="flex flex-wrap gap-2" aria-label="Tabs">
         @if($user->type !== 'ipd')
-        <button onclick="showTab('visits')" id="visits-tab" class="tab-button px-4 py-2 rounded-lg flex items-center gap-2 transition">
+        <button onclick="showTab('visits')" id="visits-tab" class="tab-button px-4 py-2 rounded-lg flex items-center gap-2 transition ">
           <i class="fas fa-calendar"></i> Visits
         </button>
         @endif
@@ -51,7 +51,7 @@
         </a>
       </div>
       <div class="overflow-x-auto">
-        <table class="min-w-full bg-white bg-white-800 border border-gray-200 border-gray-700">
+        <table class="min-w-full bg-white bg-white-800 border border-gray-200 ">
           <thead class="bg-white-50 bg-white-700">
             <tr>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 text-gray-300 uppercase tracking-wider">Visit Type</th>
@@ -65,11 +65,11 @@
           <tbody class="bg-white bg-white-800 divide-y divide-gray-200 divide-gray-700">
             @forelse($visits as $visit)
             <tr class="hover:bg-white-50 hover:bg-white-700">
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">{{ $visit->visit_type }}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">{{ $visit->date_of_visit?->format('d-m-Y') ?? '-' }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900 text-white">{{ $visit->chief_complaint ?: '-' }}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">{{ $visit->reception?->reception_id ?? '-' }}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">{{ $visit->consultantAssignment?->room?->room_id ?? '-' }} —
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">{{ $visit->visit_type }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">{{ $visit->date_of_visit?->format('d-m-Y') ?? '-' }}</td>
+              <td class="px-6 py-4 text-sm text-gray-900 ">{{ $visit->chief_complaint ?: '-' }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">{{ $visit->reception?->reception_id ?? '-' }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">{{ $visit->consultantAssignment?->room?->room_id ?? '-' }} —
                 {{ $visit->consultantAssignment?->employee?->name ?? '-' }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
@@ -348,7 +348,7 @@
       const btn = document.getElementById(tab + '-tab');
       if (btn) {
         btn.classList.remove('active', 'bg-blue-600', 'text-white');
-        btn.classList.add('bg-white-200', 'text-gray-700', 'bg-white-700', 'text-gray-300');
+        btn.classList.add('bg-white-200', 'text-gray-700', 'bg-gray-700', 'text-gray-300');
       }
     });
 
@@ -358,7 +358,7 @@
 
     if (selectedContent) selectedContent.classList.remove('hidden');
     if (selectedBtn) {
-      selectedBtn.classList.remove('bg-white-200', 'text-gray-700', 'bg-white-700', 'text-gray-300');
+      selectedBtn.classList.remove('bg-gray-200', 'text-gray-700', 'bg-gray-700', 'text-gray-300');
       selectedBtn.classList.add('active', 'bg-blue-600', 'text-white');
     }
   }

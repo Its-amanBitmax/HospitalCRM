@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="min-h-screen">
+<div class="min-h-screen ">
 
     <!-- Toast -->
     <div id="toast" class="hidden" 
@@ -18,7 +18,7 @@
     <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
         <div class="flex items-center gap-3">
             <i class="fas fa-concierge-bell text-2xl text-blue-600 text-blue-400"></i>
-            <h1 class="text-xl font-semibold text-gray-800 text-white">Reception Management</h1>
+            <h1 class="text-xl font-semibold text-gray-800 text-black">Reception Management</h1>
         </div>
         <button id="addReceptionBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition flex items-center gap-2">
             <i class="fa fa-plus"></i> Add Reception
@@ -30,21 +30,21 @@
         <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
             <i class="fas fa-users text-3xl text-blue-600 text-blue-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 text-white">{{ $totalReceptions }}</div>
+                <div class="text-2xl font-bold text-gray-800 text-black">{{ $totalReceptions }}</div>
                 <div class="text-sm text-gray-600 text-gray-400">Total Receptions</div>
             </div>
         </div>
         <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
             <i class="fas fa-check-circle text-3xl text-green-600 text-green-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 text-white">{{ $activeReceptions }}</div>
+                <div class="text-2xl font-bold text-gray-800 text-black">{{ $activeReceptions }}</div>
                 <div class="text-sm text-gray-600 text-gray-400">Active</div>
             </div>
         </div>
         <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
             <i class="fas fa-times-circle text-3xl text-red-600 text-red-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 text-white">{{ $inactiveReceptions }}</div>
+                <div class="text-2xl font-bold text-gray-800 text-black">{{ $inactiveReceptions }}</div>
                 <div class="text-sm text-gray-600 text-gray-400">Inactive</div>
             </div>
         </div>
@@ -73,10 +73,11 @@
                     <button class="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg">
                         <i class="fas fa-search"></i>
                     </button>
-                    <a href="{{ route('admin.reception.index') }}"
-                        class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg">
-                        <i class="fas fa-times"></i>
-                    </a>
+                  <a href="{{ route('admin.reception.index') }}"
+   class="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center justify-center">
+   <i class="fas fa-times"></i>
+</a>
+
                 </div>
             </div>
         </form>

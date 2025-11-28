@@ -44,32 +44,32 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Name *</label>
-                        <input type="text" name="name" value="{{ old('name') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black" required>
+                        <input type="text" name="name" value="{{ old('name') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black" required>
                         @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Email *</label>
-                        <input type="email" name="email" value="{{ old('email') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black" required>
+                        <input type="email" name="email" value="{{ old('email') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black" required>
                         @error('email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Phone</label>
-                        <input type="text" name="phone" value="{{ old('phone') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="phone" value="{{ old('phone') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         @error('phone') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Employee Code *</label>
-                        <input type="text" name="employee_code" value="{{ old('employee_code') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black" required>
+                        <input type="text" name="employee_code" value="{{ old('employee_code') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black" required>
                         @error('employee_code') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Date of Birth</label>
-                        <input type="date" name="date_of_birth" value="{{ old('date_of_birth') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="date" name="date_of_birth" value="{{ old('date_of_birth') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         @error('date_of_birth') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Gender</label>
-                        <select name="gender" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <select name="gender" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                             <option value="">Select Gender</option>
                             <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
                             <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
@@ -79,12 +79,12 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Hire Date</label>
-                        <input type="date" name="hire_date" value="{{ old('hire_date') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="date" name="hire_date" value="{{ old('hire_date') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         @error('hire_date') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-                        <select name="status" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <select name="status" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                             <option value="Active" {{ old('status', 'Active') == 'Active' ? 'selected' : '' }}>Active</option>
                             <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
@@ -93,7 +93,7 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department *</label>
-                        <select name="department_id" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black" required>
+                        <select name="department_id" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black" required>
                             <option value="">Select Department</option>
                             @foreach($departments as $department)
                             <option value="{{ $department->id }}" {{ old('department_id') == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
@@ -103,12 +103,12 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Password *</label>
-                        <input type="password" name="password" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black" required>
+                        <input type="password" name="password" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black" required>
                         @error('password') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Profile Image</label>
-                        <input type="file" name="image" accept="image/*" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="file" name="image" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         @error('image') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                     <div class="speciality-item grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Speciality</label>
-                            <select name="specialities[0][speciality_id]" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                            <select name="specialities[0][speciality_id]" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                                 <option value="">Select Speciality</option>
                                 @foreach($specialities as $speciality)
                                 <option value="{{ $speciality->id }}" {{ old('specialities.0.speciality_id') == $speciality->id ? 'selected' : '' }}>{{ $speciality->skill }}</option>
@@ -130,7 +130,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Proficiency Level</label>
-                            <select name="specialities[0][proficiency_level]" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                            <select name="specialities[0][proficiency_level]" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                                 <option value="">Select Level</option>
                                 <option value="Beginner" {{ old('specialities.0.proficiency_level') == 'Beginner' ? 'selected' : '' }}>Beginner</option>
                                 <option value="Intermediate" {{ old('specialities.0.proficiency_level') == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
@@ -140,7 +140,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Years of Experience</label>
-                            <input type="number" name="specialities[0][years_of_experience]" min="0" value="{{ old('specialities.0.years_of_experience') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                            <input type="number" name="specialities[0][years_of_experience]" min="0" value="{{ old('specialities.0.years_of_experience') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                     </div>
                 </div>
@@ -156,15 +156,15 @@
                     <div class="qualification-item grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Degree</label>
-                            <input type="text" name="qualifications[0][degree]" value="{{ old('qualifications.0.degree') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                            <input type="text" name="qualifications[0][degree]" value="{{ old('qualifications.0.degree') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Institution</label>
-                            <input type="text" name="qualifications[0][institution]" value="{{ old('qualifications.0.institution') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                            <input type="text" name="qualifications[0][institution]" value="{{ old('qualifications.0.institution') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Year Completed</label>
-                            <input type="number" name="qualifications[0][year_completed]" min="1900" max="{{ date('Y') + 10 }}" value="{{ old('qualifications.0.year_completed') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                            <input type="number" name="qualifications[0][year_completed]" min="1900" max="{{ date('Y') + 10 }}" value="{{ old('qualifications.0.year_completed') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                     </div>
                 </div>
@@ -179,11 +179,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Salary</label>
-                        <input type="number" name="payroll[salary]" step="0.01" min="0" value="{{ old('payroll.salary') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="number" name="payroll[salary]" step="0.01" min="0" value="{{ old('payroll.salary') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Payment Frequency</label>
-                        <select name="payroll[payment_frequency]" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <select name="payroll[payment_frequency]" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                             <option value="">Select Frequency</option>
                             <option value="Monthly" {{ old('payroll.payment_frequency') == 'Monthly' ? 'selected' : '' }}>Monthly</option>
                             <option value="Weekly" {{ old('payroll.payment_frequency') == 'Weekly' ? 'selected' : '' }}>Weekly</option>
@@ -192,23 +192,23 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Bank Account</label>
-                        <input type="text" name="payroll[bank_account]" value="{{ old('payroll.bank_account') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="payroll[bank_account]" value="{{ old('payroll.bank_account') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Bank Name</label>
-                        <input type="text" name="payroll[bank_name]" value="{{ old('payroll.bank_name') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="payroll[bank_name]" value="{{ old('payroll.bank_name') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">IFSC Code</label>
-                        <input type="text" name="payroll[ifsc_code]" value="{{ old('payroll.ifsc_code') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="payroll[ifsc_code]" value="{{ old('payroll.ifsc_code') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">UPI Number</label>
-                        <input type="text" name="payroll[upi_number]" value="{{ old('payroll.upi_number') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="payroll[upi_number]" value="{{ old('payroll.upi_number') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">PF Number</label>
-                        <input type="text" name="payroll[pf_number]" value="{{ old('payroll.pf_number') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="payroll[pf_number]" value="{{ old('payroll.pf_number') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                     </div>
                 </div>
             </div>
@@ -220,7 +220,7 @@
                     <div class="address-item grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Address Type</label>
-                        <select name="addresses[0][address_type]" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <select name="addresses[0][address_type]" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                                 <option value="Home" {{ old('addresses.0.address_type') == 'Home' ? 'selected' : '' }}>Home</option>
                                 <option value="Work" {{ old('addresses.0.address_type') == 'Work' ? 'selected' : '' }}>Work</option>
                                 <option value="Other" {{ old('addresses.0.address_type') == 'Other' ? 'selected' : '' }}>Other</option>
@@ -228,23 +228,23 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Street</label>
-                        <input type="text" name="addresses[0][street]" value="{{ old('addresses.0.street') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="addresses[0][street]" value="{{ old('addresses.0.street') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">City</label>
-                        <input type="text" name="addresses[0][city]" value="{{ old('addresses.0.city') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="addresses[0][city]" value="{{ old('addresses.0.city') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">State</label>
-                        <input type="text" name="addresses[0][state]" value="{{ old('addresses.0.state') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="addresses[0][state]" value="{{ old('addresses.0.state') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Country</label>
-                        <input type="text" name="addresses[0][country]" value="{{ old('addresses.0.country') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="addresses[0][country]" value="{{ old('addresses.0.country') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Postal Code</label>
-                        <input type="text" name="addresses[0][postal_code]" value="{{ old('addresses.0.postal_code') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="addresses[0][postal_code]" value="{{ old('addresses.0.postal_code') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                     </div>
                 </div>
@@ -260,19 +260,19 @@
                     <div class="family-item grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Name</label>
-                        <input type="text" name="family_details[0][name]" value="{{ old('family_details.0.name') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="family_details[0][name]" value="{{ old('family_details.0.name') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Relationship</label>
-                        <input type="text" name="family_details[0][relationship]" value="{{ old('family_details.0.relationship') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="family_details[0][relationship]" value="{{ old('family_details.0.relationship') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Date of Birth</label>
-                        <input type="date" name="family_details[0][date_of_birth]" value="{{ old('family_details.0.date_of_birth') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="date" name="family_details[0][date_of_birth]" value="{{ old('family_details.0.date_of_birth') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Contact Number</label>
-                        <input type="text" name="family_details[0][contact_number]" value="{{ old('family_details.0.contact_number') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <input type="text" name="family_details[0][contact_number]" value="{{ old('family_details.0.contact_number') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         </div>
                     </div>
                 </div>
@@ -288,7 +288,7 @@
                     <div class="shift-item grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Shift Name</label>
-                        <select name="shifts[0][shift_name]" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                        <select name="shifts[0][shift_name]" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                                 <option value="">Select Shift</option>
                                 <option value="Morning" {{ old('shifts.0.shift_name') == 'Morning' ? 'selected' : '' }}>Morning</option>
                                 <option value="Afternoon" {{ old('shifts.0.shift_name') == 'Afternoon' ? 'selected' : '' }}>Afternoon</option>
@@ -353,7 +353,7 @@
             <div class="profession-item grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Title</label>
-                    <select name="professions[0][title]" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                    <select name="professions[0][title]" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         <option value="">Select Profession</option>
                         <option value="Doctor" {{ old('professions.0.title') == 'Doctor' ? 'selected' : '' }}>Doctor</option>
                         <option value="Nurse" {{ old('professions.0.title') == 'Nurse' ? 'selected' : '' }}>Nurse</option>
@@ -371,7 +371,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department</label>
-                    <select name="professions[0][department_id]" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                    <select name="professions[0][department_id]" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                         <option value="">Select Department</option>
                         @foreach($departments as $department)
                         <option value="{{ $department->id }}" {{ old('professions.0.department_id') == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
@@ -392,11 +392,11 @@
             <div class="document-item grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Document Type</label>
-                    <input type="text" name="documents[0][document_type]" placeholder="e.g., ID Card, Certificate" value="{{ old('documents.0.document_type') }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                    <input type="text" name="documents[0][document_type]" placeholder="e.g., ID Card, Certificate" value="{{ old('documents.0.document_type') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Document File</label>
-                    <input type="file" name="documents[0][document_file]" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                    <input type="file" name="documents[0][document_file]" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
                 </div>
             </div>
         </div>

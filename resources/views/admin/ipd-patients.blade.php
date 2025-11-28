@@ -17,7 +17,7 @@
 </style>
 <div class="min-h-screen">
   <!-- Notification Area -->
-  <div id="notification" class="fixed top-4 right-4 z-50 hidden bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
+  <div id="notification" class="fixed top-4 right-4 z-50 hidden bg-green-500 text-black px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
     <div class="flex items-center gap-2">
       <i class="fas fa-check-circle"></i>
       <span id="notificationMessage"></span>
@@ -28,7 +28,7 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-procedures text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">IPD Patients</h1>
+      <h1 class="text-xl font-semibold text-gray-800 ">IPD Patients</h1>
     </div>
   </div>
 
@@ -37,37 +37,37 @@
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-users text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="totalPatients">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="totalPatients">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Total IPD Patients</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-user-check text-3xl text-green-600 text-green-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="activePatients">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="activePatients">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Active</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-user-times text-3xl text-red-600 text-red-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="inactivePatients">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="inactivePatients">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Inactive</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-procedures text-3xl text-purple-600 text-purple-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="ipdPatients">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="ipdPatients">0</div>
         <div class="text-sm text-gray-600 text-gray-400">IPD</div>
       </div>
     </div>
   </div>
 
   <!-- Patients Table -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 ">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h2 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-users text-blue-600 text-blue-400"></i>
         IPD Patient Details
       </h2>
@@ -77,15 +77,15 @@
     <div class="mb-4 grid grid-cols-1 md:grid-cols-5 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Name</label>
-        <input type="text" id="patientNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter patient name">
+        <input type="text" id="patientNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter patient name">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Email</label>
-        <input type="text" id="patientEmailFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter email">
+        <input type="text" id="patientEmailFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter email">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Type</label>
-        <select id="patientTypeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+        <select id="patientTypeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
           <option value="">All</option>
           <option>ipd</option>
           <option>opd</option>
@@ -95,14 +95,14 @@
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
-        <select id="patientStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+        <select id="patientStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
           <option value="">All</option>
           <option>active</option>
           <option>inactive</option>
         </select>
       </div>
       <div class="flex items-end">
-        <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearPatientFilters">Clear Filters</button>
+        <button class="bg-gray-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearPatientFilters">Clear Filters</button>
       </div>
     </div>
     <div class="overflow-x-auto">
@@ -120,7 +120,7 @@
             <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600 w-48">Action</th>
           </tr>
         </thead>
-        <tbody id="patientTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
+        <tbody id="patientTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 "></tbody>
       </table>
     </div>
   </div>
@@ -129,7 +129,7 @@
 <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="viewPatientModal">
   <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="viewPatientModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-user text-blue-600 text-blue-400"></i>
         Patient Details
       </h3>
@@ -147,7 +147,7 @@
 <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="bedDetailsModal">
   <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-2xl border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="bedDetailsModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-bed text-blue-600 text-blue-400"></i>
         Bed Details
       </h3>
@@ -165,7 +165,7 @@
 <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="assignBedModal">
   <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="assignBedModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-plus text-blue-600 text-blue-400"></i>
         Assign Bed
       </h3>
@@ -178,22 +178,22 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Select Ward</label>
-          <select id="assignBedWardId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <select id="assignBedWardId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
             <option value="">Select Ward</option>
           </select>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Select Bed</label>
-          <select id="assignBedBedId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <select id="assignBedBedId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
             <option value="">Select Bed</option>
           </select>
         </div>
         <div class="md:col-span-2">
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Assigned Date</label>
-          <input type="date" id="assignBedDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <input type="date" id="assignBedDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
       </div>
-      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Assign Bed</button>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Assign Bed</button>
     </form>
   </div>
 </div>
@@ -202,7 +202,7 @@
 <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="transferBedModal">
   <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="transferBedModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-exchange-alt text-yellow-600 text-yellow-400"></i>
         Transfer Patient
       </h3>
@@ -215,22 +215,22 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Select New Ward</label>
-          <select id="transferBedWardId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-white-700 text-white transition duration-200" required>
+          <select id="transferBedWardId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-white-700 text-black transition duration-200" required>
             <option value="">Select Ward</option>
           </select>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Select New Bed</label>
-          <select id="transferBedBedId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-white-700 text-white transition duration-200" required>
+          <select id="transferBedBedId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-white-700 text-black transition duration-200" required>
             <option value="">Select Bed</option>
           </select>
         </div>
         <div class="md:col-span-2">
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Transfer Date</label>
-          <input type="date" id="transferBedDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-white-700 text-white transition duration-200" required>
+          <input type="date" id="transferBedDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-white-700 text-black transition duration-200" required>
         </div>
       </div>
-      <button type="submit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Transfer Patient</button>
+      <button type="submit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-black px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Transfer Patient</button>
     </form>
   </div>
 </div>
@@ -239,7 +239,7 @@
 <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="editPatientModal">
   <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="editPatientModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-edit text-blue-600 text-blue-400"></i>
         Edit Patient
       </h3>
@@ -252,27 +252,27 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Full Name</label>
-          <input type="text" id="editPatientFullname" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <input type="text" id="editPatientFullname" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Username</label>
-          <input type="text" id="editPatientUsername" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <input type="text" id="editPatientUsername" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Email</label>
-          <input type="email" id="editPatientEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <input type="email" id="editPatientEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Phone</label>
-          <input type="text" id="editPatientPhone" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+          <input type="text" id="editPatientPhone" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Age</label>
-          <input type="number" id="editPatientAge" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" min="0" max="150">
+          <input type="number" id="editPatientAge" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" min="0" max="150">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Gender</label>
-          <select id="editPatientGender" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+          <select id="editPatientGender" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
             <option value="">Select Gender</option>
             <option>male</option>
             <option>female</option>
@@ -281,7 +281,7 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Type</label>
-          <select id="editPatientType" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <select id="editPatientType" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
             <option>ipd</option>
             <option>opd</option>
             <option>registered</option>
@@ -290,7 +290,7 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-          <select id="editPatientStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <select id="editPatientStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
             <option>active</option>
             <option>inactive</option>
           </select>
@@ -298,9 +298,9 @@
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Address</label>
-        <textarea id="editPatientAddress" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200"></textarea>
+        <textarea id="editPatientAddress" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200"></textarea>
       </div>
-      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Update Patient</button>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Update Patient</button>
     </form>
   </div>
 </div>
@@ -554,7 +554,7 @@ function viewBedDetails(userId) {
   if (patient.bedAssignments && patient.bedAssignments.length > 0) {
     let html = `
       <div class="mb-4">
-        <h4 class="text-lg font-semibold text-gray-800 text-white mb-3">Bed Assignment History</h4>
+        <h4 class="text-lg font-semibold text-gray-800 text-black mb-3">Bed Assignment History</h4>
         <div class="space-y-3">
     `;
 
@@ -580,9 +580,9 @@ function viewBedDetails(userId) {
             </div>
             <div>
               ${assignment.status === 'active' ?
-                `<button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm" onclick="dischargePatient(${assignment.id})">Discharge</button>
-                <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm ml-2" onclick="transferPatient(${assignment.id})">Transfer</button>` :
-                `<button class="bg-white-500 hover:bg-white-600 text-white px-3 py-1 rounded text-sm" disabled>Discharged</button>`
+                `<button class="bg-red-500 hover:bg-red-600 text-black px-3 py-1 rounded text-sm" onclick="dischargePatient(${assignment.id})">Discharge</button>
+                <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded text-sm ml-2" onclick="transferPatient(${assignment.id})">Transfer</button>` :
+                `<button class="bg-white-500 hover:bg-white-600 text-black px-3 py-1 rounded text-sm" disabled>Discharged</button>`
               }
             </div>
           </div>
@@ -598,7 +598,7 @@ function viewBedDetails(userId) {
     if (!patient.activeBedAssignment) {
       html += `
         <div class="flex justify-end">
-          <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" onclick="assignBed(${userId})">Assign New Bed</button>
+          <button class="bg-blue-500 hover:bg-blue-600 text-black px-4 py-2 rounded-lg" onclick="assignBed(${userId})">Assign New Bed</button>
         </div>
       `;
     }
@@ -609,7 +609,7 @@ function viewBedDetails(userId) {
       <div class="text-center py-8">
         <i class="fas fa-bed text-4xl text-gray-400 text-gray-500 mb-4"></i>
         <p class="text-gray-600 text-gray-400 mb-4">No bed assigned to this patient yet.</p>
-        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" onclick="assignBed(${userId})">Assign Bed</button>
+        <button class="bg-blue-500 hover:bg-blue-600 text-black px-4 py-2 rounded-lg" onclick="assignBed(${userId})">Assign Bed</button>
       </div>
     `;
   }

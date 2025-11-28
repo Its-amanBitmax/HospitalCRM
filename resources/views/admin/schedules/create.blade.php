@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-lg mx-auto bg-white bg-white-800 p-6 rounded-lg shadow">
-    <h2 class="text-xl font-semibold mb-4 text-gray-800 text-white">
+    <h2 class="text-xl font-semibold mb-4 text-gray-800 text-black">
         Add Task for Dr. {{ $employee->name }}
     </h2>
 
@@ -20,32 +20,72 @@
         </div>
     @endif
 
+    @php
+    function formatAmPm($time) {
+        return date("h:i A", strtotime($time));
+    }
+
+    $shiftTimes = [];
+    if ($shifts->isNotEmpty()) {
+        foreach ($shifts as $shift) {
+            $start = strtotime($shift->start_time);
+            $end = strtotime($shift->end_time);
+
+            // Handle overnight shifts
+            if ($end < $start) {
+                $end += 86400; // Add 24 hours
+            }
+
+            for ($time = $start; $time <= $end; $time += 1800) { // 30 minutes
+                $timeStr = date("H:i", $time % 86400); // Modulo to handle overnight
+                $shiftTimes[] = $timeStr;
+            }
+        }
+        $shiftTimes = array_unique($shiftTimes);
+        sort($shiftTimes);
+    }
+    @endphp
+
     <form method="POST" action="{{ route('schedules.store', $employee) }}" id="taskForm">
         @csrf
 
         <div class="mb-4">
             <label class="block text-gray-700 text-gray-300 mb-1">Start Date</label>
-            <input type="date" name="start_date" class="w-full border-gray-300 rounded-lg bg-white-700 text-white" required>
+            <input type="date" name="start_date" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white-700 text-black" required>
         </div>
 
         <div class="mb-4">
             <label class="block text-gray-700 text-gray-300 mb-1">End Date</label>
-            <input type="date" name="end_date" class="w-full border-gray-300 rounded-lg bg-white-700 text-white" required>
+            <input type="date" name="end_date" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white-700 text-black" required>
         </div>
 
         <div class="mb-4">
             <label class="block text-gray-700 text-gray-300 mb-1">Start Time</label>
-            <input type="time" name="start_time" id="start_time" class="w-full border-gray-300 rounded-lg bg-white-700 text-white" required>
+            <select name="start_time" id="start_time" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white-700 text-black" required>
+                <option value="">Select Start Time</option>
+                @foreach($shiftTimes as $time)
+                <option value="{{ $time }}" {{ old('start_time') == $time ? 'selected' : '' }}>
+                    {{ formatAmPm($time) }}
+                </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="mb-4">
             <label class="block text-gray-700 text-gray-300 mb-1">End Time</label>
-            <input type="time" name="end_time" id="end_time" class="w-full border-gray-300 rounded-lg bg-white-700 text-white" required>
+            <select name="end_time" id="end_time" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white-700 text-black" required>
+                <option value="">Select End Time</option>
+                @foreach($shiftTimes as $time)
+                <option value="{{ $time }}" {{ old('end_time') == $time ? 'selected' : '' }}>
+                    {{ formatAmPm($time) }}
+                </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="mb-4">
             <label class="block text-gray-700 text-gray-300 mb-1">Task Type</label>
-            <select name="task_type" class="w-full border-gray-300 rounded-lg bg-white-700 text-white" required>
+            <select name="task_type" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white-700 text-black" required>
                 <option value="">Select Task</option>
                 <option value="Appointment">Appointment</option>
                 <option value="consultation">consultation</option>

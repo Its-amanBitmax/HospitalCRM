@@ -5,7 +5,7 @@
 
     <!-- Header -->
     <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
-        <h1 class="text-xl font-semibold text-gray-800 text-white">
+        <h1 class="text-xl font-semibold text-gray-800 text-black">
             Video Consultations
         </h1>
         <a href="{{ route('admin.appointments') }}"

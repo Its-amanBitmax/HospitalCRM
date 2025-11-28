@@ -16,7 +16,7 @@
   </div>
 
   <!-- Form -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200">
     <form id="createVisitForm" action="{{ route('admin.users.visits.store', $user->id) }}" method="POST">
       @csrf
       <div class="space-y-6">

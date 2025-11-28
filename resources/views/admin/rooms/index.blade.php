@@ -14,7 +14,7 @@
     <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
         <div class="flex items-center gap-3">
             <i class="fas fa-door-open text-2xl text-blue-600 text-blue-400"></i>
-            <h1 class="text-xl font-semibold text-gray-800 text-white">Rooms</h1>
+            <h1 class="text-xl font-semibold text-gray-800 ">Rooms</h1>
         </div>
         <div class="flex gap-2">
             <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg" id="addRoomBtn">
@@ -31,37 +31,37 @@
         <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
             <i class="fas fa-door-open text-3xl text-blue-600 text-blue-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 text-white" id="totalRooms">0</div>
+                <div class="text-2xl font-bold text-gray-800 " id="totalRooms">0</div>
                 <div class="text-sm text-gray-600 text-gray-400">Total Rooms</div>
             </div>
         </div>
         <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
             <i class="fas fa-check-circle text-3xl text-green-600 text-green-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 text-white" id="activeRooms">0</div>
+                <div class="text-2xl font-bold text-gray-800 " id="activeRooms">0</div>
                 <div class="text-sm text-gray-600 text-gray-400">Active Rooms</div>
             </div>
         </div>
         <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
             <i class="fas fa-times-circle text-3xl text-red-600 text-red-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 text-white" id="inactiveRooms">0</div>
+                <div class="text-2xl font-bold text-gray-800 " id="inactiveRooms">0</div>
                 <div class="text-sm text-gray-600 text-gray-400">Inactive Rooms</div>
             </div>
         </div>
         <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
             <i class="fas fa-user-check text-3xl text-purple-600 text-purple-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 text-white" id="assignedRooms">0</div>
+                <div class="text-2xl font-bold text-gray-800 " id="assignedRooms">0</div>
                 <div class="text-sm text-gray-600 text-gray-400">Assigned Rooms</div>
             </div>
         </div>
     </div>
 
     <!-- Rooms Table -->
-    <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+    <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 ">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+            <h2 class="text-xl font-semibold text-gray-800  flex items-center gap-2">
                 <i class="fas fa-door-open text-blue-600 text-blue-400"></i>
                 Room Details
             </h2>
@@ -70,24 +70,24 @@
         <div class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Room No</label>
-                <input type="text" id="roomNoFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter room number">
+                <input type="text" id="roomNoFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter room number">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Department</label>
-                <select id="departmentFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+                <select id="departmentFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200">
                     <option value="">All Departments</option>
                 </select>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
-                <select id="roomStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+                <select id="roomStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200">
                     <option value="">All</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
                 </select>
             </div>
             <div class="flex items-end">
-                <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearRoomFilters">Clear Filters</button>
+                <button class="bg-gray-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearRoomFilters">Clear Filters</button>
             </div>
         </div>
         <div class="overflow-x-auto">
@@ -109,9 +109,9 @@
 
     <!-- Add Room Modal -->
     <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="addRoomModal">
-        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="addRoomModalContent">
+        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200  transform transition-all duration-300 scale-95 opacity-0" id="addRoomModalContent">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+                <h3 class="text-xl font-semibold text-gray-800  flex items-center gap-2">
                     <i class="fas fa-plus text-blue-600 text-blue-400"></i>
                     Add Room
                 </h3>
@@ -124,17 +124,17 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Room Number</label>
-                        <input type="text" id="addRoomNo" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+                        <input type="text" id="addRoomNo" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department</label>
-                        <select id="addRoomDepartment" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+                        <select id="addRoomDepartment" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" required>
                             <option value="">Select Department</option>
                         </select>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-                        <select id="addRoomStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+                        <select id="addRoomStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" required>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
@@ -147,9 +147,9 @@
 
     <!-- Edit Room Modal -->
     <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="editRoomModal">
-        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="editRoomModalContent">
+        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200  transform transition-all duration-300 scale-95 opacity-0" id="editRoomModalContent">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+                <h3 class="text-xl font-semibold text-gray-800  flex items-center gap-2">
                     <i class="fas fa-edit text-blue-600 text-blue-400"></i>
                     Edit Room
                 </h3>
@@ -163,18 +163,18 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Room Number</label>
-                        <input type="text" id="editRoomNo" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+                        <input type="text" id="editRoomNo" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department</label>
-                        <select id="editRoomDepartment" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+                        <select id="editRoomDepartment" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" required>
                             <option value="">Select Department</option>
                         </select>
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-                        <select id="editRoomStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+                        <select id="editRoomStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" required>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
@@ -187,9 +187,9 @@
 
     <!-- Assign Room Modal -->
     <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="assignRoomModal">
-        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-2xl border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="assignRoomModalContent">
+        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-2xl border border-gray-200 transform transition-all duration-300 scale-95 opacity-0" id="assignRoomModalContent">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+                <h3 class="text-xl font-semibold text-gray-800  flex items-center gap-2">
                     <i class="fas fa-user-plus text-blue-600 text-blue-400"></i>
                     Assign Room to Department Employees
                 </h3>
@@ -202,13 +202,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Room</label>
-                        <select id="assignRoomId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+                        <select id="assignRoomId" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" required>
                             <option value="">Select Room</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department</label>
-                        <select id="assignDepartmentId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+                        <select id="assignDepartmentId" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" required>
                             <option value="">Select Department</option>
                         </select>
                     </div>
@@ -216,10 +216,10 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-2">Select Employees from Department</label>
                     <div class="flex items-center space-x-2 mb-2">
-                        <input type="checkbox" id="selectAllEmployees" class="rounded border-gray-300 border-gray-600 text-blue-600 focus:ring-blue-500 bg-white-700">
+                        <input type="checkbox" id="selectAllEmployees" class="rounded border-gray-300  text-blue-600 focus:ring-blue-500 bg-white-700">
                         <label for="selectAllEmployees" class="text-sm text-gray-700 text-gray-300">Select All</label>
                     </div>
-                    <div id="employeeSelection" class="max-h-60 overflow-y-auto border border-gray-300 border-gray-600 rounded-md p-3 bg-white-50 bg-white-700">
+                    <div id="employeeSelection" class="max-h-60 overflow-y-auto border border-gray-300  rounded-md p-3 bg-white-50 bg-white-700">
                         <p class="text-gray-500 text-gray-400 text-sm">Please select a department to load employees</p>
                     </div>
                 </div>
@@ -230,9 +230,9 @@
 
     <!-- View Assignment Details Modal -->
     <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="viewAssignmentModal">
-        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-4xl border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="viewAssignmentModalContent">
+        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-4xl border border-gray-200  transform transition-all duration-300 scale-95 opacity-0" id="viewAssignmentModalContent">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+                <h3 class="text-xl font-semibold text-gray-800  flex items-center gap-2">
                     <i class="fas fa-eye text-blue-600 text-blue-400"></i>
                     Room Assignment Details
                 </h3>
@@ -243,19 +243,19 @@
             <div class="space-y-4">
                 <!-- Room Info -->
                 <div class="bg-white-50 bg-white-700 p-4 rounded-lg">
-                    <h4 class="text-lg font-medium text-gray-800 text-white mb-2">Room Information</h4>
+                    <h4 class="text-lg font-medium text-gray-800  mb-2">Room Information</h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <span class="text-sm font-medium text-gray-600 text-gray-400">Room ID:</span>
-                            <span class="text-sm text-gray-800 text-white ml-2" id="viewRoomId"></span>
+                            <span class="text-sm text-gray-800  ml-2" id="viewRoomId"></span>
                         </div>
                         <div>
                             <span class="text-sm font-medium text-gray-600 text-gray-400">Room No:</span>
-                            <span class="text-sm text-gray-800 text-white ml-2" id="viewRoomNo"></span>
+                            <span class="text-sm text-gray-800  ml-2" id="viewRoomNo"></span>
                         </div>
                         <div>
                             <span class="text-sm font-medium text-gray-600 text-gray-400">Department:</span>
-                            <span class="text-sm text-gray-800 text-white ml-2" id="viewDepartment"></span>
+                            <span class="text-sm text-gray-800  ml-2" id="viewDepartment"></span>
                         </div>
                     </div>
                 </div>
@@ -264,7 +264,7 @@
                 <div>
                     <h4 class="text-lg font-medium text-gray-800 text-white mb-2">Assigned Employees</h4>
                     <div class="overflow-x-auto">
-                        <table class="w-full table-auto border-collapse border border-gray-300 border-gray-600">
+                        <table class="w-full table-auto border-collapse border border-gray-300 ">
                             <thead class="bg-white-100 bg-white-700">
                                 <tr>
                                     <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Employee Name</th>

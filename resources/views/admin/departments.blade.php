@@ -3,7 +3,7 @@
 @section('content')
 <div class="min-h-screen">
   <!-- Notification Area -->
-  <div id="notification" class="fixed top-4 right-4 z-50 hidden bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
+  <div id="notification" class="fixed top-4 right-4 z-50 hidden bg-green-500 text-black px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
     <div class="flex items-center gap-2">
       <i class="fas fa-check-circle"></i>
       <span id="notificationMessage"></span>
@@ -14,7 +14,7 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-building text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">Departments</h1>
+      <h1 class="text-xl font-semibold text-gray-800 text-black">Departments</h1>
     </div>
     <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg" id="addDepartmentBtn">
       <i class="fas fa-plus mr-2"></i>Add Department
@@ -26,37 +26,37 @@
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-building text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="totalDepartments">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="totalDepartments">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Total Departments</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-check-circle text-3xl text-green-600 text-green-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="activeDepartments">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="activeDepartments">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Active Departments</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-times-circle text-3xl text-red-600 text-red-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="inactiveDepartments">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="inactiveDepartments">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Inactive Departments</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-clock text-3xl text-purple-600 text-purple-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="recentDepartments">0</div>
+        <div class="text-2xl font-bold text-gray-800 text-black" id="recentDepartments">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Recent (This Month)</div>
       </div>
     </div>
   </div>
 
   <!-- Departments Table -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 ">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h2 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-building text-blue-600 text-blue-400"></i>
         Department Details
       </h2>
@@ -65,22 +65,22 @@
     <div class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Name</label>
-        <input type="text" id="departmentNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter department name">
+        <input type="text" id="departmentNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter department name">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Code</label>
-        <input type="text" id="departmentCodeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter department code">
+        <input type="text" id="departmentCodeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter department code">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
-        <select id="departmentStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+        <select id="departmentStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
           <option value="">All</option>
           <option>Active</option>
           <option>Inactive</option>
         </select>
       </div>
       <div class="flex items-end">
-        <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearDepartmentFilters">Clear Filters</button>
+        <button class="bg-gray-500 hover:bg-white-600 text-black px-4 py-2 rounded-lg transition" id="clearDepartmentFilters">Clear Filters</button>
       </div>
     </div>
     <div class="overflow-x-auto">
@@ -97,7 +97,7 @@
             <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Action</th>
           </tr>
         </thead>
-        <tbody id="departmentTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
+        <tbody id="departmentTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 "></tbody>
       </table>
     </div>
   </div>
@@ -106,7 +106,7 @@
 <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="addDepartmentModal">
   <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="addDepartmentModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-plus text-blue-600 text-blue-400"></i>
         Add Department
       </h3>
@@ -119,29 +119,29 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department Name</label>
-          <input type="text" id="addDepartmentName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <input type="text" id="addDepartmentName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department Code</label>
-          <input type="text" id="addDepartmentCode" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <input type="text" id="addDepartmentCode" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-          <select id="addDepartmentStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <select id="addDepartmentStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Image</label>
-          <input type="file" id="addDepartmentImage" accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+          <input type="file" id="addDepartmentImage" accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
         </div>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Description</label>
-        <textarea id="addDepartmentDescription" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter department description"></textarea>
+        <textarea id="addDepartmentDescription" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter department description"></textarea>
       </div>
-      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Add Department</button>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Add Department</button>
     </form>
   </div>
 </div>
@@ -150,7 +150,7 @@
 <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="editDepartmentModal">
   <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="editDepartmentModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-edit text-blue-600 text-blue-400"></i>
         Edit Department
       </h3>
@@ -163,19 +163,19 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department ID</label>
-          <input type="text" id="editDepartmentIdInput" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" readonly required>
+          <input type="text" id="editDepartmentIdInput" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" readonly required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department Name</label>
-          <input type="text" id="editDepartmentName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <input type="text" id="editDepartmentName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department Code</label>
-          <input type="text" id="editDepartmentCode" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <input type="text" id="editDepartmentCode" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-          <select id="editDepartmentStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+          <select id="editDepartmentStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
@@ -183,13 +183,13 @@
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Image</label>
-        <input type="file" id="editDepartmentImage" accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+        <input type="file" id="editDepartmentImage" accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Description</label>
-        <textarea id="editDepartmentDescription" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter department description"></textarea>
+        <textarea id="editDepartmentDescription" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter department description"></textarea>
       </div>
-      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Update Department</button>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Update Department</button>
     </form>
   </div>
 </div>

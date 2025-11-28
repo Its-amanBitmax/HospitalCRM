@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -16,9 +18,9 @@
 
         <div class="flex flex-1">
             @include('layouts.sidebar', ['admin' => Auth::guard('admin')->user()])
-            <div id="main-content" class="flex-1 flex flex-col ml-16 transition-all duration-300">
+            <div id="main-content" class="flex-1 flex flex-col ml-16 transition-all duration-300" style="background-color: #f3fcfc;">
                 @include('layouts.header')
-                <main class="flex-1 p-6">
+                <main class="flex-1 p-6" style="background-color: #f3fcfc;">
                     @yield('content')
                 </main>
                 @if(!isset($hideFooter))
