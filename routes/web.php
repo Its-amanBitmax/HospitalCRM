@@ -260,6 +260,9 @@ Route::prefix('employee')->group(function () {
 
     Route::get('/doctor/consultations', [AppointmentController::class, 'doctorConsultations'])
         ->name('employee.doctor_consultations')->middleware('auth:doctor');
+           
+            Route::get('/doctor/patients', [AppointmentController::class, 'doctorPatients'])
+            ->name('employee.doctor_patients')->middleware('auth:doctor');
 });
 
 
@@ -272,6 +275,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/reception/update', [ReceptionController::class, 'update'])->name('admin.reception.update');
     Route::post('/reception/{id}/delete', [ReceptionController::class, 'destroy'])->name('admin.reception.destroy');
     Route::post('/receptions/{receptionId}/assign', [ReceptionController::class, 'assignReceptionEmployee'])->name('receptions.assign');
+    Route::post('/receptions/{id}/unassign', [ReceptionController::class, 'unassignReceptionEmployee'])->name('reception.unassign');
     Route::get('/receptions/visit', [ReceptionController::class, 'reception_visit'])->name('admin.receptions.visit');
     Route::get('/receptions/{id}/visits', [ReceptionController::class, 'reception_visit_users'])->name('admin.receptions.visits');
 });

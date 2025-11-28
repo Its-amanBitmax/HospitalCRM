@@ -17,7 +17,7 @@
             --secondary: #1A3A40;
             --accent: #ff6b6b;
             --light: #f0f7f7;
-            --dark: #1e293b;
+            -- #1e293b;
             --gradient: linear-gradient(135deg, #0B717A, #00d4d4);
             --glass: rgba(255, 255, 255, 0.12);
             --border-glass: rgba(255, 255, 255, 0.25);
@@ -166,7 +166,7 @@
         .stat-item p { font-size: 1.18rem; color: #eee; font-weight: 500; margin: 0; }
 
         /* Help */
-        .help-section { padding: 50px; background: var(--dark); color: white; text-align: center; font-size: 1.3rem; font-weight: 500; }
+        .help-section { padding: 50px; background: var(--); color: white; text-align: center; font-size: 1.3rem; font-weight: 500; }
         .help-section a { color: #a8e6cf; text-decoration: none; font-weight: bold; }
 
         /* SOS */

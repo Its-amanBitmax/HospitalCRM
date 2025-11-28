@@ -14,7 +14,7 @@
                 <button onclick="exportToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200">
                     <i class="fas fa-file-excel mr-2"></i>Export Excel
                 </button>
-                <a href="{{ route('admin.attendance.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition duration-200">
+                <a href="{{ route('admin.attendance.index') }}" class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition duration-200">
                     <i class="fas fa-arrow-left mr-2"></i>Back to Attendance
                 </a>
             </div>
@@ -71,7 +71,7 @@
 
 
         <!-- Filter Section -->
-        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+        <div class="bg-white-50 rounded-lg p-6 mb-6">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Filter Attendance Report</h3>
             <form id="filterForm" action="{{ route('admin.attendance.report') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 <div>
@@ -141,7 +141,7 @@
         <!-- Attendance Records -->
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white border border-gray-300">
-                <thead class="bg-gray-50">
+                <thead class="bg-white-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Employee</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
@@ -154,7 +154,7 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($attendances as $attendance)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white-50">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">{{ $attendance->employee->name }}</div>
                             <div class="text-sm text-gray-500">{{ $attendance->employee->employee_code }}</div>
@@ -173,7 +173,7 @@
                                 @elseif($attendance->status == 'late') bg-orange-100 text-orange-800
                                 @elseif($attendance->status == 'half_day') bg-blue-100 text-blue-800
                                 @elseif($attendance->status == 'holiday') bg-purple-100 text-purple-800
-                                @elseif($attendance->status == 'week_off') bg-gray-100 text-gray-800
+                                @elseif($attendance->status == 'week_off') bg-white-100 text-gray-800
                                 @endif">
                                 @if($attendance->status == 'present') Present (P)
                                 @elseif($attendance->status == 'absent') Absent (A)

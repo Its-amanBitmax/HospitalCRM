@@ -3,12 +3,12 @@
 @section('content')
 <!-- Toast Notification -->
 
-  <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
+  <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
         <div class="flex items-center gap-3">
-            <i class="fas fa-user-plus text-2xl text-blue-600 dark:text-blue-400"></i>
-            <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Add New Reception</h1>
+            <i class="fas fa-user-plus text-2xl text-blue-600 text-blue-400"></i>
+            <h1 class="text-xl font-semibold text-gray-800 text-white">Add New Reception</h1>
         </div>
-        <a href="{{route('admin.reception.index')}}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition">
+        <a href="{{route('admin.reception.index')}}" class="bg-white-600 hover:bg-white-700 text-white px-4 py-2 rounded-lg transition">
             <i class="fa fa-arrow-left mr-2"></i>Back to List
         </a>
     </div>
@@ -35,7 +35,7 @@
 
 
 
-<div class="max-w-full mx-auto mt-10 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
+<div class="max-w-full mx-auto mt-10 bg-white bg-white-800 shadow-lg rounded-lg p-6">
    
 
     
@@ -48,24 +48,24 @@
 
         <!-- Reception ID -->
         <div>
-            <label class="block text-gray-700 dark:text-gray-200 font-medium">
+            <label class="block text-gray-700 text-gray-200 font-medium">
                 Reception ID <span class="text-red-500">*</span>
             </label>
             <input type="text" name="reception_id" autocomplete="off" required
-                class="w-full mt-1 px-3 py-2 bg-gray-50 dark:bg-gray-700
-                border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
-                focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800 dark:text-white">
+                class="w-full mt-1 px-3 py-2 bg-white-50 bg-white-700
+                border border-gray-300 border-gray-600 rounded-md shadow-sm 
+                focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800 text-white">
         </div>
 
         <!-- Password -->
         <div>
-            <label class="block text-gray-700 dark:text-gray-200 font-medium">
+            <label class="block text-gray-700 text-gray-200 font-medium">
                 Password <span class="text-red-500">*</span>
             </label>
             <input type="password" name="password" autocomplete="new-password" required
-                class="w-full mt-1 px-3 py-2 bg-gray-50 dark:bg-gray-700
-                border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
-                focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800 dark:text-white">
+                class="w-full mt-1 px-3 py-2 bg-white-50 bg-white-700
+                border border-gray-300 border-gray-600 rounded-md shadow-sm 
+                focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800 text-white">
         </div>
 
     </div>
@@ -75,11 +75,11 @@
 
         <!-- Status -->
         <div>
-            <label class="block text-gray-700 dark:text-gray-200 font-medium">Status</label>
+            <label class="block text-gray-700 text-gray-200 font-medium">Status</label>
             <select name="status" autocomplete="off"
-                class="w-full mt-1 px-3 py-2 bg-gray-50 dark:bg-gray-700
-                border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
-                focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800 dark:text-white">
+                class="w-full mt-1 px-3 py-2 bg-white-50 bg-white-700
+                border border-gray-300 border-gray-600 rounded-md shadow-sm 
+                focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-800 text-white">
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
             </select>
@@ -89,7 +89,7 @@
 
     <!-- Buttons -->
     <div class="flex justify-end gap-3 mt-6">
-        <button type="reset" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition">
+        <button type="reset" class="bg-white-500 hover:bg-white-600 text-white px-6 py-2 rounded-lg transition">
             Reset
         </button>
         <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">

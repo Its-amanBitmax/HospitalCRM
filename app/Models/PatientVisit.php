@@ -23,4 +23,19 @@ class PatientVisit extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+   
+public function reception()
+{
+    return $this->belongsTo(Reception::class, 'referred_by');
+}
+
+public function consultantAssignment()
+{
+    return $this->belongsTo(RoomAssignment::class, 'department_consultant');
+}
+
+
+
+
 }

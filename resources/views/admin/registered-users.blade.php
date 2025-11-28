@@ -8,9 +8,9 @@
 
 <style>
 @media print {
-  .sidebar, header, footer, .topbar, .notification, .grid.grid-cols-1.md\\:grid-cols-4, .flex.justify-between.items-center.bg-white.dark\\:bg-gray-800.p-4.rounded-lg.shadow.mb-6 { display: none !important; }
+  .sidebar, header, footer, .topbar, .notification, .grid.grid-cols-1.md\\:grid-cols-4, .flex.justify-between.items-center.bg-white.\\:bg-white-800.p-4.rounded-lg.shadow.mb-6 { display: none !important; }
   body { margin: 0; padding: 20px; }
-  .bg-white.dark\\:bg-gray-800.rounded-lg.shadow-lg.p-6 { box-shadow: none; border: none; }
+  .bg-white.\\:bg-white-800.rounded-lg.shadow-lg.p-6 { box-shadow: none; border: none; }
 }
 #main-content {
   overflow-x: auto !important;
@@ -29,10 +29,10 @@
   </div>
 
   <!-- Topbar -->
-  <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
+  <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
-      <i class="fas fa-users text-2xl text-blue-600 dark:text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 dark:text-white">All Patients
+      <i class="fas fa-users text-2xl text-blue-600 text-blue-400"></i>
+      <h1 class="text-xl font-semibold text-gray-800 text-white">All Patients
       </h1>
     </div>
     <div class="flex gap-3">
@@ -55,57 +55,57 @@
 
   <!-- Cards -->
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6" >
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-users text-3xl text-blue-600 dark:text-blue-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-users text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="totalUsers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Total Patients</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="totalUsers">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Total Patients</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-procedures text-3xl text-blue-600 dark:text-blue-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-procedures text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="ipdUsers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">IPD Patients</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="ipdUsers">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">IPD Patients</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-stethoscope text-3xl text-green-600 dark:text-green-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-stethoscope text-3xl text-green-600 text-green-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="opdUsers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">OPD Patients</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="opdUsers">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">OPD Patients</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-ambulance text-3xl text-red-600 dark:text-red-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-ambulance text-3xl text-red-600 text-red-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="emergencyUsers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Emergency Patients</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="emergencyUsers">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Emergency Patients</div>
       </div>
     </div>
   </div>
 
   <!-- Users Table -->
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700 overflow-x-auto">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700 overflow-x-auto">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-users text-blue-600 dark:text-blue-400"></i>
+      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <i class="fas fa-users text-blue-600 text-blue-400"></i>
         Patient Details
       </h2>
     </div>
     <!-- Filters -->
     <div class="mb-4 grid grid-cols-1 md:grid-cols-5 gap-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Name</label>
-        <input type="text" id="userNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter user name">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Name</label>
+        <input type="text" id="userNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter user name">
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Email</label>
-        <input type="text" id="userEmailFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter email">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Email</label>
+        <input type="text" id="userEmailFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter email">
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Type</label>
-        <select id="userTypeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Type</label>
+        <select id="userTypeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
           <option value="">All</option>
           <option>opd</option>
           <option>emergency</option>
@@ -113,34 +113,34 @@
         </select>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Status</label>
-        <select id="userStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
+        <select id="userStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
           <option value="">All</option>
           <option>active</option>
           <option>inactive</option>
         </select>
       </div>
       <div class="flex items-end">
-        <button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition" id="clearUserFilters">Clear Filters</button>
+        <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearUserFilters">Clear Filters</button>
       </div>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full table-auto border-collapse min-w-max">
-        <thead class="bg-gray-100 dark:bg-gray-700">
+        <thead class="bg-white-100 bg-white-700">
           <tr>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">S.No</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">User ID</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600 min-w-[350px]">Full Name</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Username</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Image</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Email</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Phone</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Type</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Status</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600 min-w-[350px]">Action</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">S.No</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">User ID</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600 min-w-[350px]">Full Name</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Username</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Image</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Email</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Phone</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Type</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Status</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600 min-w-[350px]">Action</th>
           </tr>
         </thead>
-        <tbody id="userTable" class="text-gray-800 dark:text-gray-200 divide-y divide-gray-200 dark:divide-gray-600"></tbody>
+        <tbody id="userTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
       </table>
     </div>
   </div>
@@ -148,46 +148,46 @@
 
 
 <!-- Add User Modal -->
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="addUserModal">
-  <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-xl w-full max-w-2xl max-h-screen overflow-y-auto border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="addUserModalContent">
+<div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="addUserModal">
+  <div class="bg-white bg-white-800 p-4 rounded-lg shadow-xl w-full max-w-2xl max-h-screen overflow-y-auto border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="addUserModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-plus text-blue-600 dark:text-blue-400"></i>
+      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <i class="fas fa-plus text-blue-600 text-blue-400"></i>
         Add New User
       </h3>
-      <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeAddUserModal">
+      <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeAddUserModal">
         <i class="fas fa-times text-lg"></i>
       </button>
     </div>
     <form id="addUserForm" class="space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
-          <input type="text" id="addUserFullname" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Full Name</label>
+          <input type="text" id="addUserFullname" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
-          <input type="text" id="addUserUsername" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Username</label>
+          <input type="text" id="addUserUsername" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
-          <input type="email" id="addUserEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Email</label>
+          <input type="email" id="addUserEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
-          <input type="text" id="addUserPhone" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Phone</label>
+          <input type="text" id="addUserPhone" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
-          <input type="password" id="addUserPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Password</label>
+          <input type="password" id="addUserPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Age</label>
-          <input type="number" id="addUserAge" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" min="0" max="150">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Age</label>
+          <input type="number" id="addUserAge" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" min="0" max="150">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gender</label>
-          <select id="addUserGender" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Gender</label>
+          <select id="addUserGender" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
             <option value="">Select Gender</option>
             <option>male</option>
             <option>female</option>
@@ -195,8 +195,8 @@
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type</label>
-          <select id="addUserType" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Type</label>
+          <select id="addUserType" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
             <option>ipd</option>
             <option>opd</option>
             <option>registered</option>
@@ -204,15 +204,15 @@
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-          <select id="addUserStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
+          <select id="addUserStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
             <option>active</option>
             <option>inactive</option>
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Registered Through</label>
-          <select id="addUserRegisteredThrough" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Registered Through</label>
+          <select id="addUserRegisteredThrough" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
             <option>email_otp</option>
             <option>msg</option>
             <option>whatsapp</option>
@@ -220,13 +220,13 @@
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image</label>
-          <input type="file" id="addUserImage" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" accept="image/*">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Image</label>
+          <input type="file" id="addUserImage" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" accept="image/*">
         </div>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address</label>
-        <textarea id="addUserAddress" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200"></textarea>
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Address</label>
+        <textarea id="addUserAddress" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200"></textarea>
       </div>
       <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Add User</button>
     </form>
@@ -234,14 +234,14 @@
 </div>
 
 <!-- Edit User Modal -->
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="editUserModal">
-  <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-xl w-full max-w-2xl max-h-screen overflow-y-auto border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="editUserModalContent">
+<div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="editUserModal">
+  <div class="bg-white bg-white-800 p-4 rounded-lg shadow-xl w-full max-w-2xl max-h-screen overflow-y-auto border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="editUserModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-edit text-blue-600 dark:text-blue-400"></i>
+      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <i class="fas fa-edit text-blue-600 text-blue-400"></i>
         Edit User
       </h3>
-      <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeEditUserModal">
+      <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeEditUserModal">
         <i class="fas fa-times text-lg"></i>
       </button>
     </div>
@@ -249,28 +249,28 @@
       <input type="hidden" id="editUserId">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
-          <input type="text" id="editUserFullname" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Full Name</label>
+          <input type="text" id="editUserFullname" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
-          <input type="text" id="editUserUsername" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Username</label>
+          <input type="text" id="editUserUsername" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
-          <input type="email" id="editUserEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Email</label>
+          <input type="email" id="editUserEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
-          <input type="text" id="editUserPhone" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Phone</label>
+          <input type="text" id="editUserPhone" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Age</label>
-          <input type="number" id="editUserAge" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" min="0" max="150">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Age</label>
+          <input type="number" id="editUserAge" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" min="0" max="150">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gender</label>
-          <select id="editUserGender" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Gender</label>
+          <select id="editUserGender" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
             <option value="">Select Gender</option>
             <option>male</option>
             <option>female</option>
@@ -278,8 +278,8 @@
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type</label>
-          <select id="editUserType" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Type</label>
+          <select id="editUserType" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
             <option>ipd</option>
             <option>opd</option>
             <option>registered</option>
@@ -287,20 +287,20 @@
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-          <select id="editUserStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
+          <select id="editUserStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
             <option>active</option>
             <option>inactive</option>
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image</label>
-          <input type="file" id="editUserImage" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" accept="image/*">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Image</label>
+          <input type="file" id="editUserImage" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" accept="image/*">
         </div>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address</label>
-        <textarea id="editUserAddress" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200"></textarea>
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Address</label>
+        <textarea id="editUserAddress" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200"></textarea>
       </div>
       <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Update User</button>
     </form>
@@ -363,10 +363,10 @@ function renderUsers(filteredUsers = users) {
   const userTable = document.getElementById("userTable");
   userTable.innerHTML = "";
   filteredUsers.forEach((u, i) => {
-    const statusClass = u.status === "active" ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400";
-    const typeClass = u.type === "registered" ? "text-blue-500 dark:text-blue-400" : "text-gray-500 dark:text-gray-400";
+    const statusClass = u.status === "active" ? "text-green-500 text-green-400" : "text-red-500 text-red-400";
+    const typeClass = u.type === "registered" ? "text-blue-500 text-blue-400" : "text-gray-500 text-gray-400";
     userTable.insertAdjacentHTML("beforeend", `
-      <tr class="dark:bg-gray-800">
+      <tr class="bg-white-800">
         <td class="px-4 py-3">${i + 1}</td>
         <td class="px-4 py-3">${u.user_id}</td>
         <td class="px-4 py-3 whitespace-nowrap">${u.full_name}</td>

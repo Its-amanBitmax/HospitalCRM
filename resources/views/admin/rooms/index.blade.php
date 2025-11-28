@@ -11,10 +11,10 @@
     </div>
 
     <!-- Topbar -->
-    <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
+    <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
         <div class="flex items-center gap-3">
-            <i class="fas fa-door-open text-2xl text-blue-600 dark:text-blue-400"></i>
-            <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Rooms</h1>
+            <i class="fas fa-door-open text-2xl text-blue-600 text-blue-400"></i>
+            <h1 class="text-xl font-semibold text-gray-800 text-white">Rooms</h1>
         </div>
         <div class="flex gap-2">
             <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg" id="addRoomBtn">
@@ -28,94 +28,94 @@
 
     <!-- Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-            <i class="fas fa-door-open text-3xl text-blue-600 dark:text-blue-400"></i>
+        <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+            <i class="fas fa-door-open text-3xl text-blue-600 text-blue-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 dark:text-white" id="totalRooms">0</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400">Total Rooms</div>
+                <div class="text-2xl font-bold text-gray-800 text-white" id="totalRooms">0</div>
+                <div class="text-sm text-gray-600 text-gray-400">Total Rooms</div>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-            <i class="fas fa-check-circle text-3xl text-green-600 dark:text-green-400"></i>
+        <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+            <i class="fas fa-check-circle text-3xl text-green-600 text-green-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 dark:text-white" id="activeRooms">0</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400">Active Rooms</div>
+                <div class="text-2xl font-bold text-gray-800 text-white" id="activeRooms">0</div>
+                <div class="text-sm text-gray-600 text-gray-400">Active Rooms</div>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-            <i class="fas fa-times-circle text-3xl text-red-600 dark:text-red-400"></i>
+        <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+            <i class="fas fa-times-circle text-3xl text-red-600 text-red-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 dark:text-white" id="inactiveRooms">0</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400">Inactive Rooms</div>
+                <div class="text-2xl font-bold text-gray-800 text-white" id="inactiveRooms">0</div>
+                <div class="text-sm text-gray-600 text-gray-400">Inactive Rooms</div>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-            <i class="fas fa-user-check text-3xl text-purple-600 dark:text-purple-400"></i>
+        <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+            <i class="fas fa-user-check text-3xl text-purple-600 text-purple-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 dark:text-white" id="assignedRooms">0</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400">Assigned Rooms</div>
+                <div class="text-2xl font-bold text-gray-800 text-white" id="assignedRooms">0</div>
+                <div class="text-sm text-gray-600 text-gray-400">Assigned Rooms</div>
             </div>
         </div>
     </div>
 
     <!-- Rooms Table -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+    <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                <i class="fas fa-door-open text-blue-600 dark:text-blue-400"></i>
+            <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+                <i class="fas fa-door-open text-blue-600 text-blue-400"></i>
                 Room Details
             </h2>
         </div>
         <!-- Filters -->
         <div class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Room No</label>
-                <input type="text" id="roomNoFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter room number">
+                <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Room No</label>
+                <input type="text" id="roomNoFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter room number">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Department</label>
-                <select id="departmentFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+                <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Department</label>
+                <select id="departmentFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
                     <option value="">All Departments</option>
                 </select>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Status</label>
-                <select id="roomStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+                <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
+                <select id="roomStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
                     <option value="">All</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
                 </select>
             </div>
             <div class="flex items-end">
-                <button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition" id="clearRoomFilters">Clear Filters</button>
+                <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearRoomFilters">Clear Filters</button>
             </div>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full table-auto border-collapse">
-                <thead class="bg-gray-100 dark:bg-gray-700">
+                <thead class="bg-white-100 bg-white-700">
                     <tr>
-                        <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">S.No</th>
-                        <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Room ID</th>
-                        <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Room No</th>
-                        <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Department</th>
-                        <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Status</th>
-                        <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Action</th>
+                        <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">S.No</th>
+                        <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Room ID</th>
+                        <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Room No</th>
+                        <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Department</th>
+                        <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Status</th>
+                        <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Action</th>
                     </tr>
                 </thead>
-                <tbody id="roomTable" class="text-gray-800 dark:text-gray-200 divide-y divide-gray-200 dark:divide-gray-600"></tbody>
+                <tbody id="roomTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
             </table>
         </div>
     </div>
 
     <!-- Add Room Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="addRoomModal">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="addRoomModalContent">
+    <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="addRoomModal">
+        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="addRoomModalContent">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                    <i class="fas fa-plus text-blue-600 dark:text-blue-400"></i>
+                <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+                    <i class="fas fa-plus text-blue-600 text-blue-400"></i>
                     Add Room
                 </h3>
-                <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeAddRoomModal">
+                <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeAddRoomModal">
                     <i class="fas fa-times text-lg"></i>
                 </button>
             </div>
@@ -123,18 +123,18 @@
                 <div id="addRoomErrors" class="text-red-500 text-sm hidden"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Room Number</label>
-                        <input type="text" id="addRoomNo" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+                        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Room Number</label>
+                        <input type="text" id="addRoomNo" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Department</label>
-                        <select id="addRoomDepartment" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+                        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department</label>
+                        <select id="addRoomDepartment" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
                             <option value="">Select Department</option>
                         </select>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                        <select id="addRoomStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+                        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
+                        <select id="addRoomStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
@@ -146,14 +146,14 @@
     </div>
 
     <!-- Edit Room Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="editRoomModal">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="editRoomModalContent">
+    <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="editRoomModal">
+        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="editRoomModalContent">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                    <i class="fas fa-edit text-blue-600 dark:text-blue-400"></i>
+                <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+                    <i class="fas fa-edit text-blue-600 text-blue-400"></i>
                     Edit Room
                 </h3>
-                <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeEditRoomModal">
+                <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeEditRoomModal">
                     <i class="fas fa-times text-lg"></i>
                 </button>
             </div>
@@ -162,19 +162,19 @@
                 <div id="editRoomErrors" class="text-red-500 text-sm hidden"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Room Number</label>
-                        <input type="text" id="editRoomNo" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+                        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Room Number</label>
+                        <input type="text" id="editRoomNo" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Department</label>
-                        <select id="editRoomDepartment" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+                        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department</label>
+                        <select id="editRoomDepartment" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
                             <option value="">Select Department</option>
                         </select>
                     </div>
 
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                        <select id="editRoomStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+                        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
+                        <select id="editRoomStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
@@ -186,14 +186,14 @@
     </div>
 
     <!-- Assign Room Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="assignRoomModal">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-2xl border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="assignRoomModalContent">
+    <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="assignRoomModal">
+        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-2xl border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="assignRoomModalContent">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                    <i class="fas fa-user-plus text-blue-600 dark:text-blue-400"></i>
+                <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+                    <i class="fas fa-user-plus text-blue-600 text-blue-400"></i>
                     Assign Room to Department Employees
                 </h3>
-                <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeAssignRoomModal">
+                <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeAssignRoomModal">
                     <i class="fas fa-times text-lg"></i>
                 </button>
             </div>
@@ -201,26 +201,26 @@
                 <div id="assignRoomErrors" class="text-red-500 text-sm hidden"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Room</label>
-                        <select id="assignRoomId" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+                        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Room</label>
+                        <select id="assignRoomId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
                             <option value="">Select Room</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Department</label>
-                        <select id="assignDepartmentId" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+                        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department</label>
+                        <select id="assignDepartmentId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
                             <option value="">Select Department</option>
                         </select>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Select Employees from Department</label>
+                    <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-2">Select Employees from Department</label>
                     <div class="flex items-center space-x-2 mb-2">
-                        <input type="checkbox" id="selectAllEmployees" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700">
-                        <label for="selectAllEmployees" class="text-sm text-gray-700 dark:text-gray-300">Select All</label>
+                        <input type="checkbox" id="selectAllEmployees" class="rounded border-gray-300 border-gray-600 text-blue-600 focus:ring-blue-500 bg-white-700">
+                        <label for="selectAllEmployees" class="text-sm text-gray-700 text-gray-300">Select All</label>
                     </div>
-                    <div id="employeeSelection" class="max-h-60 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-md p-3 bg-gray-50 dark:bg-gray-700">
-                        <p class="text-gray-500 dark:text-gray-400 text-sm">Please select a department to load employees</p>
+                    <div id="employeeSelection" class="max-h-60 overflow-y-auto border border-gray-300 border-gray-600 rounded-md p-3 bg-white-50 bg-white-700">
+                        <p class="text-gray-500 text-gray-400 text-sm">Please select a department to load employees</p>
                     </div>
                 </div>
                 <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Assign Selected Employees to Room</button>
@@ -229,59 +229,59 @@
     </div>
 
     <!-- View Assignment Details Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="viewAssignmentModal">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-4xl border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="viewAssignmentModalContent">
+    <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="viewAssignmentModal">
+        <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-4xl border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="viewAssignmentModalContent">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                    <i class="fas fa-eye text-blue-600 dark:text-blue-400"></i>
+                <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+                    <i class="fas fa-eye text-blue-600 text-blue-400"></i>
                     Room Assignment Details
                 </h3>
-                <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeViewAssignmentModal">
+                <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeViewAssignmentModal">
                     <i class="fas fa-times text-lg"></i>
                 </button>
             </div>
             <div class="space-y-4">
                 <!-- Room Info -->
-                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <h4 class="text-lg font-medium text-gray-800 dark:text-white mb-2">Room Information</h4>
+                <div class="bg-white-50 bg-white-700 p-4 rounded-lg">
+                    <h4 class="text-lg font-medium text-gray-800 text-white mb-2">Room Information</h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Room ID:</span>
-                            <span class="text-sm text-gray-800 dark:text-white ml-2" id="viewRoomId"></span>
+                            <span class="text-sm font-medium text-gray-600 text-gray-400">Room ID:</span>
+                            <span class="text-sm text-gray-800 text-white ml-2" id="viewRoomId"></span>
                         </div>
                         <div>
-                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Room No:</span>
-                            <span class="text-sm text-gray-800 dark:text-white ml-2" id="viewRoomNo"></span>
+                            <span class="text-sm font-medium text-gray-600 text-gray-400">Room No:</span>
+                            <span class="text-sm text-gray-800 text-white ml-2" id="viewRoomNo"></span>
                         </div>
                         <div>
-                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Department:</span>
-                            <span class="text-sm text-gray-800 dark:text-white ml-2" id="viewDepartment"></span>
+                            <span class="text-sm font-medium text-gray-600 text-gray-400">Department:</span>
+                            <span class="text-sm text-gray-800 text-white ml-2" id="viewDepartment"></span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Assignments Table -->
                 <div>
-                    <h4 class="text-lg font-medium text-gray-800 dark:text-white mb-2">Assigned Employees</h4>
+                    <h4 class="text-lg font-medium text-gray-800 text-white mb-2">Assigned Employees</h4>
                     <div class="overflow-x-auto">
-                        <table class="w-full table-auto border-collapse border border-gray-300 dark:border-gray-600">
-                            <thead class="bg-gray-100 dark:bg-gray-700">
+                        <table class="w-full table-auto border-collapse border border-gray-300 border-gray-600">
+                            <thead class="bg-white-100 bg-white-700">
                                 <tr>
-                                    <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Employee Name</th>
-                                    <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Employee Code</th>
-                                    <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Profession</th>
-                                    <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Experience</th>
-                                    <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Assigned At</th>
-                                    <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Status</th>
-                                    <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Action</th>
+                                    <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Employee Name</th>
+                                    <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Employee Code</th>
+                                    <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Profession</th>
+                                    <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Experience</th>
+                                    <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Assigned At</th>
+                                    <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Status</th>
+                                    <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="assignmentDetailsTable" class="text-gray-800 dark:text-gray-200">
+                            <tbody id="assignmentDetailsTable" class="text-gray-800 text-gray-200">
                                 <!-- Assignment details will be populated here -->
                             </tbody>
                         </table>
                     </div>
-                    <div id="noAssignmentsMessage" class="text-center py-4 text-gray-500 dark:text-gray-400 hidden">
+                    <div id="noAssignmentsMessage" class="text-center py-4 text-gray-500 text-gray-400 hidden">
                         No assignments found for this room.
                     </div>
                 </div>
@@ -405,12 +405,12 @@
         const roomTable = document.getElementById("roomTable");
         roomTable.innerHTML = "";
         filteredRooms.forEach((r, i) => {
-            const statusClass = r.status === "active" ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400";
+            const statusClass = r.status === "active" ? "text-green-500 text-green-400" : "text-red-500 text-red-400";
             const departmentName = r.department ? r.department.department_name : '-';
             const displayStatus = r.status.charAt(0).toUpperCase() + r.status.slice(1);
 
             roomTable.insertAdjacentHTML("beforeend", `
-                <tr class="dark:bg-gray-800">
+                <tr class="bg-white-800">
                     <td class="px-4 py-3">${i + 1}</td>
                     <td class="px-4 py-3">${r.room_id}</td>
                     <td class="px-4 py-3">${r.room_no}</td>
@@ -456,22 +456,22 @@
     // Load Employees by Department
     function loadEmployeesByDepartment(departmentId) {
         const employeeSelection = document.getElementById('employeeSelection');
-        employeeSelection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-sm">Loading employees...</p>';
+        employeeSelection.innerHTML = '<p class="text-gray-500 text-gray-400 text-sm">Loading employees...</p>';
 
         fetch(`/admin/get-employees-by-department/${departmentId}`)
             .then(response => response.json())
             .then(data => {
                 employeeSelection.innerHTML = '';
                 if (data.length === 0) {
-                    employeeSelection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-sm">No employees found in this department</p>';
+                    employeeSelection.innerHTML = '<p class="text-gray-500 text-gray-400 text-sm">No employees found in this department</p>';
                     return;
                 }
                 data.forEach(employee => {
                     const checkboxDiv = document.createElement('div');
                     checkboxDiv.className = 'flex items-center space-x-2';
                     checkboxDiv.innerHTML = `
-                        <input type="checkbox" id="emp_${employee.id}" value="${employee.id}" class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700">
-                        <label for="emp_${employee.id}" class="text-sm text-gray-700 dark:text-gray-300">${employee.name} (${employee.employee_code})</label>
+                        <input type="checkbox" id="emp_${employee.id}" value="${employee.id}" class="rounded border-gray-300 border-gray-600 text-blue-600 focus:ring-blue-500 bg-white-700">
+                        <label for="emp_${employee.id}" class="text-sm text-gray-700 text-gray-300">${employee.name} (${employee.employee_code})</label>
                     `;
                     employeeSelection.appendChild(checkboxDiv);
                 });
@@ -618,7 +618,7 @@
         if (departmentId) {
             loadEmployeesByDepartment(departmentId);
         } else {
-            document.getElementById('employeeSelection').innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-sm">Please select a department to load employees</p>';
+            document.getElementById('employeeSelection').innerHTML = '<p class="text-gray-500 text-gray-400 text-sm">Please select a department to load employees</p>';
         }
     });
 

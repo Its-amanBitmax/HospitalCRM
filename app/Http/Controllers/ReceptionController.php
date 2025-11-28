@@ -131,6 +131,25 @@ class ReceptionController extends Controller
     }
 
 
+
+
+
+ public function unassignReceptionEmployee($id)
+{
+    $reception = \App\Models\Reception::findOrFail($id);
+    $reception->assigned_employee = null;
+    $reception->save();
+
+    return redirect()->back()->with('success', 'Employee unassigned successfully.');
+}
+
+
+
+
+
+
+
+
     public function reception_visit()
     {
         $users = \App\Models\User::where('type', 'opd')->get();

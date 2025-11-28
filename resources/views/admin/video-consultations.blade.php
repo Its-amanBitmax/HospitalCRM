@@ -1,11 +1,11 @@
 @extends('layouts.layout')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+<div class="min-h-screen bg-white-50 bg-white-900">
 
     <!-- Header -->
-    <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
-        <h1 class="text-xl font-semibold text-gray-800 dark:text-white">
+    <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
+        <h1 class="text-xl font-semibold text-gray-800 text-white">
             Video Consultations
         </h1>
         <a href="{{ route('admin.appointments') }}"
@@ -17,17 +17,17 @@
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border p-6">
+        <div class="bg-white bg-white-800 rounded-2xl shadow-sm border p-6">
             <p class="text-sm text-gray-500">Confirmed</p>
             <p class="text-4xl font-bold mt-2">{{ $confirmed }}</p>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border p-6">
+        <div class="bg-white bg-white-800 rounded-2xl shadow-sm border p-6">
             <p class="text-sm text-gray-500">Cancelled</p>
             <p class="text-4xl font-bold mt-2">{{ $cancelled }}</p>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border p-6">
+        <div class="bg-white bg-white-800 rounded-2xl shadow-sm border p-6">
             <p class="text-sm text-gray-500">Total Consultations</p>
             <p class="text-4xl font-bold mt-2">{{ $total }}</p>
         </div>
@@ -36,9 +36,9 @@
 
 
     <!-- UPCOMING CONSULTATIONS -->
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border overflow-hidden mb-10">
+    <div class="bg-white bg-white-800 rounded-2xl shadow-sm border overflow-hidden mb-10">
 
-        <div class="px-6 py-4 bg-gray-50 border-b">
+        <div class="px-6 py-4 bg-white-50 border-b">
             <h2 class="text-lg font-semibold">Upcoming Consultations (Next 3 Days)</h2>
         </div>
 
@@ -49,7 +49,7 @@
                 </div>
             @else
                 <table class="w-full">
-                    <thead class="bg-gray-50 text-xs uppercase">
+                    <thead class="bg-white-50 text-xs uppercase">
                         <tr>
                             <th class="px-6 py-3 text-left">Code</th>
                             <th class="px-6 py-3 text-left">Date</th>
@@ -65,7 +65,7 @@
 
                     <tbody class="divide-y">
                         @foreach($upcoming as $app)
-                        <tr class="hover:bg-gray-50">
+                        <tr class="hover:bg-white-50">
 
                             <td class="px-6 py-3 font-semibold">{{ $app->appointment_code }}</td>
 
@@ -117,9 +117,9 @@
 
 
     <!-- ALL CONSULTATIONS -->
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border overflow-hidden">
+    <div class="bg-white bg-white-800 rounded-2xl shadow-sm border overflow-hidden">
 
-        <div class="px-6 py-4 bg-gray-50 border-b">
+        <div class="px-6 py-4 bg-white-50 border-b">
             <h2 class="text-lg font-semibold">All Video Consultations</h2>
         </div>
 
@@ -131,7 +131,7 @@
             @else
 
             <table class="w-full">
-                <thead class="bg-gray-50 text-xs uppercase">
+                <thead class="bg-white-50 text-xs uppercase">
                     <tr>
                         <th class="px-6 py-3 text-left">Code</th>
                         <th class="px-6 py-3 text-left">Date</th>
@@ -148,7 +148,7 @@
                 <tbody class="divide-y">
 
                     @foreach($consultations as $app)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white-50">
 
                         <td class="px-6 py-3 font-semibold">{{ $app->appointment_code }}</td>
 
@@ -203,9 +203,9 @@
 
 
 <!-- MODAL -->
-<div id="appointmentModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+<div id="appointmentModal" class="fixed inset-0 bg-white/50 hidden items-center justify-center z-50">
 
-    <div class="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-lg shadow-xl mx-4 relative">
+    <div class="bg-white bg-white-800 rounded-2xl w-full max-w-lg shadow-xl mx-4 relative">
 
         <div class="flex justify-between items-center px-6 py-3 border-b">
             <h2 class="text-lg font-semibold">Consultation Details</h2>

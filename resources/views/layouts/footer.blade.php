@@ -1,4 +1,4 @@
-<footer id="footer" class="bg-gray-800 text-white py-4 w-full">
+<footer id="footer" class="bg-white-800 text-white py-4 w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
             <p>&copy; 2025 Hospital CRM. All rights reserved.</p>

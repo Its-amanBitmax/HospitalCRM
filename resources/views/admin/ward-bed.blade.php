@@ -13,57 +13,57 @@
 
 
   <!-- Topbar -->
-  <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
+  <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
-      <i class="fas fa-hospital text-2xl text-blue-600 dark:text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Ward & Bed Management</h1>
+      <i class="fas fa-hospital text-2xl text-blue-600 text-blue-400"></i>
+      <h1 class="text-xl font-semibold text-gray-800 text-white">Ward & Bed Management</h1>
     </div>
   </div>
 
   <!-- Cards -->
   <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-bed text-3xl text-blue-600 dark:text-blue-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-bed text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="totalBeds">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Total Beds</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="totalBeds">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Total Beds</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-circle-check text-3xl text-green-600 dark:text-green-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-circle-check text-3xl text-green-600 text-green-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="availableBeds">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Available Beds</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="availableBeds">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Available Beds</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-user-injured text-3xl text-yellow-600 dark:text-yellow-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-user-injured text-3xl text-yellow-600 text-yellow-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="occupiedBeds">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Occupied Beds</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="occupiedBeds">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Occupied Beds</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-broom text-3xl text-red-600 dark:text-red-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-broom text-3xl text-red-600 text-red-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="maintenanceBeds">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Beds in Maintenance</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="maintenanceBeds">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Beds in Maintenance</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-hospital text-3xl text-purple-600 dark:text-purple-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-hospital text-3xl text-purple-600 text-purple-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="activeWards">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Active Wards</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="activeWards">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Active Wards</div>
       </div>
     </div>
   </div>
 
   <!-- Ward Table -->
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6 border border-gray-200 dark:border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 mb-6 border border-gray-200 border-gray-700">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-hospital text-blue-600 dark:text-blue-400"></i>
+      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <i class="fas fa-hospital text-blue-600 text-blue-400"></i>
         Ward Details
       </h2>
       <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition" id="openWardModalSection">
@@ -73,49 +73,49 @@
     <!-- Ward Filters -->
     <div class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Name</label>
-        <input type="text" id="wardNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter ward name">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Name</label>
+        <input type="text" id="wardNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter ward name">
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Floor</label>
-        <input type="number" id="wardFloorFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter floor">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Floor</label>
+        <input type="number" id="wardFloorFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter floor">
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Status</label>
-        <select id="wardStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
+        <select id="wardStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
           <option value="">All</option>
           <option>Active</option>
           <option>Maintenance</option>
         </select>
       </div>
       <div class="flex items-end">
-        <button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition" id="clearWardFilters">Clear Filters</button>
+        <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearWardFilters">Clear Filters</button>
       </div>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full table-auto border-collapse">
-        <thead class="bg-gray-100 dark:bg-gray-700">
+        <thead class="bg-white-100 bg-white-700">
           <tr>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">S.No</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Ward ID</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Ward Name</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Floor</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Bed Limit</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">No. of Beds</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Status</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Action</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">S.No</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Ward ID</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Ward Name</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Floor</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Bed Limit</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">No. of Beds</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Status</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Action</th>
           </tr>
         </thead>
-        <tbody id="wardTable" class="text-gray-800 dark:text-gray-200 divide-y divide-gray-200 dark:divide-gray-600"></tbody>
+        <tbody id="wardTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
       </table>
     </div>
   </div>
 
   <!-- Bed Table -->
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-bed text-green-600 dark:text-green-400"></i>
+      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <i class="fas fa-bed text-green-600 text-green-400"></i>
         Bed Details
       </h2>
       <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition" id="openBedModalSection">
@@ -125,14 +125,14 @@
     <!-- Bed Filters -->
     <div class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Ward</label>
-        <select id="bedWardFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Ward</label>
+        <select id="bedWardFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
           <option value="">All Wards</option>
         </select>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Type</label>
-        <select id="bedTypeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Type</label>
+        <select id="bedTypeFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
           <option value="">All Types</option>
           <option>General</option>
           <option>Critical</option>
@@ -140,8 +140,8 @@
         </select>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Status</label>
-        <select id="bedStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
+        <select id="bedStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
           <option value="">All Statuses</option>
           <option>Active</option>
           <option>Occupied</option>
@@ -149,55 +149,55 @@
         </select>
       </div>
       <div class="flex items-end">
-        <button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition" id="clearBedFilters">Clear Filters</button>
+        <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearBedFilters">Clear Filters</button>
       </div>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full table-auto border-collapse">
-        <thead class="bg-gray-100 dark:bg-gray-700">
+        <thead class="bg-white-100 bg-white-700">
           <tr>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">S.No</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Bed ID</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Ward</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Type</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Status</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Action</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">S.No</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Bed ID</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Ward</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Type</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Status</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Action</th>
           </tr>
         </thead>
-        <tbody id="bedTable" class="text-gray-800 dark:text-gray-200 divide-y divide-gray-200 dark:divide-gray-600"></tbody>
+        <tbody id="bedTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
       </table>
     </div>
   </div>
 
 <!-- Ward Modal -->
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="wardModal">
-  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="wardModalContent">
+<div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="wardModal">
+  <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="wardModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-plus-circle text-blue-600 dark:text-blue-400"></i>
+      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <i class="fas fa-plus-circle text-blue-600 text-blue-400"></i>
         Add New Ward
       </h3>
-      <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeWardModal">
+      <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeWardModal">
         <i class="fas fa-times text-lg"></i>
       </button>
     </div>
     <div class="space-y-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ward Name</label>
-        <input type="text" id="wardName" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Ward Name">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Ward Name</label>
+        <input type="text" id="wardName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Ward Name">
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Floor</label>
-        <input type="number" id="wardFloor" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Floor Number">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Floor</label>
+        <input type="number" id="wardFloor" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Floor Number">
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bed Limit</label>
-        <input type="number" id="bedLimit" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Bed Limit">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Bed Limit</label>
+        <input type="number" id="bedLimit" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Bed Limit">
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-        <select id="wardStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
+        <select id="wardStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
           <option>Active</option>
           <option>Maintenance</option>
         </select>
@@ -208,14 +208,14 @@
 </div>
 
 <!-- Patient Details Modal -->
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="patientModal">
-  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="patientModalContent">
+<div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="patientModal">
+  <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="patientModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-user text-purple-600 dark:text-purple-400"></i>
+      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <i class="fas fa-user text-purple-600 text-purple-400"></i>
         Patient Details
       </h3>
-      <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closePatientModal">
+      <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closePatientModal">
         <i class="fas fa-times text-lg"></i>
       </button>
     </div>
@@ -226,37 +226,37 @@
 </div>
 
 <!-- Bed Modal -->
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="bedModal">
-  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="bedModalContent">
+<div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="bedModal">
+  <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="bedModalContent">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-bed text-green-600 dark:text-green-400"></i>
+      <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <i class="fas fa-bed text-green-600 text-green-400"></i>
         Add New Bed
       </h3>
-      <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeBedModal">
+      <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeBedModal">
         <i class="fas fa-times text-lg"></i>
       </button>
     </div>
     <div class="space-y-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Ward</label>
-        <select id="bedWard" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200"></select>
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Select Ward</label>
+        <select id="bedWard" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200"></select>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bed ID (Unique)</label>
-        <input type="text" id="bedId" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter unique bed number">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Bed ID (Unique)</label>
+        <input type="text" id="bedId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter unique bed number">
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type</label>
-        <select id="bedType" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Type</label>
+        <select id="bedType" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
           <option>General</option>
           <option>Critical</option>
           <option>Deluxe</option>
         </select>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-        <select id="bedStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
+        <select id="bedStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
           <option>Active</option>
           <option>Occupied</option>
           <option>Maintenance</option>
@@ -479,9 +479,9 @@ function showBedLoading() {
 function renderWards(){
   wardTable.innerHTML = "";
   wards.forEach((w,i)=>{
-    const statusClass = w.status === "Active" ? "text-green-500 dark:text-green-400" : "text-yellow-500 dark:text-yellow-400";
+    const statusClass = w.status === "Active" ? "text-green-500 text-green-400" : "text-yellow-500 text-yellow-400";
     wardTable.insertAdjacentHTML("beforeend",`
-      <tr class="dark:bg-gray-800">
+      <tr class="bg-white-800">
         <td>${i+1}</td>
         <td>${w.ward_id}</td>
         <td>${w.name}</td>
@@ -503,11 +503,11 @@ function renderBeds(){
   bedTable.innerHTML = "";
   beds.forEach((b,i)=>{
     const ward = wards.find(w=>w.id==b.ward_id);
-    let statusClass = "text-green-500 dark:text-green-400";
-    if(b.status==="Occupied") statusClass = "text-yellow-500 dark:text-yellow-400";
-    else if(b.status==="Maintenance") statusClass = "text-red-500 dark:text-red-400";
+    let statusClass = "text-green-500 text-green-400";
+    if(b.status==="Occupied") statusClass = "text-yellow-500 text-yellow-400";
+    else if(b.status==="Maintenance") statusClass = "text-red-500 text-red-400";
     bedTable.insertAdjacentHTML("beforeend",`
-      <tr class="dark:bg-gray-800">
+      <tr class="bg-white-800">
         <td>${i+1}</td>
         <td>${b.bed_id}</td>
         <td>${ward?ward.name:"-"}</td>
@@ -543,7 +543,7 @@ function editWard(id) {
   document.getElementById("bedLimit").value = ward.bed_limit;
   document.getElementById("wardStatus").value = ward.status;
 
-  document.getElementById("wardModalContent").querySelector("h3").innerHTML = '<i class="fas fa-edit text-blue-600 dark:text-blue-400"></i> Edit Ward';
+  document.getElementById("wardModalContent").querySelector("h3").innerHTML = '<i class="fas fa-edit text-blue-600 text-blue-400"></i> Edit Ward';
   document.getElementById("saveWard").textContent = "Update Ward";
   document.getElementById("saveWard").onclick = () => updateWard(id);
 
@@ -612,7 +612,7 @@ function editBed(id) {
   document.getElementById("bedType").value = bed.type;
   document.getElementById("bedStatus").value = bed.status;
 
-  document.getElementById("bedModalContent").querySelector("h3").innerHTML = '<i class="fas fa-bed text-green-600 dark:text-green-400"></i> Edit Bed';
+  document.getElementById("bedModalContent").querySelector("h3").innerHTML = '<i class="fas fa-bed text-green-600 text-green-400"></i> Edit Bed';
   document.getElementById("saveBedText").textContent = "Update Bed";
   document.getElementById("saveBed").onclick = () => updateBed(id);
 
@@ -685,7 +685,7 @@ function deleteBed(id) {
 
 // Reset Ward Modal
 function resetWardModal() {
-  document.getElementById("wardModalContent").querySelector("h3").innerHTML = '<i class="fas fa-plus-circle text-blue-600 dark:text-blue-400"></i> Add New Ward';
+  document.getElementById("wardModalContent").querySelector("h3").innerHTML = '<i class="fas fa-plus-circle text-blue-600 text-blue-400"></i> Add New Ward';
   document.getElementById("saveWard").onclick = () => {
     const name = document.getElementById("wardName").value.trim();
     const floor = document.getElementById("wardFloor").value;
@@ -716,7 +716,7 @@ function resetWardModal() {
 
 // Reset Bed Modal
 function resetBedModal() {
-  document.getElementById("bedModalContent").querySelector("h3").innerHTML = '<i class="fas fa-bed text-green-600 dark:text-green-400"></i> Add New Bed';
+  document.getElementById("bedModalContent").querySelector("h3").innerHTML = '<i class="fas fa-bed text-green-600 text-green-400"></i> Add New Bed';
   document.getElementById("saveBedText").textContent = "Save Bed";
   document.getElementById("saveBed").onclick = () => {
     const wardId = bedWardSelect.value;
@@ -826,9 +826,9 @@ function clearBedFilters() {
 function renderFilteredWards(filteredWards) {
   wardTable.innerHTML = "";
   filteredWards.forEach((w, i) => {
-    const statusClass = w.status === "Active" ? "text-green-500 dark:text-green-400" : "text-yellow-500 dark:text-yellow-400";
+    const statusClass = w.status === "Active" ? "text-green-500 text-green-400" : "text-yellow-500 text-yellow-400";
     wardTable.insertAdjacentHTML("beforeend", `
-      <tr class="dark:bg-gray-800">
+      <tr class="bg-white-800">
         <td>${i + 1}</td>
         <td>${w.ward_id}</td>
         <td>${w.name}</td>
@@ -849,11 +849,11 @@ function renderFilteredBeds(filteredBeds) {
   bedTable.innerHTML = "";
   filteredBeds.forEach((b, i) => {
     const ward = wards.find(w => w.id == b.ward_id);
-    let statusClass = "text-green-500 dark:text-green-400";
-    if (b.status === "Occupied") statusClass = "text-yellow-500 dark:text-yellow-400";
-    else if (b.status === "Maintenance") statusClass = "text-red-500 dark:text-red-400";
+    let statusClass = "text-green-500 text-green-400";
+    if (b.status === "Occupied") statusClass = "text-yellow-500 text-yellow-400";
+    else if (b.status === "Maintenance") statusClass = "text-red-500 text-red-400";
     bedTable.insertAdjacentHTML("beforeend", `
-      <tr class="dark:bg-gray-800">
+      <tr class="bg-white-800">
         <td>${i + 1}</td>
         <td>${b.bed_id}</td>
         <td>${ward ? ward.name : "-"}</td>
@@ -894,38 +894,38 @@ function viewPatientDetails(patientId) {
           <div class="flex items-center gap-3 mb-3">
             ${patient.image ? `<img src="/${patient.image}" alt="Patient Image" class="w-16 h-16 rounded-full object-cover">` : '<i class="fas fa-user-circle text-4xl text-gray-400"></i>'}
             <div>
-              <h4 class="text-lg font-semibold text-gray-800 dark:text-white">${patient.full_name}</h4>
-              <p class="text-sm text-gray-600 dark:text-gray-400">ID: ${patient.user_id}</p>
+              <h4 class="text-lg font-semibold text-gray-800 text-white">${patient.full_name}</h4>
+              <p class="text-sm text-gray-600 text-gray-400">ID: ${patient.user_id}</p>
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Age</label>
-              <p class="text-gray-800 dark:text-white">${patient.age || 'N/A'}</p>
+              <label class="block text-sm font-medium text-gray-700 text-gray-300">Age</label>
+              <p class="text-gray-800 text-white">${patient.age || 'N/A'}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Gender</label>
-              <p class="text-gray-800 dark:text-white">${patient.gender || 'N/A'}</p>
+              <label class="block text-sm font-medium text-gray-700 text-gray-300">Gender</label>
+              <p class="text-gray-800 text-white">${patient.gender || 'N/A'}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Mobile No</label>
-              <p class="text-gray-800 dark:text-white">${patient.mobile_no || 'N/A'}</p>
+              <label class="block text-sm font-medium text-gray-700 text-gray-300">Mobile No</label>
+              <p class="text-gray-800 text-white">${patient.mobile_no || 'N/A'}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-              <p class="text-gray-800 dark:text-white">${patient.email || 'N/A'}</p>
+              <label class="block text-sm font-medium text-gray-700 text-gray-300">Email</label>
+              <p class="text-gray-800 text-white">${patient.email || 'N/A'}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Type</label>
-              <p class="text-gray-800 dark:text-white">${patient.type || 'N/A'}</p>
+              <label class="block text-sm font-medium text-gray-700 text-gray-300">Type</label>
+              <p class="text-gray-800 text-white">${patient.type || 'N/A'}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
-              <p class="text-gray-800 dark:text-white">${patient.status || 'N/A'}</p>
+              <label class="block text-sm font-medium text-gray-700 text-gray-300">Status</label>
+              <p class="text-gray-800 text-white">${patient.status || 'N/A'}</p>
             </div>
             <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
-              <p class="text-gray-800 dark:text-white">${patient.full_address || 'N/A'}</p>
+              <label class="block text-sm font-medium text-gray-700 text-gray-300">Address</label>
+              <p class="text-gray-800 text-white">${patient.full_address || 'N/A'}</p>
             </div>
           </div>
         `;

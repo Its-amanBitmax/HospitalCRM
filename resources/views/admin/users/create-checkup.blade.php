@@ -3,33 +3,33 @@
 @section('content')
 <div class="min-h-screen">
   <!-- Topbar -->
-  <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
+  <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
-      <i class="fas fa-stethoscope text-2xl text-blue-600 dark:text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Add New Checkup - {{ $user->full_name }}</h1>
+      <i class="fas fa-stethoscope text-2xl text-blue-600 text-blue-400"></i>
+      <h1 class="text-xl font-semibold text-gray-800 text-white">Add New Checkup - {{ $user->full_name }}</h1>
     </div>
     <div class="flex gap-3">
-      <a href="{{ route('admin.users.visits', $user->id) }}" class="bg-gray-600 hover:bg-gray-700 text-black px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
+      <a href="{{ route('admin.users.visits', $user->id) }}" class="bg-white-600 hover:bg-white-700 text-bg-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
         <i class="fas fa-arrow-left mr-2"></i>Back to Visits
       </a>
     </div>
   </div>
 
   <!-- Form -->
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
     <form id="createCheckupForm" action="{{ route('admin.users.checkups.store', $user->id) }}" method="POST">
       @csrf
       <div class="space-y-6">
         <!-- Checkup Details -->
         <div class="section">
-          <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-            <i class="fas fa-stethoscope text-blue-600 dark:text-blue-400"></i>
+          <h2 class="text-lg font-semibold text-gray-800 text-white mb-4 flex items-center gap-2">
+            <i class="fas fa-stethoscope text-blue-600 text-blue-400"></i>
             Checkup Details
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Associated Visit</label>
-              <select name="visit_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200">
+              <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Associated Visit</label>
+              <select name="visit_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
                 <option value="">Select Visit (Optional)</option>
                 @foreach($visits as $visit)
                 <option value="{{ $visit->id }}" {{ $loop->first ? 'selected' : '' }}>
@@ -39,16 +39,16 @@
               </select>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Checkup Date *</label>
-              <input type="date" name="checkup_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" required>
+              <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Checkup Date *</label>
+              <input type="date" name="checkup_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
             </div>
             <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Diagnosis</label>
-              <textarea name="diagnosis" rows="3" placeholder="Enter diagnosis" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200"></textarea>
+              <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Diagnosis</label>
+              <textarea name="diagnosis" rows="3" placeholder="Enter diagnosis" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200"></textarea>
             </div>
             <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Treatment</label>
-              <textarea name="treatment" rows="3" placeholder="Enter treatment" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200"></textarea>
+              <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Treatment</label>
+              <textarea name="treatment" rows="3" placeholder="Enter treatment" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200"></textarea>
             </div>
           </div>
         </div>

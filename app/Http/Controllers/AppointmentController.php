@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Appointment;
+use App\Models\PatientVisit;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -147,7 +148,53 @@ public function videoConsultations()
     }
 
 
+
     
+public function doctorPatients()
+{
+    // Check doctor authentication
+    if (!auth('doctor')->check()) {
+        abort(403);
+    }
+
+    $doctorId = auth('doctor')->id();
+
+    // Base query — only doctor specific visits
+    $query = PatientVisit::with(['user', 'consultantAssignment.room', 'reception'])
+        ->whereHas('consultantAssignment', function($q) use ($doctorId) {
+            $q->where('employee_id', $doctorId)
+              ->where('status', 'active');
+        });
+
+    // 🔍 FILTERS APPLY
+    if (request('patient_name')) {
+        $query->whereHas('user', function($q) {
+            $q->where('full_name', 'like', '%' . request('patient_name') . '%');
+        });
+    }
+
+    if (request('visit_type')) {
+        $query->where('visit_type', request('visit_type'));
+    }
+
+    if (request('date')) {
+        $query->whereDate('date_of_visit', request('date'));
+    }
+
+    // Final Result
+    $patients = $query->orderBy('date_of_visit', 'desc')->get();
+
+    return view('employee.doctor_patients', [
+        'patients' => $patients,
+    ]);
+}
+
+
+
+
+
+
+
 
 
 }

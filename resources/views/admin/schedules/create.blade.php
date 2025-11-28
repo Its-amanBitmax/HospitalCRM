@@ -1,8 +1,8 @@
 @extends('layouts.layout')
 
 @section('content')
-<div class="max-w-lg mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-    <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
+<div class="max-w-lg mx-auto bg-white bg-white-800 p-6 rounded-lg shadow">
+    <h2 class="text-xl font-semibold mb-4 text-gray-800 text-white">
         Add Task for Dr. {{ $employee->name }}
     </h2>
 
@@ -24,28 +24,28 @@
         @csrf
 
         <div class="mb-4">
-            <label class="block text-gray-700 dark:text-gray-300 mb-1">Start Date</label>
-            <input type="date" name="start_date" class="w-full border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
+            <label class="block text-gray-700 text-gray-300 mb-1">Start Date</label>
+            <input type="date" name="start_date" class="w-full border-gray-300 rounded-lg bg-white-700 text-white" required>
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 dark:text-gray-300 mb-1">End Date</label>
-            <input type="date" name="end_date" class="w-full border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
+            <label class="block text-gray-700 text-gray-300 mb-1">End Date</label>
+            <input type="date" name="end_date" class="w-full border-gray-300 rounded-lg bg-white-700 text-white" required>
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 dark:text-gray-300 mb-1">Start Time</label>
-            <input type="time" name="start_time" id="start_time" class="w-full border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
+            <label class="block text-gray-700 text-gray-300 mb-1">Start Time</label>
+            <input type="time" name="start_time" id="start_time" class="w-full border-gray-300 rounded-lg bg-white-700 text-white" required>
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 dark:text-gray-300 mb-1">End Time</label>
-            <input type="time" name="end_time" id="end_time" class="w-full border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
+            <label class="block text-gray-700 text-gray-300 mb-1">End Time</label>
+            <input type="time" name="end_time" id="end_time" class="w-full border-gray-300 rounded-lg bg-white-700 text-white" required>
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 dark:text-gray-300 mb-1">Task Type</label>
-            <select name="task_type" class="w-full border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
+            <label class="block text-gray-700 text-gray-300 mb-1">Task Type</label>
+            <select name="task_type" class="w-full border-gray-300 rounded-lg bg-white-700 text-white" required>
                 <option value="">Select Task</option>
                 <option value="Appointment">Appointment</option>
                 <option value="consultation">consultation</option>

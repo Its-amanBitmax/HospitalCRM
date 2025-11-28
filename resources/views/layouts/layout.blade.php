@@ -11,8 +11,9 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased dark:bg-black dark:text-white/50" style="overflow-x: hidden;">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
+<body class="font-sans antialiased bg-white text-gray-900" style="overflow-x: hidden;">
+    <div class="min-h-screen bg-white-100 flex flex-col">
+
         <div class="flex flex-1">
             @include('layouts.sidebar', ['admin' => Auth::guard('admin')->user()])
             <div id="main-content" class="flex-1 flex flex-col ml-16 transition-all duration-300">
@@ -146,5 +147,6 @@
             }
         });
     </script>
+    
 </body>
 </html>

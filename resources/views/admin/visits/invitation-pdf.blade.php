@@ -21,7 +21,7 @@
         }
         .header {
             background: white;
-            color: black;
+            color: bg-white;
             padding: 15px;
             border-bottom: 2px solid #667eea;
         }
@@ -39,13 +39,13 @@
         }
         .hospital-info {
             text-align: right;
-            color: black;
+            color: bg-white;
         }
         .hospital-name {
             font-size: 20px;
             font-weight: bold;
             margin: 0 0 5px 0;
-            color: black;
+            color: bg-white;
         }
         .hospital-details {
             font-size: 10px;

@@ -43,4 +43,11 @@ class RoomAssignment extends Model
     {
         return $this->belongsTo(Admin::class, 'assigned_by');
     }
+
+
+    public function patientVisits()
+{
+    return $this->hasMany(PatientVisit::class, 'department_consultant');
+}
+
 }

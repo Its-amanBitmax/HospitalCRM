@@ -35,19 +35,19 @@
     <!-- Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         
-        <div class=" dark:bg-gray-800 rounded-2xl shadow border p-6 bg-white">
-            <p class="text-xl text-black"><i class="fas fa-check-circle custom-icon1"></i>Confirmed</p>
+        <div class=" bg-white-800 rounded-2xl shadow border p-6 bg-white">
+            <p class="text-xl text-bg-white"><i class="fas fa-check-circle custom-icon1"></i>Confirmed</p>
             <p class="text-4xl font-bold mt-2">{{ $confirmed }}</p>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow border p-6">
-            <p class="text-xl text-black"><i class="fas fa-times-circle custom-icon2"></i> 
+        <div class="bg-white bg-white-800 rounded-2xl shadow border p-6">
+            <p class="text-xl text-bg-white"><i class="fas fa-times-circle custom-icon2"></i> 
 Cancelled</p>
             <p class="text-4xl font-bold mt-2">{{ $cancelled }}</p>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow border p-6">
-            <p class="text-xl text-black "><i class="fas fa-calendar custom-icon"></i>
+        <div class="bg-white bg-white-800 rounded-2xl shadow border p-6">
+            <p class="text-xl text-bg-white "><i class="fas fa-calendar custom-icon"></i>
 Total Today</p>
             <p class="text-4xl font-bold mt-2">{{ $total }}</p>
         </div>
@@ -56,9 +56,9 @@ Total Today</p>
 
 
     <!-- UPCOMING APPOINTMENTS -->
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow border overflow-hidden mb-12">
+    <div class="bg-white bg-white-800 rounded-2xl shadow border overflow-hidden mb-12">
 
-        <div class="px-6 py-4 bg-gray-50 border-b">
+        <div class="px-6 py-4 bg-white-50 border-b">
             <h2 class="text-lg font-semibold">Upcoming Appointments (Next 3 Days)</h2>
         </div>
 
@@ -71,7 +71,7 @@ Total Today</p>
             @else
 
             <table class="w-full">
-                <thead class="bg-gray-50 text-xs uppercase">
+                <thead class="bg-white-50 text-xs uppercase">
                     <tr>
                         <th class="px-6 py-3 text-left">Code</th>
                         <th class="px-6 py-3 text-left">Date</th>
@@ -85,7 +85,7 @@ Total Today</p>
 
                 <tbody class="divide-y">
                     @foreach($upcoming as $app)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white-50">
 
                         <td class="px-6 py-3 font-semibold">{{ $app->appointment_code }}</td>
 
@@ -144,9 +144,9 @@ Total Today</p>
 
 
     <!-- OFFLINE APPOINTMENTS -->
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow border overflow-hidden">
+    <div class="bg-white bg-white-800 rounded-2xl shadow border overflow-hidden">
 
-        <div class="px-6 py-4 bg-gray-50 border-b">
+        <div class="px-6 py-4 bg-white-50 border-b">
             <h2 class="text-lg font-semibold">All Offline Appointments</h2>
         </div>
 
@@ -159,7 +159,7 @@ Total Today</p>
             @else
 
             <table class="w-full">
-                <thead class="bg-gray-50 text-xs uppercase">
+                <thead class="bg-white-50 text-xs uppercase">
                     <tr>
                         <th class="px-6 py-3 text-left">Code</th>
                         <th class="px-6 py-3 text-left">Date</th>
@@ -173,7 +173,7 @@ Total Today</p>
 
                 <tbody class="divide-y">
                     @foreach($offline as $app)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white-50">
 
                         <td class="px-6 py-3 font-semibold">{{ $app->appointment_code }}</td>
 
@@ -237,9 +237,9 @@ Total Today</p>
 <!--  APPOINTMENT DETAILS MODAL -->
 <!-- ========================= -->
 
-<div id="appointmentModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+<div id="appointmentModal" class="fixed inset-0 bg-white/50 hidden items-center justify-center z-50">
 
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-lg mx-4 relative">
+    <div class="bg-white bg-white-800 rounded-2xl shadow-xl w-full max-w-lg mx-4 relative">
 
         <div class="flex justify-between items-center px-6 py-4 border-b">
             <h2 class="text-lg font-semibold">Appointment Details</h2>

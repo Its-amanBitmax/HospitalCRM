@@ -16,7 +16,7 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
     <!-- Total Appointments -->
-    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5">
+    <div class="bg-white bg-white-800 shadow-lg rounded-xl p-5">
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-500 text-sm">Total Appointments</p>
@@ -29,7 +29,7 @@
     </div>
 
     <!-- Confirmed Appointments -->
-    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5">
+    <div class="bg-white bg-white-800 shadow-lg rounded-xl p-5">
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-500 text-sm">Confirmed Appointments</p>
@@ -42,7 +42,7 @@
     </div>
 
     <!-- Pending Appointments -->
-    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5">
+    <div class="bg-white bg-white-800 shadow-lg rounded-xl p-5">
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-500 text-sm">Pending Appointments</p>
@@ -55,7 +55,7 @@
     </div>
 
     <!-- Cancelled Appointments -->
-    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5">
+    <div class="bg-white bg-white-800 shadow-lg rounded-xl p-5">
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-500 text-sm">Cancelled Appointments</p>
@@ -78,7 +78,7 @@
         ->get();
 @endphp
 
-<div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 mt-8">
+<div class="bg-white bg-white-800 shadow-lg rounded-xl p-6 mt-8">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-bold">Recent Appointments</h3>
         <a href="{{ route('employee.doctor_appointments') }}" class="text-blue-500 text-sm hover:underline">View All</a>
@@ -87,13 +87,13 @@
     <div class="overflow-x-auto">
         @if($recentAppointments->isEmpty())
             <div class="p-8 text-center">
-                <i class="fas fa-calendar-times text-4xl text-gray-300 dark:text-gray-600 mb-2"></i>
-                <p class="text-gray-500 dark:text-gray-400">No recent appointments</p>
+                <i class="fas fa-calendar-times text-4xl text-gray-300 text-gray-600 mb-2"></i>
+                <p class="text-gray-500 text-gray-400">No recent appointments</p>
             </div>
         @else
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-gray-100 dark:bg-gray-700 text-sm">
+                    <tr class="bg-white-100 bg-white-700 text-sm">
                         <th class="p-3">Patient</th>
                         <th class="p-3">Date</th>
                         <th class="p-3">Time</th>
@@ -104,7 +104,7 @@
 
                 <tbody>
                     @foreach($recentAppointments as $app)
-                        <tr class="border-b dark:border-gray-700">
+                        <tr class="border-b border-gray-700">
                             <td class="p-3">{{ $app->user->name ?? $app->relative->name ?? 'Patient' }}</td>
                             <td class="p-3">{{ \Carbon\Carbon::parse($app->appointment_date)->format('d M Y') }}</td>
                             <td class="p-3">{{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}</td>
@@ -113,7 +113,7 @@
                                     @if($app->status == 'Confirmed') bg-green-500/20 text-green-600
                                     @elseif($app->status == 'Pending') bg-yellow-500/20 text-yellow-600
                                     @elseif($app->status == 'Cancelled') bg-red-500/20 text-red-600
-                                    @else bg-gray-500/20 text-gray-600
+                                    @else bg-white-500/20 text-gray-600
                                     @endif">
                                     {{ $app->status }}
                                 </span>

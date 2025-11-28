@@ -28,7 +28,7 @@
         <!-- Attendance Table -->
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white border border-gray-300">
-                <thead class="bg-gray-50">
+                <thead class="bg-white-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <input type="checkbox" id="selectAll" class="rounded">
@@ -43,7 +43,7 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($employees as $employee)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white-50">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <input type="checkbox" class="employee-checkbox rounded" value="{{ $employee->id }}">
                         </td>
@@ -52,7 +52,7 @@
                                 @if($employee->image)
                                 <img class="h-10 w-10 rounded-full" src="{{ asset('storage/' . $employee->image) }}" alt="{{ $employee->name }}">
                                 @else
-                                <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                <div class="h-10 w-10 rounded-full bg-white-300 flex items-center justify-center">
                                     <span class="text-sm font-medium text-gray-700">{{ substr($employee->name, 0, 1) }}</span>
                                 </div>
                                 @endif
@@ -75,7 +75,7 @@
                                     @elseif($attendance->status == 'late') bg-orange-100 text-orange-800
                                     @elseif($attendance->status == 'half_day') bg-blue-100 text-blue-800
                                     @elseif($attendance->status == 'holiday') bg-purple-100 text-purple-800
-                                    @elseif($attendance->status == 'week_off') bg-gray-100 text-gray-800
+                                    @elseif($attendance->status == 'week_off') bg-white-100 text-gray-800
                                     @endif">
                                     @if($attendance->status == 'present') Present (P)
                                     @elseif($attendance->status == 'absent') Absent (A)
@@ -87,7 +87,7 @@
                                     @endif
                                 </span>
                             @else
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-white-100 text-gray-800">
                                     Not Marked
                                 </span>
                             @endif
@@ -117,7 +117,7 @@
 </div>
 
 <!-- Mark Attendance Modal -->
-<div id="attendanceModal" class="fixed inset-0 bg-gray-900 bg-opacity-80 overflow-y-auto h-full w-full hidden z-50">
+<div id="attendanceModal" class="fixed inset-0 bg-white-900 bg-opacity-80 overflow-y-auto h-full w-full hidden z-50">
     <div class="relative top-20 mx-auto p-6 border w-full max-w-lg shadow-xl rounded-lg bg-white">
         <div class="mt-3">
             <div class="flex items-center justify-between mb-6">
@@ -170,7 +170,7 @@
                 </div>
 
                 <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
-                    <button type="button" onclick="closeModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2.5 rounded-lg transition duration-200 font-medium">
+                    <button type="button" onclick="closeModal()" class="bg-white-100 hover:bg-white-200 text-gray-700 px-6 py-2.5 rounded-lg transition duration-200 font-medium">
                         <i class="fas fa-times mr-2"></i>Cancel
                     </button>
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition duration-200 font-medium shadow-md">

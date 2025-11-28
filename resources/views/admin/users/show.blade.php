@@ -3,9 +3,9 @@
 @section('content')
 <style>
 @media print {
-  .sidebar, header, footer, .topbar, .notification, .grid.grid-cols-1.md\\:grid-cols-4, .flex.justify-between.items-center.bg-white.dark\\:bg-gray-800.p-4.rounded-lg.shadow.mb-6 { display: none !important; }
+  .sidebar, header, footer, .topbar, .notification, .grid.grid-cols-1.md\\:grid-cols-4, .flex.justify-between.items-center.bg-white.\\:bg-white-800.p-4.rounded-lg.shadow.mb-6 { display: none !important; }
   body { margin: 0; padding: 20px; }
-  .bg-white.dark\\:bg-gray-800.rounded-lg.shadow-lg.p-6 { box-shadow: none; border: none; }
+  .bg-white.\\:bg-white-800.rounded-lg.shadow-lg.p-6 { box-shadow: none; border: none; }
 }
 </style>
 <div class="min-h-screen">
@@ -18,13 +18,13 @@
   </div>
 
   <!-- Topbar -->
-  <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
+  <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
-      <i class="fas fa-user text-2xl text-blue-600 dark:text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 dark:text-white">User Details</h1>
+      <i class="fas fa-user text-2xl text-blue-600 text-blue-400"></i>
+      <h1 class="text-xl font-semibold text-gray-800 text-white">User Details</h1>
     </div>
     <div class="flex gap-3">
-      <a href="{{ route('admin.registered-users') }}" class="bg-gray-600 hover:bg-gray-700 text-dark px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
+      <a href="{{ route('admin.registered-users') }}" class="bg-white-600 hover:bg-white-700 text- px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
         <i class="fas fa-arrow-left mr-2"></i>Back to list
       </a>
      
@@ -38,131 +38,131 @@
   </div>
 
   <!-- User Details -->
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
     <div class="space-y-6">
       <!-- Personal Information -->
       <div class="section">
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-          <i class="fas fa-user text-blue-600 dark:text-blue-400"></i>
+        <h2 class="text-lg font-semibold text-gray-800 text-white mb-4 flex items-center gap-2">
+          <i class="fas fa-user text-blue-600 text-blue-400"></i>
           Personal Information
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="md:col-span-2">
-    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image</label>
+    <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Image</label>
     @if($user->image)
         <div class="mt-2">
             <img src="{{ asset($user->image) }}" alt="User Image" class="w-20 h-20 rounded-full object-cover">
         </div>
     @else
-        <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">-</div>
+        <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">-</div>
     @endif
 </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->full_name }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Full Name</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->full_name }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->username }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Username</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->username }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->email ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Email</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->email ?: '-' }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Mobile No</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->mobile_no }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Mobile No</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->mobile_no }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Age</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->age ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Age</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->age ?: '-' }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gender</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->gender ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Gender</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->gender ?: '-' }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Blood Group</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->blood_group ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Blood Group</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->blood_group ?: '-' }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Father / Spouse Name</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->father_spouse_name ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Father / Spouse Name</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->father_spouse_name ?: '-' }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Alternate No</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->alternate_no ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Alternate No</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->alternate_no ?: '-' }}</div>
           </div>
         </div>
       </div>
 
       <!-- Address Details -->
       <div class="section">
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-          <i class="fas fa-map-marker-alt text-blue-600 dark:text-blue-400"></i>
+        <h2 class="text-lg font-semibold text-gray-800 text-white mb-4 flex items-center gap-2">
+          <i class="fas fa-map-marker-alt text-blue-600 text-blue-400"></i>
           Address Details
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Address</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->full_address ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Full Address</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->full_address ?: '-' }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->city ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">City</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->city ?: '-' }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">State</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->state ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">State</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->state ?: '-' }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">PIN Code</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->pin_code ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">PIN Code</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->pin_code ?: '-' }}</div>
           </div>
         </div>
       </div>
 
       <!-- ID Proof -->
       <div class="section">
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-          <i class="fas fa-id-card text-blue-600 dark:text-blue-400"></i>
+        <h2 class="text-lg font-semibold text-gray-800 text-white mb-4 flex items-center gap-2">
+          <i class="fas fa-id-card text-blue-600 text-blue-400"></i>
           ID Proof
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ID Proof Type</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->id_proof_type ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">ID Proof Type</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->id_proof_type ?: '-' }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ID Number</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->id_number ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">ID Number</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->id_number ?: '-' }}</div>
           </div>
         </div>
       </div>
 
       <!-- Additional Fields -->
       <div class="section">
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-          <i class="fas fa-cogs text-blue-600 dark:text-blue-400"></i>
+        <h2 class="text-lg font-semibold text-gray-800 text-white mb-4 flex items-center gap-2">
+          <i class="fas fa-cogs text-blue-600 text-blue-400"></i>
           Additional Information
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->type }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Type</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->type }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->status }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->status }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Registered Through</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->registered_through ?: '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Registered Through</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->registered_through ?: '-' }}</div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Created At</label>
-            <div class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-white">{{ $user->created_at ? \Carbon\Carbon::parse($user->created_at)->format('d-m-Y H:i:s') : '-' }}</div>
+            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Created At</label>
+            <div class="mt-1 block w-full px-3 py-2 bg-white-100 bg-white-600 border border-gray-300 border-gray-600 rounded-md text-gray-800 text-white">{{ $user->created_at ? \Carbon\Carbon::parse($user->created_at)->format('d-m-Y H:i:s') : '-' }}</div>
           </div>
 
         </div>

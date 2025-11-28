@@ -11,10 +11,10 @@
     </div>
 
     <!-- Topbar -->
-    <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
+    <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
         <div class="flex items-center gap-3">
-            <i class="fas fa-stethoscope text-2xl text-blue-600 dark:text-blue-400"></i>
-            <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Specialities Management</h1>
+            <i class="fas fa-stethoscope text-2xl text-blue-600 text-blue-400"></i>
+            <h1 class="text-xl font-semibold text-gray-800 text-white">Specialities Management</h1>
         </div>
         <a href="{{ route('admin.specialities.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
             <i class="fa fa-plus mr-2"></i>Add Speciality
@@ -23,18 +23,18 @@
 
     <!-- Summary Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-            <i class="fas fa-stethoscope text-3xl text-blue-600 dark:text-blue-400"></i>
+        <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+            <i class="fas fa-stethoscope text-3xl text-blue-600 text-blue-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $specialities->count() }}</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400">Total Specialities</div>
+                <div class="text-2xl font-bold text-gray-800 text-white">{{ $specialities->count() }}</div>
+                <div class="text-sm text-gray-600 text-gray-400">Total Specialities</div>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-            <i class="fas fa-clock text-3xl text-green-600 dark:text-green-400"></i>
+        <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+            <i class="fas fa-clock text-3xl text-green-600 text-green-400"></i>
             <div>
-                <div class="text-2xl font-bold text-gray-800 dark:text-white">{{ $specialities->where('created_at', '>=', now()->startOfDay())->count() }}</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400">Added Today</div>
+                <div class="text-2xl font-bold text-gray-800 text-white">{{ $specialities->where('created_at', '>=', now()->startOfDay())->count() }}</div>
+                <div class="text-sm text-gray-600 text-gray-400">Added Today</div>
             </div>
         </div>
     </div>
@@ -42,17 +42,17 @@
     <!-- Specialities Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($specialities as $speciality)
-            <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 flex flex-col h-full">
+            <div class="bg-white bg-white-800 shadow-md rounded-lg overflow-hidden border border-gray-200 border-gray-700 flex flex-col h-full">
 
                 <!-- Card Header -->
-                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                <div class="p-4 border-b border-gray-200 border-gray-700">
                     <div class="text-center mt-3">
                         <!-- Speciality Image or Icon -->
                         @if($speciality->image)
                             <img
                                 src="{{ asset('storage/' . $speciality->image) }}"
                                 alt="{{ $speciality->skill }}"
-                                class="w-24 h-24 object-cover rounded-full border-2 border-gray-300 dark:border-gray-600 mx-auto mb-2"
+                                class="w-24 h-24 object-cover rounded-full border-2 border-gray-300 border-gray-600 mx-auto mb-2"
                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                             >
                             <div class="hidden w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-2 text-white text-2xl font-bold">
@@ -65,7 +65,7 @@
                         @endif
 
                         <!-- Skill Name -->
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mt-2">
+                        <h3 class="text-lg font-semibold text-gray-900 text-white mt-2">
                             {{ $speciality->skill }}
                         </h3>
                     </div>
@@ -73,13 +73,13 @@
 
                 <!-- Card Body -->
                 <div class="p-4 space-y-2 flex-1">
-                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                    <p class="text-sm text-gray-600 text-gray-400">
                         <strong>Added:</strong> {{ $speciality->created_at ? $speciality->created_at->format('M d, Y') : 'N/A' }}
                     </p>
                 </div>
 
                 <!-- Card Footer (Actions) -->
-                <div class="p-4 bg-gray-50 dark:bg-gray-900 flex justify-between space-x-2 border-t border-gray-200 dark:border-gray-700 mt-auto">
+                <div class="p-4 bg-white-50 bg-white-900 flex justify-between space-x-2 border-t border-gray-200 border-gray-700 mt-auto">
                  
                     <a href="{{ route('admin.specialities.edit', $speciality) }}"
                        class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded text-sm text-center transition">
@@ -100,7 +100,7 @@
             </div>
         @empty
             <div class="col-span-full text-center py-10">
-                <p class="text-gray-500 dark:text-gray-400 text-lg">No specialities found.</p>
+                <p class="text-gray-500 text-gray-400 text-lg">No specialities found.</p>
             </div>
         @endforelse
     </div>

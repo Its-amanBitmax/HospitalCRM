@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\PatientVisit;
 use App\Models\PatientCheckup;
 use App\Models\PatientDocument;
+use App\Models\reception;
+use App\Models\RoomAssignment;
 use Illuminate\Http\Request;
 
 class PatientVisitController extends Controller
@@ -17,7 +19,10 @@ class PatientVisitController extends Controller
     {
         $user = User::findOrFail($userId);
 
-        $visits = PatientVisit::where('user_id', $userId)->orderBy('date_of_visit', 'desc')->get();
+        $visits = PatientVisit::with('reception')
+            ->where('user_id', $userId)
+            ->orderBy('date_of_visit', 'desc')
+            ->get();
         $checkups = PatientCheckup::where('user_id', $userId)->orderBy('checkup_date', 'desc')->get();
         $documents = PatientDocument::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
 
@@ -30,7 +35,14 @@ class PatientVisitController extends Controller
     public function create($userId)
     {
         $user = User::findOrFail($userId);
-        return view('admin.users.create-visit', compact('user'));
+        $receptions = Reception::all();
+        $assignedRooms = RoomAssignment::with([
+            'room:id,room_id',
+            'employee:id,name'
+        ])
+            ->where('status', 'active')
+            ->get();
+        return view('admin.users.create-visit', compact('user', 'receptions', 'assignedRooms'));
     }
 
     /**
@@ -69,12 +81,24 @@ class PatientVisitController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($userId, $visitId)
-    {
-        $user = User::findOrFail($userId);
-        $visit = PatientVisit::where('id', $visitId)->where('user_id', $userId)->firstOrFail();
-        return view('admin.users.edit-visit', compact('user', 'visit'));
-    }
+   public function edit($userId, $visitId)
+{
+    $user = User::findOrFail($userId);
+    $visit = PatientVisit::where('id', $visitId)
+                         ->where('user_id', $userId)
+                         ->firstOrFail();
+
+    $receptions = Reception::all();
+
+    // Fetch room assignments with employee + room for dropdown
+    $assignedRooms = RoomAssignment::with('room', 'employee')
+                                   ->where('status', 'active')
+                                   ->get();
+
+    return view('admin.users.edit-visit', compact('user', 'visit', 'receptions', 'assignedRooms'));
+}
+
+
 
     /**
      * Update the specified resource in storage.

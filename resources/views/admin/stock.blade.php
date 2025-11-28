@@ -11,57 +11,57 @@
   </div>
 
   <!-- Topbar -->
-  <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
+  <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
-      <i class="fas fa-boxes text-2xl text-blue-600 dark:text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Stock Management</h1>
+      <i class="fas fa-boxes text-2xl text-blue-600 text-blue-400"></i>
+      <h1 class="text-xl font-semibold text-gray-800 text-white">Stock Management</h1>
     </div>
   </div>
 
   <!-- Cards -->
   <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-box text-3xl text-blue-600 dark:text-blue-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-box text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="totalItems">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Total Items</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="totalItems">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Total Items</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-check-circle text-3xl text-green-600 dark:text-green-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-check-circle text-3xl text-green-600 text-green-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="availableItems">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Available Items</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="availableItems">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Available Items</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-exclamation-triangle text-3xl text-yellow-600 dark:text-yellow-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-exclamation-triangle text-3xl text-yellow-600 text-yellow-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="lowStockItems">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Low Stock Items</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="lowStockItems">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Low Stock Items</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-times-circle text-3xl text-red-600 dark:text-red-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-times-circle text-3xl text-red-600 text-red-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="outOfStockItems">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Out of Stock</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="outOfStockItems">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Out of Stock</div>
       </div>
     </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center gap-3">
-      <i class="fas fa-truck text-3xl text-purple-600 dark:text-purple-400"></i>
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
+      <i class="fas fa-truck text-3xl text-purple-600 text-purple-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 dark:text-white" id="totalSuppliers">0</div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">Total Suppliers</div>
+        <div class="text-2xl font-bold text-gray-800 text-white" id="totalSuppliers">0</div>
+        <div class="text-sm text-gray-600 text-gray-400">Total Suppliers</div>
       </div>
     </div>
   </div>
 
   <!-- Supplier Table -->
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6 border border-gray-200 dark:border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 mb-6 border border-gray-200 border-gray-700">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-truck text-blue-600 dark:text-blue-400"></i>
+      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <i class="fas fa-truck text-blue-600 text-blue-400"></i>
         Supplier Details
       </h2>
       <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition" id="openSupplierModalSection">
@@ -71,41 +71,41 @@
     <!-- Supplier Filters -->
     <div class="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Name</label>
-        <input type="text" id="supplierNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter supplier name">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Name</label>
+        <input type="text" id="supplierNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter supplier name">
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Contact Person</label>
-        <input type="text" id="supplierContactFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter contact person">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Contact Person</label>
+        <input type="text" id="supplierContactFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter contact person">
       </div>
       <div class="flex items-end">
-        <button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition" id="clearSupplierFilters">Clear Filters</button>
+        <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearSupplierFilters">Clear Filters</button>
       </div>
     </div>
     <div>
       <table class="w-full table-auto border-collapse">
-        <thead class="bg-gray-100 dark:bg-gray-700">
+        <thead class="bg-white-100 bg-white-700">
           <tr>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">S.No</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Supplier ID</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Supplier Name</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Contact Person</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Phone</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Email</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">No. of Items</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Action</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">S.No</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Supplier ID</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Supplier Name</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Contact Person</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Phone</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Email</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">No. of Items</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Action</th>
           </tr>
         </thead>
-        <tbody id="supplierTable" class="text-gray-800 dark:text-gray-200 divide-y divide-gray-200 dark:divide-gray-600"></tbody>
+        <tbody id="supplierTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
       </table>
     </div>
   </div>
 
   <!-- Item Table -->
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-        <i class="fas fa-box text-green-600 dark:text-green-400"></i>
+      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <i class="fas fa-box text-green-600 text-green-400"></i>
         Item Details
       </h2>
       <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition" id="openItemModalSection">
@@ -115,18 +115,18 @@
     <!-- Item Filters -->
     <div class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Supplier</label>
-        <select id="itemSupplierFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Supplier</label>
+        <select id="itemSupplierFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
           <option value="">All Suppliers</option>
         </select>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Category</label>
-        <input type="text" id="itemCategoryFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter category">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Category</label>
+        <input type="text" id="itemCategoryFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter category">
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Status</label>
-        <select id="itemStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200">
+        <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
+        <select id="itemStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
           <option value="">All Statuses</option>
           <option>Available</option>
           <option>Out of Stock</option>
@@ -134,64 +134,64 @@
         </select>
       </div>
       <div class="flex items-end">
-        <button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition" id="clearItemFilters">Clear Filters</button>
+        <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearItemFilters">Clear Filters</button>
       </div>
     </div>
     <div >
       <table class="w-full table-auto border-collapse">
-        <thead class="bg-gray-100 dark:bg-gray-700">
+        <thead class="bg-white-100 bg-white-700">
           <tr>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">S.No</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Item ID</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Item Name</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Category</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Quantity</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Unit</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Reorder Level</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Price/Unit</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Total Price</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Supplier</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Status</th>
-            <th class="px-4 py-3 text-left text-gray-600 dark:text-gray-300 font-medium border-b border-gray-200 dark:border-gray-600">Action</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">S.No</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Item ID</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Item Name</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Category</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Quantity</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Unit</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Reorder Level</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Price/Unit</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Total Price</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Supplier</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Status</th>
+            <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Action</th>
           </tr>
         </thead>
-        <tbody id="itemTable" class="text-gray-800 dark:text-gray-200 divide-y divide-gray-200 dark:divide-gray-600"></tbody>
+        <tbody id="itemTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
       </table>
     </div>
   </div>
 
   <!-- Supplier Modal -->
-  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="supplierModal">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="supplierModalContent">
+  <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="supplierModal">
+    <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="supplierModalContent">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-          <i class="fas fa-plus-circle text-blue-600 dark:text-blue-400"></i>
+        <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+          <i class="fas fa-plus-circle text-blue-600 text-blue-400"></i>
           Add New Supplier
         </h3>
-        <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeSupplierModal">
+        <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeSupplierModal">
           <i class="fas fa-times text-lg"></i>
         </button>
       </div>
       <div class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Supplier Name</label>
-          <input type="text" id="supplierName" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Supplier Name">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Supplier Name</label>
+          <input type="text" id="supplierName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Supplier Name">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contact Person</label>
-          <input type="text" id="contactPerson" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Contact Person">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Contact Person</label>
+          <input type="text" id="contactPerson" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Contact Person">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
-          <input type="text" id="supplierPhone" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Phone Number">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Phone</label>
+          <input type="text" id="supplierPhone" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Phone Number">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
-          <input type="email" id="supplierEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Email">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Email</label>
+          <input type="email" id="supplierEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Email">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address</label>
-          <textarea id="supplierAddress" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition duration-200" rows="3" placeholder="Enter Address"></textarea>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Address</label>
+          <textarea id="supplierAddress" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" rows="3" placeholder="Enter Address"></textarea>
         </div>
         <button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg" id="saveSupplier">Save Supplier</button>
       </div>
@@ -199,49 +199,49 @@
   </div>
 
   <!-- Item Modal -->
-  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" id="itemModal">
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="itemModalContent">
+  <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="itemModal">
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="itemModalContent">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-          <i class="fas fa-box text-green-600 dark:text-green-400"></i>
+        <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+          <i class="fas fa-box text-green-600 text-green-400"></i>
           Add New Item
         </h3>
-        <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="closeItemModal">
+        <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeItemModal">
           <i class="fas fa-times text-lg"></i>
         </button>
       </div>
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Supplier</label>
-          <select id="itemSupplier" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200"></select>
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Select Supplier</label>
+          <select id="itemSupplier" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200"></select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Item Name</label>
-          <input type="text" id="itemName" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Item Name">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Item Name</label>
+          <input type="text" id="itemName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter Item Name">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
-          <input type="text" id="itemCategory" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Category">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Category</label>
+          <input type="text" id="itemCategory" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter Category">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Quantity</label>
-          <input type="number" id="itemQuantity" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Quantity">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Quantity</label>
+          <input type="number" id="itemQuantity" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter Quantity">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Unit</label>
-          <input type="text" id="itemUnit" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="e.g., Pieces, Boxes">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Unit</label>
+          <input type="text" id="itemUnit" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="e.g., Pieces, Boxes">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Reorder Level</label>
-          <input type="number" id="itemReorderLevel" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Reorder Level">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Reorder Level</label>
+          <input type="number" id="itemReorderLevel" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter Reorder Level">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Price per Unit</label>
-          <input type="number" step="0.01" id="itemPricePerUnit" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200" placeholder="Enter Price per Unit">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Price per Unit</label>
+          <input type="number" step="0.01" id="itemPricePerUnit" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter Price per Unit">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-          <select id="itemStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition duration-200">
+          <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
+          <select id="itemStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
             <option>Available</option>
             <option>Out of Stock</option>
             <option>Discontinued</option>
@@ -490,7 +490,7 @@
     supplierTable.innerHTML = "";
     suppliers.forEach((s, i) => {
       const row = document.createElement("tr");
-      row.classList.add("dark:bg-gray-800");
+      row.classList.add("bg-white-800");
       row.innerHTML = `
         <td>${i + 1}</td>
         <td>${s.supplier_id}</td>
@@ -522,11 +522,11 @@
     itemTable.innerHTML = "";
     items.forEach((i, index) => {
       const supplier = suppliers.find(s => s.id == i.supplier_id);
-      let statusClass = "text-green-500 dark:text-green-400";
-      if (i.status === "Out of Stock") statusClass = "text-red-500 dark:text-red-400";
-      else if (i.status === "Discontinued") statusClass = "text-gray-500 dark:text-gray-400";
+      let statusClass = "text-green-500 text-green-400";
+      if (i.status === "Out of Stock") statusClass = "text-red-500 text-red-400";
+      else if (i.status === "Discontinued") statusClass = "text-gray-500 text-gray-400";
       const row = document.createElement("tr");
-      row.classList.add("dark:bg-gray-800");
+      row.classList.add("bg-white-800");
       const totalPrice = (parseFloat(i.quantity) * parseFloat(i.price_per_unit)).toFixed(2);
       row.innerHTML = `
         <td>${index + 1}</td>
@@ -578,7 +578,7 @@
     document.getElementById("supplierEmail").value = supplier.email;
     document.getElementById("supplierAddress").value = supplier.address;
 
-    document.getElementById("supplierModalContent").querySelector("h3").innerHTML = '<i class="fas fa-edit text-blue-600 dark:text-blue-400"></i> Edit Supplier';
+    document.getElementById("supplierModalContent").querySelector("h3").innerHTML = '<i class="fas fa-edit text-blue-600 text-blue-400"></i> Edit Supplier';
     document.getElementById("saveSupplier").textContent = "Update Supplier";
     document.getElementById("saveSupplier").onclick = () => updateSupplier(id);
 
@@ -615,7 +615,7 @@
       loadSuppliers();
       closeSupplierModal();
       document.querySelectorAll("#supplierModal input, #supplierModal textarea").forEach(i => i.value = "");
-      document.getElementById("supplierModalContent").querySelector("h3").innerHTML = '<i class="fas fa-plus-circle text-blue-600 dark:text-blue-400"></i> Add New Supplier';
+      document.getElementById("supplierModalContent").querySelector("h3").innerHTML = '<i class="fas fa-plus-circle text-blue-600 text-blue-400"></i> Add New Supplier';
       document.getElementById("saveSupplier").textContent = "Save Supplier";
       document.getElementById("saveSupplier").onclick = () => saveSupplier();
     })
@@ -694,7 +694,7 @@
     document.getElementById("itemPricePerUnit").value = item.price_per_unit;
     document.getElementById("itemStatus").value = item.status;
 
-    document.getElementById("itemModalContent").querySelector("h3").innerHTML = '<i class="fas fa-edit text-green-600 dark:text-green-400"></i> Edit Item';
+    document.getElementById("itemModalContent").querySelector("h3").innerHTML = '<i class="fas fa-edit text-green-600 text-green-400"></i> Edit Item';
     document.getElementById("saveItem").textContent = "Update Item";
     document.getElementById("saveItem").onclick = () => updateItem(id);
 
@@ -740,7 +740,7 @@
         loadSuppliers().then(() => {
           closeItemModal();
           document.querySelectorAll("#itemModal input, #itemModal select").forEach(i => i.value = "");
-          document.getElementById("itemModalContent").querySelector("h3").innerHTML = '<i class="fas fa-box text-green-600 dark:text-green-400"></i> Add New Item';
+          document.getElementById("itemModalContent").querySelector("h3").innerHTML = '<i class="fas fa-box text-green-600 text-green-400"></i> Add New Item';
           document.getElementById("saveItem").textContent = "Save Item";
           document.getElementById("saveItem").onclick = () => saveItem();
           document.getElementById("saveItemLoader").classList.add("hidden");
@@ -854,7 +854,7 @@
     supplierTable.innerHTML = "";
     filteredSuppliers.forEach((s, i) => {
       const row = document.createElement("tr");
-      row.classList.add("dark:bg-gray-800");
+      row.classList.add("bg-white-800");
       row.innerHTML = `
         <td>${i + 1}</td>
         <td>${s.supplier_id}</td>
@@ -903,11 +903,11 @@
     itemTable.innerHTML = "";
     filteredItems.forEach((i, index) => {
       const supplier = suppliers.find(s => s.id == i.supplier_id);
-      let statusClass = "text-green-500 dark:text-green-400";
-      if (i.status === "Out of Stock") statusClass = "text-red-500 dark:text-red-400";
-      else if (i.status === "Discontinued") statusClass = "text-gray-500 dark:text-gray-400";
+      let statusClass = "text-green-500 text-green-400";
+      if (i.status === "Out of Stock") statusClass = "text-red-500 text-red-400";
+      else if (i.status === "Discontinued") statusClass = "text-gray-500 text-gray-400";
       const row = document.createElement("tr");
-      row.classList.add("dark:bg-gray-800");
+      row.classList.add("bg-white-800");
       const totalPrice = (parseFloat(i.quantity) * parseFloat(i.price_per_unit)).toFixed(2);
       row.innerHTML = `
         <td>${index + 1}</td>

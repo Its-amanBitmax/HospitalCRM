@@ -11,14 +11,14 @@
                 <p class="text-gray-600 mt-1">{{ \Carbon\Carbon::createFromFormat('Y-m', $month)->format('F Y') }}</p>
             </div>
             <div class="flex space-x-2">
-                <a href="{{ route('admin.attendance.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition duration-200">
+                <a href="{{ route('admin.attendance.index') }}" class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition duration-200">
                     <i class="fas fa-arrow-left mr-2"></i>Back to Attendance
                 </a>
             </div>
         </div>
 
         <!-- Filter Section -->
-        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+        <div class="bg-white-50 rounded-lg p-6 mb-6">
             <form action="{{ route('admin.attendance.monthly-view') }}" method="GET" class="flex flex-wrap gap-4 items-end">
                 <div>
                     <label for="month" class="block text-sm font-medium text-gray-700 mb-2">
@@ -50,9 +50,9 @@
         <!-- Monthly Attendance Table -->
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white border border-gray-300">
-                <thead class="bg-gray-50">
+                <thead class="bg-white-50">
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sticky left-0 bg-gray-50 z-10 border-r border-gray-300">
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sticky left-0 bg-white-50 z-10 border-r border-gray-300">
                             Employee
                         </th>
                         @foreach($dates as $date)
@@ -65,13 +65,13 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200 ">
                     @foreach($employees as $employee)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white-50">
                         <td class="px-4 py-4 whitespace-nowrap sticky left-0 bg-white border-r border-gray-300 z-10">
                             <div class="flex items-center">
                                 @if($employee->image)
                                 <img class="h-8 w-8 rounded-full" src="{{ asset('storage/' . $employee->image) }}" alt="{{ $employee->name }}">
                                 @else
-                                <div class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
+                                <div class="h-8 w-8 rounded-full bg-white-300 flex items-center justify-center">
                                     <span class="text-xs font-medium text-gray-700">{{ substr($employee->name, 0, 1) }}</span>
                                 </div>
                                 @endif
@@ -95,7 +95,7 @@
                                         @elseif($attendance->status == 'late') bg-orange-100 text-orange-800
                                         @elseif($attendance->status == 'half_day') bg-blue-100 text-blue-800
                                         @elseif($attendance->status == 'holiday') bg-purple-100 text-purple-800
-                                        @elseif($attendance->status == 'week_off') bg-gray-100 text-gray-800
+                                        @elseif($attendance->status == 'week_off') bg-white-100 text-gray-800
                                         @endif">
                                         @if($attendance->status == 'present') P
                                         @elseif($attendance->status == 'absent') A
@@ -107,7 +107,7 @@
                                         @endif
                                     </span>
                                     <!-- Tooltip -->
-                                    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20 whitespace-nowrap">
+                                    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-white-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20 whitespace-nowrap">
                                         <div class="font-semibold">{{ ucfirst(str_replace('_', ' ', $attendance->status)) }}</div>
                                         @if($attendance->check_in)
                                         <div>Check In: {{ \Carbon\Carbon::parse($attendance->check_in)->format('H:i') }}</div>
@@ -122,7 +122,7 @@
                                     </div>
                                 </div>
                             @else
-                                <span class="inline-flex items-center justify-center w-8 h-8 text-xs font-semibold rounded-full bg-gray-50 text-gray-400">
+                                <span class="inline-flex items-center justify-center w-8 h-8 text-xs font-semibold rounded-full bg-white-50 text-gray-400">
                                     -
                                 </span>
                             @endif

@@ -27,7 +27,7 @@ class DoctorLoginController extends Controller
         }
 
         // Check if employee is active
-        if ($employee->status !== 'active') {
+        if ($employee->status !== 'Active') {
             return response()->json(['error' => 'Account is inactive'], 403);
         }
 
@@ -61,6 +61,20 @@ class DoctorLoginController extends Controller
         ]);
     }
 
+
+
+    public function logout(Request $request)
+{
+    
+    $request->user()->currentAccessToken()->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Logout successful'
+    ]);
+}
+
+
     public function getProfile(Request $request)
     {
         $employee = auth('sanctum')->user();
@@ -90,6 +104,93 @@ class DoctorLoginController extends Controller
         ]);
     }
 
+
+public function updateProfile(Request $request)
+{
+    $employee = auth('sanctum')->user();
+
+    if (!$employee) {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    // Validation for specified fields
+    $request->validate([
+        'name' => 'sometimes|string|max:255',
+        'email' => 'sometimes|email|unique:employees,email,' . $employee->id,
+        'phone' => 'sometimes|string|max:15',
+        'gender' => 'sometimes|string|in:Male,Female,Other',
+        'date_of_birth' => 'sometimes|date',
+        'image' => 'sometimes|image|max:2048',
+        'address' => 'sometimes|array',
+        'address.street' => 'sometimes|string|max:255',
+        'address.city' => 'sometimes|string|max:100',
+        'address.state' => 'sometimes|string|max:100',
+        'address.country' => 'sometimes|string|max:100',
+        'address.postal_code' => 'sometimes|string|max:20',
+    ]);
+
+    // Update core employee attributes
+    $employee->fill($request->only(['name', 'email', 'phone', 'gender', 'date_of_birth']));
+
+    // Handle image upload if present
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('employees', 'public');
+        $employee->image = $path;
+    }
+
+    $employee->save();
+
+    // Update or create Home address specifically
+    if ($request->has('address')) {
+        $addressData = $request->input('address');
+        $address = $employee->addresses()->where('address_type', 'Home')->first();
+
+        if ($address) {
+            $address->update($addressData);
+        } else {
+            $employee->addresses()->create(array_merge($addressData, ['address_type' => 'Home']));
+        }
+    }
+
+    // Load all relationships
+    $employee->load([
+        'department',
+        'qualifications',
+        'documents',
+        'payroll',
+        'addresses',
+        'familyDetails',
+        'shifts',
+        'professions',
+        'specialities',
+        'schedules',
+    ]);
+
+    // **ADD THIS: Convert image path to full URL**
+    if ($employee->image) {
+        $employee->image = asset('storage/' . $employee->image);
+    }
+
+    return response()->json([
+        'message' => 'Profile updated successfully',
+        'employee' => $employee
+    ]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     public function getAppointmentsAndConsultations(Request $request)
     {
         $employee = auth('sanctum')->user();
