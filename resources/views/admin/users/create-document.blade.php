@@ -6,7 +6,7 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-file-medical text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">Add New Document - {{ $user->full_name }}</h1>
+      <h1 class="text-xl font-semibold text-gray-800 ">Add New Document - {{ $user->full_name }}</h1>
     </div>
     <div class="flex gap-3">
       <a href="{{ route('admin.users.visits', $user->id) }}" class="bg-white-600 hover:bg-white-700 text-bg-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
@@ -16,20 +16,20 @@
   </div>
 
   <!-- Form -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 ">
     <form id="createDocumentForm" action="{{ route('admin.users.documents.store', $user->id) }}" method="POST" enctype="multipart/form-data">
       @csrf
       <div class="space-y-6">
         <!-- Document Details -->
         <div class="section">
-          <h2 class="text-lg font-semibold text-gray-800 text-white mb-4 flex items-center gap-2">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
             <i class="fas fa-file-medical text-blue-600 text-blue-400"></i>
             Document Details
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Document Type *</label>
-              <select name="document_type" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+              <select name="document_type" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" required>
                 <option value="">Select Document Type</option>
                 <option value="Medical Report">Medical Report</option>
                 <option value="Prescription">Prescription</option>
@@ -42,7 +42,7 @@
             </div>
             <div class="md:col-span-2">
               <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Document File *</label>
-              <input type="file" name="document" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
+              <input type="file" name="document" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
               <p class="mt-1 text-sm text-gray-500 text-gray-400">Accepted formats: PDF, DOC, DOCX, JPG, JPEG, PNG</p>
             </div>
           </div>

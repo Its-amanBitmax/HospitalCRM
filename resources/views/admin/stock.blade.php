@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-<div class="min-h-screen">
+<div class="min-h-screen" style="width: 94%;">
   <!-- Notification Area -->
   <div id="notification" class="fixed top-4 right-4 z-50 hidden bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
     <div class="flex items-center gap-2">
@@ -14,7 +14,7 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-boxes text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">Stock Management</h1>
+      <h1 class="text-xl font-semibold text-gray-800 black">Stock Management</h1>
     </div>
   </div>
 
@@ -23,44 +23,44 @@
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-box text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="totalItems">0</div>
+        <div class="text-2xl font-bold text-gray-800 black" id="totalItems">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Total Items</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-check-circle text-3xl text-green-600 text-green-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="availableItems">0</div>
+        <div class="text-2xl font-bold text-gray-800 " id="availableItems">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Available Items</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-exclamation-triangle text-3xl text-yellow-600 text-yellow-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="lowStockItems">0</div>
+        <div class="text-2xl font-bold text-gray-800 " id="lowStockItems">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Low Stock Items</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-times-circle text-3xl text-red-600 text-red-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="outOfStockItems">0</div>
+        <div class="text-2xl font-bold text-gray-800 " id="outOfStockItems">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Out of Stock</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-truck text-3xl text-purple-600 text-purple-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="totalSuppliers">0</div>
+        <div class="text-2xl font-bold text-gray-800 " id="totalSuppliers">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Total Suppliers</div>
       </div>
     </div>
   </div>
 
   <!-- Supplier Table -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 mb-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 mb-6 border border-gray-200 ">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h2 class="text-xl font-semibold text-gray-800  flex items-center gap-2">
         <i class="fas fa-truck text-blue-600 text-blue-400"></i>
         Supplier Details
       </h2>
@@ -72,14 +72,14 @@
     <div class="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Name</label>
-        <input type="text" id="supplierNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter supplier name">
+        <input type="text" id="supplierNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter supplier name">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Contact Person</label>
-        <input type="text" id="supplierContactFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter contact person">
+        <input type="text" id="supplierContactFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter contact person">
       </div>
       <div class="flex items-end">
-        <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearSupplierFilters">Clear Filters</button>
+        <button class="bg-gray-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearSupplierFilters">Clear Filters</button>
       </div>
     </div>
     <div>
@@ -96,15 +96,15 @@
             <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Action</th>
           </tr>
         </thead>
-        <tbody id="supplierTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
+        <tbody id="supplierTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 "></tbody>
       </table>
     </div>
   </div>
 
   <!-- Item Table -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 ">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h2 class="text-xl font-semibold text-gray-800  flex items-center gap-2">
         <i class="fas fa-box text-green-600 text-green-400"></i>
         Item Details
       </h2>
@@ -116,17 +116,17 @@
     <div class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Supplier</label>
-        <select id="itemSupplierFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
+        <select id="itemSupplierFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200">
           <option value="">All Suppliers</option>
         </select>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Category</label>
-        <input type="text" id="itemCategoryFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter category">
+        <input type="text" id="itemCategoryFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200" placeholder="Enter category">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
-        <select id="itemStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
+        <select id="itemStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200">
           <option value="">All Statuses</option>
           <option>Available</option>
           <option>Out of Stock</option>
@@ -134,7 +134,7 @@
         </select>
       </div>
       <div class="flex items-end">
-        <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearItemFilters">Clear Filters</button>
+        <button class="bg-gray-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearItemFilters">Clear Filters</button>
       </div>
     </div>
     <div >
@@ -155,16 +155,16 @@
             <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Action</th>
           </tr>
         </thead>
-        <tbody id="itemTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
+        <tbody id="itemTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 "></tbody>
       </table>
     </div>
   </div>
 
   <!-- Supplier Modal -->
   <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="supplierModal">
-    <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="supplierModalContent">
+    <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200  transform transition-all duration-300 scale-95 opacity-0" id="supplierModalContent">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
           <i class="fas fa-plus-circle text-blue-600 text-blue-400"></i>
           Add New Supplier
         </h3>
@@ -175,23 +175,23 @@
       <div class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Supplier Name</label>
-          <input type="text" id="supplierName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Supplier Name">
+          <input type="text" id="supplierName" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter Supplier Name">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Contact Person</label>
-          <input type="text" id="contactPerson" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Contact Person">
+          <input type="text" id="contactPerson" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter Contact Person">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Phone</label>
-          <input type="text" id="supplierPhone" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Phone Number">
+          <input type="text" id="supplierPhone" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter Phone Number">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Email</label>
-          <input type="email" id="supplierEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Email">
+          <input type="email" id="supplierEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter Email">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Address</label>
-          <textarea id="supplierAddress" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" rows="3" placeholder="Enter Address"></textarea>
+          <textarea id="supplierAddress" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" rows="3" placeholder="Enter Address"></textarea>
         </div>
         <button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg" id="saveSupplier">Save Supplier</button>
       </div>
@@ -200,9 +200,9 @@
 
   <!-- Item Modal -->
   <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="itemModal">
-    <div class="bg-white bg-white-800 p-4 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="itemModalContent">
+    <div class="bg-white bg-white-800 p-4 rounded-lg shadow-xl w-full max-w-lg border border-gray-200  transform transition-all duration-300 scale-95 opacity-0" id="itemModalContent">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
           <i class="fas fa-box text-green-600 text-green-400"></i>
           Add New Item
         </h3>
@@ -213,35 +213,35 @@
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Select Supplier</label>
-          <select id="itemSupplier" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200"></select>
+          <select id="itemSupplier" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200"></select>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Item Name</label>
-          <input type="text" id="itemName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter Item Name">
+          <input type="text" id="itemName" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200" placeholder="Enter Item Name">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Category</label>
-          <input type="text" id="itemCategory" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter Category">
+          <input type="text" id="itemCategory" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200" placeholder="Enter Category">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Quantity</label>
-          <input type="number" id="itemQuantity" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter Quantity">
+          <input type="number" id="itemQuantity" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200" placeholder="Enter Quantity">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Unit</label>
-          <input type="text" id="itemUnit" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="e.g., Pieces, Boxes">
+          <input type="text" id="itemUnit" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200" placeholder="e.g., Pieces, Boxes">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Reorder Level</label>
-          <input type="number" id="itemReorderLevel" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter Reorder Level">
+          <input type="number" id="itemReorderLevel" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200" placeholder="Enter Reorder Level">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Price per Unit</label>
-          <input type="number" step="0.01" id="itemPricePerUnit" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter Price per Unit">
+          <input type="number" step="0.01" id="itemPricePerUnit" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200" placeholder="Enter Price per Unit">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-          <select id="itemStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
+          <select id="itemStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200">
             <option>Available</option>
             <option>Out of Stock</option>
             <option>Discontinued</option>

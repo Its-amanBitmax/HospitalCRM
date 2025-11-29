@@ -11,7 +11,7 @@
                 <p class="text-gray-600 mt-1">{{ \Carbon\Carbon::createFromFormat('Y-m', $month)->format('F Y') }}</p>
             </div>
             <div class="flex space-x-2">
-                <a href="{{ route('admin.attendance.index') }}" class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition duration-200">
+                <a href="{{ route('admin.attendance.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition duration-200">
                     <i class="fas fa-arrow-left mr-2"></i>Back to Attendance
                 </a>
             </div>

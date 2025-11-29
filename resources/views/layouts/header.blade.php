@@ -37,7 +37,7 @@
                     
                     <!-- Enhanced Dropdown Menu -->
                     <div id="profileDropdown" class="absolute right-0 mt-3 w-56 bg-white bg-white-800 rounded-xl shadow-xl ring-1 ring-bg-white ring-opacity-5 z-50 overflow-hidden transform origin-top-right transition-all duration-200 scale-95 opacity-0 hidden">
-                        <div class="p-3 border-b border-gray-100 border-gray-700">
+                        <div class="p-3 border-b ">
                             <p class="text-sm font-medium text-gray-900 text-white truncate">{{ Auth::guard('admin')->user()->name }}</p>
                             <p class="text-xs text-gray-500 text-gray-400 truncate">{{ Auth::guard('admin')->user()->email ?? 'Administrator' }}</p>
                         </div>

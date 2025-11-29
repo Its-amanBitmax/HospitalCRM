@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-white-100 bg-white-900 text-white">
+<body class="bg-white-100 bg-white-900 text-black">
 
     <div class="flex min-h-screen">
 

@@ -6,17 +6,17 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-calendar-alt text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">Edit Patient Visit - {{ $user->full_name }}</h1>
+      <h1 class="text-xl font-semibold text-gray-800 ">Edit Patient Visit - {{ $user->full_name }}</h1>
     </div>
     <div class="flex gap-3">
-      <a href="{{ route('admin.users.visits', $user->id) }}" class="bg-white-600 hover:bg-white-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
+      <a href="{{ route('admin.users.visits', $user->id) }}" class="bg-white-600 hover:bg-white-700  px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
         <i class="fas fa-arrow-left mr-2"></i>Back to Visits
       </a>
     </div>
   </div>
 
   <!-- Form -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 ">
     <form id="editVisitForm" action="{{ route('admin.users.visits.update', [$user->id, $visit->id]) }}" method="POST">
       @csrf
       @method('PUT')
@@ -25,7 +25,7 @@
         <!-- Visit Type -->
         <div>
           <label for="visit_type" class="block text-sm font-medium text-gray-700 text-gray-300 mb-2">Visit Type</label>
-          <select id="visit_type" name="visit_type" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white" required>
+          <select id="visit_type" name="visit_type" class="w-full px-3 py-2 border border-gray-300  rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700" required>
             <option value="">Select Visit Type</option>
             <option value="Checkup" {{ $visit->visit_type == 'Checkup' ? 'selected' : '' }}>Checkup</option>
             <option value="Test" {{ $visit->visit_type == 'Test' ? 'selected' : '' }}>Test</option>
@@ -38,13 +38,13 @@
         <!-- Date of Visit -->
         <div>
           <label for="date_of_visit" class="block text-sm font-medium text-gray-700 text-gray-300 mb-2">Date of Visit</label>
-          <input type="date" id="date_of_visit" name="date_of_visit" value="{{ $visit->date_of_visit ? $visit->date_of_visit->format('Y-m-d') : '' }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white" required>
+          <input type="date" id="date_of_visit" name="date_of_visit" value="{{ $visit->date_of_visit ? $visit->date_of_visit->format('Y-m-d') : '' }}" class="w-full px-3 py-2 border border-gray-300  rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700" required>
         </div>
 
         <!-- Chief Complaint -->
         <div class="md:col-span-2">
           <label for="chief_complaint" class="block text-sm font-medium text-gray-700 text-gray-300 mb-2">Chief Complaint</label>
-          <textarea id="chief_complaint" name="chief_complaint" rows="3" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white" placeholder="Enter chief complaint">{{ $visit->chief_complaint }}</textarea>
+          <textarea id="chief_complaint" name="chief_complaint" rows="3" class="w-full px-3 py-2 border border-gray-300  rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 " placeholder="Enter chief complaint">{{ $visit->chief_complaint }}</textarea>
         </div>
 
         <!-- Referred By -->
@@ -54,8 +54,8 @@
     </label>
 
     <select id="referred_by" name="referred_by"
-        class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-lg 
-               focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white">
+        class="w-full px-3 py-2 border border-gray-300  rounded-lg 
+               focus:ring-blue-500 focus:border-blue-500 bg-white-700 ">
 
         <option value="" disabled>Select Reception</option>
 
@@ -76,7 +76,7 @@
     </label>
 
     <select id="department_consultant" name="department_consultant"
-        class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white">
+        class="w-full px-3 py-2 border border-gray-300  rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 ">
         <option value="" disabled>Select Room / Consultant</option>
 
         @foreach($assignedRooms as $item)

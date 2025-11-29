@@ -35,18 +35,18 @@
     <!-- Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         
-        <div class=" bg-white-800 rounded-2xl shadow border p-6 bg-white">
+        <div class=" bg-white-800 rounded-2xl shadow  p-6 bg-white">
             <p class="text-xl text-bg-white"><i class="fas fa-check-circle custom-icon1"></i>Confirmed</p>
             <p class="text-4xl font-bold mt-2">{{ $confirmed }}</p>
         </div>
 
-        <div class="bg-white bg-white-800 rounded-2xl shadow border p-6">
+        <div class="bg-white bg-white-800 rounded-2xl shadow  p-6">
             <p class="text-xl text-bg-white"><i class="fas fa-times-circle custom-icon2"></i> 
 Cancelled</p>
             <p class="text-4xl font-bold mt-2">{{ $cancelled }}</p>
         </div>
 
-        <div class="bg-white bg-white-800 rounded-2xl shadow border p-6">
+        <div class="bg-white bg-white-800 rounded-2xl shadow  p-6">
             <p class="text-xl text-bg-white "><i class="fas fa-calendar custom-icon"></i>
 Total Today</p>
             <p class="text-4xl font-bold mt-2">{{ $total }}</p>
@@ -56,7 +56,7 @@ Total Today</p>
 
 
     <!-- UPCOMING APPOINTMENTS -->
-    <div class="bg-white bg-white-800 rounded-2xl shadow border overflow-hidden mb-12">
+    <div class="bg-white bg-white-800 rounded-2xl shadow  overflow-hidden mb-12">
 
         <div class="px-6 py-4 bg-white-50 border-b">
             <h2 class="text-lg font-semibold">Upcoming Appointments (Next 3 Days)</h2>

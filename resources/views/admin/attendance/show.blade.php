@@ -1,4 +1,4 @@
-@extends('layouts.admin-dashboard')
+@extends('layouts.layout')
 
 @section('title', 'Employee Attendance History')
 

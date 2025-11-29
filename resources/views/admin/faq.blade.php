@@ -14,7 +14,7 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-question-circle text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">FAQ Management</h1>
+      <h1 class="text-xl font-semibold text-gray-800 ">FAQ Management</h1>
     </div>
   </div>
 
@@ -23,30 +23,30 @@
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-question-circle text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="totalFaqs">0</div>
+        <div class="text-2xl font-bold text-gray-800 " id="totalFaqs">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Total FAQs</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-check-circle text-3xl text-green-600 text-green-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="activeFaqs">0</div>
+        <div class="text-2xl font-bold text-gray-800 " id="activeFaqs">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Active FAQs</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-times-circle text-3xl text-red-600 text-red-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="inactiveFaqs">0</div>
+        <div class="text-2xl font-bold text-gray-800 " id="inactiveFaqs">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Inactive FAQs</div>
       </div>
     </div>
   </div>
 
   <!-- FAQ Table -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 ">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h2 class="text-xl font-semibold text-gray-800  flex items-center gap-2">
         <i class="fas fa-list text-blue-600 text-blue-400"></i>
         FAQ Details
       </h2>
@@ -58,15 +58,15 @@
     <div class="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Question</label>
-        <input type="text" id="faqQuestionFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter question">
+        <input type="text" id="faqQuestionFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter question">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Category</label>
-        <input type="text" id="faqCategoryFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter category">
+        <input type="text" id="faqCategoryFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter category">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
-        <select id="faqStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+        <select id="faqStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200">
           <option value="">All Statuses</option>
           <option>Active</option>
           <option>Inactive</option>
@@ -86,16 +86,16 @@
             <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium border-b border-gray-200 border-gray-600">Action</th>
           </tr>
         </thead>
-        <tbody id="faqTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
+        <tbody id="faqTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 "></tbody>
       </table>
     </div>
   </div>
 
   <!-- FAQ Modal -->
   <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="faqModal">
-    <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="faqModalContent">
+    <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 transform transition-all duration-300 scale-95 opacity-0" id="faqModalContent">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+        <h3 class="text-xl font-semibold text-gray-800  flex items-center gap-2">
           <i class="fas fa-plus-circle text-blue-600 text-blue-400"></i>
           Add New FAQ
         </h3>
@@ -106,23 +106,23 @@
       <div class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">FAQ ID</label>
-          <input type="number" id="faqId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter FAQ ID">
+          <input type="number" id="faqId" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter FAQ ID">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Question</label>
-          <input type="text" id="faqQuestion" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Question">
+          <input type="text" id="faqQuestion" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter Question">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Answer</label>
-          <textarea id="faqAnswer" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" rows="4" placeholder="Enter Answer"></textarea>
+          <textarea id="faqAnswer" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" rows="4" placeholder="Enter Answer"></textarea>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Category</label>
-          <input type="text" id="faqCategory" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter Category">
+          <input type="text" id="faqCategory" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter Category">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-          <select id="faqStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+          <select id="faqStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200">
             <option>Active</option>
             <option>Inactive</option>
           </select>

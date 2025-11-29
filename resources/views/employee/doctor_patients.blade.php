@@ -1,81 +1,109 @@
 @extends('layouts.doctor-dashboard')
 
 @section('content')
-<!-- Visits Tab -->
-<div id="visits-content" class="tab-content ">
+<div id="visits-content" class="tab-content">
 
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-800 text-white">Patient Visits</h2>
+        <h2 class="text-lg font-semibold text-gray-800 text-black">Patient Visits</h2>
     </div>
 
-    <!-- 🔍 FILTER SECTION -->
-    <form method="GET" action="{{ route('employee.doctor_patients') }}" class="mb-4">
+    <!-- 🔍 FILTER SECTION (PURE JS) -->
+    <div class="mb-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 
             <!-- Patient Name -->
-            <input type="text" name="patient_name" value="{{ request('patient_name') }}"
-                placeholder="Search Patient Name"
-                class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 bg-white-700 text-white">
+            <input id="filterName" type="text" placeholder="Search Patient Name"
+                class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 bg-white text-black">
 
             <!-- Visit Type -->
-            <select name="visit_type"
-                class="w-full px-4 py-2 border rounded-lg bg-white-700 text-white">
+            <select id="filterVisitType" class="w-full px-4 py-2 border rounded-lg bg-black text-black">
                 <option value="">All Visit Types</option>
-                <option value="OPD" {{ request('visit_type')=='OPD'?'selected':'' }}>OPD</option>
-                <option value="Emergency" {{ request('visit_type')=='Emergency'?'selected':'' }}>Emergency</option>
+                <option value="OPD">OPD</option>
+                <option value="Emergency">Emergency</option>
+                <option value="Checkup">Checkup</option>
             </select>
 
             <!-- Date -->
-            <input type="date" name="date" value="{{ request('date') }}"
-                class="w-full px-4 py-2 border rounded-lg bg-white-700 text-white">
+            <input id="filterDate" type="date" class="w-full px-4 py-2 border rounded-lg bg-black text-black">
 
-            <!-- Submit -->
-            <button
-                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                Filter
+            <!-- Reset Button -->
+            <button onclick="resetFilters()" class="px-4 py-2 bg-black text-black rounded-lg hover:bg-gray-600 transition">
+                Reset
             </button>
-
         </div>
-    </form>
+    </div>
 
     <!-- TABLE -->
     <div class="overflow-x-auto">
-        <table class="min-w-full bg-white bg-white-800 border border-gray-200 border-gray-700">
-            <thead class="bg-white-50 bg-white-700">
+        <table id="visitsTable" class="min-w-full bg-white border border-gray-200">
+            <thead class="bg-gray-100">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 text-gray-300 uppercase tracking-wider">Patient Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 text-gray-300 uppercase tracking-wider">Room</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 text-gray-300 uppercase tracking-wider">Reception</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 text-gray-300 uppercase tracking-wider">Visit Type</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 text-gray-300 uppercase tracking-wider">Chief Complaint</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 text-gray-300 uppercase tracking-wider">Date of Visit</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 text-gray-300 uppercase tracking-wider">Actions</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Room</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Reception</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Visit Type</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Chief Complaint</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date of Visit</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
             </thead>
 
-            <tbody class="bg-white bg-white-800 divide-y divide-gray-200 divide-gray-700">
+            <tbody id="visitsBody" class="bg-white divide-y divide-gray-200">
                 @forelse($patients as $visit)
-                <tr class="hover:[background-color:#daf6f6] hover:bg-white-700 transition">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">{{ $visit->user->full_name }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">{{ $visit->consultantAssignment?->room?->room_id ?? '-' }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">{{ $visit->reception?->reception_id ?? '-' }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">{{ $visit->visit_type ?? '-' }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 text-white">{{ $visit->chief_complaint ?? '-' }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">
-                        {{ $visit->date_of_visit?->format('d-m-Y') ?? '-' }}
-                    </td>
-
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
-                        <!-- Actions (optional) -->
-                    </td>
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4 text-sm name">{{ $visit->user->full_name }}</td>
+                    <td class="px-6 py-4 text-sm room">{{ $visit->consultantAssignment?->room?->room_id ?? '-' }}</td>
+                    <td class="px-6 py-4 text-sm reception">{{ $visit->reception?->reception_id ?? '-' }}</td>
+                    <td class="px-6 py-4 text-sm type">{{ $visit->visit_type ?? '-' }}</td>
+                    <td class="px-6 py-4 text-sm">{{ $visit->chief_complaint ?? '-' }}</td>
+                    <td class="px-6 py-4 text-sm date">{{ $visit->date_of_visit?->format('Y-m-d') ?? '-' }}</td>
+                    <td class="px-6 py-4 text-sm font-medium space-x-3"></td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="px-6 py-4 text-center text-gray-500 text-gray-400">No visits found</td>
+                    <td colspan="7" class="px-6 py-4 text-center text-gray-500">No visits found</td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    const filterName = document.getElementById("filterName");
+    const filterVisitType = document.getElementById("filterVisitType");
+    const filterDate = document.getElementById("filterDate");
+    const tableBody = document.getElementById("visitsBody");
+
+    function filterTable() {
+        const nameValue = filterName.value.toLowerCase();
+        const visitTypeValue = filterVisitType.value;
+        const dateValue = filterDate.value;
+
+        [...tableBody.getElementsByTagName("tr")].forEach(row => {
+            const name = row.querySelector(".name")?.textContent.toLowerCase() || "";
+            const type = row.querySelector(".type")?.textContent || "";
+            const date = row.querySelector(".date")?.textContent || "";
+
+            const matchName = name.includes(nameValue);
+            const matchType = visitTypeValue === "" || type === visitTypeValue;
+            const matchDate = dateValue === "" || date === dateValue;
+
+            row.style.display = (matchName && matchType && matchDate) ? "" : "none";
+        });
+    }
+
+    filterName.addEventListener("input", filterTable);
+    filterVisitType.addEventListener("change", filterTable);
+    filterDate.addEventListener("change", filterTable);
+
+    function resetFilters() {
+        filterName.value = "";
+        filterVisitType.value = "";
+        filterDate.value = "";
+        filterTable();
+    }
+</script>
 @endsection

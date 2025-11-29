@@ -15,7 +15,7 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-image text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">Banner Management</h1>
+      <h1 class="text-xl font-semibold text-gray-800 ">Banner Management</h1>
     </div>
   </div>
 
@@ -24,30 +24,30 @@
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-image text-3xl text-blue-600 text-blue-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="totalBanners">0</div>
+        <div class="text-2xl font-bold text-gray-800 " id="totalBanners">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Total Banners</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-check-circle text-3xl text-green-600 text-green-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="activeBanners">0</div>
+        <div class="text-2xl font-bold text-gray-800 " id="activeBanners">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Active Banners</div>
       </div>
     </div>
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow flex items-center gap-3">
       <i class="fas fa-times-circle text-3xl text-red-600 text-red-400"></i>
       <div>
-        <div class="text-2xl font-bold text-gray-800 text-white" id="inactiveBanners">0</div>
+        <div class="text-2xl font-bold text-gray-800 " id="inactiveBanners">0</div>
         <div class="text-sm text-gray-600 text-gray-400">Inactive Banners</div>
       </div>
     </div>
   </div>
 
   <!-- Banner Table -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 ">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+      <h2 class="text-xl font-semibold text-gray-800  flex items-center gap-2">
         <i class="fas fa-list text-blue-600 text-blue-400"></i>
         Banner Details
       </h2>
@@ -70,7 +70,7 @@
             <th class="px-4 py-3 text-left text-gray-600 text-gray-300 font-medium">Action</th>
           </tr>
         </thead>
-        <tbody id="bannerTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 divide-gray-600"></tbody>
+        <tbody id="bannerTable" class="text-gray-800 text-gray-200 divide-y divide-gray-200 "></tbody>
       </table>
     </div>
   </div>
@@ -79,7 +79,7 @@
   <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="bannerModal">
     <div class="bg-white bg-white-800 p-4 rounded-lg shadow-xl w-full max-w-2xl transform transition-all duration-300 scale-95 opacity-0" id="bannerModalContent">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold text-gray-800 text-white" id="modalTitle">Add New Banner</h3>
+        <h3 class="text-xl font-semibold text-gray-800 " id="modalTitle">Add New Banner</h3>
         <button class="text-gray-500 hover:text-gray-700 text-gray-400 hover:text-gray-200" id="closeBannerModal">
           <i class="fas fa-times text-lg"></i>
         </button>
@@ -88,22 +88,22 @@
       <div class="grid grid-cols-2 gap-4 mb-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Banner ID</label>
-          <input type="text" id="bannerId" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm bg-white-100 bg-white-600 text-white cursor-not-allowed" placeholder="Auto-generated" readonly>
+          <input type="text" id="bannerId" class="w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm bg-white-100 bg-white-600  cursor-not-allowed" placeholder="Auto-generated" readonly>
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Title</label>
-          <input type="text" id="bannerTitle" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white" placeholder="Enter Title">
+          <input type="text" id="bannerTitle" class="w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 " placeholder="Enter Title">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Redirect URL</label>
-          <input type="text" id="bannerRedirectUrl" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white" placeholder="Enter Redirect URL">
+          <input type="text" id="bannerRedirectUrl" class="w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 " placeholder="Enter Redirect URL">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Position</label>
-          <select id="bannerPosition" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white">
+          <select id="bannerPosition" class="w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 ">
             <option>Top</option>
             <option>Sidebar</option>
             <option>Bottom</option>
@@ -113,7 +113,7 @@
 
         <div class="col-span-2">
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-          <select id="bannerStatus" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white">
+          <select id="bannerStatus" class="w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 ">
             <option>Active</option>
             <option>Inactive</option>
           </select>
@@ -121,7 +121,7 @@
 
         <div class="col-span-2">
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Banner Image</label>
-          <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md border-gray-300 border-gray-600">
+          <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md border-gray-300 ">
             <div class="space-y-1 text-center">
               <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                 <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
