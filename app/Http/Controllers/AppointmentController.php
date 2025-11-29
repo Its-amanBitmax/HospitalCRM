@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\PatientVisit;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
 
@@ -113,7 +114,7 @@ class AppointmentController extends Controller
             ->orderBy('appointment_time', 'desc')
             ->get();
 
-        \Log::info("DoctorAppointments Debug: doctorId={$doctorId}, upcomingCount={$upcoming->count()}");
+        Log::info("DoctorAppointments Debug: doctorId={$doctorId}, upcomingCount={$upcoming->count()}");
 
         return view('employee.doctor_appointments', compact(
             'total',
