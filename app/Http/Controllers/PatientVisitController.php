@@ -9,6 +9,7 @@ use App\Models\PatientDocument;
 use App\Models\reception;
 use App\Models\RoomAssignment;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PatientVisitController extends Controller
 {
@@ -81,22 +82,22 @@ class PatientVisitController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-   public function edit($userId, $visitId)
-{
-    $user = User::findOrFail($userId);
-    $visit = PatientVisit::where('id', $visitId)
-                         ->where('user_id', $userId)
-                         ->firstOrFail();
+    public function edit($userId, $visitId)
+    {
+        $user = User::findOrFail($userId);
+        $visit = PatientVisit::where('id', $visitId)
+            ->where('user_id', $userId)
+            ->firstOrFail();
 
-    $receptions = Reception::all();
+        $receptions = Reception::all();
 
-    // Fetch room assignments with employee + room for dropdown
-    $assignedRooms = RoomAssignment::with('room', 'employee')
-                                   ->where('status', 'active')
-                                   ->get();
+        // Fetch room assignments with employee + room for dropdown
+        $assignedRooms = RoomAssignment::with('room', 'employee')
+            ->where('status', 'active')
+            ->get();
 
-    return view('admin.users.edit-visit', compact('user', 'visit', 'receptions', 'assignedRooms'));
-}
+        return view('admin.users.edit-visit', compact('user', 'visit', 'receptions', 'assignedRooms'));
+    }
 
 
 
@@ -264,80 +265,204 @@ class PatientVisitController extends Controller
 
 
 
-public function doctor_checkup($userId, Request $request)
+
+    public function doctor_visit_summary(Request $request, $userId)
+    {
+        // Get user details
+        $user = User::findOrFail($userId);
+
+        // Patient Visits (with Reception)
+        $visits = PatientVisit::with('reception')
+            ->where('user_id', $userId)
+            ->orderBy('date_of_visit', 'desc')
+            ->get();
+
+        // Patient Checkups
+        $checkups = PatientCheckup::where('user_id', $userId)
+            ->orderBy('checkup_date', 'desc')
+            ->get();
+
+        // Patient Documents
+        $documents = PatientDocument::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Return Doctor Panel View
+        return view('employee.doctor_patient_summary', compact(
+            'user',
+            'visits',
+            'checkups',
+            'documents'
+        ));
+    }
+
+    // Show the create checkup form
+    public function doctorCreateCheckup($userId)
+    {
+        $user = User::findOrFail($userId);
+
+        // Only include visits assigned to this doctor
+        $doctorId = auth('doctor')->id();
+        $visits = PatientVisit::where('user_id', $userId)
+            ->whereHas('consultantAssignment', function ($q) use ($doctorId) {
+                $q->where('employee_id', $doctorId)
+                    ->where('status', 'active');
+            })
+            ->orderBy('date_of_visit', 'desc')
+            ->get();
+
+        return view('employee.doctor_create_checkup', compact('user', 'visits'));
+    }
+
+    // Store checkup (server-side)
+    public function storePatientCheckup(Request $request, $userId)
+    {
+        $request->validate([
+            'checkup_date' => 'required|date',
+            'visit_id' => 'nullable|exists:patient_visits,id',
+            'diagnosis' => 'nullable|string',
+            'treatment' => 'nullable|string',
+        ]);
+
+        $checkup = new PatientCheckup();
+        $checkup->user_id = $userId;
+        $checkup->visit_id = $request->visit_id;
+        $checkup->checkup_date = $request->checkup_date;
+        $checkup->diagnosis = $request->diagnosis;
+        $checkup->treatment = $request->treatment;
+        $checkup->save();
+
+        return redirect()->route('employee.doctor_patients')
+            ->with('success', 'Checkup created successfully!');
+    }
+
+    public function doctor_Edit_Checkup($userId, $checkupId)
+    {
+        $user = User::findOrFail($userId);
+        $checkup = PatientCheckup::findOrFail($checkupId);
+
+        // You forgot this part — required for dropdown
+        $visits = PatientVisit::where('user_id', $userId)
+            ->orderBy('date_of_visit', 'desc')
+            ->get();
+
+        return view('employee.doctor_edit_checkup', compact('user', 'checkup', 'visits'));
+    }
+
+    public function doctor_update_Checkup(Request $request, $userId, $checkupId)
+    {
+        $request->validate([
+            'visit_id' => 'nullable|exists:patient_visits,id',
+            'checkup_date' => 'required|date',
+            'diagnosis' => 'nullable|string',
+            'treatment' => 'nullable|string',
+        ]);
+
+        // Only match checkup id + user id
+        $checkup = PatientCheckup::where('id', $checkupId)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+
+        // Update values
+        $checkup->update([
+            'visit_id' => $request->visit_id,
+            'checkup_date' => $request->checkup_date,
+            'diagnosis' => $request->diagnosis,
+            'treatment' => $request->treatment,
+        ]);
+
+        return redirect()
+            ->route('employee.users.summary', $userId)
+            ->with('success', 'Checkup updated successfully.');
+    }
+
+
+    public function doctor_delete_Checkup($userId, $checkupId)
+    {
+        // Find checkup for this user
+        $checkup = PatientCheckup::where('id', $checkupId)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+
+        // Delete the checkup
+        $checkup->delete();
+
+        // Redirect back with success message
+        return redirect()
+            ->route('employee.users.summary', $userId)
+            ->with('success', 'Checkup deleted successfully.');
+    }
+
+
+
+    public function doctorCreateDocument($userId)
 {
-    $doctorId = auth('doctor')->id();
-    $fromDate = $request->query('from_date');
-    $toDate   = $request->query('to_date');
-
-    // Get visits for this doctor and user
-    $visits = PatientVisit::with('user')
-        ->whereHas('consultantAssignment', function($q) use ($doctorId) {
-            $q->where('employee_id', $doctorId)
-              ->where('status', 'active');
-        })
-        ->where('user_id', $userId)
-        ->orderBy('date_of_visit', 'desc')
-        ->get();
-
-    // Get checkups for this user, apply date filter if provided
-    $checkups = PatientCheckup::with('user', 'visit')
-        ->where('user_id', $userId)
-        ->when($fromDate, fn($q) => $q->whereDate('checkup_date', '>=', $fromDate))
-        ->when($toDate, fn($q) => $q->whereDate('checkup_date', '<=', $toDate))
-        ->orderBy('checkup_date', 'desc')
-        ->get();
-
     $user = User::findOrFail($userId);
-
-    return view('employee.doctor_checkup', compact('visits', 'checkups', 'user'));
+    return view('employee.doctor_create_document', compact('user'));
 }
 
-
-
-
-
-
-// Show the create checkup form
-public function doctorCreateCheckup($userId)
-{
-    $user = User::findOrFail($userId);
-
-    // Only include visits assigned to this doctor
-    $doctorId = auth('doctor')->id();
-    $visits = PatientVisit::where('user_id', $userId)
-        ->whereHas('consultantAssignment', function($q) use ($doctorId) {
-            $q->where('employee_id', $doctorId)
-              ->where('status', 'active');
-        })
-        ->orderBy('date_of_visit', 'desc')
-        ->get();
-
-    return view('employee.doctor_create_checkup', compact('user', 'visits'));
-}
-
-// Store checkup (server-side)
-public function storePatientCheckup(Request $request, $userId)
+public function doctorStoreDocument(Request $request, $userId)
 {
     $request->validate([
-        'checkup_date' => 'required|date',
-        'visit_id' => 'nullable|exists:patient_visits,id',
-        'diagnosis' => 'nullable|string',
-        'treatment' => 'nullable|string',
+        'document_type' => 'required|string',
+        'document' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
     ]);
 
-    $checkup = new PatientCheckup();
-    $checkup->user_id = $userId;
-    $checkup->visit_id = $request->visit_id;
-    $checkup->checkup_date = $request->checkup_date;
-    $checkup->diagnosis = $request->diagnosis;
-    $checkup->treatment = $request->treatment;
-    $checkup->save();
+    $file = $request->file('document');
+    $filename = time() . '_' . $file->getClientOriginalName();
+    $path = $file->storeAs('documents', $filename, 'public');
 
-    return redirect()->route('employee.doctor_patients')
-                     ->with('success', 'Checkup created successfully!');
+    PatientDocument::create([
+        'user_id' => $userId,
+        'document_type' => $request->document_type,
+        'document_path' => $path,
+    ]);
+
+    return redirect()
+        ->route('employee.users.summary', $userId)
+        ->with('success', 'Document uploaded successfully.');
 }
 
+public function doctorDeleteDocument($userId, $documentId)
+{
+    $document = PatientDocument::where('id', $documentId)
+        ->where('user_id', $userId)
+        ->firstOrFail();
+
+    // Delete file from storage if exists
+    if (\Storage::disk('public')->exists($document->document_path)) {
+        \Storage::disk('public')->delete($document->document_path);
+    }
+
+    $document->delete();
+
+    return redirect()
+        ->route('employee.users.summary', $userId)
+        ->with('success', 'Document deleted successfully.');
+}
+
+
+public function reports()
+{
+    $doctorId = auth('doctor')->id();
+
+    // 1. Get all room IDs assigned to this doctor
+    $roomIds = RoomAssignment::where('employee_id', $doctorId)
+                ->pluck('room_id');
+
+    // 2. Get all patient IDs who had visits in these rooms
+    $patientIds = PatientVisit::whereIn('department_consultant', $roomIds)
+                ->pluck('user_id')
+                ->unique();
+
+    // 3. Get all documents for these patients
+    $reports = PatientDocument::whereIn('user_id', $patientIds)
+                ->with('user') // make sure we can access patient info
+                ->orderBy('created_at', 'desc')
+                ->get();
+dd($patientIds->toArray());
+    return view('employee.doctor_patient_report', compact('reports'));
+}
 
 
 

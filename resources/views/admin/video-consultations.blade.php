@@ -9,8 +9,8 @@
             Video Consultations
         </h1>
         <a href="{{ route('admin.appointments') }}"
-           class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition">
-           <i class="fa fa-arrow-left mr-2"></i>Back to Appointments
+            class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition">
+            <i class="fa fa-arrow-left mr-2"></i>Back to Appointments
         </a>
     </div>
 
@@ -44,71 +44,78 @@
 
         <div class="overflow-x-auto">
             @if($upcoming->isEmpty())
-                <div class="p-16 text-center text-gray-500">
-                    No upcoming consultations
-                </div>
+            <div class="p-16 text-center text-gray-500">
+                No upcoming consultations
+            </div>
             @else
-                <table class="w-full">
-                    <thead class="bg-white-50 text-xs uppercase">
-                        <tr>
-                            <th class="px-6 py-3 text-left">Code</th>
-                            <th class="px-6 py-3 text-left">Date</th>
-                            <th class="px-6 py-3 text-left">Time</th>
-                            <th class="px-6 py-3 text-left">Doctor</th>
-                            <th class="px-6 py-3 text-left">Patient</th>
-                            <th class="px-6 py-3 text-left">Subtype</th>
-                            <th class="px-6 py-3 text-left">Issue</th>
-                            <th class="px-6 py-3 text-left">Status</th>
-                            <th class="px-6 py-3 text-center">Actions</th>
-                        </tr>
-                    </thead>
+            <table class="w-full">
+                <thead class="bg-white-50 text-xs uppercase">
+                    <tr>
+                        <th class="px-6 py-3 text-left">Code</th>
+                        <th class="px-6 py-3 text-left">Date</th>
+                        <th class="px-6 py-3 text-left">Time</th>
+                        <th class="px-6 py-3 text-left">Doctor</th>
+                        <th class="px-6 py-3 text-left">Patient</th>
+                        <th class="px-6 py-3 text-left">Subtype</th>
+                        <th class="px-6 py-3 text-left">Issue</th>
+                        <th class="px-6 py-3 text-left">Status</th>
+                        <th class="px-6 py-3 text-center">Actions</th>
+                    </tr>
+                </thead>
 
-                    <tbody class="divide-y">
-                        @foreach($upcoming as $app)
-                        <tr class="hover:bg-white-50">
+                <tbody class="divide-y">
+                    @foreach($upcoming as $app)
+                    <tr class="hover:bg-white-50">
 
-                            <td class="px-6 py-3 font-semibold">{{ $app->appointment_code }}</td>
+                        <td class="px-6 py-3 font-semibold">{{ $app->appointment_code }}</td>
 
-                            <td class="px-6 py-3">{{ \Carbon\Carbon::parse($app->appointment_date)->format('d M Y') }}</td>
+                        <td class="px-6 py-3">{{ \Carbon\Carbon::parse($app->appointment_date)->format('d M Y') }}</td>
 
-                            <td class="px-6 py-3">{{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}</td>
+                        @php
+                        // Example: $app->appointment_time = "11:01 AM - 11:31 AM"
+                        $times = explode(' - ', $app->appointment_time);
+                        $startTime = isset($times[0]) ? Carbon\Carbon::parse($times[0])->format('h:i A') : '';
+                        $endTime = isset($times[1]) ? Carbon\Carbon::parse($times[1])->format('h:i A') : '';
+                        @endphp
 
-                            <td class="px-6 py-3">
-                                {{ $app->doctor->name ?? 'Dr. Unknown' }}<br>
-                                <span class="text-xs text-gray-400">{{ $app->doctor->specialty ?? 'General' }}</span>
-                            </td>
+                        <td class="px-6 py-3">{{ $startTime }} - {{ $endTime }}</td>
 
-                            <td class="px-6 py-3">
-                                @if($app->for_user_type === 'self')
-                                    {{ $app->user->name ?? 'User' }} <span class="text-xs text-gray-400">(Self)</span>
-                                @else
-                                    {{ $app->relative->name ?? 'Relative' }}
-                                    <span class="text-xs text-gray-400">({{ $app->relative->relation ?? '-' }})</span>
-                                @endif
-                            </td>
+                        <td class="px-6 py-3">
+                            {{ $app->doctor->name ?? 'Dr. Unknown' }}<br>
+                            <span class="text-xs text-gray-400">{{ $app->doctor->specialty ?? 'General' }}</span>
+                        </td>
 
-                            <td class="px-6 py-3">{{ $app->subtype ?? '—' }}</td>
+                        <td class="px-6 py-3">
+                            @if($app->for_user_type === 'self')
+                            {{ $app->user->name ?? 'User' }} <span class="text-xs text-gray-400">(Self)</span>
+                            @else
+                            {{ $app->relative->name ?? 'Relative' }}
+                            <span class="text-xs text-gray-400">({{ $app->relative->relation ?? '-' }})</span>
+                            @endif
+                        </td>
 
-                            <td class="px-6 py-3">{{ Str::limit($app->issue, 30) }}</td>
+                        <td class="px-6 py-3">{{ $app->subtype ?? '—' }}</td>
 
-                            <td class="px-6 py-3">
-                                <span class="px-3 py-1 rounded-full border text-xs">
-                                    {{ $app->status }}
-                                </span>
-                            </td>
+                        <td class="px-6 py-3">{{ Str::limit($app->issue, 30) }}</td>
 
-                            <td class="px-6 py-3 text-center">
-                                <button onclick='showAppointmentDetails(@json($app))'
-                                    class="text-purple-600 font-medium text-sm">
-                                    <i class="fa fa-eye mr-1"></i> View
-                                </button>
-                            </td>
+                        <td class="px-6 py-3">
+                            <span class="px-3 py-1 rounded-full border text-xs">
+                                {{ $app->status }}
+                            </span>
+                        </td>
 
-                        </tr>
-                        @endforeach
-                    </tbody>
+                        <td class="px-6 py-3 text-center">
+                            <button onclick='showAppointmentDetails(@json($app))'
+                                class="text-purple-600 font-medium text-sm">
+                                <i class="fa fa-eye mr-1"></i> View
+                            </button>
+                        </td>
 
-                </table>
+                    </tr>
+                    @endforeach
+                </tbody>
+
+            </table>
             @endif
         </div>
 
@@ -125,9 +132,9 @@
 
         <div class="overflow-x-auto">
             @if($consultations->isEmpty())
-                <div class="p-16 text-center text-gray-500">
-                    No consultations found
-                </div>
+            <div class="p-16 text-center text-gray-500">
+                No consultations found
+            </div>
             @else
 
             <table class="w-full">
@@ -154,7 +161,14 @@
 
                         <td class="px-6 py-3">{{ \Carbon\Carbon::parse($app->appointment_date)->format('d M Y') }}</td>
 
-                        <td class="px-6 py-3">{{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}</td>
+                        @php
+                        // Example: $app->appointment_time = "11:01 AM - 11:31 AM"
+                        $times = explode(' - ', $app->appointment_time);
+                        $startTime = isset($times[0]) ? Carbon\Carbon::parse($times[0])->format('h:i A') : '';
+                        $endTime = isset($times[1]) ? Carbon\Carbon::parse($times[1])->format('h:i A') : '';
+                        @endphp
+
+                        <td class="px-6 py-3">{{ $startTime }} - {{ $endTime }}</td>
 
                         <td class="px-6 py-3">
                             {{ $app->doctor->name ?? 'Dr. Unknown' }}<br>
@@ -163,10 +177,10 @@
 
                         <td class="px-6 py-3">
                             @if($app->for_user_type === 'self')
-                                {{ $app->user->name ?? 'User' }} <span class="text-xs text-gray-400">(Self)</span>
+                            {{ $app->user->name ?? 'User' }} <span class="text-xs text-gray-400">(Self)</span>
                             @else
-                                {{ $app->relative->name ?? 'Relative' }}
-                                <span class="text-xs text-gray-400">({{ $app->relative->relation ?? '-' }})</span>
+                            {{ $app->relative->name ?? 'Relative' }}
+                            <span class="text-xs text-gray-400">({{ $app->relative->relation ?? '-' }})</span>
                             @endif
                         </td>
 
@@ -235,18 +249,17 @@
 
 <!-- SCRIPT -->
 <script>
+    function showAppointmentDetails(app) {
 
-function showAppointmentDetails(app) {
+        const modal = document.getElementById("appointmentModal");
+        const details = document.getElementById("appointmentDetails");
 
-    const modal = document.getElementById("appointmentModal");
-    const details = document.getElementById("appointmentDetails");
+        const bookedBy =
+            app.for_user_type === "self" ?
+            `${app.user?.name ?? "User"} (Self)` :
+            `${app.relative?.name ?? "Relative"} (${app.relative?.relation ?? "-"})`;
 
-    const bookedBy =
-        app.for_user_type === "self"
-        ? `${app.user?.name ?? "User"} (Self)`
-        : `${app.relative?.name ?? "Relative"} (${app.relative?.relation ?? "-"})`;
-
-    details.innerHTML = `
+        details.innerHTML = `
         <p><strong>Code:</strong> ${app.appointment_code}</p>
         <p><strong>Patient:</strong> ${bookedBy}</p>
         <p><strong>Doctor:</strong> ${app.doctor?.name ?? "N/A"}</p>
@@ -258,37 +271,36 @@ function showAppointmentDetails(app) {
         <p><strong>Status:</strong> ${app.status}</p>
     `;
 
-    // Set form actions
-    document.getElementById("acceptForm").action =
-        `/admin/appointments/${app.appointment_id}/accept`;
+        // Set form actions
+        document.getElementById("acceptForm").action =
+            `/admin/appointments/${app.appointment_id}/accept`;
 
-    document.getElementById("rejectForm").action =
-        `/admin/appointments/${app.appointment_id}/reject`;
+        document.getElementById("rejectForm").action =
+            `/admin/appointments/${app.appointment_id}/reject`;
 
-    if (app.status === "Pending") {
-        acceptForm.classList.remove("hidden");
-        rejectForm.classList.remove("hidden");
-    } else {
-        acceptForm.classList.add("hidden");
-        rejectForm.classList.add("hidden");
+        if (app.status === "Pending") {
+            acceptForm.classList.remove("hidden");
+            rejectForm.classList.remove("hidden");
+        } else {
+            acceptForm.classList.add("hidden");
+            rejectForm.classList.add("hidden");
+        }
+
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
     }
 
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-}
+    function closeModal() {
+        document.getElementById("appointmentModal").classList.add("hidden");
+    }
 
-function closeModal() {
-    document.getElementById("appointmentModal").classList.add("hidden");
-}
-
-function formatTime(t) {
-    const [h, m] = t.split(":");
-    let hour = parseInt(h);
-    const ampm = hour >= 12 ? "PM" : "AM";
-    hour = hour % 12 || 12;
-    return `${hour}:${m} ${ampm}`;
-}
-
+    function formatTime(t) {
+        const [h, m] = t.split(":");
+        let hour = parseInt(h);
+        const ampm = hour >= 12 ? "PM" : "AM";
+        hour = hour % 12 || 12;
+        return `${hour}:${m} ${ampm}`;
+    }
 </script>
 
 @endsection

@@ -52,7 +52,7 @@
                     <span class="sidebar-text">Patients</span>
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="{{route('employee.report')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
                     <i class="fa-solid fa-file-medical"></i>
                     <span class="sidebar-text">Reports</span>
                 </a>
