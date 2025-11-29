@@ -22,40 +22,40 @@ $hideFooter = true;
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
         <!-- Confirmed -->
-        <div class="bg-white bg-white-800 rounded-2xl shadow-sm border border-gray-200 border-gray-700 p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 text-gray-400">Confirmed Consultations</p>
-                    <p class="text-4xl font-bold text-gray-800 text-white mt-2">{{ $confirmed }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Confirmed Consultations</p>
+                    <p class="text-4xl font-bold text-gray-800 dark:text-white mt-2">{{ $confirmed }}</p>
                 </div>
-                <div class="w-16 h-16 bg-green-100 bg-green-900/30 rounded-full flex items-center justify-center">
-                    <i class="fas fa-check-circle text-2xl text-green-600 text-green-400"></i>
+                <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                    <i class="fas fa-check-circle text-2xl text-green-600 dark:text-green-400"></i>
                 </div>
             </div>
         </div>
 
         <!-- Pending -->
-        <div class="bg-white bg-white-800 rounded-2xl shadow-sm border border-gray-200 border-gray-700 p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 text-gray-400">Pending Consultations</p>
-                    <p class="text-4xl font-bold text-gray-800 text-white mt-2">{{ $pending }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Pending Consultations</p>
+                    <p class="text-4xl font-bold text-gray-800 dark:text-white mt-2">{{ $pending }}</p>
                 </div>
-                <div class="w-16 h-16 bg-yellow-100 bg-yellow-900/30 rounded-full flex items-center justify-center">
-                    <i class="fas fa-clock text-2xl text-yellow-600 text-yellow-400"></i>
+                <div class="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center">
+                    <i class="fas fa-clock text-2xl text-yellow-600 dark:text-yellow-400"></i>
                 </div>
             </div>
         </div>
 
         <!-- Total -->
-        <div class="bg-white bg-white-800 rounded-2xl shadow-sm border border-gray-200 border-gray-700 p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 text-gray-400">Total Consultations</p>
-                    <p class="text-4xl font-bold text-gray-800 text-white mt-2">{{ $total }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Total Consultations</p>
+                    <p class="text-4xl font-bold text-gray-800 dark:text-white mt-2">{{ $total }}</p>
                 </div>
-                <div class="w-16 h-16 bg-blue-100 bg-blue-900/30 rounded-full flex items-center justify-center">
-                    <i class="fas fa-stethoscope text-2xl text-blue-600 text-blue-400"></i>
+                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                    <i class="fas fa-stethoscope text-2xl text-blue-600 dark:text-blue-400"></i>
                 </div>
             </div>
         </div>
@@ -65,18 +65,18 @@ $hideFooter = true;
     <!--       UPCOMING CONSULTATIONS    -->
     <!-- ================================ -->
 
-    <div class="bg-white bg-white-800 rounded-2xl shadow-sm border border-gray-200 border-gray-700 overflow-hidden mb-10">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-10">
 
-        <div class="bg-white-50 bg-white-700/50 px-6 py-4 border-b border-gray-200 border-gray-700">
+        <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-100 bg-blue-900 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-clock text-blue-600 text-blue-400"></i>
+                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-clock text-blue-600 dark:text-blue-400"></i>
                 </div>
                 <div>
-                    <h2 class="text-lg font-semibold text-gray-800 text-white">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
                         Upcoming Consultations
                     </h2>
-                    <p class="text-xs text-gray-500 text-gray-400">(Next 3 Days)</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">(Next 3 Days)</p>
                 </div>
             </div>
         </div>
@@ -180,15 +180,15 @@ $hideFooter = true;
     <!--         ALL CONSULTATIONS        -->
     <!-- ================================ -->
 
-    <div class="bg-white bg-white-800 rounded-2xl shadow-sm border border-gray-200 border-gray-700 overflow-hidden mt-10">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mt-10">
 
-        <div class="bg-white-50 bg-white-700/50 px-6 py-4 border-b border-gray-200 border-gray-700">
+        <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-purple-100 bg-purple-900 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-list text-purple-600 text-purple-400"></i>
+                <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-list text-purple-600 dark:text-purple-400"></i>
                 </div>
                 <div>
-                    <h2 class="text-lg font-semibold text-gray-800 text-white">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
                         All Consultations
                     </h2>
                 </div>
@@ -216,20 +216,20 @@ $hideFooter = true;
                         <th class="px-6 py-3 text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 divide-gray-700">
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 
                     @foreach($allConsultations as $app)
-                    <tr class="hover:bg-white-50 hover:bg-white-700/50 transition">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
 
-                        <td class="px-6 py-4 text-sm font-semibold text-gray-800 text-gray-200">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-800 dark:text-gray-200">
                             {{ $app->appointment_code }}
                         </td>
 
-                        <td class="px-6 py-4 text-sm">
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
                             {{ \Carbon\Carbon::parse($app->appointment_date)->format('d M Y') }}
                         </td>
 
-                        <td class="px-6 py-4 text-sm">
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
                             {{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}
                         </td>
 
@@ -240,34 +240,34 @@ $hideFooter = true;
                                 </div>
 
                                 <div>
-                                    <p class="text-sm font-medium text-gray-900 text-white">
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">
                                         {{ $app->user->full_name ?? $app->relative->name ?? 'Unknown' }}
                                     </p>
 
-                                    <p class="text-xs text-gray-500">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">
                                         {{ $app->for_user_type === 'self' ? 'Self' : 'Relative' }}
                                     </p>
                                 </div>
                             </div>
                         </td>
 
-                        <td class="px-6 py-4 text-sm">
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
                             {{ $app->issue ? \Illuminate\Support\Str::limit($app->issue, 30) : '—' }}
                         </td>
 
                         <td class="px-6 py-4">
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-                                    @if($app->status == 'Pending') bg-yellow-100 text-yellow-800
-                                    @elseif($app->status == 'Confirmed') bg-green-100 text-green-800
-                                    @elseif($app->status == 'Cancelled') bg-red-100 text-red-800
-                                    @else bg-white-100 text-gray-800 @endif">
+                                    @if($app->status == 'Pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300
+                                    @elseif($app->status == 'Confirmed') bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300
+                                    @elseif($app->status == 'Cancelled') bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300
+                                    @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 @endif">
                                 {{ $app->status }}
                             </span>
                         </td>
 
                         <td class="px-6 py-4 text-center">
                             <button onclick='showConsultationDetails(@json($app))'
-                                class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium transition">
                                 <i class="fa fa-eye mr-1"></i> View
                             </button>
                         </td>
@@ -287,12 +287,12 @@ $hideFooter = true;
 
 
 <!-- Modal -->
-<div id="consultationModal" class="fixed inset-0 bg-white/50 hidden items-center justify-center z-50">
-    <div class="bg-white bg-white-800 rounded-2xl shadow-xl w-full max-w-lg mx-4 relative">
+<div id="consultationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-lg mx-4 relative">
 
-        <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200 border-gray-700">
-            <h2 class="text-lg font-semibold text-gray-800 text-white">Consultation Details</h2>
-            <button onclick="closeConsultationModal()" class="text-gray-400 hover:text-gray-600 hover:text-gray-200 text-xl">&times;</button>
+        <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Consultation Details</h2>
+            <button onclick="closeConsultationModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl transition">&times;</button>
         </div>
 
         <div class="px-6 py-4 space-y-3" id="consultationDetails"></div>
@@ -324,15 +324,15 @@ $hideFooter = true;
             `<strong>Booked For:</strong> ${app.relative?.name ?? 'Relative'} (${app.relative?.relation ?? '-'})`;
 
         detailsDiv.innerHTML = `
-        <div class="space-y-2 text-gray-700 text-gray-300">
-            <p><strong>Consultation Code:</strong> ${app.appointment_code}</p>
+        <div class="space-y-2 text-gray-700 dark:text-gray-300">
+            <p><strong class="text-gray-900 dark:text-white">Consultation Code:</strong> ${app.appointment_code}</p>
             <p>${bookedBy}</p>
-            <p><strong>Doctor:</strong> ${app.doctor?.name ?? 'N/A'}</p>
-            <p><strong>Date:</strong> ${app.appointment_date}</p>
-            <p><strong>Time:</strong> ${formatTime(app.appointment_time)}</p>
-            <p><strong>Issue:</strong> ${app.issue ?? '—'}</p>
-            <p><strong>Description:</strong> ${app.description ?? '—'}</p>
-            <p><strong>Status:</strong>
+            <p><strong class="text-gray-900 dark:text-white">Doctor:</strong> ${app.doctor?.name ?? 'N/A'}</p>
+            <p><strong class="text-gray-900 dark:text-white">Date:</strong> ${app.appointment_date}</p>
+            <p><strong class="text-gray-900 dark:text-white">Time:</strong> ${formatTime(app.appointment_time)}</p>
+            <p><strong class="text-gray-900 dark:text-white">Issue:</strong> ${app.issue ?? '—'}</p>
+            <p><strong class="text-gray-900 dark:text-white">Description:</strong> ${app.description ?? '—'}</p>
+            <p><strong class="text-gray-900 dark:text-white">Status:</strong>
                 <span class="font-semibold ${getStatusClass(app.status)}">${app.status}</span>
             </p>
         </div>

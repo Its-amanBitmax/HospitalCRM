@@ -260,4 +260,90 @@ class PatientVisitController extends Controller
 
         return redirect()->route('admin.users.visits', $userId)->with('success', 'Document deleted successfully');
     }
+
+
+
+
+public function doctor_checkup($userId, Request $request)
+{
+    $doctorId = auth('doctor')->id();
+    $fromDate = $request->query('from_date');
+    $toDate   = $request->query('to_date');
+
+    // Get visits for this doctor and user
+    $visits = PatientVisit::with('user')
+        ->whereHas('consultantAssignment', function($q) use ($doctorId) {
+            $q->where('employee_id', $doctorId)
+              ->where('status', 'active');
+        })
+        ->where('user_id', $userId)
+        ->orderBy('date_of_visit', 'desc')
+        ->get();
+
+    // Get checkups for this user, apply date filter if provided
+    $checkups = PatientCheckup::with('user', 'visit')
+        ->where('user_id', $userId)
+        ->when($fromDate, fn($q) => $q->whereDate('checkup_date', '>=', $fromDate))
+        ->when($toDate, fn($q) => $q->whereDate('checkup_date', '<=', $toDate))
+        ->orderBy('checkup_date', 'desc')
+        ->get();
+
+    $user = User::findOrFail($userId);
+
+    return view('employee.doctor_checkup', compact('visits', 'checkups', 'user'));
+}
+
+
+
+
+
+
+// Show the create checkup form
+public function doctorCreateCheckup($userId)
+{
+    $user = User::findOrFail($userId);
+
+    // Only include visits assigned to this doctor
+    $doctorId = auth('doctor')->id();
+    $visits = PatientVisit::where('user_id', $userId)
+        ->whereHas('consultantAssignment', function($q) use ($doctorId) {
+            $q->where('employee_id', $doctorId)
+              ->where('status', 'active');
+        })
+        ->orderBy('date_of_visit', 'desc')
+        ->get();
+
+    return view('employee.doctor_create_checkup', compact('user', 'visits'));
+}
+
+// Store checkup (server-side)
+public function storePatientCheckup(Request $request, $userId)
+{
+    $request->validate([
+        'checkup_date' => 'required|date',
+        'visit_id' => 'nullable|exists:patient_visits,id',
+        'diagnosis' => 'nullable|string',
+        'treatment' => 'nullable|string',
+    ]);
+
+    $checkup = new PatientCheckup();
+    $checkup->user_id = $userId;
+    $checkup->visit_id = $request->visit_id;
+    $checkup->checkup_date = $request->checkup_date;
+    $checkup->diagnosis = $request->diagnosis;
+    $checkup->treatment = $request->treatment;
+    $checkup->save();
+
+    return redirect()->route('employee.doctor_patients')
+                     ->with('success', 'Checkup created successfully!');
+}
+
+
+
+
+
+
+
+
+
 }
