@@ -240,9 +240,16 @@ public function getAvailability(Employee $doctor, Request $request)
                     $slotStartDT = Carbon::parse($date.' '.$current->format('H:i:s'));
                     $slotEndDT   = Carbon::parse($date.' '.$slotEnd->format('H:i:s'));
 
+                    // Check if slot overlaps any existing booking
                     $isBooked = $bookings->contains(function($booking) use ($date, $slotStartDT, $slotEndDT) {
-                        $bookStart = Carbon::parse($booking->appointment_date.' '.$booking->appointment_time);
-                        $bookEnd   = $bookStart->copy()->addMinutes(30);
+                        // Split appointment_time range
+                        $times = explode('-', $booking->appointment_time);
+                        $bookStartStr = trim($times[0]);
+                        $bookEndStr   = isset($times[1]) ? trim($times[1]) : Carbon::parse($bookStartStr)->addMinutes(30)->format('h:i A');
+
+                        $bookStart = Carbon::parse($booking->appointment_date.' '.$bookStartStr);
+                        $bookEnd   = Carbon::parse($booking->appointment_date.' '.$bookEndStr);
+
                         return $booking->appointment_date == $date && $slotStartDT < $bookEnd && $slotEndDT > $bookStart;
                     });
 
@@ -276,7 +283,6 @@ public function getAvailability(Employee $doctor, Request $request)
         ];
     });
 
-    // Case-insensitive task_type filtering for both Appointment & Consultation
     $tasks = $schedules
         ->filter(fn($task) => in_array(strtolower($task->task_type), ['appointment', 'consultation']) &&
                               $task->start_date >= $startDate &&
@@ -310,7 +316,7 @@ public function getAvailability(Employee $doctor, Request $request)
             'end_date'   => $task->end_date,
             'start_time' => Carbon::parse($task->start_time)->format('h:i A'),
             'end_time'   => Carbon::parse($task->end_time)->format('h:i A'),
-            'task_type'  => $task->task_type, // Appointment or Consultation
+            'task_type'  => $task->task_type,
         ];
     })->values();
 
@@ -321,6 +327,7 @@ public function getAvailability(Employee $doctor, Request $request)
         'availability'       => $taskAvailability,
     ]);
 }
+
 
 
 

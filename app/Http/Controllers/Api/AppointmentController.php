@@ -14,20 +14,105 @@ class AppointmentController extends Controller
     /**
      * 📅 Book an appointment (Authenticated User)
      */
-  public function bookAppointment(Request $request)
-{
-    $user = $request->user(); // ✅ Logged-in user via token
 
-    // ✅ Validate input using Validator
+
+
+
+
+//   public function bookAppointment(Request $request)
+// {  
+//     $user = $request->user(); // ✅ Logged-in user via token
+
+//     // ✅ Validate input using Validator
+//     $validator = Validator::make($request->all(), [
+//         'for_user_type' => 'required|in:self,relative',
+//         'relative_id' => 'nullable|exists:relatives,relative_id',
+//         'doctor_id' => 'required|exists:employees,id',
+//         'appointment_date' => 'required|date|after_or_equal:today',
+//         'appointment_time' => 'required|date_format:h:i A',
+//         'issue' => 'nullable|string|max:100',
+//         'description' => 'nullable|string',
+//         'shift_name' => 'nullable|string',
+//         'type' => 'required|in:Appointment,consultation',
+//         'subtype' => 'nullable|in:by voicecall,by chat,by video call',
+//     ]);
+
+//     if ($validator->fails()) {
+//         return response()->json([
+//             'status' => false,
+//             'errors' => $validator->errors()
+//         ], 422);
+//     }
+
+//     $data = $validator->validated();
+
+//     // ✅ Convert appointment_time from 12-hour to 24-hour format
+//     $data['appointment_time'] = Carbon::createFromFormat('h:i A', $data['appointment_time'])->format('H:i');
+
+//     // ✅ Prevent double booking for same doctor & time (for same type and subtype)
+//     $exists = Appointment::where('doctor_id', $data['doctor_id'])
+//         ->where('appointment_date', $data['appointment_date'])
+//         ->where('appointment_time', $data['appointment_time'])
+//         ->where('type', $data['type'])
+//         ->where('subtype', $data['subtype'] ?? null)
+//         ->where('status', '!=', 'Cancelled')
+//         ->exists();
+
+//     if ($exists) {
+//         return response()->json([
+//             'status' => false,
+//             'message' => 'This time slot is already booked for the doctor.'
+//         ], 409);
+//     }
+
+//     // ✅ Create a unique appointment code
+//     $latestId = Appointment::max('appointment_id') + 1;
+//     $appointmentCode = 'APT-' . str_pad($latestId, 5, '0', STR_PAD_LEFT);
+
+//     // ✅ Create appointment
+//     $appointment = Appointment::create([
+//         'appointment_code' => $appointmentCode,
+//         'booked_by_user_id' => $user->id,
+//         'for_user_type' => $data['for_user_type'],
+//         'relative_id' => $data['for_user_type'] === 'relative' ? $data['relative_id'] : null,
+//         'doctor_id' => $data['doctor_id'],
+//         'appointment_date' => $data['appointment_date'],
+//         'appointment_time' => $data['appointment_time'],
+//         'issue' => $data['issue'] ?? null,
+//         'description' => $data['description'] ?? null,
+//         'type' => $data['type'], // ✅ Store the type
+//         'subtype' => $data['subtype'] ?? null, // ✅ Store the subtype
+//         'status' => 'Pending',
+//     ]);
+
+//     // ✅ Format appointment time to 12-hour format with AM/PM for response
+//     $appointment->appointment_time = Carbon::createFromFormat('H:i', $appointment->appointment_time)->format('h:i A');
+
+//     return response()->json([
+//         'status' => true,
+//         'message' => 'Appointment booked successfully!',
+//         'appointment' => $appointment,
+//         'user' => [
+//             'id' => $user->id,
+//             'name' => $user->full_name ?? $user->name ?? 'Unknown',
+//         ]
+//     ]);
+// }
+
+
+public function bookAppointment(Request $request)
+{
+    $user = $request->user(); // Logged-in user via token
+
+    // Validate request
     $validator = Validator::make($request->all(), [
         'for_user_type' => 'required|in:self,relative',
         'relative_id' => 'nullable|exists:relatives,relative_id',
         'doctor_id' => 'required|exists:employees,id',
         'appointment_date' => 'required|date|after_or_equal:today',
-        'appointment_time' => 'required|date_format:h:i A',
+        'appointment_time' => 'required|string', // accepts "04:00 AM" or "04:00 AM - 04:30 AM"
         'issue' => 'nullable|string|max:100',
         'description' => 'nullable|string',
-        'shift_name' => 'nullable|string',
         'type' => 'required|in:Appointment,consultation',
         'subtype' => 'nullable|in:by voicecall,by chat,by video call',
     ]);
@@ -41,15 +126,11 @@ class AppointmentController extends Controller
 
     $data = $validator->validated();
 
-    // ✅ Convert appointment_time from 12-hour to 24-hour format
-    $data['appointment_time'] = Carbon::createFromFormat('h:i A', $data['appointment_time'])->format('H:i');
-
-    // ✅ Prevent double booking for same doctor & time (for same type and subtype)
+    // Prevent exact duplicate booking (based on same doctor, date, and exact time string)
     $exists = Appointment::where('doctor_id', $data['doctor_id'])
         ->where('appointment_date', $data['appointment_date'])
         ->where('appointment_time', $data['appointment_time'])
         ->where('type', $data['type'])
-        ->where('subtype', $data['subtype'] ?? null)
         ->where('status', '!=', 'Cancelled')
         ->exists();
 
@@ -60,11 +141,11 @@ class AppointmentController extends Controller
         ], 409);
     }
 
-    // ✅ Create a unique appointment code
+    // Generate unique appointment code
     $latestId = Appointment::max('appointment_id') + 1;
     $appointmentCode = 'APT-' . str_pad($latestId, 5, '0', STR_PAD_LEFT);
 
-    // ✅ Create appointment
+    // Create appointment
     $appointment = Appointment::create([
         'appointment_code' => $appointmentCode,
         'booked_by_user_id' => $user->id,
@@ -72,28 +153,34 @@ class AppointmentController extends Controller
         'relative_id' => $data['for_user_type'] === 'relative' ? $data['relative_id'] : null,
         'doctor_id' => $data['doctor_id'],
         'appointment_date' => $data['appointment_date'],
-        'appointment_time' => $data['appointment_time'],
+        'appointment_time' => $data['appointment_time'], // store as-is (single time or range)
         'issue' => $data['issue'] ?? null,
         'description' => $data['description'] ?? null,
-        'type' => $data['type'], // ✅ Store the type
-        'subtype' => $data['subtype'] ?? null, // ✅ Store the subtype
+        'type' => $data['type'],
+        'subtype' => $data['subtype'] ?? null,
         'status' => 'Pending',
     ]);
 
-    // ✅ Format appointment time to 12-hour format with AM/PM for response
-    $appointment->appointment_time = Carbon::createFromFormat('H:i', $appointment->appointment_time)->format('h:i A');
-
+    // Return response matching your desired format
     return response()->json([
         'status' => true,
         'message' => 'Appointment booked successfully!',
-        'appointment' => $appointment,
+        'appointment' => $appointment, // returns full model exactly as stored
         'user' => [
             'id' => $user->id,
             'name' => $user->full_name ?? $user->name ?? 'Unknown',
         ]
     ]);
 }
-    /**
+
+
+
+
+
+
+
+
+/**
      * 👤 Get all appointments for the authenticated user
      */
  public function getUserAppointments(Request $request)

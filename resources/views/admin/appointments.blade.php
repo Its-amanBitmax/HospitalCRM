@@ -94,7 +94,11 @@ Total Today</p>
                         </td>
 
                         <td class="px-6 py-3">
-                            {{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}
+                            @if(str_contains($app->appointment_time, '-'))
+                                {{ $app->appointment_time }}
+                            @else
+                                {{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}
+                            @endif
                         </td>
 
                         <td class="px-6 py-3">
@@ -182,7 +186,11 @@ Total Today</p>
                         </td>
 
                         <td class="px-6 py-3">
-                            {{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}
+                            @if(str_contains($app->appointment_time, '-'))
+                                {{ $app->appointment_time }}
+                            @else
+                                {{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}
+                            @endif
                         </td>
 
                         <td class="px-6 py-3">

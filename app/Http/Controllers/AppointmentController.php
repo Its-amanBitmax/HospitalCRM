@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Appointment;
 use App\Models\PatientVisit;
 use Carbon\Carbon;
@@ -33,54 +34,59 @@ class AppointmentController extends Controller
             ->get();
 
         return view('admin.appointments', compact(
-            'total', 'pending', 'confirmed', 'cancelled', 'upcoming', 'offline'
+            'total',
+            'pending',
+            'confirmed',
+            'cancelled',
+            'upcoming',
+            'offline'
         ));
     }
 
     public function accept(Appointment $appointment)
-{
-    $appointment->update(['status' => 'Confirmed']);
+    {
+        $appointment->update(['status' => 'Confirmed']);
 
-    return redirect()->back()->with('success', 'Appointment confirmed successfully!');
-}
+        return redirect()->back()->with('success', 'Appointment confirmed successfully!');
+    }
 
-public function reject(Appointment $appointment)
-{
-    $appointment->update(['status' => 'Cancelled']);
+    public function reject(Appointment $appointment)
+    {
+        $appointment->update(['status' => 'Cancelled']);
 
-    return redirect()->back()->with('success', 'Appointment cancelled successfully!');
-}
+        return redirect()->back()->with('success', 'Appointment cancelled successfully!');
+    }
 
-public function destroy(Appointment $appointment)
-{
-    $appointment->delete();
+    public function destroy(Appointment $appointment)
+    {
+        $appointment->delete();
 
-    return redirect()->back()->with('success', 'Appointment deleted successfully!');
-}
+        return redirect()->back()->with('success', 'Appointment deleted successfully!');
+    }
 
-public function videoConsultations()
-{
-    // Fetch only consultation appointments
-    $consultations = Appointment::with(['doctor', 'user', 'relative'])
-        ->where('type', 'consultation')
-        ->orderBy('appointment_date', 'desc')
-        ->orderBy('appointment_time', 'asc')
-        ->get();
+    public function videoConsultations()
+    {
+        // Fetch only consultation appointments
+        $consultations = Appointment::with(['doctor', 'user', 'relative'])
+            ->where('type', 'consultation')
+            ->orderBy('appointment_date', 'desc')
+            ->orderBy('appointment_time', 'asc')
+            ->get();
 
-    // Counts for dashboard stats
-    $confirmed = $consultations->where('status', 'Confirmed')->count();
-    $cancelled = $consultations->where('status', 'Cancelled')->count();
-    $total = $consultations->count();
+        // Counts for dashboard stats
+        $confirmed = $consultations->where('status', 'Confirmed')->count();
+        $cancelled = $consultations->where('status', 'Cancelled')->count();
+        $total = $consultations->count();
 
-    // Filter upcoming (next 3 days)
-    $upcoming = $consultations->filter(function ($app) {
-        return Carbon::parse($app->appointment_date)->between(Carbon::today(), Carbon::today()->addDays(3));
-    });
+        // Filter upcoming (next 3 days)
+        $upcoming = $consultations->filter(function ($app) {
+            return Carbon::parse($app->appointment_date)->between(Carbon::today(), Carbon::today()->addDays(3));
+        });
 
-    return view('admin.video-consultations', compact('consultations', 'confirmed', 'cancelled', 'total', 'upcoming'));
-}
+        return view('admin.video-consultations', compact('consultations', 'confirmed', 'cancelled', 'total', 'upcoming'));
+    }
 
-   public function doctorAppointments()
+    public function doctorAppointments()
     {
         $doctorId = auth('doctor')->id();
 
@@ -110,7 +116,12 @@ public function videoConsultations()
         \Log::info("DoctorAppointments Debug: doctorId={$doctorId}, upcomingCount={$upcoming->count()}");
 
         return view('employee.doctor_appointments', compact(
-            'total', 'pending', 'confirmed', 'cancelled', 'allAppointments', 'upcoming'
+            'total',
+            'pending',
+            'confirmed',
+            'cancelled',
+            'allAppointments',
+            'upcoming'
         ));
     }
 
@@ -143,58 +154,50 @@ public function videoConsultations()
             ->get();
 
         return view('employee.doctor_consultations', compact(
-            'total', 'pending', 'confirmed', 'cancelled', 'allConsultations', 'upcoming'
+            'total',
+            'pending',
+            'confirmed',
+            'cancelled',
+            'allConsultations',
+            'upcoming'
         ));
     }
 
 
 
-    
-public function doctorPatients()
-{
-    // Check doctor authentication
-    if (!auth('doctor')->check()) {
-        abort(403);
+
+    public function doctorPatients(Request $request)
+    {
+        if (!auth('doctor')->check()) {
+            abort(403, 'Unauthorized access');
+        }
+
+        $doctorId = auth('doctor')->id();
+
+        $query = PatientVisit::with(['user', 'consultantAssignment.room', 'reception'])
+            ->whereHas('consultantAssignment', function ($q) use ($doctorId) {
+                $q->where('employee_id', $doctorId)
+                    ->where('status', 'active');
+            });
+
+        // ✅ Server-side Filters
+        if ($request->filled('patient_name')) {
+            $patientName = $request->patient_name;
+            $query->whereHas('user', function ($q) use ($patientName) {
+                $q->where('full_name', 'like', "%$patientName%");
+            });
+        }
+
+        if ($request->filled('visit_type')) {
+            $query->where('visit_type', $request->visit_type);
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('date_of_visit', $request->date);
+        }
+
+        $patients = $query->orderBy('date_of_visit', 'desc')->get();
+
+        return view('employee.doctor_patients', compact('patients'));
     }
-
-    $doctorId = auth('doctor')->id();
-
-    // Base query — only doctor specific visits
-    $query = PatientVisit::with(['user', 'consultantAssignment.room', 'reception'])
-        ->whereHas('consultantAssignment', function($q) use ($doctorId) {
-            $q->where('employee_id', $doctorId)
-              ->where('status', 'active');
-        });
-
-    // 🔍 FILTERS APPLY
-    if (request('patient_name')) {
-        $query->whereHas('user', function($q) {
-            $q->where('full_name', 'like', '%' . request('patient_name') . '%');
-        });
-    }
-
-    if (request('visit_type')) {
-        $query->where('visit_type', request('visit_type'));
-    }
-
-    if (request('date')) {
-        $query->whereDate('date_of_visit', request('date'));
-    }
-
-    // Final Result
-    $patients = $query->orderBy('date_of_visit', 'desc')->get();
-
-    return view('employee.doctor_patients', [
-        'patients' => $patients,
-    ]);
-}
-
-
-
-
-
-
-
-
-
 }

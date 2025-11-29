@@ -260,9 +260,10 @@ Route::prefix('employee')->group(function () {
 
     Route::get('/doctor/consultations', [AppointmentController::class, 'doctorConsultations'])
         ->name('employee.doctor_consultations')->middleware('auth:doctor');
-           
-            Route::get('/doctor/patients', [AppointmentController::class, 'doctorPatients'])
-            ->name('employee.doctor_patients')->middleware('auth:doctor');
+
+    Route::get('/doctor/patients', [AppointmentController::class, 'doctorPatients'])
+        ->name('employee.doctor_patients')->middleware('auth:doctor');
+    Route::get('/users/{id}/checkups', [PatientVisitController::class, 'doctor_checkup'])->name('employee.users.checkups');
 });
 
 
@@ -279,3 +280,12 @@ Route::prefix('admin')->group(function () {
     Route::get('/receptions/visit', [ReceptionController::class, 'reception_visit'])->name('admin.receptions.visit');
     Route::get('/receptions/{id}/visits', [ReceptionController::class, 'reception_visit_users'])->name('admin.receptions.visits');
 });
+
+
+
+
+Route::get('/doctor/users/{userId}/checkup/create', [PatientVisitController::class, 'doctorCreateCheckup'])
+    ->name('employee.users.checkups.create');
+
+Route::post('/doctor/users/{userId}/checkup/store', [PatientVisitController::class, 'storePatientCheckup'])
+    ->name('employee.users.checkups.store');
