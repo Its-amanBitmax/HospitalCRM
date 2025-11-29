@@ -6,7 +6,7 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-stethoscope text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">Edit Patient Checkup - {{ $user->full_name }}</h1>
+      <h1 class="text-xl font-semibold text-gray-800">Edit Patient Checkup - {{ $user->full_name }}</h1>
     </div>
     <div class="flex gap-3">
       <a href="{{ route('admin.users.visits', $user->id) }}" class="bg-white-600 hover:bg-white-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
@@ -16,7 +16,7 @@
   </div>
 
   <!-- Form -->
-  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700">
+  <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 ">
     <form id="editCheckupForm" action="{{ route('admin.users.checkups.update', [$user->id, $checkup->id]) }}" method="POST">
       @csrf
       @method('PUT')
@@ -25,7 +25,7 @@
         <!-- Associated Visit -->
         <div>
           <label for="visit_id" class="block text-sm font-medium text-gray-700 text-gray-300 mb-2">Associated Visit</label>
-          <select id="visit_id" name="visit_id" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white">
+          <select id="visit_id" name="visit_id" class="w-full px-3 py-2 border border-gray-300  rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 ">
             <option value="">Select Visit (Optional)</option>
             @foreach($visits as $visit)
             <option value="{{ $visit->id }}" {{ $checkup->visit_id == $visit->id ? 'selected' : '' }}>
@@ -38,19 +38,19 @@
         <!-- Checkup Date -->
         <div>
           <label for="checkup_date" class="block text-sm font-medium text-gray-700 text-gray-300 mb-2">Checkup Date</label>
-          <input type="date" id="checkup_date" name="checkup_date" value="{{ $checkup->checkup_date ? $checkup->checkup_date->format('Y-m-d') : '' }}" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white" required>
+          <input type="date" id="checkup_date" name="checkup_date" value="{{ $checkup->checkup_date ? $checkup->checkup_date->format('Y-m-d') : '' }}" class="w-full px-3 py-2 border border-gray-300  rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 " required>
         </div>
 
         <!-- Diagnosis -->
         <div>
           <label for="diagnosis" class="block text-sm font-medium text-gray-700 text-gray-300 mb-2">Diagnosis</label>
-          <textarea id="diagnosis" name="diagnosis" rows="3" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white" placeholder="Enter diagnosis">{{ $checkup->diagnosis }}</textarea>
+          <textarea id="diagnosis" name="diagnosis" rows="3" class="w-full px-3 py-2 border border-gray-300  rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 " placeholder="Enter diagnosis">{{ $checkup->diagnosis }}</textarea>
         </div>
 
         <!-- Treatment -->
         <div>
           <label for="treatment" class="block text-sm font-medium text-gray-700 text-gray-300 mb-2">Treatment</label>
-          <textarea id="treatment" name="treatment" rows="3" class="w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white" placeholder="Enter treatment">{{ $checkup->treatment }}</textarea>
+          <textarea id="treatment" name="treatment" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white-700 " placeholder="Enter treatment">{{ $checkup->treatment }}</textarea>
         </div>
       </div>
 

@@ -1,8 +1,10 @@
 <aside id="sidebar" class="w-64 fixed top-0 left-0 h-screen overflow-y-auto shadow-xl transition-all duration-300 " style="-ms-overflow-style: none; scrollbar-width: none; z-index: 1006;">
   <!-- Logo Section -->
-  <div class="flex items-center justify-center px-4 py-5 border-b border-gray-100 border-gray-700 bg-white-300 bg-white-800 shadow-sm" style="height: 80px; background-color:#daf6f6;">
-    <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-white-50 bg-white-900/20">
-      <img src="{{ $admin && $admin->logo ? asset('storage/' . $admin->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}" alt="{{ $admin && $admin->hospital_name ? $admin->hospital_name . ' Logo' : 'Dreams EMR Logo' }}" class="w-8 h-8 invert">
+  <div class="flex items-center justify-center px-4 py-5 border-b border-gray-100  shadow-sm" style="height: 80px; background-color:#daf6f6;">
+    <div class="flex items-center justify-center w-12 h-12 rounded-lg  bg-gray-900/20">
+      <img src="{{ $admin && $admin->logo ? asset('storage/' . $admin->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}"
+        alt="{{ $admin && $admin->hospital_name ? $admin->hospital_name . ' Logo' : 'Dreams EMR Logo' }}"
+        class="w-8 h-8">
     </div>
     <h1 class="text-lg font-bold sidebar-text ml-3 text-cyan-600 text-cyan-400">{{ $admin && $admin->hospital_name ? $admin->hospital_name : 'Dreams EMR' }}</h1>
   </div>

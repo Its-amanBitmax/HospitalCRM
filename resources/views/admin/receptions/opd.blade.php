@@ -51,7 +51,7 @@
     <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
         <div class="flex items-center gap-3">
             <i class="fas fa-users text-2xl text-blue-600 text-blue-400"></i>
-            <h1 class="text-xl font-semibold text-gray-800 text-white">Opd Patients</h1>
+            <h1 class="text-xl font-semibold text-gray-800 ">Opd Patients</h1>
         </div>
         <div class="flex gap-3">
             <a href="{{ route('admin.patient-registration') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
@@ -70,9 +70,9 @@
     @endif
 
     <!-- Users Table -->
-    <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200 border-gray-700 overflow-x-auto">
+    <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200  overflow-x-auto">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold text-gray-800 text-white flex items-center gap-2">
+            <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
                 <i class="fas fa-users text-blue-600 text-blue-400"></i>
                 Patient Details
             </h2>
@@ -82,22 +82,22 @@
         <div class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Name</label>
-                <input type="text" id="userNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter user name">
+                <input type="text" id="userNameFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter user name">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Email</label>
-                <input type="text" id="userEmailFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" placeholder="Enter email">
+                <input type="text" id="userEmailFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" placeholder="Enter email">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Filter by Status</label>
-                <select id="userStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200">
+                <select id="userStatusFilter" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200">
                     <option value="">All</option>
                     <option>active</option>
                     <option>inactive</option>
                 </select>
             </div>
             <div class="flex items-end">
-                <button class="bg-white-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearUserFilters">Clear Filters</button>
+                <button class="bg-gray-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearUserFilters">Clear Filters</button>
             </div>
         </div>
 

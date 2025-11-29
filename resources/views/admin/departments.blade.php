@@ -80,7 +80,7 @@
         </select>
       </div>
       <div class="flex items-end">
-        <button class="bg-gray-500 hover:bg-white-600 text-black px-4 py-2 rounded-lg transition" id="clearDepartmentFilters">Clear Filters</button>
+        <button class="bg-gray-500 hover:bg-white-600 text-white px-4 py-2 rounded-lg transition" id="clearDepartmentFilters">Clear Filters</button>
       </div>
     </div>
     <div class="overflow-x-auto">
@@ -104,7 +104,7 @@
 
 <!-- Add Department Modal -->
 <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="addDepartmentModal">
-  <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="addDepartmentModalContent">
+  <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200  transform transition-all duration-300 scale-95 opacity-0" id="addDepartmentModalContent">
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-plus text-blue-600 text-blue-400"></i>
@@ -119,36 +119,36 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department Name</label>
-          <input type="text" id="addDepartmentName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
+          <input type="text" id="addDepartmentName" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department Code</label>
-          <input type="text" id="addDepartmentCode" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
+          <input type="text" id="addDepartmentCode" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-          <select id="addDepartmentStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
+          <select id="addDepartmentStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Image</label>
-          <input type="file" id="addDepartmentImage" accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
+          <input type="file" id="addDepartmentImage" accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
         </div>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Description</label>
-        <textarea id="addDepartmentDescription" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter department description"></textarea>
+        <textarea id="addDepartmentDescription" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter department description"></textarea>
       </div>
-      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Add Department</button>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Add Department</button>
     </form>
   </div>
 </div>
 
 <!-- Edit Department Modal -->
 <div class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center hidden z-50" id="editDepartmentModal">
-  <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200 border-gray-700 transform transition-all duration-300 scale-95 opacity-0" id="editDepartmentModalContent">
+  <div class="bg-white bg-white-800 p-6 rounded-lg shadow-xl w-full max-w-lg border border-gray-200  transform transition-all duration-300 scale-95 opacity-0" id="editDepartmentModalContent">
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-xl font-semibold text-gray-800 text-black flex items-center gap-2">
         <i class="fas fa-edit text-blue-600 text-blue-400"></i>
@@ -163,19 +163,19 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department ID</label>
-          <input type="text" id="editDepartmentIdInput" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" readonly required>
+          <input type="text" id="editDepartmentIdInput" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" readonly required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department Name</label>
-          <input type="text" id="editDepartmentName" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
+          <input type="text" id="editDepartmentName" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department Code</label>
-          <input type="text" id="editDepartmentCode" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
+          <input type="text" id="editDepartmentCode" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-          <select id="editDepartmentStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
+          <select id="editDepartmentStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" required>
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
@@ -183,13 +183,13 @@
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Image</label>
-        <input type="file" id="editDepartmentImage" accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
+        <input type="file" id="editDepartmentImage" accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Description</label>
-        <textarea id="editDepartmentDescription" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter department description"></textarea>
+        <textarea id="editDepartmentDescription" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black transition duration-200" placeholder="Enter department description"></textarea>
       </div>
-      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Update Department</button>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">Update Department</button>
     </form>
   </div>
 </div>

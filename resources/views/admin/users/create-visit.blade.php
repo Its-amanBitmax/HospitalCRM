@@ -6,7 +6,7 @@
   <div class="flex justify-between items-center bg-white bg-white-800 p-4 rounded-lg shadow mb-6">
     <div class="flex items-center gap-3">
       <i class="fas fa-calendar-plus text-2xl text-blue-600 text-blue-400"></i>
-      <h1 class="text-xl font-semibold text-gray-800 text-white">Add New Visit - {{ $user->full_name }}</h1>
+      <h1 class="text-xl font-semibold text-gray-800 ">Add New Visit - {{ $user->full_name }}</h1>
     </div>
     <div class="flex gap-3">
       <a href="{{ route('admin.users.visits', $user->id) }}" class="bg-white-600 hover:bg-white-700 text-bg-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
@@ -22,14 +22,14 @@
       <div class="space-y-6">
         <!-- Visit Details -->
         <div class="section">
-          <h2 class="text-lg font-semibold text-gray-800 text-white mb-4 flex items-center gap-2">
+          <h2 class="text-lg font-semibold text-gray-800  mb-4 flex items-center gap-2">
             <i class="fas fa-calendar text-blue-600 text-blue-400"></i>
             Visit Details
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Visit Type *</label>
-              <select name="visit_type" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+              <select name="visit_type" class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 transition duration-200" required>
                 <option value="">Select Visit Type</option>
                 <option value="Checkup">Checkup</option>
                 <option value="Test">Test</option>
@@ -40,11 +40,11 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Date of Visit *</label>
-              <input type="date" name="date_of_visit" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200" required>
+              <input type="date" name="date_of_visit" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200" required>
             </div>
             <div class="md:col-span-2">
               <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Chief Complaint</label>
-              <textarea name="chief_complaint" rows="3" placeholder="Enter chief complaint" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-white transition duration-200"></textarea>
+              <textarea name="chief_complaint" rows="3" placeholder="Enter chief complaint" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700  transition duration-200"></textarea>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">
@@ -52,9 +52,9 @@
               </label>
 
               <select name="referred_by"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm 
+                class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md shadow-sm 
                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-               bg-white-700 text-white transition duration-200">
+               bg-white-700  transition duration-200">
                 <option value="" selected disabled>Select Reception</option>
                 @foreach ($receptions as $reception)
                 <option value="{{ $reception->id }}">{{ $reception->reception_id }}</option>
@@ -68,9 +68,9 @@
               </label>
 
               <select name="department_consultant"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md 
+                class="mt-1 block w-full px-3 py-2 border border-gray-300  rounded-md 
                shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-               bg-white-700 text-white transition duration-200">
+               bg-white-700 transition duration-200">
 
                 <option value="" disabled selected>Select Room / Doctor</option>
 

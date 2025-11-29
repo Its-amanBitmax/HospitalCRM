@@ -178,40 +178,37 @@ public function getDoctors()
 
 
 
-
 public function getAvailability(Employee $doctor, Request $request)
 {
     $startDate = $request->query('from', Carbon::now()->subDays(30)->toDateString());
-    $endDate = $request->query('to', Carbon::now()->addDays(30)->toDateString());
+    $endDate   = $request->query('to', Carbon::now()->addDays(30)->toDateString());
 
-    // ============ PART A : SLOTS AVAILABILITY (FIRST FUNCTION) =============
-
+    // ===== Fetch shifts =====
     $shifts = $doctor->shifts()->get(['shift_name', 'start_time', 'end_time']);
 
-    $schedules = DB::table('schedules')
-        ->where('employee_id', $doctor->id)
-        ->whereIn('task_type', ['Appointment', 'consultation'])
+    // ===== Fetch schedules (Appointment + Consultation) =====
+    $schedules = $doctor->schedules()
         ->get(['start_date', 'end_date', 'start_time', 'end_time', 'task_type']);
 
-    $appointments = DB::table('appointments')
+    // ===== Fetch all bookings =====
+    $bookings = DB::table('appointments')
         ->where('doctor_id', $doctor->id)
         ->whereIn('status', ['Booked', 'Pending'])
         ->get(['appointment_date', 'appointment_time']);
 
-    $availabilityByDate = [];
+    // ===== Prepare all relevant dates =====
     $dates = [];
-
     foreach ($schedules as $schedule) {
         $current = Carbon::parse($schedule->start_date);
         $end     = Carbon::parse($schedule->end_date);
-
         while ($current->lte($end)) {
             $dates[$current->format('Y-m-d')] = true;
             $current->addDay();
         }
     }
-
     $dates = array_keys($dates);
+
+    $availabilityByDate = [];
 
     foreach ($dates as $date) {
         $dayAvailability = [];
@@ -219,77 +216,71 @@ public function getAvailability(Employee $doctor, Request $request)
         foreach ($shifts as $shift) {
             $shiftStart = Carbon::parse($shift->start_time);
             $shiftEnd   = Carbon::parse($shift->end_time);
-            $slots = [];
-            $current = $shiftStart->copy();
 
-            while ($current < $shiftEnd) {
-                $slotEnd = $current->copy()->addMinutes(30);
-
-                $slots[] = [
-                    'start' => Carbon::parse($date.' '.$current->format('H:i:s'))->format('h:i A'),
-                    'end'   => Carbon::parse($date.' '.$slotEnd->format('H:i:s'))->format('h:i A'),
-                ];
-
-                $current = $slotEnd;
-            }
-
-            // Remove booked slots
-            foreach ($appointments as $app) {
-                if ($app->appointment_date != $date) continue;
-
-                $bookStart = Carbon::parse($app->appointment_date.' '.$app->appointment_time);
-                $bookEnd   = $bookStart->copy()->addMinutes(30);
-
-                $slots = array_filter($slots, function ($slot) use ($date, $bookStart, $bookEnd) {
-                    $slotStart = Carbon::parse($date.' '.$slot['start']);
-                    $slotEndTime = Carbon::parse($date.' '.$slot['end']);
-
-                    return !($slotStart < $bookEnd && $slotEndTime > $bookStart);
-                });
-            }
-
-            // task type
-            $shiftTaskType = null;
-
-            foreach ($schedules as $schedule) {
+            // Find all schedules overlapping this date + shift
+            $matchedSchedules = $schedules->filter(function($schedule) use ($date, $shift) {
                 $scheduleStart = Carbon::parse($schedule->start_date.' '.$schedule->start_time);
                 $scheduleEnd   = Carbon::parse($schedule->end_date.' '.$schedule->end_time);
+                $shiftStartDT  = Carbon::parse($date.' '.$shift->start_time);
+                $shiftEndDT    = Carbon::parse($date.' '.$shift->end_time);
 
-                $shiftRangeStart = Carbon::parse($date.' '.$shift->start_time);
-                $shiftRangeEnd   = Carbon::parse($date.' '.$shift->end_time);
+                return $shiftStartDT < $scheduleEnd && $shiftEndDT > $scheduleStart;
+            });
 
-                if ($shiftRangeStart < $scheduleEnd && $shiftRangeEnd > $scheduleStart) {
-                    $shiftTaskType = $schedule->task_type;
-                    break;
+            foreach ($matchedSchedules as $matchedSchedule) {
+                $taskType = strtolower($matchedSchedule->task_type);
+                $slots = [];
+
+                $current = max(Carbon::parse($matchedSchedule->start_time), $shiftStart)->copy();
+                $endTime = min(Carbon::parse($matchedSchedule->end_time), $shiftEnd);
+
+                // Generate 30-min slots
+                while ($current < $endTime) {
+                    $slotEnd = $current->copy()->addMinutes(30);
+                    $slotStartDT = Carbon::parse($date.' '.$current->format('H:i:s'));
+                    $slotEndDT   = Carbon::parse($date.' '.$slotEnd->format('H:i:s'));
+
+                    $isBooked = $bookings->contains(function($booking) use ($date, $slotStartDT, $slotEndDT) {
+                        $bookStart = Carbon::parse($booking->appointment_date.' '.$booking->appointment_time);
+                        $bookEnd   = $bookStart->copy()->addMinutes(30);
+                        return $booking->appointment_date == $date && $slotStartDT < $bookEnd && $slotEndDT > $bookStart;
+                    });
+
+                    if (!$isBooked) {
+                        $slots[] = [
+                            'start' => $slotStartDT->format('h:i A'),
+                            'end'   => $slotEndDT->format('h:i A'),
+                        ];
+                    }
+
+                    $current = $slotEnd;
                 }
-            }
 
-            $dayAvailability[] = [
-                'shift_name'      => $shift->shift_name,
-                'task_type'       => $shiftTaskType,
-                'available_slots' => array_values($slots),
-            ];
+                $dayAvailability[] = [
+                    'shift_name'      => $shift->shift_name,
+                    'task_type'       => $taskType,
+                    'available_slots' => $slots,
+                ];
+            }
         }
 
         $availabilityByDate[$date] = $dayAvailability;
     }
 
-    // ============ PART B : TASK LIST (SECOND FUNCTION) =============
+    // ===== Prepare task list =====
+    $shiftData = $shifts->map(function ($shift) {
+        return [
+            'shift_name' => $shift->shift_name,
+            'start_time' => Carbon::parse($shift->start_time)->format('H:i:s'),
+            'end_time'   => Carbon::parse($shift->end_time)->format('H:i:s'),
+        ];
+    });
 
-    $shiftData = $doctor->shifts()
-        ->get(['shift_name', 'start_time', 'end_time'])
-        ->map(function ($shift) {
-            return [
-                'shift_name' => $shift->shift_name,
-                'start_time' => Carbon::parse($shift->start_time)->format('H:i:s'),
-                'end_time'   => Carbon::parse($shift->end_time)->format('H:i:s'),
-            ];
-        });
-
-    $tasks = $doctor->schedules()
-        ->whereIn('task_type', ['Appointment', 'consultation'])
-        ->whereBetween('start_date', [$startDate, $endDate])
-        ->get(['start_date', 'end_date', 'start_time', 'end_time', 'task_type']);
+    // Case-insensitive task_type filtering for both Appointment & Consultation
+    $tasks = $schedules
+        ->filter(fn($task) => in_array(strtolower($task->task_type), ['appointment', 'consultation']) &&
+                              $task->start_date >= $startDate &&
+                              $task->end_date <= $endDate);
 
     $taskAvailability = $tasks->map(function ($task) use ($shiftData) {
         $taskStart = Carbon::parse($task->start_time)->format('H:i:s');
@@ -305,7 +296,7 @@ public function getAvailability(Employee $doctor, Request $request)
                 break;
             }
 
-            if ($shiftEnd->lt($shiftStart)) {
+            if ($shiftEnd->lt($shiftStart)) { // night shift
                 if ($taskStart >= $shift['start_time'] || $taskEnd <= $shift['end_time']) {
                     $shiftName = $shift['shift_name'];
                     break;
@@ -319,21 +310,15 @@ public function getAvailability(Employee $doctor, Request $request)
             'end_date'   => $task->end_date,
             'start_time' => Carbon::parse($task->start_time)->format('h:i A'),
             'end_time'   => Carbon::parse($task->end_time)->format('h:i A'),
-            'task_type'  => $task->task_type,
+            'task_type'  => $task->task_type, // Appointment or Consultation
         ];
     })->values();
 
-    // ============ FINAL MERGED RESPONSE =============
-
     return response()->json([
-        'doctor_id'   => $doctor->id,
-        'doctor_name' => $doctor->name,
-
-        // from first function
+        'doctor_id'          => $doctor->id,
+        'doctor_name'        => $doctor->name,
         'slots_availability' => $availabilityByDate,
-
-        // from second function
-        'availability' => $taskAvailability,
+        'availability'       => $taskAvailability,
     ]);
 }
 

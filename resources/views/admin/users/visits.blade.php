@@ -93,13 +93,13 @@
     <!-- Checkups Tab -->
     <div id="checkups-content" class="tab-content hidden">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-800 text-white">Patient Checkups</h2>
+        <h2 class="text-lg font-semibold text-gray-800 ">Patient Checkups</h2>
         <a href="{{ route('admin.users.checkups.create', $user->id) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
           <i class="fas fa-plus"></i> Add Checkup
         </a>
       </div>
       <div class="overflow-x-auto">
-        <table class="min-w-full bg-white bg-white-800 border border-gray-200 border-gray-700">
+        <table class="min-w-full bg-white bg-white-800 border border-gray-200 ">
           <thead class="bg-white-50 bg-white-700">
             <tr>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 text-gray-300 uppercase tracking-wider">Checkup Date</th>
@@ -112,16 +112,16 @@
           <tbody class="bg-white bg-white-800 divide-y divide-gray-200 divide-gray-700">
             @forelse($checkups as $checkup)
             <tr class="hover:bg-white-50 hover:bg-white-700">
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">{{ $checkup->checkup_date?->format('d-m-Y') ?? '-' }}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">{{ $checkup->checkup_date?->format('d-m-Y') ?? '-' }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">
                 @if($checkup->visit)
                 {{ $checkup->visit->date_of_visit?->format('d-m-Y') }} - {{ $checkup->visit->visit_type }}
                 @else
                 -
                 @endif
               </td>
-              <td class="px-6 py-4 text-sm text-gray-900 text-white">{{ $checkup->diagnosis ?: '-' }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900 text-white">{{ $checkup->treatment ?: '-' }}</td>
+              <td class="px-6 py-4 text-sm text-gray-900 ">{{ $checkup->diagnosis ?: '-' }}</td>
+              <td class="px-6 py-4 text-sm text-gray-900 ">{{ $checkup->treatment ?: '-' }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
                 <a href="{{ route('admin.users.checkups.edit', [$user->id, $checkup->id]) }}" class="text-blue-600 hover:text-blue-800">Edit</a>
                 <form action="{{ route('admin.users.checkups.destroy', [$user->id, $checkup->id]) }}" method="POST" class="inline" onsubmit="return confirm('Delete this checkup?')">
@@ -143,13 +143,13 @@
     <!-- Documents Tab -->
     <div id="documents-content" class="tab-content hidden">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-800 text-white">Patient Documents</h2>
+        <h2 class="text-lg font-semibold text-gray-800 ">Patient Documents</h2>
         <a href="{{ route('admin.users.documents.create', $user->id) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
           <i class="fas fa-plus"></i> Add Document
         </a>
       </div>
       <div class="overflow-x-auto">
-        <table class="min-w-full bg-white bg-white-800 border border-gray-200 border-gray-700">
+        <table class="min-w-full bg-white bg-white-800 border border-gray-200 ">
           <thead class="bg-white-50 bg-white-700">
             <tr>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 text-gray-300 uppercase tracking-wider">Document Type</th>
@@ -161,13 +161,13 @@
           <tbody class="bg-white bg-white-800 divide-y divide-gray-200 divide-gray-700">
             @forelse($documents as $document)
             <tr class="hover:bg-white-50 hover:bg-white-700">
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">{{ $document->document_type }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">{{ $document->document_type }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm">
                 <a href="/storage/{{ $document->document_path }}" target="_blank" class="text-blue-600 hover:text-blue-800 underline">
                   {{ basename($document->document_path) }}
                 </a>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-white">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">
                 {{ $document->created_at?->format('d-m-Y H:i') ?? '-' }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
@@ -193,7 +193,7 @@
       <div class="space-y-6">
         <!-- Patient Summary -->
         <div class="bg-white-50 bg-white-700 rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-gray-800 text-white mb-4">Patient Summary</h2>
+          <h2 class="text-xl font-semibold text-gray-800  mb-4">Patient Summary</h2>
           <div class="flex flex-col md:flex-row gap-6 mb-6">
             <!-- Patient Image -->
             <div class="flex-shrink-0">
@@ -207,38 +207,38 @@
             </div>
             <!-- Patient Details -->
             <div class="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-              <div><span class="font-medium text-gray-700 text-gray-300">Full Name:</span> <span class="text-gray-900 text-white">{{ $user->full_name }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Email:</span> <span class="text-gray-900 text-white">{{ $user->email ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Phone:</span> <span class="text-gray-900 text-white">{{ $user->mobile_no ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Alternate No:</span> <span class="text-gray-900 text-white">{{ $user->alternate_no ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Date of Birth:</span> <span class="text-gray-900 text-white">{{ $user->date_of_birth?->format('d-m-Y') ?? '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Age:</span> <span class="text-gray-900 text-white">{{ $user->age ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Gender:</span> <span class="text-gray-900 text-white">{{ $user->gender ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Blood Group:</span> <span class="text-gray-900 text-white">{{ $user->blood_group ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Father/Spouse:</span> <span class="text-gray-900 text-white">{{ $user->father_spouse_name ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Emergency Contact:</span> <span class="text-gray-900 text-white">{{ $user->emergency_contact ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">ID Proof:</span> <span class="text-gray-900 text-white">{{ $user->id_proof_type ?: '-' }} {{ $user->id_number ? '('.$user->id_number.')' : '' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Registration Date:</span> <span class="text-gray-900 text-white">{{ $user->created_at?->format('d-m-Y') ?? '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Full Name:</span> <span class="text-gray-900 ">{{ $user->full_name }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Email:</span> <span class="text-gray-900 ">{{ $user->email ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Phone:</span> <span class="text-gray-900 ">{{ $user->mobile_no ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Alternate No:</span> <span class="text-gray-900 ">{{ $user->alternate_no ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Date of Birth:</span> <span class="text-gray-900 ">{{ $user->date_of_birth?->format('d-m-Y') ?? '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Age:</span> <span class="text-gray-900 ">{{ $user->age ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Gender:</span> <span class="text-gray-900 ">{{ $user->gender ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Blood Group:</span> <span class="text-gray-900 ">{{ $user->blood_group ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Father/Spouse:</span> <span class="text-gray-900 ">{{ $user->father_spouse_name ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Emergency Contact:</span> <span class="text-gray-900 ">{{ $user->emergency_contact ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">ID Proof:</span> <span class="text-gray-900 ">{{ $user->id_proof_type ?: '-' }} {{ $user->id_number ? '('.$user->id_number.')' : '' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Registration Date:</span> <span class="text-gray-900 ">{{ $user->created_at?->format('d-m-Y') ?? '-' }}</span></div>
             </div>
           </div>
           <!-- Address Section -->
           <div class="border-t border-gray-200 border-gray-600 pt-4">
-            <h3 class="text-lg font-medium text-gray-800 text-white mb-2">Address Information</h3>
+            <h3 class="text-lg font-medium text-gray-800  mb-2">Address Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div><span class="font-medium text-gray-700 text-gray-300">Full Address:</span> <span class="text-gray-900 text-white">{{ $user->full_address ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">City:</span> <span class="text-gray-900 text-white">{{ $user->city ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">State:</span> <span class="text-gray-900 text-white">{{ $user->state ?: '-' }}</span></div>
-              <div><span class="font-medium text-gray-700 text-gray-300">Pin Code:</span> <span class="text-gray-900 text-white">{{ $user->pin_code ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Full Address:</span> <span class="text-gray-900 ">{{ $user->full_address ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">City:</span> <span class="text-gray-900 ">{{ $user->city ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">State:</span> <span class="text-gray-900 ">{{ $user->state ?: '-' }}</span></div>
+              <div><span class="font-medium text-gray-700 text-gray-300">Pin Code:</span> <span class="text-gray-900 ">{{ $user->pin_code ?: '-' }}</span></div>
             </div>
           </div>
         </div>
 
         <!-- Recent Visits -->
         <div class="bg-white-50 bg-white-700 rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-gray-800 text-white mb-4">Recent Visits (Last 2)</h2>
+          <h2 class="text-xl font-semibold text-gray-800  mb-4">Recent Visits (Last 2)</h2>
           @if($visits->count() > 0)
           @foreach($visits->take(2) as $visit)
-          <div class="bg-white bg-white-800 p-4 rounded-lg mb-3 border border-gray-200 border-gray-600">
+          <div class="bg-white bg-white-800 p-4 rounded-lg mb-3 border border-gray-200 ">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
               <div><span class="font-medium text-gray-700 text-gray-300">Type:</span> {{ $visit->visit_type }}</div>
               <div><span class="font-medium text-gray-700 text-gray-300">Date:</span> {{ $visit->date_of_visit?->format('d-m-Y') ?? '-' }}</div>
@@ -257,11 +257,11 @@
 
         <!-- All Checkups -->
         <div class="bg-white-50 bg-white-700 rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-gray-800 text-white mb-4">All Checkups</h2>
+          <h2 class="text-xl font-semibold text-gray-800  mb-4">All Checkups</h2>
           @if($checkups->count() > 0)
           <div class="space-y-3">
             @foreach($checkups as $checkup)
-            <div class="bg-white bg-white-800 p-4 rounded-lg border border-gray-200 border-gray-600">
+            <div class="bg-white bg-white-800 p-4 rounded-lg border border-gray-200 ">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
                 <div><span class="font-medium text-gray-700 text-gray-300">Date:</span> {{ $checkup->checkup_date?->format('d-m-Y') ?? '-' }}</div>
                 <div><span class="font-medium text-gray-700 text-gray-300">Visit:</span>
@@ -284,13 +284,13 @@
 
         <!-- All Documents -->
         <div class="bg-white-50 bg-white-700 rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-gray-800 text-white mb-4">All Documents</h2>
+          <h2 class="text-xl font-semibold text-gray-800  mb-4">All Documents</h2>
           @if($documents->count() > 0)
           <div class="space-y-3">
             @foreach($documents as $document)
-            <div class="bg-white bg-white-800 p-4 rounded-lg border border-gray-200 border-gray-600 flex justify-between items-center">
+            <div class="bg-white bg-white-800 p-4 rounded-lg border border-gray-200  flex justify-between items-center">
               <div class="text-sm">
-                <p class="font-medium text-gray-900 text-white">{{ $document->document_type }}</p>
+                <p class="font-medium text-gray-900 ">{{ $document->document_type }}</p>
                 <p class="text-xs text-gray-500 text-gray-400">Uploaded: {{ $document->created_at?->format('d-m-Y H:i') }}</p>
               </div>
               <a href="/storage/{{ $document->document_path }}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2">
