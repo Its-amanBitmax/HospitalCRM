@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\User;
 use App\Models\PatientVisit;
 use App\Models\PatientCheckup;
@@ -9,6 +10,7 @@ use App\Models\PatientDocument;
 use App\Models\reception;
 use App\Models\RoomAssignment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class PatientVisitController extends Controller
@@ -442,33 +444,97 @@ public function doctorDeleteDocument($userId, $documentId)
 }
 
 
-public function reports()
+    public function reports()
 {
+    // 1. Get logged-in doctor ID
     $doctorId = auth('doctor')->id();
 
-    // 1. Get all room IDs assigned to this doctor
-    $roomIds = RoomAssignment::where('employee_id', $doctorId)
-                ->pluck('room_id');
+    // 2. Get room assignment IDs assigned to this doctor
+    $assignmentIds = RoomAssignment::where('employee_id', $doctorId)
+                ->pluck('id');
 
-    // 2. Get all patient IDs who had visits in these rooms
-    $patientIds = PatientVisit::whereIn('department_consultant', $roomIds)
+    // 3. Get patient IDs who visited these assignments
+    $patientIds = PatientVisit::whereIn('department_consultant', $assignmentIds)
                 ->pluck('user_id')
                 ->unique();
 
-    // 3. Get all documents for these patients
+    // 4. Get documents for these patients
     $reports = PatientDocument::whereIn('user_id', $patientIds)
-                ->with('user') // make sure we can access patient info
+                ->with('user')
                 ->orderBy('created_at', 'desc')
                 ->get();
-dd($patientIds->toArray());
+
     return view('employee.doctor_patient_report', compact('reports'));
+}
+
+public function doctor_profile_settings()
+{
+    $doctor = auth('doctor')->user();
+
+    // fetch address
+    $address = Address::where('employee_id', $doctor->id)->first();
+
+    return view('employee.doctor_profile_settings', compact('doctor', 'address'));
+}
+
+public function update_doctor_profile(Request $request)
+{
+    $doctor = auth('doctor')->user();
+
+    // ===========================
+    // UPDATE DOCTOR BASIC DETAILS
+    // ===========================
+    $doctor->name          = $request->name;
+    $doctor->email         = $request->email;
+    $doctor->phone         = $request->phone;
+    $doctor->gender        = $request->gender;
+    $doctor->date_of_birth = $request->date_of_birth;
+
+    // If doctor uploads image
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('doctor_images', 'public');
+        $doctor->image = $path;
+    }
+
+    $doctor->save();
+
+    // ===========================
+    // UPDATE OR CREATE ADDRESS
+    // ===========================
+    Address::updateOrCreate(
+        ['employee_id' => $doctor->id],  // WHERE employee_id = ?
+        [
+            'address_type' => 'Home',
+            'street'       => $request->street,
+            'city'         => $request->city,
+            'state'        => $request->state,
+            'country'      => $request->country,
+            'postal_code'  => $request->postal_code,
+        ]
+    );
+
+    return back()->with('success', 'Profile updated successfully');
 }
 
 
 
 
 
+public function settings()
+{
+    return view('employee.doctor_settings');
+}
 
+public function updateSettings(Request $request)
+{
+    $doctor = auth('doctor')->user();
+
+    // No validation as you requested
+    $doctor->password = Hash::make($request->new_password);
+    $doctor->save();
+
+    return back()->with('success', 'Password updated successfully');
+}
 
 
 }

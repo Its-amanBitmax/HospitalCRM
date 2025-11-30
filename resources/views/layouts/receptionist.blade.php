@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', 'Doctor Dashboard')</title>
+    <title>@yield('title', 'Receptionist Dashboard')</title>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -24,7 +24,7 @@
 
             <!-- Sidebar Header -->
             <div class="flex items-center justify-between p-4 border-b border-gray-700">
-                <h2 class="text-lg font-bold sidebar-text">Doctor Panel</h2>
+                <h2 class="text-lg font-bold sidebar-text">Receptionist Panel</h2>
                 <button id="sidebar-toggle" class="text-xl">
                     <i class="fa-solid fa-bars"></i>
                 </button>
@@ -32,32 +32,27 @@
 
             <!-- Sidebar Menu -->
             <nav class="mt-4">
-                <a href="{{route('employee.doctor.dashboard')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
                     <i class="fa-solid fa-house"></i>
                     <span class="sidebar-text">Dashboard</span>
                 </a>
 
-                <a href="{{ route('employee.doctor_appointments') }}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="{{route('receptionist.appointments')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
                     <i class="fa-solid fa-calendar-check"></i>
                     <span class="sidebar-text">Appointments</span>
                 </a>
 
-                <a href="{{ route('employee.doctor_consultations') }}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
-                    <i class="fa-solid fa-calendar-check"></i>
-                    <span class="sidebar-text">Consultations</span>
-                </a>
-
-                <a href="{{route('employee.doctor_patients')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
                     <i class="fa-solid fa-users"></i>
                     <span class="sidebar-text">Patients</span>
                 </a>
 
-                <a href="{{route('employee.report')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
                     <i class="fa-solid fa-file-medical"></i>
                     <span class="sidebar-text">Reports</span>
                 </a>
 
-                <a href="{{route('employee.profile.settings')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
                      <i class="fa-solid fa-user"></i>
                     <span class="sidebar-text">Profile Settings</span>
                 </a>
@@ -77,10 +72,10 @@
                     <!-- Trigger -->
                     <div class="flex items-center gap-3 cursor-pointer" id="dropdownToggle">
                         <span class="text-sm font-medium">
-                            Welcome, {{ auth('doctor')->user()->name }}
+                            Welcome, 
                         </span>
 
-                        <img src="{{ auth('doctor')->user()->image ?? asset('image/default.png') }}"
+                        <img src="{{ auth()->user()->image ?? asset('image/default.png') }}"
                             class="w-10 h-10 rounded-full object-cover border">
                     </div>
 
@@ -90,13 +85,13 @@
 
                         
 
-                        <a href="{{route('doctor.settings')}}" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+                        <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                             <i class="fa-solid fa-gear"></i>
                             <span>Settings</span>
                         </a>
 
 
-                        <form method="POST" action="{{ route('employee.logout') }}" onsubmit="localStorage.clear();">
+                        <form method="POST" action="#" onsubmit="localStorage.clear();">
                             @csrf
                             <button type="submit"
                                 class="flex items-center gap-3 px-5 py-3 hover:bg-gray-100 text-red-500 w-full text-left">
@@ -151,7 +146,7 @@
             const toggle = document.getElementById("sidebar-toggle");
             const main = document.getElementById("main-content");
 
-            let collapsed = localStorage.getItem("doctorSidebar") === "true";
+            let collapsed = localStorage.getItem("receptionistSidebar") === "true";
 
             applyState();
 
@@ -169,7 +164,7 @@
 
             toggle.addEventListener("click", () => {
                 collapsed = !collapsed;
-                localStorage.setItem("doctorSidebar", collapsed);
+                localStorage.setItem("receptionistSidebar", collapsed);
                 applyState();
             });
         });
