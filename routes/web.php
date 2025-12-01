@@ -385,9 +385,18 @@ Route::post('receptionist/{user}/visits/{visit}', [ReceptionController::class, '
 // Delete visit
 Route::delete('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'deleteUserVisit'])->name('visits.delete');
 
-Route::get('/patients/create', [ReceptionController::class, 'patient_create'])->name('patients.create');
 
+
+
+
+Route::get('/patients/create', [ReceptionController::class, 'patient_create'])->name('patients.create');
 Route::post('/patients/save', [ReceptionController::class, 'patient_save'])->name('patients.save');
 
+Route::get('/patients/{id}/edit', [ReceptionController::class, 'patient_edit'])
+    ->name('patients.edit');
 
+Route::put('/patients/{id}/update', [ReceptionController::class, 'patient_update'])
+    ->name('patients.update');
 
+Route::get('/patients/{id}/delete', [ReceptionController::class, 'patient_delete'])
+    ->name('patients.delete');

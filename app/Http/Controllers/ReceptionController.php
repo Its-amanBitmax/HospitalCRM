@@ -200,16 +200,35 @@ class ReceptionController extends Controller
     }
 
 
-public function get_patients()
-{
-    // Fetch all users with type 'patient'
-   $patients = User::all();
+    public function get_patients(Request $request)
+    {
+        // Start query for patients
+        $query = User::query();
 
-    // Count by type (optional, if you have multiple patient types)
-    $typeCounts = $patients->groupBy('type')->map->count();
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('username', 'like', '%' . $search . '%')
+                  ->orWhere('email', 'like', '%' . $search . '%')
+                  ->orWhere('mobile_no', 'like', '%' . $search . '%');
+            });
+        }
 
-    return view('receptionist.receptionist-patients', compact('patients', 'typeCounts'));
-}
+        // Apply type filter if provided
+        if ($request->has('type') && !empty($request->type)) {
+            $query->where('type', $request->type);
+        }
+
+        // Fetch filtered patients
+        $patients = $query->get();
+
+        // Count by type (always show all types for filter options)
+        $allPatients = User::all();
+        $typeCounts = $allPatients->groupBy('type')->map->count();
+
+        return view('receptionist.receptionist-patients', compact('patients', 'typeCounts'));
+    }
 
 
 
@@ -229,51 +248,51 @@ public function get_patients()
 
     // Show form to create a visit for a specific user
     public function createUserVisit(User $user)
-{
-    // Fetch all receptions
-    $receptions = Reception::all();
+    {
+        // Fetch all receptions
+        $receptions = Reception::all();
 
-    // Fetch rooms assigned to doctors (or receptionist context)
-    $assignedRooms = RoomAssignment::with(['room', 'employee'])->get();
+        // Fetch rooms assigned to doctors (or receptionist context)
+        $assignedRooms = RoomAssignment::with(['room', 'employee'])->get();
 
-    return view('receptionist.receptionist-create-visit', compact('user', 'receptions', 'assignedRooms'));
-}
+        return view('receptionist.receptionist-create-visit', compact('user', 'receptions', 'assignedRooms'));
+    }
 
 
     // Store a new visit
-   public function storeUserVisit(Request $request, User $user)
-{
-    $data = $request->validate([
-        'visit_type' => 'required|string|max:255',
-        'date_of_visit' => 'required|date',
-        'chief_complaint' => 'nullable|string',
-        'referred_by' => 'nullable|exists:receptions,id',
-        'department_consultant' => 'nullable|exists:room_assignments,id',
-    ]);
+    public function storeUserVisit(Request $request, User $user)
+    {
+        $data = $request->validate([
+            'visit_type' => 'required|string|max:255',
+            'date_of_visit' => 'required|date',
+            'chief_complaint' => 'nullable|string',
+            'referred_by' => 'nullable|exists:receptions,id',
+            'department_consultant' => 'nullable|exists:room_assignments,id',
+        ]);
 
-    $data['user_id'] = $user->id;
+        $data['user_id'] = $user->id;
 
-    PatientVisit::create($data);
+        PatientVisit::create($data);
 
-    // Return JSON for your fetch
-    return response()->json([
-        'success' => true,
-        'message' => 'Visit added successfully.'
-    ]);
-}
+        // Return JSON for your fetch
+        return response()->json([
+            'success' => true,
+            'message' => 'Visit added successfully.'
+        ]);
+    }
 
 
     // Edit a visit
-   public function editUserVisit(User $user, PatientVisit $visit)
-{
-    // Get all active receptions (or as per your logic)
-    $receptions = Reception::all();
+    public function editUserVisit(User $user, PatientVisit $visit)
+    {
+        // Get all active receptions (or as per your logic)
+        $receptions = Reception::all();
 
-    // Get rooms assigned to doctors (or as per your logic)
-    $assignedRooms = RoomAssignment::with(['room', 'employee'])->get();
+        // Get rooms assigned to doctors (or as per your logic)
+        $assignedRooms = RoomAssignment::with(['room', 'employee'])->get();
 
-    return view('receptionist.receptionist-edit-visit', compact('user', 'visit', 'receptions', 'assignedRooms'));
-}
+        return view('receptionist.receptionist-edit-visit', compact('user', 'visit', 'receptions', 'assignedRooms'));
+    }
 
 
     // Update a visit
@@ -290,7 +309,7 @@ public function get_patients()
         $visit->update($data);
 
         return redirect()->route('visits.show', $user->id)
-                         ->with('success', 'Visit updated successfully.');
+            ->with('success', 'Visit updated successfully.');
     }
 
     // Delete a visit
@@ -299,17 +318,18 @@ public function get_patients()
         $visit->delete();
 
         return redirect()->route('visits.show', $user->id)
-                         ->with('success', 'Visit deleted successfully.');
+            ->with('success', 'Visit deleted successfully.');
     }
 
 
 
-    public function patient_create(){
+    public function patient_create()
+    {
         return view('receptionist.receptionist-create-patient');
     }
 
 
-     public function patient_save(Request $request)
+    public function patient_save(Request $request)
     {
         $request->validate([
             'full_name' => 'required|string|max:255',
@@ -385,5 +405,97 @@ public function get_patients()
         return redirect()->route('visits.show')->with('success', 'User created successfully.');
     }
 
+    public function patient_edit($id)
+    {
+        $user = User::findOrFail($id);
 
+        return view('receptionist.receptionist-edit-patient', compact('user'));
+    }
+
+    public function patient_update(Request $request, $id)
+    {
+        $patient = User::findOrFail($id);
+
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'username' => 'nullable|string|max:255|unique:users,username,' . $patient->id,
+            'email' => 'nullable|email|unique:users,email,' . $patient->id,
+            'mobile_no' => 'required|string|max:20',
+            'age' => 'nullable|integer|min:0|max:150',
+            'gender' => 'nullable|in:male,female,other',
+            'blood_group' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+            'father_spouse_name' => 'nullable|string|max:255',
+            'alternate_no' => 'nullable|string|max:20',
+            'full_address' => 'nullable|string',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'pin_code' => 'nullable|string|max:10',
+            'visit_type' => 'nullable|in:OPD,Emergency,Appointment',
+            'date_of_visit' => 'nullable|date',
+            'chief_complaint' => 'nullable|string',
+            'referred_by' => 'nullable|string|max:255',
+            'department_consultant' => 'nullable|string|max:255',
+            'id_proof_type' => 'nullable|string|max:255',
+            'id_number' => 'nullable|string|max:255',
+            'type' => 'required|in:ipd,opd,emergency,registered,discharged',
+            'status' => 'required|in:active,inactive,discharged',
+            'registered_through' => 'nullable|in:email,msg,whatsapp,offline',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handle image update
+        $imagePath = $patient->image;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('image'), $imageName);
+            $imagePath = 'image/' . $imageName;
+        }
+
+        $patient->update([
+            'full_name' => $request->full_name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'mobile_no' => $request->mobile_no,
+            'age' => $request->age,
+            'gender' => $request->gender,
+            'blood_group' => $request->blood_group,
+            'father_spouse_name' => $request->father_spouse_name,
+            'alternate_no' => $request->alternate_no,
+            'full_address' => $request->full_address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'pin_code' => $request->pin_code,
+            'visit_type' => $request->visit_type,
+            'date_of_visit' => $request->date_of_visit,
+            'chief_complaint' => $request->chief_complaint,
+            'referred_by' => $request->referred_by,
+            'department_consultant' => $request->department_consultant,
+            'id_proof_type' => $request->id_proof_type,
+            'id_number' => $request->id_number,
+            'type' => $request->type,
+            'status' => $request->status,
+            'registered_through' => $request->registered_through,
+            'image' => $imagePath,
+        ]);
+
+        // Check if request is AJAX
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Patient updated successfully.'
+            ]);
+        }
+
+        return redirect()->route('visits.show')->with('success', 'Patient updated successfully.');
+    }
+
+    public function patient_delete($id)
+    {
+        $patient = User::findOrFail($id);
+        $patient->delete();
+
+        return redirect()->route('receptionist.patients')->with('success', 'Patient deleted successfully.');
+    }
 }

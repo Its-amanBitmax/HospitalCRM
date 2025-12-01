@@ -15,12 +15,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-white-100 bg-white-900 text-black">
+<body class="bg-gray-100 text-black">
 
     <div class="flex min-h-screen">
 
         <!-- ==================== SIDEBAR ==================== -->
-        <aside id="sidebar" class="w-64 bg-white bg-white-800 h-screen shadow-lg fixed top-0 left-0 transition-all duration-300">
+        <aside id="sidebar" class="w-64 bg-white h-screen shadow-lg fixed top-0 left-0 transition-all duration-300">
 
             <!-- Sidebar Header -->
             <div class="flex items-center justify-between p-4 border-b border-gray-700">
@@ -32,27 +32,27 @@
 
             <!-- Sidebar Menu -->
             <nav class="mt-4">
-                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="{{route('receptionists.dashboard')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200">
                     <i class="fa-solid fa-house"></i>
                     <span class="sidebar-text">Dashboard</span>
                 </a>
 
-                <a href="{{route('receptionist.appointments')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="{{route('receptionist.appointments')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200">
                     <i class="fa-solid fa-calendar-check"></i>
                     <span class="sidebar-text">Appointments</span>
                 </a>
 
-                <a href="{{route('receptionist.patients')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="{{route('receptionist.patients')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200">
                     <i class="fa-solid fa-users"></i>
                     <span class="sidebar-text">Patients</span>
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200">
                     <i class="fa-solid fa-file-medical"></i>
                     <span class="sidebar-text">Reports</span>
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-200">
                      <i class="fa-solid fa-user"></i>
                     <span class="sidebar-text">Profile Settings</span>
                 </a>
@@ -62,10 +62,10 @@
         </aside>
 
         <!-- ================ MAIN CONTENT WRAPPER ================= -->
-        <div id="main-content" class="flex-1 flex flex-col ml-64 transition-all duration-300">
+        <div id="main-content" class="flex-1 flex flex-col ml-64 transition-all duration-300" style="width: 75%;">
 
             <!-- ====================== HEADER ======================= -->
-            <header class="bg-white bg-white-800 shadow-md p-4 flex justify-between items-center">
+            <header class="bg-white shadow-md p-4 flex justify-between items-center">
                 <h1 class="text-xl font-bold">@yield('header-title', 'Dashboard')</h1>
 
                 <div class="relative" id="userDropdown">
