@@ -187,23 +187,39 @@ public function bookAppointment(Request $request)
 {
     $user = $request->user();
 
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized',
+        ], 401);
+    }
+
     $appointments = Appointment::with(['doctor', 'relative'])
         ->where('booked_by_user_id', $user->id)
         ->orderBy('appointment_date', 'desc')
         ->get();
 
-    // Loop through each appointment and handle doctor and relative images
+    // ✅ Convert doctor & relative image to FULL URL
     $appointments->each(function ($appointment) {
-        // Check for doctor and relative and modify the image field to full URL
         foreach (['doctor', 'relative'] as $relation) {
-            if ($appointment->$relation && $appointment->$relation->image) {
-                // Replace the image field with the full image URL
-                $appointment->$relation->image = url('storage/' . $appointment->$relation->image);
+            if (
+                isset($appointment->$relation) &&
+                !empty($appointment->$relation->image)
+            ) {
+                // already full URL hai ya nahi → double avoid
+                if (!str_starts_with($appointment->$relation->image, 'http')) {
+                    $appointment->$relation->image = asset(
+                        'storage/' . ltrim($appointment->$relation->image, '/')
+                    );
+                }
+            } else {
+                if (isset($appointment->$relation)) {
+                    $appointment->$relation->image = null;
+                }
             }
         }
     });
 
-    // Return the response
     return response()->json([
         'status' => true,
         'user' => [
@@ -211,7 +227,7 @@ public function bookAppointment(Request $request)
             'name' => $user->full_name,
         ],
         'appointments' => $appointments,
-    ]);
+    ], 200);
 }
 
 

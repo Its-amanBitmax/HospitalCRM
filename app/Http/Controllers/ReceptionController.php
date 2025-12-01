@@ -210,8 +210,8 @@ class ReceptionController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('username', 'like', '%' . $search . '%')
-                  ->orWhere('email', 'like', '%' . $search . '%')
-                  ->orWhere('mobile_no', 'like', '%' . $search . '%');
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('mobile_no', 'like', '%' . $search . '%');
             });
         }
 
@@ -493,9 +493,47 @@ class ReceptionController extends Controller
 
     public function patient_delete($id)
     {
-        $patient = User::findOrFail($id);
-        $patient->delete();
+        $user = User::findOrFail($id);
 
-        return redirect()->route('receptionist.patients')->with('success', 'Patient deleted successfully.');
+
+        Appointment::where('booked_by_user_id', $id)->delete();
+        $user->delete();
+
+        return redirect()->back()->with('success', 'Patient deleted successfully.');
+    }
+
+
+    public function ViewUsers(User $user)
+    {
+        // Patient Visits
+        $userVisits = PatientVisit::with(['reception', 'consultantAssignment.room', 'consultantAssignment.employee'])
+            ->where('user_id', $user->id)
+            ->orderBy('date_of_visit', 'desc')
+            ->get();
+
+        // Appointments
+        $appointments = Appointment::where(function ($q) use ($user) {
+
+            // Self appointments (booked for the same user)
+            $q->where(function ($self) use ($user) {
+                $self->where('for_user_type', 'self')
+                    ->where('booked_by_user_id', $user->id);
+            });
+
+            // Relative appointments (if this user is a relative)
+            $q->orWhere(function ($rel) use ($user) {
+                $rel->where('for_user_type', 'relative')
+                    ->where('relative_id', $user->id);
+            });
+        })
+            ->orderBy('appointment_date', 'desc')
+            ->get();
+
+
+        return view('receptionist.receptionist-view-patients', [
+            'user' => $user,
+            'visits' => $userVisits,
+            'appointments' => $appointments
+        ]);
     }
 }

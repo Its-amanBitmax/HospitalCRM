@@ -8,9 +8,14 @@
 
         <!-- Heading -->
         <div>
-            <h1 class="text-3xl font-bold text-gray-800 mb-1">Patients List</h1>
+            <div class="flex items-center gap-3 mb-1">
+                <i class="fa fa-users text-blue-700 text-3xl"></i>
+                <h1 class="text-3xl font-bold text-blue-800">Patients</h1>
+            </div>
+
             <p class="text-gray-600 text-sm">Manage and view all registered patients below.</p>
         </div>
+
 
         <!-- Buttons -->
         <div class="flex flex-wrap gap-3">
@@ -82,7 +87,7 @@
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
@@ -107,16 +112,36 @@
                                 {{ ucfirst($patient->type ?? 'N/A') }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium space-x-3 flex items-center">
+
+                            <!-- Visit History -->
                             <a href="{{ route('visits.show', $patient->id) }}"
-                                class="text-blue-600 hover:text-blue-900 transition-colors duration-200 inline-flex items-center">
-                                <i class="fas fa-eye mr-1"></i>
+                                class="text-blue-600 hover:text-blue-900 transition-colors duration-200 inline-flex items-center mx-2">
+                                <i class="fas fa-notes-medical text-lg"></i>
                             </a>
+
+                            <!-- View Profile -->
+                            <a href="{{ route('visits.view', $patient->id) }}"
+                                class="text-blue-600 hover:text-blue-900 transition-colors duration-200 inline-flex items-center mx-2">
+                                <i class="fas fa-eye text-lg"></i>
+                            </a>
+
+                            <!-- Edit -->
                             <a href="{{ route('patients.edit', $patient->id) }}"
-                                class="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 inline-flex items-center">
-                                <i class="fas fa-edit mr-1"></i>
+                                class="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 inline-flex items-center mx-2">
+                                <i class="fas fa-edit text-lg"></i>
                             </a>
+
+                            <!-- Delete -->
+                            <form action="{{ route('patients.delete', $patient->id) }}" method="GET"
+                                onsubmit="return confirm('Are you sure you want to delete this patient?');" class="inline mx-2">
+                                <button type="submit" class="text-red-600 hover:text-red-800 font-semibold">
+                                    <i class="fas fa-trash text-lg"></i>
+                                </button>
+                            </form>
+
                         </td>
+
                     </tr>
                     @empty
                     <tr>

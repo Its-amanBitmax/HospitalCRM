@@ -12,17 +12,38 @@ class RelativeController extends Controller
     /**
      * 🧾 Get all relatives of logged-in user
      */
-    public function index(Request $request)
-    {
-        $user = $request->user();
+   public function index(Request $request)
+{
+    $user = $request->user();
 
-        $relatives = Relative::where('user_id', $user->id)->get();
-
+    if (!$user) {
         return response()->json([
-            'status' => true,
-            'relatives' => $relatives
-        ]);
+            'status' => false,
+            'message' => 'Unauthorized',
+        ], 401);
     }
+
+    $relatives = Relative::where('user_id', $user->id)->get();
+
+    // Convert image to full URL
+    $relatives->each(function ($relative) {
+        if (!empty($relative->image)) {
+            // Avoid double path if already full URL
+            if (!str_starts_with($relative->image, 'http')) {
+                $relative->image = asset(
+                    'storage/' . ltrim($relative->image, '/')
+                );
+            }
+        } else {
+            $relative->image = null;
+        }
+    });
+
+    return response()->json([
+        'status' => true,
+        'relatives' => $relatives,
+    ], 200);
+}
 
     /**
      * ➕ Add a new relative
