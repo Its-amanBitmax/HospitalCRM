@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Models\Reception;
 use App\Models\Profession;
@@ -100,8 +101,6 @@ class ReceptionController extends Controller
             ->with('success', 'Reception updated successfully.');
     }
 
-
-
     // Delete reception
     public function destroy($id)
     {
@@ -131,24 +130,14 @@ class ReceptionController extends Controller
     }
 
 
+    public function unassignReceptionEmployee($id)
+    {
+        $reception = \App\Models\Reception::findOrFail($id);
+        $reception->assigned_employee = null;
+        $reception->save();
 
-
-
- public function unassignReceptionEmployee($id)
-{
-    $reception = \App\Models\Reception::findOrFail($id);
-    $reception->assigned_employee = null;
-    $reception->save();
-
-    return redirect()->back()->with('success', 'Employee unassigned successfully.');
-}
-
-
-
-
-
-
-
+        return redirect()->back()->with('success', 'Employee unassigned successfully.');
+    }
 
     public function reception_visit()
     {
@@ -165,4 +154,31 @@ class ReceptionController extends Controller
 
         return view('admin.receptions.visits', compact('user', 'visits',));
     }
+
+
+  public function get_receptions()
+  {
+      $receptions = Reception::with('employee')->get();
+      return view('receptionist.receptionist-dashboard', compact('receptions'));
+  }
+
+
+
+   public function get_appointments()
+{
+    // Fetch all appointments of type 'Appointment' with related employee
+    $appointments = Appointment::with('doctor')
+                    ->where('type', 'Appointment')
+                    ->orderBy('appointment_date', 'desc')
+                    ->get();
+
+    return view('receptionist.receptionist-appointments', compact('appointments'));
+}
+
+
+
+
+
+
+
 }

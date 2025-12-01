@@ -107,7 +107,7 @@
                         <tr class="border-b border-gray-700">
                             <td class="p-3">{{ $app->user->name ?? $app->relative->name ?? 'Patient' }}</td>
                             <td class="p-3">{{ \Carbon\Carbon::parse($app->appointment_date)->format('d M Y') }}</td>
-                            <td class="p-3">{{ \Carbon\Carbon::parse($app->appointment_time)->format('h:i A') }}</td>
+                            <td class="p-3">{{ $app->appointment_time }}</td>
                             <td class="p-3">
                                 <span class="px-3 py-1 text-sm rounded
                                     @if($app->status == 'Confirmed') bg-green-500/20 text-green-600

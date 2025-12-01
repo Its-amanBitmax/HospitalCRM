@@ -21,15 +21,15 @@
             <div>
                 <label class="text-sm font-medium text-gray-600 mb-1 block">Patient Name</label>
                 <input type="text" name="patient_name" value="{{ request('patient_name') }}"
-                       placeholder="Enter name..."
-                       class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 bg-white text-black">
+                    placeholder="Enter name..."
+                    class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 bg-white text-black">
             </div>
 
             <!-- Visit Type -->
             <div>
                 <label class="text-sm font-medium text-gray-600 mb-1 block">Visit Type</label>
                 <select name="visit_type"
-                        class="w-full px-4 py-2 border rounded-lg bg-white text-black focus:ring focus:ring-blue-300">
+                    class="w-full px-4 py-2 border rounded-lg bg-white text-black focus:ring focus:ring-blue-300">
                     <option value="">All Visits</option>
                     <option value="OPD" {{ request('visit_type')=='OPD'?'selected':'' }}>OPD</option>
                     <option value="Emergency" {{ request('visit_type')=='Emergency'?'selected':'' }}>Emergency</option>
@@ -41,17 +41,17 @@
             <div>
                 <label class="text-sm font-medium text-gray-600 mb-1 block">Visit Date</label>
                 <input type="date" name="date" value="{{ request('date') }}"
-                       class="w-full px-4 py-2 border rounded-lg bg-white text-black focus:ring focus:ring-blue-300">
+                    class="w-full px-4 py-2 border rounded-lg bg-white text-black focus:ring focus:ring-blue-300">
             </div>
 
             <!-- Buttons -->
             <div class="flex items-end gap-2">
                 <button type="submit"
-                        class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                    class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                     Filter
                 </button>
                 <a href="{{ route('employee.doctor_patients') }}"
-                   class="w-full px-4 py-2 text-center  text-white rounded-lg hover:bg-gray-700 transition" style="background-color: gray;">
+                    class="w-full px-4 py-2 text-center  text-white rounded-lg hover:bg-gray-700 transition" style="background-color: gray;">
                     Reset
                 </a>
             </div>
@@ -87,8 +87,8 @@
                     <td class="px-6 py-4 text-sm">{{ $visit->chief_complaint ?? '-' }}</td>
                     <td class="px-6 py-4 text-sm">{{ $visit->date_of_visit?->format('Y-m-d') ?? '-' }}</td>
                     <td class="px-6 py-4 text-sm font-medium space-x-3">
-                        <a href="{{ route('employee.users.checkups', $visit->user->id) }}"
-                           class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs">View</a>
+                        <a href="{{ route('employee.users.summary', $visit->user->id) }}"
+                            class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 "><i class="fas fa-eye"></i></a>
                     </td>
                 </tr>
                 @empty
