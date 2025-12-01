@@ -349,8 +349,8 @@ Route::get(
 
 
 
- Route::post('doctor/profile-settings', [PatientVisitController::class, 'update_doctor_profile'])
-        ->name('doctor.update.profile');
+Route::post('doctor/profile-settings', [PatientVisitController::class, 'update_doctor_profile'])
+    ->name('doctor.update.profile');
 // Show password change form
 Route::get('/doctor/settings', [PatientVisitController::class, 'settings'])
     ->name('doctor.settings');
@@ -363,25 +363,31 @@ Route::post('/doctor/update/settings', [PatientVisitController::class, 'updateSe
 Route::get('/receptionists', [ReceptionController::class, 'get_receptions'])
     ->name('receptionists.dashboard');
 
-    Route::get('/receptionist/appointments', [ReceptionController::class, 'get_appointments'])
-     ->name('receptionist.appointments');
+Route::get('/receptionist/appointments', [ReceptionController::class, 'get_appointments'])
+    ->name('receptionist.appointments');
 
 Route::get('/receptionist/patients', [ReceptionController::class, 'get_patients'])
-     ->name('receptionist.patients');
+    ->name('receptionist.patients');
 
 
 
 
-     Route::get('receptionist/{user}/visits', [ReceptionController::class, 'showUserVisits'])->name('visits.show');
+Route::get('receptionist/{user}/visits', [ReceptionController::class, 'showUserVisits'])->name('visits.show');
 
-    // Create visit
-    Route::get('receptionist/{user}/visits/create', [ReceptionController::class, 'createUserVisit'])->name('visits.create');
-    Route::post('receptionist/{user}/visits', [ReceptionController::class, 'storeUserVisit'])->name('visits.store');
 
-    // Edit visit
-    Route::get('receptionist/{user}/visits/{visit}/edit', [ReceptionController::class, 'editUserVisit'])->name('visits.edit');
-    Route::post('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'updateUserVisit'])->name('visits.update');
+Route::get('receptionist/{user}/visits/create', [ReceptionController::class, 'createUserVisit'])->name('visits.create');
+Route::post('receptionist/{user}/visits', [ReceptionController::class, 'storeUserVisit'])->name('visits.store');
 
-    // Delete visit
-    Route::delete('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'deleteUserVisit'])->name('visits.delete');
+// Edit visit
+Route::get('receptionist/{user}/visits/{visit}/edit', [ReceptionController::class, 'editUserVisit'])->name('visits.edit');
+Route::post('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'updateUserVisit'])->name('visits.update');
+
+// Delete visit
+Route::delete('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'deleteUserVisit'])->name('visits.delete');
+
+Route::get('/patients/create', [ReceptionController::class, 'patient_create'])->name('patients.create');
+
+Route::post('/patients/save', [ReceptionController::class, 'patient_save'])->name('patients.save');
+
+
 

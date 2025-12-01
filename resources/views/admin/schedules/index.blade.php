@@ -57,9 +57,9 @@
         @endphp
 
         <!-- Tasks Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             @foreach($grouped as $task)
-                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 hover:border-gray-300 transform hover:-translate-y-1" style="width:300px;">
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 hover:border-gray-300 transform hover:-translate-y-1">
 
                     <!-- Card Header -->
                     <div class="p-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100" >
@@ -133,5 +133,5 @@
         </div>
     @endif
 </div>
+<script src="https://cdn.tailwindcss.com"></script>
 @endsection
-            \

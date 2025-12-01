@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\PatientVisit;
 use App\Models\RoomAssignment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ReceptionController extends Controller
 {
@@ -302,6 +303,87 @@ public function get_patients()
     }
 
 
+
+    public function patient_create(){
+        return view('receptionist.receptionist-create-patient');
+    }
+
+
+     public function patient_save(Request $request)
+    {
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'username' => 'nullable|string|max:255|unique:users,username',
+            'email' => 'nullable|email|unique:users,email',
+            'mobile_no' => 'required|string|max:20',
+            'password' => 'nullable|string|min:8',
+            'age' => 'nullable|integer|min:0|max:150',
+            'gender' => 'nullable|in:male,female,other',
+            'blood_group' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+            'father_spouse_name' => 'nullable|string|max:255',
+            'alternate_no' => 'nullable|string|max:20',
+            'full_address' => 'nullable|string',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'pin_code' => 'nullable|string|max:10',
+            'visit_type' => 'nullable|in:OPD,Emergency,Appointment',
+            'date_of_visit' => 'nullable|date',
+            'chief_complaint' => 'nullable|string',
+            'referred_by' => 'nullable|string|max:255',
+            'department_consultant' => 'nullable|string|max:255',
+            'id_proof_type' => 'nullable|string|max:255',
+            'id_number' => 'nullable|string|max:255',
+            'type' => 'required|in:ipd,opd,emergency,registered,discharged',
+            'status' => 'required|in:active,inactive,discharged',
+            'registered_through' => 'nullable|in:email,msg,whatsapp,offline',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Generate unique user_id with date and username
+        $date = now()->format('Ymd');
+        $username = $request->username ? strtoupper(substr($request->username, 0, 3)) : 'USR';
+        $userId = 'USR' . $date . $username . rand(100, 999);
+
+        // Handle image upload
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('image'), $imageName);
+            $imagePath = 'image/' . $imageName;
+        }
+
+        $user = \App\Models\User::create([
+            'user_id' => $userId,
+            'full_name' => $request->full_name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'mobile_no' => $request->mobile_no,
+            'password' => $request->password ? Hash::make($request->password) : null,
+            'age' => $request->age,
+            'gender' => $request->gender,
+            'blood_group' => $request->blood_group,
+            'father_spouse_name' => $request->father_spouse_name,
+            'alternate_no' => $request->alternate_no,
+            'full_address' => $request->full_address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'pin_code' => $request->pin_code,
+            'visit_type' => $request->visit_type,
+            'date_of_visit' => $request->date_of_visit,
+            'chief_complaint' => $request->chief_complaint,
+            'referred_by' => $request->referred_by,
+            'department_consultant' => $request->department_consultant,
+            'id_proof_type' => $request->id_proof_type,
+            'id_number' => $request->id_number,
+            'type' => $request->type,
+            'status' => $request->status,
+            'registered_through' => $request->registered_through,
+            'image' => $imagePath,
+        ]);
+
+        return redirect()->route('visits.show')->with('success', 'User created successfully.');
+    }
 
 
 }
