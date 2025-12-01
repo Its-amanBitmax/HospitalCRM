@@ -3,11 +3,33 @@
 @section('content')
 <div class="p-6 min-h-screen bg-gray-100">
 
-    <!-- Header Card -->
-    <div class="bg-white shadow rounded-lg p-5 mb-6">
+<!-- Header Card -->
+<div class="bg-white shadow rounded-lg p-5 mb-6 flex justify-between items-center">
+    
+    <!-- Heading -->
+    <div>
         <h1 class="text-2xl font-bold text-gray-800">Patients List</h1>
         <p class="text-gray-500 text-sm">All registered patients are listed below.</p>
     </div>
+
+    <!-- Buttons -->
+    <div class="flex gap-3">
+        <!-- Register Patient -->
+        <a href="{{ route('patients.create') }}"
+           class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition">
+            <i class="fas fa-user-plus mr-2"></i> Register Patient
+        </a>
+
+        <!-- All Patients -->
+        <a href="{{ route('patients.create') }}"
+           class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+           + Add Patients
+        </a>
+    </div>
+
+</div>
+
+
 
     <!-- Type-wise Count Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
