@@ -20,14 +20,18 @@ class AdminController extends Controller
             ], 404);
         }
 
+        // Full image URLs
+        $logoUrl = $admin->logo ? asset('storage/' . $admin->logo) : null;
+        $faviconUrl = $admin->favicon ? asset('storage/' . $admin->favicon) : null;
+
         // Return only organization-related fields
         return response()->json([
             'status' => true,
             'message' => 'Organization details retrieved successfully.',
             'data' => [
                 'hospital_name' => $admin->hospital_name,
-                'logo' => $admin->logo,
-                'favicon' => $admin->favicon,
+                'logo' => $logoUrl,
+                'favicon' => $faviconUrl,
                 'company_address' => $admin->company_address,
                 'company_contact' => $admin->company_contact,
                 'company_email' => $admin->company_email,

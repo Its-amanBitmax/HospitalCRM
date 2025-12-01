@@ -95,15 +95,20 @@ public function login(Request $request)
 
 
     public function logout(Request $request)
-{
-    
-    $request->user()->currentAccessToken()->delete();
+    {
+        $employee = auth('sanctum')->user();
 
-    return response()->json([
-        'success' => true,
-        'message' => 'Logout successful'
-    ]);
-}
+        if (!$employee) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $employee->currentAccessToken()->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Logout successful'
+        ]);
+    }
 
 
     public function getProfile(Request $request)
@@ -126,8 +131,13 @@ public function login(Request $request)
             'professions',
             'specialities',
             'schedules',
-            
+
         ]);
+
+        // Full image URL
+        if ($employee->image) {
+            $employee->image = asset('storage/' . $employee->image);
+        }
 
         return response()->json([
             'message' => 'Profile retrieved successfully',
@@ -245,8 +255,11 @@ public function updateProfile(Request $request)
             ->orderBy('appointment_time', 'desc')
             ->get();
 
-        // Get consultations (patient checkups) - note: patient_visits table does not have doctor_id, so returning all
+        // Get consultations (patient checkups) filtered by doctor
         $consultations = PatientCheckup::with(['visit.user'])
+            ->whereHas('visit', function ($query) use ($employee) {
+                $query->where('department_consultant_id', $employee->id);
+            })
             ->orderBy('checkup_date', 'desc')
             ->get();
 
@@ -269,7 +282,7 @@ public function updateProfile(Request $request)
         $validator = Validator::make($request->all(), [
             'appointment_id' => 'required|exists:appointments,appointment_id',
             'status' => 'required|in:Pending,Confirmed,Completed,Cancelled',
-            'type' => 'required|in:Appointment,consultation',
+            'type' => 'required|in:Appointment,Consultation',
         ]);
 
         if ($validator->fails()) {

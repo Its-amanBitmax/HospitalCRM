@@ -314,89 +314,53 @@ Route::post(
 )->name('employee.users.checkups.update');
 
 
-Route::delete(
-    'doctor/users/{userId}/checkups/{checkupId}',
-    [PatientVisitController::class, 'doctor_delete_Checkup']
-)->name('employee.users.checkups.delete');
+Route::delete('doctor/users/{userId}/checkups/{checkupId}',[PatientVisitController::class, 'doctor_delete_Checkup'])->name('employee.users.checkups.delete');
 
 
 
 
-Route::get(
-    'doctor/users/{userId}/documents/create',
-    [PatientVisitController::class, 'doctorCreateDocument']
-)->name('employee.users.documents.create');
-
-Route::post(
-    'doctor/users/{userId}/documents',
-    [PatientVisitController::class, 'doctorStoreDocument']
-)->name('employee.users.documents.store');
-Route::delete(
-    'doctor/users/{userId}/documents/{documentId}',
-    [PatientVisitController::class, 'doctorDeleteDocument']
-)->name('employee.users.documents.delete');
-
-
-
-
-
-
-
-Route::get(
-    'doctor/profile/settings',
-    [PatientVisitController::class, 'doctor_profile_settings']
-)->name('employee.profile.settings');
-
-
-
+Route::get('doctor/users/{userId}/documents/create',[PatientVisitController::class, 'doctorCreateDocument'])->name('employee.users.documents.create');
+Route::post('doctor/users/{userId}/documents',[PatientVisitController::class, 'doctorStoreDocument'])->name('employee.users.documents.store');
+Route::delete('doctor/users/{userId}/documents/{documentId}',[PatientVisitController::class, 'doctorDeleteDocument'])->name('employee.users.documents.delete');
+Route::get('doctor/profile/settings', [PatientVisitController::class, 'doctor_profile_settings'])->name('employee.profile.settings');
 Route::post('doctor/profile-settings', [PatientVisitController::class, 'update_doctor_profile'])
     ->name('doctor.update.profile');
-// Show password change form
 Route::get('/doctor/settings', [PatientVisitController::class, 'settings'])
     ->name('doctor.settings');
-
-// Update password
 Route::post('/doctor/update/settings', [PatientVisitController::class, 'updateSettings'])
     ->name('doctor.update.settings');
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Receptionist Dashboard
 Route::get('/receptionists', [ReceptionController::class, 'get_receptions'])
     ->name('receptionists.dashboard');
-
 Route::get('/receptionist/appointments', [ReceptionController::class, 'get_appointments'])
     ->name('receptionist.appointments');
-
 Route::get('/receptionist/patients', [ReceptionController::class, 'get_patients'])
     ->name('receptionist.patients');
-
-
-
-
 Route::get('receptionist/{user}/visits', [ReceptionController::class, 'showUserVisits'])->name('visits.show');
-
-
+Route::get('receptionist/{user}/view', [ReceptionController::class, 'ViewUsers'])->name('visits.view');
 Route::get('receptionist/{user}/visits/create', [ReceptionController::class, 'createUserVisit'])->name('visits.create');
 Route::post('receptionist/{user}/visits', [ReceptionController::class, 'storeUserVisit'])->name('visits.store');
-
-// Edit visit
 Route::get('receptionist/{user}/visits/{visit}/edit', [ReceptionController::class, 'editUserVisit'])->name('visits.edit');
 Route::post('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'updateUserVisit'])->name('visits.update');
-
-// Delete visit
 Route::delete('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'deleteUserVisit'])->name('visits.delete');
-
-
-
-
-
 Route::get('/patients/create', [ReceptionController::class, 'patient_create'])->name('patients.create');
 Route::post('/patients/save', [ReceptionController::class, 'patient_save'])->name('patients.save');
-
 Route::get('/patients/{id}/edit', [ReceptionController::class, 'patient_edit'])
     ->name('patients.edit');
-
 Route::put('/patients/{id}/update', [ReceptionController::class, 'patient_update'])
     ->name('patients.update');
-
 Route::get('/patients/{id}/delete', [ReceptionController::class, 'patient_delete'])
     ->name('patients.delete');

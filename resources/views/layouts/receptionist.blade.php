@@ -75,7 +75,7 @@
                             Welcome, {{ auth('receptionist')->user()->name }}
                         </span>
 
-                        <img src="{{ auth()->user()->image ?? asset('image/default.png') }}"
+                        <img src="{{ auth('receptionist')->user()->image ?? asset('image/default.png') }}"
                             class="w-10 h-10 rounded-full object-cover border">
                     </div>
 

@@ -28,89 +28,93 @@ class UserController extends Controller
         return $username;
     }
 
-public function register(Request $request)
-{
-    // ✅ Validation
-    $validator = Validator::make($request->all(), [
-        'full_name' => 'required|string|max:255',
+    public function register(Request $request)
+    {
+        // ✅ Validation
+        $validator = Validator::make($request->all(), [
+            'full_name' => 'required|string|max:255',
 
-        'email'     => 'nullable|email|unique:users,email|required_without:mobile_no',
-        'mobile_no' => 'nullable|string|max:15|unique:users,mobile_no|required_without:email',
+            'email'     => 'nullable|email|unique:users,email|required_without:mobile_no',
+            'mobile_no' => 'nullable|string|max:15|unique:users,mobile_no|required_without:email',
 
-        'username' => 'nullable|string|unique:users,username',
-        'password' => 'required|string|min:8',
+            'username' => 'nullable|string|unique:users,username',
+            'password' => 'required|string|min:8',
 
-        'age' => 'nullable|integer|min:1|max:120',
-        'gender' => 'nullable|in:male,female,other',
-        'full_address' => 'nullable|string',
+            'age' => 'nullable|integer|min:1|max:120',
+            'gender' => 'nullable|in:male,female,other',
+            'full_address' => 'nullable|string',
 
-        'registered_through' => 'required|in:email,msg,whatsapp,offline',
-        'type'   => 'nullable|in:ipd,opd,emergency,registered,online',
-        'status' => 'nullable|in:active,inactive,discharged',
+            'registered_through' => 'required|in:email,msg,whatsapp,offline',
+            'type'   => 'nullable|in:ipd,opd,emergency,registered,online',
+            'status' => 'nullable|in:active,inactive,discharged',
 
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 
-        'father_spouse_name' => 'nullable|string|max:255',
-        'alternate_no' => 'nullable|string|max:15',
-        'id_proof_type' => 'nullable|string|max:255',
-        'id_number' => 'nullable|string|max:255',
-    ]);
+            'father_spouse_name' => 'nullable|string|max:255',
+            'alternate_no' => 'nullable|string|max:15',
+            'id_proof_type' => 'nullable|string|max:255',
+            'id_number' => 'nullable|string|max:255',
+        ]);
 
-    if ($validator->fails()) {
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // ✅ AUTO CREATE UNIQUE USER_ID (HERE ✅)
+        $userId = 'USR-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6));
+
+        // ✅ Image upload
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $image      = $request->file('image');
+            $imageName  = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('image'), $imageName);
+            $imagePath = 'image/' . $imageName;
+        }
+
+        // ✅ Create NEW user
+        $user = User::create([
+            'user_id' => $userId, // ✅ auto-generated
+            'full_name' => $request->full_name,
+            'email' => $request->email,
+            'mobile_no' => $request->mobile_no,
+            'username' => $request->username,
+
+            'age' => $request->age,
+            'gender' => $request->gender,
+            'full_address' => $request->full_address,
+
+            'password' => Hash::make($request->password),
+
+            'registered_through' => $request->registered_through,
+            'type' => $request->type,
+            'status' => $request->status ?? 'active',
+
+            'image' => $imagePath,
+            'father_spouse_name' => $request->father_spouse_name,
+            'alternate_no' => $request->alternate_no,
+            'id_proof_type' => $request->id_proof_type,
+            'id_number' => $request->id_number,
+        ]);
+
         return response()->json([
-            'status' => false,
-            'message' => $validator->errors()->first(),
-            'errors' => $validator->errors()
-        ], 422);
+            'status' => true,
+            'message' => 'User registered successfully.',
+            'data' => [
+                'id' => $user->id,
+                'user_id' => $user->user_id,
+                'full_name' => $user->full_name,
+                'email' => $user->email,
+                'mobile_no' => $user->mobile_no,
+                'image' => $user->image ? asset('/storage/'  . $user->image) : null,
+            ]
+        ], 201);
     }
-
-    // ✅ AUTO CREATE UNIQUE USER_ID (HERE ✅)
-    $userId = 'USR-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6));
-
-    // ✅ Image upload
-    $imagePath = null;
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('users', 'public');
-    }
-
-    // ✅ Create NEW user
-    $user = User::create([
-        'user_id' => $userId, // ✅ auto-generated
-        'full_name' => $request->full_name,
-        'email' => $request->email,
-        'mobile_no' => $request->mobile_no,
-        'username' => $request->username,
-
-        'age' => $request->age,
-        'gender' => $request->gender,
-        'full_address' => $request->full_address,
-
-        'password' => Hash::make($request->password),
-
-        'registered_through' => $request->registered_through,
-        'type' => $request->type,
-        'status' => $request->status ?? 'active',
-
-        'image' => $imagePath,
-        'father_spouse_name' => $request->father_spouse_name,
-        'alternate_no' => $request->alternate_no,
-        'id_proof_type' => $request->id_proof_type,
-        'id_number' => $request->id_number,
-    ]);
-
-    return response()->json([
-        'status' => true,
-        'message' => 'User registered successfully.',
-        'data' => [
-            'id' => $user->id,
-            'user_id' => $user->user_id,
-            'full_name' => $user->full_name,
-            'email' => $user->email,
-            'mobile_no' => $user->mobile_no,
-            'image' => $user->image ? asset('/storage/'  . $user->image) : null,
-        ]
-    ], 201);
-}
 
 
     public function login(Request $request)
@@ -169,39 +173,39 @@ public function register(Request $request)
 
 
 
-public function getProfile()
-{
-    // ✅ Get authenticated user
-    $user = Auth::user();
+    public function getProfile()
+    {
+        // ✅ Get authenticated user
+        $user = Auth::user();
 
-    if (!$user) {
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized.',
+            ], 401);
+        }
+
+        // ✅ Check active status
+        if ($user->status !== 'active') {
+            return response()->json([
+                'status' => false,
+                'message' => 'Account is inactive.',
+            ], 403);
+        }
+
+        // ✅ Convert image path to full URL
+        if (!empty($user->image)) {
+            $user->image = asset($user->image);
+        } else {
+            $user->image = null;
+        }
+
         return response()->json([
-            'status' => false,
-            'message' => 'Unauthorized.',
-        ], 401);
+            'status' => true,
+            'message' => 'Profile retrieved successfully.',
+            'data' => $user,
+        ], 200);
     }
-
-    // ✅ Check active status
-    if ($user->status !== 'active') {
-        return response()->json([
-            'status' => false,
-            'message' => 'Account is inactive.',
-        ], 403);
-    }
-
-    // ✅ Convert image path to full URL
-    if (!empty($user->image)) {
-        $user->image = asset('storage/' . $user->image);
-    } else {
-        $user->image = null;
-    }
-
-    return response()->json([
-        'status' => true,
-        'message' => 'Profile retrieved successfully.',
-        'data' => $user,
-    ], 200);
-}
 
 
     public function logout(Request $request)
@@ -331,151 +335,150 @@ public function getProfile()
     }
 
 
-public function checkUserExists(Request $request)
-{
-    // Step 1: Validate input
-    $validator = Validator::make($request->all(), [
-        'email'      => 'nullable|email:rfc,dns', // strict email validation
-        'mobile_no'  => 'nullable|string|regex:/^[0-9]{10,15}$/', // only digits, 10-15 length
-    ], [
-        'email.email'       => 'Please enter a valid email address.',
-        'mobile_no.regex'   => 'Mobile number must be 10 to 15 digits only.',
-    ]);
+    public function checkUserExists(Request $request)
+    {
+        // Step 1: Validate input
+        $validator = Validator::make($request->all(), [
+            'email'      => 'nullable|email:rfc,dns', // strict email validation
+            'mobile_no'  => 'nullable|string|regex:/^[0-9]{10,15}$/', // only digits, 10-15 length
+        ], [
+            'email.email'       => 'Please enter a valid email address.',
+            'mobile_no.regex'   => 'Mobile number must be 10 to 15 digits only.',
+        ]);
 
-    if ($validator->fails()) {
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => false,
+                'message' => $validator->errors()->first(),
+            ], 400);
+        }
+
+        // Step 2: Check at least one field is provided
+        if (empty($request->email) && empty($request->mobile_no)) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Either email or mobile number is required.',
+            ], 400);
+        }
+
+        // Step 3: Search user
+        $query = User::query();
+
+        if ($request->filled('email')) {
+            $query->where('email', $request->email);
+        }
+
+        if ($request->filled('mobile_no')) {
+            $query->orWhere('mobile_no', $request->mobile_no);
+        }
+
+        $user = $query->first();
+
+        // Step 4: Return response
         return response()->json([
-            'status'  => false,
-            'message' => $validator->errors()->first(),
-        ], 400);
+            'status'   => true,
+            'exists'   => $user ? true : false,
+            'username' => $user?->username ?? null,
+        ], 200);
     }
 
-    // Step 2: Check at least one field is provided
-    if (empty($request->email) && empty($request->mobile_no)) {
-        return response()->json([
-            'status'  => false,
-            'message' => 'Either email or mobile number is required.',
-        ], 400);
-    }
+    public function updateCredentials(Request $request)
+    {
+        // ✅ Validate input
+        $validator = Validator::make($request->all(), [
+            'email' => 'nullable|email',
+            'mobile_no' => 'nullable|string|max:15',
+            'username' => 'nullable|string',
+            'password' => 'required|string|min:8',
+        ]);
 
-    // Step 3: Search user
-    $query = User::query();
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 400);
+        }
 
-    if ($request->filled('email')) {
-        $query->where('email', $request->email);
-    }
+        // ✅ Require either email or mobile_no
+        if (empty($request->email) && empty($request->mobile_no)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Either email or phone number is required.',
+            ], 400);
+        }
 
-    if ($request->filled('mobile_no')) {
-        $query->orWhere('mobile_no', $request->mobile_no);
-    }
-
-    $user = $query->first();
-
-    // Step 4: Return response
-    return response()->json([
-        'status'   => true,
-        'exists'   => $user ? true : false,
-        'username' => $user?->username ?? null,
-    ], 200);
-}
-
-  public function updateCredentials(Request $request)
-{
-    // ✅ Validate input
-    $validator = Validator::make($request->all(), [
-        'email' => 'nullable|email',
-        'mobile_no' => 'nullable|string|max:15',
-        'username' => 'nullable|string',
-        'password' => 'required|string|min:8',
-    ]);
-
-    if ($validator->fails()) {
-        return response()->json([
-            'status' => false,
-            'message' => $validator->errors()->first(),
-        ], 400);
-    }
-
-    // ✅ Require either email or mobile_no
-    if (empty($request->email) && empty($request->mobile_no)) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Either email or phone number is required.',
-        ], 400);
-    }
-
-    // ✅ Find user more safely
-    $user = User::when($request->email, function ($query) use ($request) {
-                $query->where('email', $request->email);
-            })
+        // ✅ Find user more safely
+        $user = User::when($request->email, function ($query) use ($request) {
+            $query->where('email', $request->email);
+        })
             ->when($request->mobile_no, function ($query) use ($request) {
                 $query->where('mobile_no', $request->mobile_no);
             })
             ->first();
 
-    if (!$user) {
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ], 404);
+        }
+
+        // ✅ Update logic based on username existence
+        if (!empty($user->username)) {
+            // If username already exists, prevent username update
+            if (!empty($request->username) && $request->username !== $user->username) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Username already exists, cannot update username.',
+                ], 400);
+            }
+
+            // Only update password
+            $user->update([
+                'password' => bcrypt($request->password),
+            ]);
+
+            $message = 'Password updated successfully.';
+        } else {
+            // If username is null or empty, username is required
+            if (empty($request->username)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Username is required since it does not exist.',
+                ], 400);
+            }
+
+            // ✅ Check if the new username already exists for another user
+            $exists = User::where('username', $request->username)
+                ->where('id', '!=', $user->id)
+                ->exists();
+
+            if ($exists) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'This username is already taken by another user.',
+                ], 400);
+            }
+
+            // ✅ Update both username and password
+            $user->update([
+                'username' => $request->username,
+                'password' => bcrypt($request->password),
+            ]);
+
+            $message = 'Username and password updated successfully.';
+        }
+
+        // ✅ Return response
         return response()->json([
-            'status' => false,
-            'message' => 'User not found.',
-        ], 404);
+            'status' => true,
+            'message' => $message,
+            'data' => [
+                'id' => $user->id,
+                'username' => $user->username,
+                'email' => $user->email,
+                'mobile_no' => $user->mobile_no,
+            ],
+        ], 200);
     }
-
-    // ✅ Update logic based on username existence
-    if (!empty($user->username)) {
-        // If username already exists, prevent username update
-        if (!empty($request->username) && $request->username !== $user->username) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Username already exists, cannot update username.',
-            ], 400);
-        }
-
-        // Only update password
-        $user->update([
-            'password' => bcrypt($request->password),
-        ]);
-
-        $message = 'Password updated successfully.';
-    } 
-    else {
-        // If username is null or empty, username is required
-        if (empty($request->username)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Username is required since it does not exist.',
-            ], 400);
-        }
-
-        // ✅ Check if the new username already exists for another user
-        $exists = User::where('username', $request->username)
-            ->where('id', '!=', $user->id)
-            ->exists();
-
-        if ($exists) {
-            return response()->json([
-                'status' => false,
-                'message' => 'This username is already taken by another user.',
-            ], 400);
-        }
-
-        // ✅ Update both username and password
-        $user->update([
-            'username' => $request->username,
-            'password' => bcrypt($request->password),
-        ]);
-
-        $message = 'Username and password updated successfully.';
-    }
-
-    // ✅ Return response
-    return response()->json([
-        'status' => true,
-        'message' => $message,
-        'data' => [
-            'id' => $user->id,
-            'username' => $user->username,
-            'email' => $user->email,
-            'mobile_no' => $user->mobile_no,
-        ],
-    ], 200);
-}
 }

@@ -9,7 +9,7 @@
       <h1 class="text-xl font-semibold text-gray-800 ">Add New Visit - {{ $user->full_name }}</h1>
     </div>
     <div class="flex gap-3">
-      <a href="#" class="bg-white-600 hover:bg-white-700 text-bg-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
+      <a href="{{route('visits.show', $user->id)}}" class="bg-white-600 hover:bg-white-700 text-bg-white px-4 py-2 rounded-lg transition duration-200 shadow-md hover:shadow-lg">
         <i class="fas fa-arrow-left mr-2"></i>Back to Visits
       </a>
     </div>
