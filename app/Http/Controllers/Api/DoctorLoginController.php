@@ -176,20 +176,6 @@ public function updateProfile(Request $request)
         'employee' => $employee
     ]);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
     public function getAppointmentsAndConsultations(Request $request)
     {
