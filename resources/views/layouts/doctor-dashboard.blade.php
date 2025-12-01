@@ -192,6 +192,19 @@
             }
         });
     </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#1d4ed8', // blue
+          secondary: '#10b981', // green
+        },
+      },
+    },
+  }
+</script>
 
 </body>
 

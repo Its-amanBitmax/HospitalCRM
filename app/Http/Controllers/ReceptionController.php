@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Hash;
 
 class ReceptionController extends Controller
 {
+    private function checkAssignedReception()
+    {
+        $assignedReception = Reception::with('employee')->where('assigned_employee', auth('receptionist')->id())->first();
+        if (!$assignedReception) {
+            return view('receptionist.receptionist-dashboard'); // This will show the modal
+        }
+        return null;
+    }
+
     // Show list of receptions with filters and pagination
     public function index(Request $request)
     {
@@ -161,10 +170,14 @@ class ReceptionController extends Controller
     {
         $receptions = Reception::with('employee')->get();
 
+        // Get assigned reception for the current receptionist
+        $assignedReception = Reception::with('employee')->where('assigned_employee', auth('receptionist')->id())->first();
+
         // Summary Data
         $totalAppointments = Appointment::count();
         $todayAppointments = Appointment::whereDate('appointment_date', today())->count();
         $todayVisits = PatientVisit::count();
+        $receptionCount = Reception::count();
 
         // Recent Appointments
         $recentAppointments = Appointment::with(['doctor', 'relative'])
@@ -180,16 +193,22 @@ class ReceptionController extends Controller
 
         return view('receptionist.receptionist-dashboard', compact(
             'receptions',
+            'assignedReception',
             'totalAppointments',
             'todayAppointments',
             'todayVisits',
             'recentAppointments',
-            'recentPatients'
+            'recentPatients',
+            'receptionCount'
         ));
     }
 
     public function get_appointments()
     {
+        // Check if receptionist has assigned reception
+        $check = $this->checkAssignedReception();
+        if ($check) return $check;
+
         // Fetch all appointments of type 'Appointment' with related employee
         $appointments = Appointment::with('doctor')
             ->where('type', 'Appointment')
@@ -202,6 +221,10 @@ class ReceptionController extends Controller
 
     public function get_patients(Request $request)
     {
+        // Check if receptionist has assigned reception
+        $check = $this->checkAssignedReception();
+        if ($check) return $check;
+
         // Start query for patients
         $query = User::query();
 
@@ -249,6 +272,10 @@ class ReceptionController extends Controller
     // Show form to create a visit for a specific user
     public function createUserVisit(User $user)
     {
+        // Check if receptionist has assigned reception
+        $check = $this->checkAssignedReception();
+        if ($check) return $check;
+
         // Fetch all receptions
         $receptions = Reception::all();
 

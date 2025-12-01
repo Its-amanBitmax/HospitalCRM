@@ -1,7 +1,6 @@
 @extends('layouts.receptionist')
 
 @section('content')
-<div class=" md:p-6 min-h-screen" style="">
 
     <!-- Header Card -->
     <div class="bg-white shadow-lg rounded-xl p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -86,8 +85,8 @@
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Full Name</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
@@ -122,13 +121,13 @@
 
                             <!-- View Profile -->
                             <a href="{{ route('visits.view', $patient->id) }}"
-                                class="text-blue-600 hover:text-blue-900 transition-colors duration-200 inline-flex items-center mx-2">
+                                class="text-yellow-400 hover:text-yellow-600 transition-colors duration-200 inline-flex items-center mx-2">
                                 <i class="fas fa-eye text-lg"></i>
                             </a>
 
                             <!-- Edit -->
                             <a href="{{ route('patients.edit', $patient->id) }}"
-                                class="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 inline-flex items-center mx-2">
+                                class="text-green-600 hover:text-green-900 transition-colors duration-200 inline-flex items-center mx-2">
                                 <i class="fas fa-edit text-lg"></i>
                             </a>
 

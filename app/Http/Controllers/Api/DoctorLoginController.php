@@ -257,8 +257,8 @@ public function updateProfile(Request $request)
 
         // Get consultations (patient checkups) filtered by doctor
         $consultations = PatientCheckup::with(['visit.user'])
-            ->whereHas('visit', function ($query) use ($employee) {
-                $query->where('department_consultant_id', $employee->id);
+            ->whereHas('visit.consultantAssignment', function ($query) use ($employee) {
+                $query->where('employee_id', $employee->id);
             })
             ->orderBy('checkup_date', 'desc')
             ->get();
