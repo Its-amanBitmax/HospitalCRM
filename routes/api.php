@@ -50,3 +50,4 @@ Route::middleware('auth:sanctum')->get('/doctor/profile', [\App\Http\Controllers
 Route::middleware('auth:sanctum')->post('/doctor/profile/update', [\App\Http\Controllers\Api\DoctorLoginController::class, 'updateProfile']);
 
 Route::middleware('auth:sanctum')->get('/doctor/appointments-consultations', [\App\Http\Controllers\Api\DoctorLoginController::class, 'getAppointmentsAndConsultations']);
+Route::middleware('auth:sanctum')->get('/schedules/today', [\App\Http\Controllers\Api\ScheduleController::class, 'getTodaySchedules']);
