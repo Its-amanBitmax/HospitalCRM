@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.receptionist')
 
 @section('content')
 <div class="min-h-screen">
@@ -25,7 +25,7 @@
     <div class="bg-white bg-white-800 rounded-lg shadow-lg p-6 border border-gray-200">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold text-gray-800 ">Patient Visits</h2>
-            <a href="{{ route('admin.users.visits.create', $user->id) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+            <a href="{{ route('visits.create', $user->id) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
                 <i class="fas fa-plus"></i> Add Visit
             </a>
         </div>
@@ -57,8 +57,8 @@
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
-                            <a href="{{ route('admin.users.visits.edit', [$user->id, $visit->id]) }}" class="text-blue-600 hover:text-blue-800">Edit</a>
-                            <form action="{{ route('admin.users.visits.destroy', [$user->id, $visit->id]) }}" method="POST" class="inline" onsubmit="return confirm('Delete this visit?')">
+                            <a href="{{ route('visits.edit', [$user->id, $visit->id]) }}" class="text-blue-600 hover:text-blue-800">Edit</a>
+                            <form action="{{ route('visits.delete', [$user->id, $visit->id]) }}" method="POST" class="inline" onsubmit="return confirm('Delete this visit?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-800">Delete</button>
                             </form>

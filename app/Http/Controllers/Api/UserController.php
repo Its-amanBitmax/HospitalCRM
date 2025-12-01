@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -26,22 +28,28 @@ class UserController extends Controller
         return $username;
     }
 
-   public function register(Request $request)
+public function register(Request $request)
 {
-    // ✅ Basic validation (without unique rules, we'll handle uniqueness manually)
+    // ✅ Validation
     $validator = Validator::make($request->all(), [
         'full_name' => 'required|string|max:255',
-        'email' => 'nullable|email',
-        'mobile_no' => 'nullable|string|max:15',
+
+        'email'     => 'nullable|email|unique:users,email|required_without:mobile_no',
+        'mobile_no' => 'nullable|string|max:15|unique:users,mobile_no|required_without:email',
+
+        'username' => 'nullable|string|unique:users,username',
+        'password' => 'required|string|min:8',
+
         'age' => 'nullable|integer|min:1|max:120',
         'gender' => 'nullable|in:male,female,other',
         'full_address' => 'nullable|string',
-        'username' => 'nullable|string',
-        'password' => 'required|string|min:8',
+
         'registered_through' => 'required|in:email,msg,whatsapp,offline',
-        'type' => 'nullable|in:ipd,opd,emergency,registered,online',
+        'type'   => 'nullable|in:ipd,opd,emergency,registered,online',
         'status' => 'nullable|in:active,inactive,discharged',
+
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+
         'father_spouse_name' => 'nullable|string|max:255',
         'alternate_no' => 'nullable|string|max:15',
         'id_proof_type' => 'nullable|string|max:255',
@@ -52,74 +60,37 @@ class UserController extends Controller
         return response()->json([
             'status' => false,
             'message' => $validator->errors()->first(),
-        ], 400);
+            'errors' => $validator->errors()
+        ], 422);
     }
 
-    // ✅ Check at least one of email or mobile_no
-    if (empty($request->email) && empty($request->mobile_no)) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Either email or mobile number is required.',
-        ], 400);
-    }
+    // ✅ AUTO CREATE UNIQUE USER_ID (HERE ✅)
+    $userId = 'USR-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6));
 
-    // ✅ Find existing user (by email or mobile_no)
-    $existingUser = User::where('email', $request->email)
-        ->orWhere('mobile_no', $request->mobile_no)
-        ->first();
-
-    // ✅ Handle image upload
+    // ✅ Image upload
     $imagePath = null;
     if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imageName = time() . '_' . $image->getClientOriginalName();
-        $image->move(public_path('image'), $imageName);
-        $imagePath = 'image/' . $imageName;
+        $imagePath = $request->file('image')->store('users', 'public');
     }
 
-    // ✅ If user exists → update only allowed fields
-    if ($existingUser) {
-        $existingUser->update([
-            'full_name' => $request->full_name,
-            'age' => $request->age,
-            'gender' => $request->gender,
-            'full_address' => $request->full_address,
-            'password' => $request->password,
-            'registered_through' => $request->registered_through,
-            'type' => $request->type ?? $existingUser->type,
-            'status' => $request->status ?? $existingUser->status,
-            'image' => $imagePath ?? $existingUser->image,
-            'father_spouse_name' => $request->father_spouse_name,
-            'alternate_no' => $request->alternate_no,
-            'id_proof_type' => $request->id_proof_type,
-            'id_number' => $request->id_number,
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'User updated successfully (email, mobile, and username unchanged).',
-            'data' => $existingUser,
-        ], 200);
-    }
-
-    // ✅ Create new user if not found
-    $date = now()->format('Ymd');
-    $username = $request->username ?: $this->generateUsername($request->full_name);
-    $userId = 'USR' . $date . strtoupper(substr($username, 0, 3)) . rand(100, 999);
-
+    // ✅ Create NEW user
     $user = User::create([
-        'user_id' => $userId,
+        'user_id' => $userId, // ✅ auto-generated
         'full_name' => $request->full_name,
+        'email' => $request->email,
+        'mobile_no' => $request->mobile_no,
+        'username' => $request->username,
+
         'age' => $request->age,
         'gender' => $request->gender,
         'full_address' => $request->full_address,
-        'username' => $username,
-        'password' => $request->password,
-        'mobile_no' => $request->mobile_no,
-        'email' => $request->email,
+
+        'password' => Hash::make($request->password),
+
         'registered_through' => $request->registered_through,
-        'type' => $request->type ?? 'registered',
+        'type' => $request->type,
         'status' => $request->status ?? 'active',
+
         'image' => $imagePath,
         'father_spouse_name' => $request->father_spouse_name,
         'alternate_no' => $request->alternate_no,
@@ -130,8 +101,15 @@ class UserController extends Controller
     return response()->json([
         'status' => true,
         'message' => 'User registered successfully.',
-        'data' => $user,
-    ], 200);
+        'data' => [
+            'id' => $user->id,
+            'user_id' => $user->user_id,
+            'full_name' => $user->full_name,
+            'email' => $user->email,
+            'mobile_no' => $user->mobile_no,
+            'image' => $user->image ? asset('/storage/'  . $user->image) : null,
+        ]
+    ], 201);
 }
 
 
@@ -189,33 +167,42 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function getProfile()
-    {
-        //  Get authenticated user
-        $user = Auth::user();
 
-        // If user not authenticated (though middleware should handle this)
-        if (!$user) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Unauthorized.',
-            ], 401);
-        }
 
-        //  Check if user is active
-        if ($user->status !== 'active') {
-            return response()->json([
-                'status' => false,
-                'message' => 'Account is inactive.',
-            ], 403);
-        }
+public function getProfile()
+{
+    // ✅ Get authenticated user
+    $user = Auth::user();
 
+    if (!$user) {
         return response()->json([
-            'status' => true,
-            'message' => 'Profile retrieved successfully.',
-            'data' => $user,
-        ], 200);
+            'status' => false,
+            'message' => 'Unauthorized.',
+        ], 401);
     }
+
+    // ✅ Check active status
+    if ($user->status !== 'active') {
+        return response()->json([
+            'status' => false,
+            'message' => 'Account is inactive.',
+        ], 403);
+    }
+
+    // ✅ Convert image path to full URL
+    if (!empty($user->image)) {
+        $user->image = asset('storage/' . $user->image);
+    } else {
+        $user->image = null;
+    }
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Profile retrieved successfully.',
+        'data' => $user,
+    ], 200);
+}
+
 
     public function logout(Request $request)
     {

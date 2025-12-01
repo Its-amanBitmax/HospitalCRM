@@ -59,22 +59,22 @@
         <!-- Tasks Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach($grouped as $task)
-                <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition duration-200 overflow-hidden border border-gray-200">
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 hover:border-gray-300 transform hover:-translate-y-1" style="width:300px;">
 
                     <!-- Card Header -->
-                    <div class="p-4 border-b border-gray-100 bg-gray-50">
+                    <div class="p-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100" >
                         <div class="flex items-center justify-between">
-                            <h3 class="text-lg font-semibold text-gray-800">{{ $task['task_type'] }}</h3>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                            <h3 class="text-xl font-bold text-gray-800">{{ $task['task_type'] }}</h3>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
                                 @switch($task['task_type'])
-                                    @case('Appointment') bg-blue-100 text-blue-800 @break
-                                    @case('Consultation') bg-purple-100 text-purple-800 @break
-                                    @case('OPD') bg-green-100 text-green-800 @break
-                                    @case('IPD') bg-yellow-100 text-yellow-800 @break
-                                    @case('Emergency') bg-red-100 text-red-800 @break
-                                    @case('Room Duty') bg-orange-100 text-orange-800 @break
-                                    @case('Other') bg-gray-100 text-gray-800 @break
-                                    @default bg-gray-100 text-gray-800
+                                    @case('Appointment') bg-blue-100 text-blue-800 border border-blue-200 @break
+                                    @case('Consultation') bg-purple-100 text-purple-800 border border-purple-200 @break
+                                    @case('OPD') bg-green-100 text-green-800 border border-green-200 @break
+                                    @case('IPD') bg-yellow-100 text-yellow-800 border border-yellow-200 @break
+                                    @case('Emergency') bg-red-100 text-red-800 border border-red-200 @break
+                                    @case('Room Duty') bg-orange-100 text-orange-800 border border-orange-200 @break
+                                    @case('Other') bg-gray-100 text-gray-800 border border-gray-200 @break
+                                    @default bg-gray-100 text-gray-800 border border-gray-200
                                 @endswitch">
                                 <i class="fas fa-tag mr-1"></i>
                                 {{ $task['task_type'] }}
@@ -83,28 +83,28 @@
                     </div>
 
                     <!-- Card Body -->
-                    <div class="p-4 space-y-3">
+                    <div class="p-5 space-y-4">
                         <div class="flex items-center text-sm">
-                            <i class="fas fa-calendar-start text-gray-400 mr-2 w-4"></i>
+                            <i class="fas fa-calendar-start text-blue-500 mr-3 w-5"></i>
                             <div>
-                                <span class="text-gray-500">Start:</span>
-                                <span class="font-medium text-gray-800">{{ \Carbon\Carbon::parse($task['start_date'])->format('M d, Y') }}</span>
+                                <span class="text-gray-500 block">Start Date</span>
+                                <span class="font-semibold text-gray-800">{{ \Carbon\Carbon::parse($task['start_date'])->format('M d, Y') }}</span>
                             </div>
                         </div>
 
                         <div class="flex items-center text-sm">
-                            <i class="fas fa-calendar-end text-gray-400 mr-2 w-4"></i>
+                            <i class="fas fa-calendar-end text-red-500 mr-3 w-5"></i>
                             <div>
-                                <span class="text-gray-500">End:</span>
-                                <span class="font-medium text-gray-800">{{ \Carbon\Carbon::parse($task['end_date'])->format('M d, Y') }}</span>
+                                <span class="text-gray-500 block">End Date</span>
+                                <span class="font-semibold text-gray-800">{{ \Carbon\Carbon::parse($task['end_date'])->format('M d, Y') }}</span>
                             </div>
                         </div>
 
                         <div class="flex items-center text-sm">
-                            <i class="fas fa-clock text-gray-400 mr-2 w-4"></i>
+                            <i class="fas fa-clock text-green-500 mr-3 w-5"></i>
                             <div>
-                                <span class="text-gray-500">Time:</span>
-                                <span class="font-medium text-gray-800">
+                                <span class="text-gray-500 block">Time Slot</span>
+                                <span class="font-semibold text-gray-800">
                                     {{ \Carbon\Carbon::parse($task['start_time'])->format('g:i A') }} -
                                     {{ \Carbon\Carbon::parse($task['end_time'])->format('g:i A') }}
                                 </span>
@@ -113,17 +113,17 @@
                     </div>
 
                     <!-- Card Footer -->
-                    <div class="p-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+                    <div class="p-5 bg-gradient-to-r from-gray-50 to-gray-100 border-t border-gray-100 flex justify-between items-center space-x-3">
                         <a href="{{ route('schedules.edit', $task['id']) }}"
-                           class="inline-flex items-center bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-4 py-2 rounded-lg text-sm transition duration-200">
+                           class="flex-1 inline-flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-all duration-200 transform hover:scale-105">
                             <i class="fas fa-edit mr-2"></i>Edit
                         </a>
 
                         <form action="{{ route('schedules.destroy', $task['id']) }}" method="POST"
-                              onsubmit="return confirm('Are you sure you want to delete this task?')" class="inline">
+                              onsubmit="return confirm('Are you sure you want to delete this task?')" class="flex-1">
                             @csrf
                             @method('DELETE')
-                            <button class="inline-flex items-center bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg text-sm transition duration-200">
+                            <button class="w-full inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-all duration-200 transform hover:scale-105">
                                 <i class="fas fa-trash mr-2"></i>Delete
                             </button>
                         </form>
@@ -134,4 +134,4 @@
     @endif
 </div>
 @endsection
-            
+            \

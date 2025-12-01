@@ -42,7 +42,7 @@
                     <span class="sidebar-text">Appointments</span>
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
+                <a href="{{route('receptionist.patients')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
                     <i class="fa-solid fa-users"></i>
                     <span class="sidebar-text">Patients</span>
                 </a>
@@ -72,7 +72,7 @@
                     <!-- Trigger -->
                     <div class="flex items-center gap-3 cursor-pointer" id="dropdownToggle">
                         <span class="text-sm font-medium">
-                            Welcome, 
+                            Welcome, {{ auth('receptionist')->user()->name }}
                         </span>
 
                         <img src="{{ auth()->user()->image ?? asset('image/default.png') }}"
@@ -91,7 +91,7 @@
                         </a>
 
 
-                        <form method="POST" action="#" onsubmit="localStorage.clear();">
+                        <form method="POST" action="{{route('employee.logout')}}" onsubmit="localStorage.clear();">
                             @csrf
                             <button type="submit"
                                 class="flex items-center gap-3 px-5 py-3 hover:bg-gray-100 text-red-500 w-full text-left">

@@ -15,6 +15,17 @@
         @csrf
         @method('PUT')
 
+        <!-- General Errors -->
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- Date Fields -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -24,6 +35,9 @@
                 <input type="date" name="start_date" id="start_date" value="{{ $schedule->start_date }}"
                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                        required>
+                @error('start_date')
+                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
             <div>
@@ -33,6 +47,9 @@
                 <input type="date" name="end_date" id="end_date" value="{{ $schedule->end_date }}"
                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                        required>
+                @error('end_date')
+                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
@@ -43,8 +60,11 @@
                     <i class="fas fa-clock mr-2"></i>Start Time
                 </label>
                 <input type="time" name="start_time" id="start_time" value="{{ $schedule->start_time }}"
-                       class="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                        required>
+                @error('start_time')
+                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
             <div>
@@ -52,8 +72,11 @@
                     <i class="fas fa-clock mr-2"></i>End Time
                 </label>
                 <input type="time" name="end_time" id="end_time" value="{{ $schedule->end_time }}"
-                       class="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                        required>
+                @error('end_time')
+                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
@@ -63,7 +86,7 @@
                 <i class="fas fa-tasks mr-2"></i>Task Type
             </label>
             <select name="task_type" id="task_type"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                     required>
                 <option value="">Select Task Type</option>
                 @foreach(['Appointment', 'Consultation', 'OPD', 'IPD', 'Emergency', 'Room Duty', 'Other'] as $type)
@@ -72,6 +95,9 @@
                     </option>
                 @endforeach
             </select>
+            @error('task_type')
+                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+            @enderror
         </div>
 
         <!-- Buttons -->

@@ -251,7 +251,7 @@ Route::prefix('employee')->group(function () {
         return view('employee.dashboard');
     })->name('employee.dashboard')->middleware('auth:doctor');
 
-    Route::get('/employee/doctor-dashboard', function () {
+    Route::get('/doctor-dashboard', function () {
         return view('employee.doctor-dashboard');
     })->name('employee.doctor.dashboard')->middleware('auth:doctor');
 
@@ -263,6 +263,10 @@ Route::prefix('employee')->group(function () {
 
     Route::get('/doctor/patients', [AppointmentController::class, 'doctorPatients'])
         ->name('employee.doctor_patients')->middleware('auth:doctor');
+
+    Route::get('/receptionist-dashboard', function () {
+        return view('receptionist.dashboard');
+    })->name('employee.receptionist.dashboard')->middleware('auth:receptionist');
     //   Route::get('/users/{id}/checkups', [PatientVisitController::class, 'doctor_checkup'])->name('employee.users.checkups');
     Route::get(
         'doctor/users/{userId}/summary',
@@ -361,3 +365,23 @@ Route::get('/receptionists', [ReceptionController::class, 'get_receptions'])
 
     Route::get('/receptionist/appointments', [ReceptionController::class, 'get_appointments'])
      ->name('receptionist.appointments');
+
+Route::get('/receptionist/patients', [ReceptionController::class, 'get_patients'])
+     ->name('receptionist.patients');
+
+
+
+
+     Route::get('receptionist/{user}/visits', [ReceptionController::class, 'showUserVisits'])->name('visits.show');
+
+    // Create visit
+    Route::get('receptionist/{user}/visits/create', [ReceptionController::class, 'createUserVisit'])->name('visits.create');
+    Route::post('receptionist/{user}/visits', [ReceptionController::class, 'storeUserVisit'])->name('visits.store');
+
+    // Edit visit
+    Route::get('receptionist/{user}/visits/{visit}/edit', [ReceptionController::class, 'editUserVisit'])->name('visits.edit');
+    Route::post('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'updateUserVisit'])->name('visits.update');
+
+    // Delete visit
+    Route::delete('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'deleteUserVisit'])->name('visits.delete');
+

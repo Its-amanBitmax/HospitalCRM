@@ -28,7 +28,7 @@
             <i class="fas fa-user-plus text-2xl text-blue-600 text-blue-400"></i>
             <h1 class="text-xl font-semibold text-gray-800 text-black">Add New Employee</h1>
         </div>
-        <a href="{{ route('admin.employees.index') }}" class="bg-white-600 hover:bg-white-700 text-white px-4 py-2 rounded-lg transition">
+        <a href="{{ route('admin.employees.index') }}" class="bg-white-600 hover:bg-white-700 px-4 py-2 rounded-lg transition">
             <i class="fa fa-arrow-left mr-2"></i>Back to List
         </a>
     </div>
