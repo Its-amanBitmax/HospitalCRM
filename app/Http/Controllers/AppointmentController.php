@@ -86,25 +86,36 @@ class AppointmentController extends Controller
         return view('admin.video-consultations', compact('consultations', 'confirmed', 'cancelled', 'total', 'upcoming'));
     }
 
-    public function doctorAppointments()
+    public function doctorAppointments(Request $request)
     {
         $doctorId = auth('doctor')->id();
 
         // Summary counts
-        $total = Appointment::where('doctor_id', $doctorId)->where('type', 'appointment')->count();;
-        $pending = Appointment::where('doctor_id', $doctorId)->where('status', 'Pending')->where('type', 'appointment')->count();
-        $confirmed = Appointment::where('doctor_id', $doctorId)->where('status', 'Confirmed')->where('type', 'appointment')->count();
-        $cancelled = Appointment::where('doctor_id', $doctorId)->where('status', 'Cancelled')->where('type', 'appointment')->count();
+        $total = Appointment::where('doctor_id', $doctorId)->where('type', 'Appointment')->count();
+        $pending = Appointment::where('doctor_id', $doctorId)->where('status', 'Pending')->where('type', 'Appointment')->count();
+        $confirmed = Appointment::where('doctor_id', $doctorId)->where('status', 'Confirmed')->where('type', 'Appointment')->count();
+        $cancelled = Appointment::where('doctor_id', $doctorId)->where('status', 'Cancelled')->where('type', 'Appointment')->count();
 
-        // All appointments for this doctor
-        $allAppointments = Appointment::with(['doctor', 'user', 'relative'])
+        // Query for all appointments with filters
+        $query = Appointment::with(['doctor', 'user', 'relative'])
             ->where('doctor_id', $doctorId)
-            ->where('type', 'Appointment')
-            ->orderBy('appointment_date', 'desc')
-            ->orderBy('appointment_time', 'desc')
-            ->get();
+            ->where('type', 'Appointment');
 
-        // Upcoming appointments (today + next 3 days)
+        // Apply filters
+        if ($request->filled('status') && $request->status !== 'All') {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('appointment_date', $request->date);
+        }
+
+        // Paginate the results
+        $allAppointments = $query->orderBy('appointment_date', 'desc')
+            ->orderBy('appointment_time', 'desc')
+            ->paginate(10);
+
+        // Upcoming appointments (today + next 3 days) - not filtered
         $upcoming = Appointment::with(['doctor', 'user', 'relative'])
             ->where('doctor_id', $doctorId)->where('type', 'Appointment')
             ->whereDate('appointment_date', '>=', Carbon::today())
@@ -125,7 +136,7 @@ class AppointmentController extends Controller
         ));
     }
 
-    public function doctorConsultations()
+    public function doctorConsultations(Request $request)
     {
         $doctorId = auth('doctor')->id();
 
@@ -135,15 +146,26 @@ class AppointmentController extends Controller
         $confirmed = Appointment::where('doctor_id', $doctorId)->where('status', 'Confirmed')->where('type', 'consultation')->count();
         $cancelled = Appointment::where('doctor_id', $doctorId)->where('status', 'Cancelled')->where('type', 'consultation')->count();
 
-        // All consultations for this doctor
-        $allConsultations = Appointment::with(['doctor', 'user', 'relative'])
+        // Query for all consultations with filters
+        $query = Appointment::with(['doctor', 'user', 'relative'])
             ->where('doctor_id', $doctorId)
-            ->where('type', 'consultation')
-            ->orderBy('appointment_date', 'desc')
-            ->orderBy('appointment_time', 'desc')
-            ->get();
+            ->where('type', 'consultation');
 
-        // Upcoming consultations (today + next 3 days)
+        // Apply filters
+        if ($request->filled('status') && $request->status !== 'All') {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('appointment_date', $request->date);
+        }
+
+        // Paginate the results
+        $allConsultations = $query->orderBy('appointment_date', 'desc')
+            ->orderBy('appointment_time', 'desc')
+            ->paginate(10);
+
+        // Upcoming consultations (today + next 3 days) - not filtered
         $upcoming = Appointment::with(['doctor', 'user', 'relative'])
             ->where('doctor_id', $doctorId)
             ->where('type', 'consultation')

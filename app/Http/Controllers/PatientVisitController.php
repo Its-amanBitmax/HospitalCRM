@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\PatientVisit;
 use App\Models\PatientCheckup;
 use App\Models\PatientDocument;
+use App\Models\EmployeeSpeciality;
 use App\Models\reception;
 use App\Models\RoomAssignment;
 use Illuminate\Http\Request;
@@ -398,143 +399,148 @@ class PatientVisitController extends Controller
 
 
     public function doctorCreateDocument($userId)
-{
-    $user = User::findOrFail($userId);
-    return view('employee.doctor_create_document', compact('user'));
-}
-
-public function doctorStoreDocument(Request $request, $userId)
-{
-    $request->validate([
-        'document_type' => 'required|string',
-        'document' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
-    ]);
-
-    $file = $request->file('document');
-    $filename = time() . '_' . $file->getClientOriginalName();
-    $path = $file->storeAs('documents', $filename, 'public');
-
-    PatientDocument::create([
-        'user_id' => $userId,
-        'document_type' => $request->document_type,
-        'document_path' => $path,
-    ]);
-
-    return redirect()
-        ->route('employee.users.summary', $userId)
-        ->with('success', 'Document uploaded successfully.');
-}
-
-public function doctorDeleteDocument($userId, $documentId)
-{
-    $document = PatientDocument::where('id', $documentId)
-        ->where('user_id', $userId)
-        ->firstOrFail();
-
-    // Delete file from storage if exists
-    if (\Storage::disk('public')->exists($document->document_path)) {
-        \Storage::disk('public')->delete($document->document_path);
+    {
+        $user = User::findOrFail($userId);
+        return view('employee.doctor_create_document', compact('user'));
     }
 
-    $document->delete();
+    public function doctorStoreDocument(Request $request, $userId)
+    {
+        $request->validate([
+            'document_type' => 'required|string',
+            'document' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
+        ]);
 
-    return redirect()
-        ->route('employee.users.summary', $userId)
-        ->with('success', 'Document deleted successfully.');
-}
+        $file = $request->file('document');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('documents', $filename, 'public');
+
+        PatientDocument::create([
+            'user_id' => $userId,
+            'document_type' => $request->document_type,
+            'document_path' => $path,
+        ]);
+
+        return redirect()
+            ->route('employee.users.summary', $userId)
+            ->with('success', 'Document uploaded successfully.');
+    }
+
+    public function doctorDeleteDocument($userId, $documentId)
+    {
+        $document = PatientDocument::where('id', $documentId)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+
+        // Delete file from storage if exists
+        if (\Storage::disk('public')->exists($document->document_path)) {
+            \Storage::disk('public')->delete($document->document_path);
+        }
+
+        $document->delete();
+
+        return redirect()
+            ->route('employee.users.summary', $userId)
+            ->with('success', 'Document deleted successfully.');
+    }
 
 
     public function reports()
-{
-    // 1. Get logged-in doctor ID
-    $doctorId = auth('doctor')->id();
+    {
+        // 1. Get logged-in doctor ID
+        $doctorId = auth('doctor')->id();
 
-    // 2. Get room assignment IDs assigned to this doctor
-    $assignmentIds = RoomAssignment::where('employee_id', $doctorId)
-                ->pluck('id');
+        // 2. Get room assignment IDs assigned to this doctor
+        $assignmentIds = RoomAssignment::where('employee_id', $doctorId)
+            ->pluck('id');
 
-    // 3. Get patient IDs who visited these assignments
-    $patientIds = PatientVisit::whereIn('department_consultant', $assignmentIds)
-                ->pluck('user_id')
-                ->unique();
+        // 3. Get patient IDs who visited these assignments
+        $patientIds = PatientVisit::whereIn('department_consultant', $assignmentIds)
+            ->pluck('user_id')
+            ->unique();
 
-    // 4. Get documents for these patients
-    $reports = PatientDocument::whereIn('user_id', $patientIds)
-                ->with('user')
-                ->orderBy('created_at', 'desc')
-                ->get();
+        // 4. Get documents for these patients
+        $reports = PatientDocument::whereIn('user_id', $patientIds)
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-    return view('employee.doctor_patient_report', compact('reports'));
-}
-
-public function doctor_profile_settings()
-{
-    $doctor = auth('doctor')->user();
-
-    // fetch address
-    $address = Address::where('employee_id', $doctor->id)->first();
-
-    return view('employee.doctor_profile_settings', compact('doctor', 'address'));
-}
-
-public function update_doctor_profile(Request $request)
-{
-    $doctor = auth('doctor')->user();
-
-    // ===========================
-    // UPDATE DOCTOR BASIC DETAILS
-    // ===========================
-    $doctor->name          = $request->name;
-    $doctor->email         = $request->email;
-    $doctor->phone         = $request->phone;
-    $doctor->gender        = $request->gender;
-    $doctor->date_of_birth = $request->date_of_birth;
-
-    // If doctor uploads image
-    if ($request->hasFile('image')) {
-        $path = $request->file('image')->store('doctor_images', 'public');
-        $doctor->image = $path;
+        return view('employee.doctor_patient_report', compact('reports'));
     }
 
-    $doctor->save();
+    public function doctor_profile_settings()
+    {
+        $doctor = auth('doctor')->user();
 
-    // ===========================
-    // UPDATE OR CREATE ADDRESS
-    // ===========================
-    Address::updateOrCreate(
-        ['employee_id' => $doctor->id],  // WHERE employee_id = ?
-        [
-            'address_type' => 'Home',
-            'street'       => $request->street,
-            'city'         => $request->city,
-            'state'        => $request->state,
-            'country'      => $request->country,
-            'postal_code'  => $request->postal_code,
-        ]
-    );
+        // fetch address
+        $address = Address::where('employee_id', $doctor->id)->first();
 
-    return back()->with('success', 'Profile updated successfully');
-}
+        return view('employee.doctor_profile_settings', compact('doctor', 'address'));
+    }
+
+    public function update_doctor_profile(Request $request)
+    {
+        $doctor = auth('doctor')->user();
+
+        // ===========================
+        // UPDATE DOCTOR BASIC DETAILS
+        // ===========================
+        $doctor->name          = $request->name;
+        $doctor->email         = $request->email;
+        $doctor->phone         = $request->phone;
+        $doctor->gender        = $request->gender;
+        $doctor->date_of_birth = $request->date_of_birth;
+
+        // If doctor uploads image
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('doctor_images', 'public');
+            $doctor->image = $path;
+        }
+
+        $doctor->save();
+
+        // ===========================
+        // UPDATE OR CREATE ADDRESS
+        // ===========================
+        Address::updateOrCreate(
+            ['employee_id' => $doctor->id],  // WHERE employee_id = ?
+            [
+                'address_type' => 'Home',
+                'street'       => $request->street,
+                'city'         => $request->city,
+                'state'        => $request->state,
+                'country'      => $request->country,
+                'postal_code'  => $request->postal_code,
+            ]
+        );
+
+        return back()->with('success', 'Profile updated successfully');
+    }
 
 
 
 
 
-public function settings()
-{
-    return view('employee.doctor_settings');
-}
-
-public function updateSettings(Request $request)
+   public function settings()
 {
     $doctor = auth('doctor')->user();
 
-    // No validation as you requested
-    $doctor->password = Hash::make($request->new_password);
-    $doctor->save();
+    // Load all related data like admin edit page
+    $doctor->load([
+        'department',
+        'specialities',
+        'qualifications',
+        'documents',
+        'payroll',
+        'addresses',
+        'familyDetails',
+        'shifts',
+        'professions'
+    ]);
 
-    return back()->with('success', 'Password updated successfully');
+    // dd($doctor);
+
+    return view('employee.doctor_settings', compact('doctor'));
 }
-
 
 }

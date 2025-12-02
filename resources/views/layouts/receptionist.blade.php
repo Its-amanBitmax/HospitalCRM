@@ -93,7 +93,7 @@ $companyName = $admin ? $admin->hospital_name : 'Hospital CRM';
                     </a>
              
 
-                    <a href="#" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+                    <a href="{{route('receptionists.profile.view')}}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
                         <i class="fas fa-user text-bg-white text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-5 text-center"></i>
                         <span class="sidebar-text font-medium text-bg-white text-black">Profile Settings</span>
                     </a>
@@ -141,7 +141,7 @@ $companyName = $admin ? $admin->hospital_name : 'Hospital CRM';
 
 
 
-                        <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+                        <a href="{{route('receptionists.profile.settings')}}" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                             <i class="fa-solid fa-gear"></i>
                             <span>Settings</span>
                         </a>

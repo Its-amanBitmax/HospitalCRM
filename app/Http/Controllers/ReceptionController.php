@@ -563,4 +563,63 @@ class ReceptionController extends Controller
             'appointments' => $appointments
         ]);
     }
+
+
+  public function get_profile_settings()
+{
+    $employee = auth('receptionist')->user(); 
+    return view('receptionist.receptionist-profile-setting', compact('employee'));
+}
+
+
+public function profile_view()
+{
+    $employee = \App\Models\Employee::with([
+        'department',
+        'addresses',
+        'qualifications',
+        'documents',
+        'familyDetails',
+        'payroll'
+    ])->find(auth('receptionist')->id());
+
+    return view('receptionist.receptionist-view-profile', compact('employee'));
+}
+
+
+
+
+public function update_profile(Request $request)
+{
+    $user = auth('receptionist')->user(); 
+
+    $request->validate([
+        'name'           => 'required|string|max:255',
+        'email'          => 'required|email|unique:employees,email,' . $user->id,
+        'phone'          => 'nullable|string|max:20',
+        'gender'         => 'nullable|in:Male,Female,Other',
+        'status'         => 'required|in:Active,Inactive',
+        'image'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+    // Update fields
+    $user->name          = $request->name;
+    $user->email         = $request->email;
+    $user->phone         = $request->phone;
+    $user->gender        = $request->gender;
+    $user->status        = $request->status;
+    // Image Upload
+    if ($request->hasFile('image')) {
+    $image = $request->file('image');
+    $path = $image->store('employees', 'public'); 
+    $user->image = $path; 
+}   $user->save();
+    return back()->with('success', 'Profile Updated Successfully!');
+}
+
+
+
+
+
+
+
 }

@@ -270,6 +270,52 @@ public function updateProfile(Request $request)
         ]);
     }
 
+    // public function updateAppointmentStatus(Request $request)
+    // {
+    //     $employee = auth('sanctum')->user();
+
+    //     if (!$employee) {
+    //         return response()->json(['error' => 'Unauthorized'], 401);
+    //     }
+
+    //     // Validate request
+    //     $validator = Validator::make($request->all(), [
+    //         'appointment_id' => 'required|exists:appointments,appointment_id',
+    //         'status' => 'required|in:Pending,Confirmed,Completed,Cancelled',
+    //         'type' => 'required|in:Appointment,Consultation',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'errors' => $validator->errors()
+    //         ], 422);
+    //     }
+
+    //     // Find the appointment and ensure it belongs to the authenticated doctor
+    //     $appointment = Appointment::where('appointment_id', $request->appointment_id)
+    //         ->where('doctor_id', $employee->id)
+    //         ->where('type', $request->type)
+    //         ->first();
+
+    //     if (!$appointment) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'Appointment not found or does not belong to you.'
+    //         ], 404);
+    //     }
+
+    //     // Update the status
+    //     $appointment->update(['status' => $request->status]);
+
+    //     return response()->json([
+    //         'status' => true,
+    //         'message' => 'Appointment status updated successfully.',
+    //         'appointment' => $appointment
+    //     ]);
+    // }
+    
+    
     public function updateAppointmentStatus(Request $request)
     {
         $employee = auth('sanctum')->user();
@@ -282,7 +328,7 @@ public function updateProfile(Request $request)
         $validator = Validator::make($request->all(), [
             'appointment_id' => 'required|exists:appointments,appointment_id',
             'status' => 'required|in:Pending,Confirmed,Completed,Cancelled',
-            'type' => 'required|in:Appointment,Consultation',
+            'type' => 'required|in:Appointment,consultation',
         ]);
 
         if ($validator->fails()) {
@@ -314,4 +360,10 @@ public function updateProfile(Request $request)
             'appointment' => $appointment
         ]);
     }
+    
+    
+    
+    
+    
+    
 }

@@ -300,4 +300,8 @@ public function bookAppointment(Request $request)
 // }
 
 
+
+
+
+
 }

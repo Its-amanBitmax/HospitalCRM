@@ -309,6 +309,7 @@ Route::prefix('doctor')->group(function () {
     Route::post('doctor/profile-settings', [PatientVisitController::class, 'update_doctor_profile'])->name('doctor.update.profile');
     Route::get('/doctor/settings', [PatientVisitController::class, 'settings'])->name('doctor.settings');
     Route::post('/doctor/update/settings', [PatientVisitController::class, 'updateSettings'])->name('doctor.update.settings');
+    
 });
 
 
@@ -345,8 +346,15 @@ Route::put('/patients/{id}/update', [ReceptionController::class, 'patient_update
     ->name('patients.update');
 Route::get('/patients/{id}/delete', [ReceptionController::class, 'patient_delete'])
     ->name('patients.delete');
+Route::get('/receptionists/profile', [ReceptionController::class, 'get_profile_settings'])
+    ->name('receptionists.profile.settings');
 
+    Route::get('/receptionists/profile/view', [ReceptionController::class, 'profile_view'])
+    ->name('receptionists.profile.view');
 
+  Route::post('/receptionists/profile/update', 
+    [ReceptionController::class, 'update_profile']
+)->name('receptionists.profile.update');
     });
 
-// Receptionist Dashboard
+

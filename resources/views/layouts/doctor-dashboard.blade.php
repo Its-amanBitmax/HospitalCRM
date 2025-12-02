@@ -1,3 +1,10 @@
+@php
+use App\Models\Admin;
+$admin = Admin::first();
+$logoUrl = $admin && $admin->logo ? asset('storage/' . $admin->logo) : asset('image/default-logo.png');
+$companyName = $admin ? $admin->hospital_name : 'Hospital CRM';
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,88 +22,107 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-white-100 bg-white-900 text-black">
+<body class="text-black" style="background-color: #f3fcfc;">
 
     <div class="flex min-h-screen">
 
         <!-- ==================== SIDEBAR ==================== -->
-        <aside id="sidebar" class="w-64 bg-white bg-white-800 h-screen shadow-lg fixed top-0 left-0 transition-all duration-300">
+        <aside id="sidebar" class="w-64 fixed top-0 left-0 h-screen overflow-y-auto shadow-xl transition-all duration-300" style="-ms-overflow-style: none; scrollbar-width: none; z-index: 1006;">
+            <!-- Logo Section -->
+            <div class="flex items-center justify-between px-4 py-5 border-b border-gray-100 shadow-sm" style="height: 80px; background-color:#daf6f6;">
+                <div class="flex items-center">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-lg ">
+                        <img src="{{ $logoUrl }}" alt="{{ $companyName }} Logo" class="w-8 h-8">
+                    </div>
+                    <h1 class="text-lg font-bold sidebar-text ml-3 text-cyan-600 text-cyan-400">{{ $companyName }}</h1>
+                </div>
 
-            <!-- Sidebar Header -->
-            <div class="flex items-center justify-between p-4 border-b border-gray-700">
-                <h2 class="text-lg font-bold sidebar-text">Doctor Panel</h2>
-                <button id="sidebar-toggle" class="text-xl">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
             </div>
 
-            <!-- Sidebar Menu -->
-            <nav class="mt-4">
-                <a href="{{route('employee.doctor.dashboard')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
-                    <i class="fa-solid fa-house"></i>
-                    <span class="sidebar-text">Dashboard</span>
-                </a>
-
-                <a href="{{ route('employee.doctor_appointments') }}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
-                    <i class="fa-solid fa-calendar-check"></i>
-                    <span class="sidebar-text">Appointments</span>
-                </a>
-
-                <a href="{{ route('employee.doctor_consultations') }}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
-                    <i class="fa-solid fa-calendar-check"></i>
-                    <span class="sidebar-text">Consultations</span>
-                </a>
-
-                <a href="{{route('employee.doctor_patients')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
-                    <i class="fa-solid fa-users"></i>
-                    <span class="sidebar-text">Patients</span>
-                </a>
-
-                <a href="{{route('employee.report')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
-                    <i class="fa-solid fa-file-medical"></i>
-                    <span class="sidebar-text">Reports</span>
-                </a>
-
-                <a href="{{route('employee.profile.settings')}}" class="flex items-center gap-3 px-5 py-3 hover:bg-white-200 hover:bg-white-700">
-                     <i class="fa-solid fa-user"></i>
-                    <span class="sidebar-text">Profile Settings</span>
-                </a>
+            <!-- Main Navigation -->
+            <nav class="p-4 space-y-4" style="background-color: #f3fcfc;">
+                <div>
+                    <a href="{{route('employee.doctor.dashboard')}}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('employee.doctor.dashboard') ? ' text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 ' : 'text-gray-700 text-gray-300' }}">
+                        <i class="fas fa-tachometer-alt text-bg-white text-bg-white group-hover:text-bg-white group-hover:text-bg-white-300 w-5 text-center"></i>
+                        <span class="sidebar-text font-medium text-bg-white hover:bg-mint">Dashboard</span>
+                    </a>
 
 
+                    <a href="{{ route('employee.doctor_appointments') }}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('employee.doctor_appointments') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
+                        <i class="fas fa-calendar-check text-bg-white text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-5 text-center"></i>
+                        <span class="sidebar-text font-medium text-bg-white text-black">Appointments</span>
+                    </a>
+
+                    <a href="{{ route('employee.doctor_consultations') }}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('employee.doctor_consultations') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
+                        <i class="fas fa-calendar-check text-bg-white text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-5 text-center"></i>
+                        <span class="sidebar-text font-medium text-bg-white text-black">Consultations</span>
+                    </a>
+
+                    <a href="{{route('employee.doctor_patients')}}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('employee.doctor_patients') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
+                        <i class="fas fa-users text-bg-white text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-5 text-center"></i>
+                        <span class="sidebar-text font-medium text-bg-white text-black">Patients</span>
+                    </a>
+
+                    <a href="{{route('employee.report')}}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('employee.report') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
+                        <i class="fas fa-file-medical text-bg-white text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-5 text-center"></i>
+                        <span class="sidebar-text font-medium text-bg-white text-black">Reports</span>
+                    </a>
+
+                    <a href="{{route('doctor.settings')}}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+                        <i class="fas fa-user text-bg-white text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-5 text-center"></i>
+                        <span class="sidebar-text font-medium text-bg-white text-black">Profile Settings</span>
+                    </a>
+                </div>
             </nav>
         </aside>
 
         <!-- ================ MAIN CONTENT WRAPPER ================= -->
-        <div id="main-content" class="flex-1 flex flex-col ml-64 transition-all duration-300">
+        <div id="main-content" class="flex-1 flex flex-col ml-64 transition-all duration-300" style="width: 75%;">
 
             <!-- ====================== HEADER ======================= -->
-            <header class="bg-white bg-white-800 shadow-md p-4 flex justify-between items-center">
-                <h1 class="text-xl font-bold">@yield('header-title', 'Dashboard')</h1>
+            <header class=" shadow-md  flex  items-center justify-between " style="padding: 18px; background-color: #daf6f6;">
+
+                <div>
+                    <button id="sidebar-toggle" class="text-xl text-gray-600 hover:text-gray-800 transition-colors">
+                        <i class="fas fa-bars"></i>
+                    </button> <span class="text-xl font-bold ml-2">@yield('header-title', 'Welcome, ' . auth('doctor')->user()->name)</span>
+
+                </div>
 
                 <div class="relative" id="userDropdown">
                     <!-- Trigger -->
                     <div class="flex items-center gap-3 cursor-pointer" id="dropdownToggle">
                         <span class="text-sm font-medium">
-                            Welcome, {{ auth('doctor')->user()->name }}
+                            {{ auth('doctor')->user()->name }}
                         </span>
+                        @php
+                        $user = auth('doctor')->user();
 
-                        <img src="{{ auth('doctor')->user()->image ?? asset('image/default.png') }}"
-                            class="w-10 h-10 rounded-full object-cover border">
+                        if ($user->image && \Storage::disk('public')->exists($user->image)) {
+                        // Generate URL for storage/public folder
+                        $imageSrc = \Storage::url($user->image);
+                        } else {
+                        $imageSrc = 'https://via.placeholder.com/40x40?text=No+Image';
+                        }
+                        @endphp
+
+
+                        <img src="{{ $imageSrc }}" class="w-10 h-10 rounded-full object-cover border" alt="Profile Image">
                     </div>
 
                     <!-- Dropdown -->
                     <div id="dropdownMenu"
                         class="absolute right-0 mt-4 w-48 bg-white shadow-lg rounded-lg border py-2 z-50 hidden">
 
-                        
 
-                        <a href="{{route('doctor.settings')}}" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+
+                        <a href="{{route('employee.profile.settings')}}" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                             <i class="fa-solid fa-gear"></i>
                             <span>Settings</span>
                         </a>
 
 
-                        <form method="POST" action="{{ route('employee.logout') }}" onsubmit="localStorage.clear();">
+                        <form method="POST" action="{{route('employee.logout')}}" onsubmit="localStorage.clear();">
                             @csrf
                             <button type="submit"
                                 class="flex items-center gap-3 px-5 py-3 hover:bg-gray-100 text-red-500 w-full text-left">
@@ -192,19 +218,20 @@
             }
         });
     </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          primary: '#1d4ed8', // blue
-          secondary: '#10b981', // green
-        },
-      },
-    },
-  }
-</script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1d4ed8', // blue
+                        secondary: '#10b981', // green
+                    },
+                },
+            },
+        }
+    </script>
 
 </body>
 

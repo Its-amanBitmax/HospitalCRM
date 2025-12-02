@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\RelativeController;
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider and assigned the "api" middleware group.
-|
+| 
 */
 
 Route::post('/register', [UserController::class, 'register']);
@@ -23,7 +23,7 @@ Route::post('/login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getProfile']);
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/skills', [SkillController::class, 'index']);
-Route::middleware('auth:sanctum')->put('/update-profile', [UserController::class, 'updateProfile']);
+Route::middleware('auth:sanctum')->post('/update-profile', [UserController::class, 'updateProfile']);
 Route::get('/user/{id}', [UserController::class, 'getUserById']);
 Route::post('/check-user', [UserController::class, 'checkUserExists']);
 Route::post('/update-credentials', [UserController::class, 'updateCredentials']);
@@ -50,4 +50,5 @@ Route::middleware('auth:sanctum')->get('/doctor/profile', [\App\Http\Controllers
 Route::middleware('auth:sanctum')->post('/doctor/profile/update', [\App\Http\Controllers\Api\DoctorLoginController::class, 'updateProfile']);
 
 Route::middleware('auth:sanctum')->get('/doctor/appointments-consultations', [\App\Http\Controllers\Api\DoctorLoginController::class, 'getAppointmentsAndConsultations']);
+Route::middleware('auth:sanctum')->post('/doctor/update-appointment-status', [\App\Http\Controllers\Api\DoctorLoginController::class, 'updateAppointmentStatus']);
 Route::middleware('auth:sanctum')->get('/schedules/today', [\App\Http\Controllers\Api\ScheduleController::class, 'getTodaySchedules']);
