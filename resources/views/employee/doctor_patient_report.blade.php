@@ -1,7 +1,5 @@
 @extends('layouts.doctor-dashboard')
 
-@section('title', 'Patient Reports')
-@section('header-title', 'Patient Reports Management')
 
 @section('content')
 <style>

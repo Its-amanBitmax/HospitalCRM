@@ -200,14 +200,7 @@
                             Additional Information
                         </h3>
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-gradient-to-r from-gray-50 to-white p-4 rounded-xl border border-gray-100">
-                                <p class="text-sm text-gray-500 mb-1">Date of Birth</p>
-                                <p class="font-medium text-gray-900">{{ $user->date_of_birth?->format('d M Y') ?? 'N/A' }}</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-gray-50 to-white p-4 rounded-xl border border-gray-100">
-                                <p class="text-sm text-gray-500 mb-1">Emergency Contact</p>
-                                <p class="font-medium text-gray-900">{{ $user->emergency_contact ?: 'N/A' }}</p>
-                            </div>
+                            
                             <div class="bg-gradient-to-r from-gray-50 to-white p-4 rounded-xl border border-gray-100">
                                 <p class="text-sm text-gray-500 mb-1">Father/Spouse</p>
                                 <p class="font-medium text-gray-900">{{ $user->father_spouse_name ?: 'N/A' }}</p>

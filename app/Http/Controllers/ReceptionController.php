@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 use App\Models\Reception;
 use App\Models\Profession;
 use App\Models\User;
 use App\Models\PatientVisit;
 use App\Models\RoomAssignment;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -211,7 +213,7 @@ class ReceptionController extends Controller
 
         // Fetch all appointments of type 'Appointment' with related employee
         $appointments = Appointment::with('doctor')
-            ->where('type', 'Appointment')
+
             ->orderBy('appointment_date', 'desc')
             ->get();
 
@@ -429,7 +431,7 @@ class ReceptionController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('visits.show')->with('success', 'User created successfully.');
+        return redirect()->route('receptionist.patients')->with('success', 'User created successfully.');
     }
 
     public function patient_edit($id)
@@ -565,61 +567,219 @@ class ReceptionController extends Controller
     }
 
 
-  public function get_profile_settings()
+    public function get_profile_settings()
+    {
+        $employee = auth('receptionist')->user();
+        return view('receptionist.receptionist-profile-setting', compact('employee'));
+    }
+
+
+    public function profile_view()
+    {
+        $employee = \App\Models\Employee::with([
+            'department',
+            'addresses',
+            'qualifications',
+            'documents',
+            'familyDetails',
+            'payroll'
+        ])->find(auth('receptionist')->id());
+
+        return view('receptionist.receptionist-view-profile', compact('employee'));
+    }
+
+
+
+
+    public function update_profile(Request $request)
+    {
+        $user = auth('receptionist')->user();
+
+        $request->validate([
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|email|unique:employees,email,' . $user->id,
+            'phone'          => 'nullable|string|max:20',
+            'gender'         => 'nullable|in:Male,Female,Other',
+            'status'         => 'required|in:Active,Inactive',
+            'image'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+        // Update fields
+        $user->name          = $request->name;
+        $user->email         = $request->email;
+        $user->phone         = $request->phone;
+        $user->gender        = $request->gender;
+        $user->status        = $request->status;
+        // Image Upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $path = $image->store('employees', 'public');
+            $user->image = $path;
+        }
+        $user->save();
+        return back()->with('success', 'Profile Updated Successfully!');
+    }
+
+
+  public function receptionist_attendence()
 {
-    $employee = auth('receptionist')->user(); 
-    return view('receptionist.receptionist-profile-setting', compact('employee'));
+    $employee = auth('receptionist')->user();
+    $today = Carbon::today('Asia/Kolkata')->toDateString();
+    
+    // Get filter from request or default to 'today'
+    $filter = request()->get('filter', 'today');
+    $startDate = null;
+    $endDate = null;
+    
+    // Calculate date ranges based on filter
+    switch ($filter) {
+        case 'weekly':
+            $startDate = Carbon::today('Asia/Kolkata')->startOfWeek()->toDateString();
+            $endDate = Carbon::today('Asia/Kolkata')->endOfWeek()->toDateString();
+            break;
+            
+        case 'monthly':
+            $startDate = Carbon::today('Asia/Kolkata')->startOfMonth()->toDateString();
+            $endDate = Carbon::today('Asia/Kolkata')->endOfMonth()->toDateString();
+            break;
+            
+        case 'today':
+        default:
+            $startDate = $today;
+            $endDate = $today;
+            break;
+    }
+    
+    // Get today's attendance
+    $attendance = Attendance::where('employee_id', $employee->id)
+        ->where('date', $today)
+        ->first();
+    
+    // Get attendance history based on filter
+    $history = Attendance::where('employee_id', $employee->id)
+        ->when($filter === 'today', function ($query) use ($today) {
+            return $query->where('date', $today);
+        })
+        ->when($filter === 'weekly', function ($query) use ($startDate, $endDate) {
+            return $query->whereBetween('date', [$startDate, $endDate]);
+        })
+        ->when($filter === 'monthly', function ($query) use ($startDate, $endDate) {
+            return $query->whereBetween('date', [$startDate, $endDate]);
+        })
+        ->orderBy('date', 'desc')
+        ->get();
+    
+    // Calculate statistics
+    $totalDays = $history->count();
+    $presentDays = $history->where('status', 'present')->count();
+    $lateDays = $history->where('status', 'late')->count();
+    $absentDays = $history->where('status', 'absent')->count();
+    $halfDays = $history->where('status', 'half_day')->count();
+    
+    // Calculate attendance percentage
+    $attendancePercentage = $totalDays > 0 
+        ? round(($presentDays + ($halfDays * 0.5)) / $totalDays * 100, 1)
+        : 0;
+    
+    // Calculate average working hours
+    $totalHours = 0;
+    $daysWithClockOut = 0;
+    
+    foreach ($history as $record) {
+        if ($record->check_in && $record->check_out) {
+            $start = Carbon::createFromFormat('H:i:s', $record->check_in);
+            $end = Carbon::createFromFormat('H:i:s', $record->check_out);
+            $totalHours += $end->diffInHours($start, true);
+            $daysWithClockOut++;
+        }
+    }
+    
+    $averageHours = $daysWithClockOut > 0 ? round($totalHours / $daysWithClockOut, 1) : 0;
+    
+    // Get current week and month names
+    $weekRange = $startDate && $endDate ? 
+        Carbon::parse($startDate)->format('d M') . ' - ' . Carbon::parse($endDate)->format('d M') : 
+        null;
+    
+    $monthName = $filter === 'monthly' ? 
+        Carbon::today('Asia/Kolkata')->format('F Y') : 
+        null;
+    
+    return view('receptionist.receptionist_attendance', compact(
+        'attendance',
+        'history',
+        'filter',
+        'weekRange',
+        'monthName',
+        'totalDays',
+        'presentDays',
+        'lateDays',
+        'employee',
+        'absentDays',
+        'halfDays',
+        'attendancePercentage',
+        'averageHours'
+    ));
 }
 
-
-public function profile_view()
+// Handle Clock In / Clock Out
+public function mark_receptionist_attendence(Request $request)
 {
-    $employee = \App\Models\Employee::with([
-        'department',
-        'addresses',
-        'qualifications',
-        'documents',
-        'familyDetails',
-        'payroll'
-    ])->find(auth('receptionist')->id());
-
-    return view('receptionist.receptionist-view-profile', compact('employee'));
-}
-
-
-
-
-public function update_profile(Request $request)
-{
-    $user = auth('receptionist')->user(); 
-
     $request->validate([
-        'name'           => 'required|string|max:255',
-        'email'          => 'required|email|unique:employees,email,' . $user->id,
-        'phone'          => 'nullable|string|max:20',
-        'gender'         => 'nullable|in:Male,Female,Other',
-        'status'         => 'required|in:Active,Inactive',
-        'image'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'type' => 'required|in:clock_in,clock_out',
     ]);
-    // Update fields
-    $user->name          = $request->name;
-    $user->email         = $request->email;
-    $user->phone         = $request->phone;
-    $user->gender        = $request->gender;
-    $user->status        = $request->status;
-    // Image Upload
-    if ($request->hasFile('image')) {
-    $image = $request->file('image');
-    $path = $image->store('employees', 'public'); 
-    $user->image = $path; 
-}   $user->save();
-    return back()->with('success', 'Profile Updated Successfully!');
+
+    $employee = auth('receptionist')->user();
+    $today = Carbon::today('Asia/Kolkata')->toDateString(); // +5:30 timezone
+    $now   = Carbon::now('Asia/Kolkata')->format('H:i');    // +5:30 timezone
+
+    $attendance = Attendance::firstOrNew([
+        'employee_id' => $employee->id,
+        'date' => $today
+    ]);
+
+    try {
+        if ($request->type === 'clock_in') {
+    if ($attendance->check_in) {
+        return response()->json(['message' => 'Already Clocked In!'], 422);
+    }
+
+    $attendance->check_in = $now;
+
+    // Status logic
+    $currentTime = Carbon::now('Asia/Kolkata');
+    $morningLimit = Carbon::createFromTime(9, 30, 0, 'Asia/Kolkata');   // 09:30
+    $eveningLimit = Carbon::createFromTime(18, 30, 0, 'Asia/Kolkata');  // 18:30
+
+    if ($currentTime->lte($morningLimit)) {
+        $attendance->status = 'present';
+    } elseif ($currentTime->gt($morningLimit) && $currentTime->lte($eveningLimit)) {
+        $attendance->status = 'half_day';
+    } else {
+        $attendance->status = 'absent'; // Optional, if someone clocks in after 18:30
+    }
+
+    $attendance->save();
+
+    return response()->json(['message' => 'Clocked In Successfully!']);
 }
 
 
+        if ($request->type === 'clock_out') {
+            if (!$attendance->check_in) {
+                return response()->json(['message' => 'Clock In first!'], 422);
+            }
+            if ($attendance->check_out) {
+                return response()->json(['message' => 'Already Clocked Out!'], 422);
+            }
 
+            $attendance->check_out = $now;
+            $attendance->save();
 
-
-
+            return response()->json(['message' => 'Clocked Out Successfully!']);
+        }
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Something went wrong!'], 500);
+    }
+}
 
 }

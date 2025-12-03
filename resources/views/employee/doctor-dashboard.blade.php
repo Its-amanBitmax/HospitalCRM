@@ -1,7 +1,6 @@
 @extends('layouts.doctor-dashboard')
 
-@section('title', 'Doctor Dashboard')
-@section('header-title', 'Doctor Dashboard')
+
 
 @section('content')
 @php

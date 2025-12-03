@@ -16,8 +16,9 @@ class PatientVisit extends Model
     ];
 
     protected $casts = [
-        'date_of_visit' => 'date',
-    ];
+    'date_of_visit' => 'date:Y-m-d',
+];
+
 
     public function user()
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Attendance;
 use App\Models\User;
 use App\Models\PatientVisit;
 use App\Models\PatientCheckup;
@@ -10,6 +11,7 @@ use App\Models\PatientDocument;
 use App\Models\EmployeeSpeciality;
 use App\Models\reception;
 use App\Models\RoomAssignment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
@@ -521,26 +523,106 @@ class PatientVisitController extends Controller
 
 
 
-   public function settings()
+    public function settings()
+    {
+        $doctor = auth('doctor')->user();
+
+        // Load all related data like admin edit page
+        $doctor->load([
+            'department',
+            'specialities',
+            'qualifications',
+            'documents',
+            'payroll',
+            'addresses',
+            'familyDetails',
+            'shifts',
+            'professions'
+        ]);
+
+        // dd($doctor);
+
+        return view('employee.doctor_settings', compact('doctor'));
+    }
+
+
+public function doctor_attendence(Request $request)
 {
     $doctor = auth('doctor')->user();
+    $today = Carbon::now('Asia/Kolkata')->toDateString();
+    $filter = $request->query('filter', 'today');
 
-    // Load all related data like admin edit page
-    $doctor->load([
-        'department',
-        'specialities',
-        'qualifications',
-        'documents',
-        'payroll',
-        'addresses',
-        'familyDetails',
-        'shifts',
-        'professions'
+    $historyQuery = Attendance::where('employee_id', $doctor->id)
+        ->orderBy('date', 'desc');
+
+    if ($filter === 'today') {
+        $historyQuery->where('date', $today);
+    } elseif ($filter === 'weekly') {
+        $historyQuery->whereBetween('date', [
+            Carbon::now('Asia/Kolkata')->startOfWeek()->toDateString(),
+            Carbon::now('Asia/Kolkata')->endOfWeek()->toDateString()
+        ]);
+    } elseif ($filter === 'monthly') {
+        $historyQuery->whereBetween('date', [
+            Carbon::now('Asia/Kolkata')->startOfMonth()->toDateString(),
+            Carbon::now('Asia/Kolkata')->endOfMonth()->toDateString()
+        ]);
+    }
+
+    $history = $historyQuery->get();
+
+    $attendance = Attendance::where('employee_id', $doctor->id)
+        ->where('date', $today)
+        ->first();
+
+    return view('employee.doctor_attendence', compact('doctor', 'attendance', 'history', 'filter'));
+}
+
+public function doctor_attendance_mark(Request $request)
+{
+    $request->validate([
+        'type' => 'required|in:clock_in,clock_out',
+        'notes' => 'nullable|string|max:500'
     ]);
 
-    // dd($doctor);
+    $doctor = auth('doctor')->user();
+    $now = Carbon::now('Asia/Kolkata');
+    $today = $now->toDateString();
+    $time24 = $now->format('H:i:s'); // Store full time in DB
 
-    return view('employee.doctor_settings', compact('doctor'));
+    $attendance = Attendance::firstOrNew([
+        'employee_id' => $doctor->id,
+        'date' => $today
+    ]);
+
+    if ($request->type === 'clock_in') {
+        if ($attendance->check_in) {
+            return response()->json(['message' => 'Already Clocked In!'], 400);
+        }
+
+        // Determine status
+        $attendance->status = $time24 <= '09:30:00' ? 'present' : 'half_day';
+        $attendance->check_in = $time24;
+        $attendance->notes = $request->notes;
+        $attendance->save();
+
+        return response()->json(['message' => 'Clocked In Successfully!']);
+    }
+
+    if ($request->type === 'clock_out') {
+        if (!$attendance->check_in) {
+            return response()->json(['message' => 'Clock In first!'], 400);
+        }
+        if ($attendance->check_out) {
+            return response()->json(['message' => 'Already Clocked Out!'], 400);
+        }
+
+        $attendance->check_out = $time24;
+        $attendance->notes = $request->notes;
+        $attendance->save();
+
+        return response()->json(['message' => 'Clocked Out Successfully!']);
+    }
 }
 
 }

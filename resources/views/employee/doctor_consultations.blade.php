@@ -1,7 +1,6 @@
 @extends('layouts.doctor-dashboard')
 
-@section('title', 'Consultations')
-@section('header-title', 'Consultations Management')
+
 
 @section('content')
 <style>
@@ -333,7 +332,7 @@ $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
                                         <button onclick='showConsultationDetails(@json($app))'
                                             class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 text-sm font-medium shadow-md hover:shadow-lg">
                                             <i class="fas fa-eye"></i>
-                                            View Details
+                                           
                                         </button>
                                         
                                         @if($app->status == 'Pending')

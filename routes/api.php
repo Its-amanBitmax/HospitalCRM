@@ -7,6 +7,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\Api\SkillController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\DoctorLoginController;
 use App\Http\Controllers\Api\RelativeController;
 /*
 |--------------------------------------------------------------------------
@@ -44,11 +45,13 @@ Route::middleware('auth:sanctum')->prefix('relatives')->group(function () {
     Route::post('/{relative_id}', [RelativeController::class, 'update']);
     Route::delete('/{relative_id}', [RelativeController::class, 'destroy']);
 });
-Route::post('/doctor/login', [\App\Http\Controllers\Api\DoctorLoginController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/doctor/logout', [\App\Http\Controllers\Api\DoctorLoginController::class, 'logout']);
-Route::middleware('auth:sanctum')->get('/doctor/profile', [\App\Http\Controllers\Api\DoctorLoginController::class, 'getProfile']);
-Route::middleware('auth:sanctum')->post('/doctor/profile/update', [\App\Http\Controllers\Api\DoctorLoginController::class, 'updateProfile']);
+Route::post('/doctor/login', [DoctorLoginController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/doctor/logout', [DoctorLoginController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/doctor/profile', [DoctorLoginController::class, 'getProfile']);
+Route::middleware('auth:sanctum')->post('/doctor/profile/update', [DoctorLoginController::class, 'updateProfile']);
 
-Route::middleware('auth:sanctum')->get('/doctor/appointments-consultations', [\App\Http\Controllers\Api\DoctorLoginController::class, 'getAppointmentsAndConsultations']);
-Route::middleware('auth:sanctum')->post('/doctor/update-appointment-status', [\App\Http\Controllers\Api\DoctorLoginController::class, 'updateAppointmentStatus']);
+Route::middleware('auth:sanctum')->get('/doctor/appointments-consultations', [DoctorLoginController::class, 'getAppointmentsAndConsultations']);
+Route::middleware('auth:sanctum')->post('/doctor/update-appointment-status', [DoctorLoginController::class, 'updateAppointmentStatus']);
 Route::middleware('auth:sanctum')->get('/schedules/today', [\App\Http\Controllers\Api\ScheduleController::class, 'getTodaySchedules']);
+
+Route::middleware('auth:sanctum')->get('/doctor/today/task', [DoctorLoginController::class, 'doctor_today_task']);

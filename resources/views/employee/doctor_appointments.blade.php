@@ -1,7 +1,6 @@
 @extends('layouts.doctor-dashboard')
 
-@section('title', 'Appointments')
-@section('header-title', 'Appointments Management')
+
 
 @section('content')
 <style>
@@ -312,7 +311,7 @@ $todayCount = \App\Models\Appointment::where('doctor_id', auth('doctor')->id())
                                                 <button onclick='showAppointmentDetails(@json($app))'
                                                     class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 text-sm font-medium">
                                                     <i class="fas fa-eye"></i>
-                                                    View Details
+                                                   
                                                 </button>
                                                 
                                                 @if($app->status == 'Pending')

@@ -47,6 +47,10 @@ $companyName = $admin ? $admin->hospital_name : 'Hospital CRM';
                         <span class="sidebar-text font-medium text-bg-white hover:bg-mint">Dashboard</span>
                     </a>
 
+                    <a href="{{ route('doctor.attendence') }}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('employee.doctor_appointments') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
+                        <i class="fas fa-calendar-check text-bg-white text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-5 text-center"></i>
+                        <span class="sidebar-text font-medium text-bg-white text-black">Attendence</span>
+                    </a>
 
                     <a href="{{ route('employee.doctor_appointments') }}" class="flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('employee.doctor_appointments') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
                         <i class="fas fa-calendar-check text-bg-white text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-5 text-center"></i>

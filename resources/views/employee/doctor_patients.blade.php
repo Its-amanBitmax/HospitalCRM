@@ -1,7 +1,6 @@
 @extends('layouts.doctor-dashboard')
 
-@section('title', 'Patient Visits')
-@section('header-title', 'Patient Visits')
+
 
 @section('content')
 <style>
@@ -93,7 +92,7 @@
     }
 </style>
 
-<div class="min-h-screen bg-gradient-to-b from-gray-50 to-white p-4 md:p-6">
+<div class="min-h-screen">
 
     <!-- Header -->
     <div class="mb-8">

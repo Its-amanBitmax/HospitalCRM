@@ -14,9 +14,10 @@ class PatientCheckup extends Model
         'treatment',
     ];
 
-    protected $casts = [
-        'checkup_date' => 'date',
-    ];
+   protected $casts = [
+    'checkup_date' => 'date:Y-m-d',
+];
+
 
     public function user()
     {
