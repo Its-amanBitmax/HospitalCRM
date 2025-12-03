@@ -309,11 +309,9 @@ Route::prefix('doctor')->group(function () {
     Route::post('doctor/profile-settings', [PatientVisitController::class, 'update_doctor_profile'])->name('doctor.update.profile');
     Route::get('/doctor/settings', [PatientVisitController::class, 'settings'])->name('doctor.settings');
     Route::post('/doctor/update/settings', [PatientVisitController::class, 'updateSettings'])->name('doctor.update.settings');
-Route::get('/doctor/attendence', [PatientVisitController::class, 'doctor_attendence'])->name('doctor.attendence');
-Route::post('/doctor/attendance/mark', [PatientVisitController::class, 'doctor_attendance_mark'])
-    ->name('doctor.attendance.mark');
-
-}); 
+    Route::get('/doctor/attendence', [PatientVisitController::class, 'doctor_attendence'])->name('doctor.attendence');
+    Route::post('/doctor/attendance/mark', [PatientVisitController::class, 'doctor_attendance_mark'])->name('doctor.attendance.mark');
+});
 
 
 
@@ -359,11 +357,6 @@ Route::prefix('receptionist')->group(function () {
         '/receptionists/profile/update',
         [ReceptionController::class, 'update_profile']
     )->name('receptionists.profile.update');
-
-
-
-
     Route::get('/receptionist/attendance', [ReceptionController::class, 'receptionist_attendence'])->name('receptionist.attendance');
     Route::post('/receptionist/attendance', [ReceptionController::class, 'mark_receptionist_attendence'])->name('receptionist.attendance.mark');
-
 });

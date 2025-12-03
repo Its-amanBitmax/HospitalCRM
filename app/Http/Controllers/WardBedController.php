@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Ward;
 use App\Models\Bed;
 use App\Models\BedAssignment;
+use Illuminate\Support\Facades\Log;
 
 class WardBedController extends Controller
 {
@@ -13,6 +14,8 @@ class WardBedController extends Controller
     {
         return view('admin.ward-bed');
     }
+
+
 
     public function storeWard(Request $request)
     {
@@ -23,18 +26,42 @@ class WardBedController extends Controller
             'status' => 'required|in:Active,Maintenance',
         ]);
 
-        $wardId = 'WD' . str_pad(Ward::count() + 1, 3, '0', STR_PAD_LEFT);
+        try {
+            Log::info('Store Ward Request', [
+                'user_id' => auth()->id(),
+                'data' => $request->all()
+            ]);
 
-        Ward::create([
-            'ward_id' => $wardId,
-            'name' => $request->name,
-            'floor' => $request->floor,
-            'bed_limit' => $request->bed_limit,
-            'status' => $request->status,
-        ]);
+            $lastWard = Ward::orderBy('id', 'desc')->first();
+            $nextId = $lastWard ? intval(substr($lastWard->ward_id, 2)) + 1 : 1;
+            $wardId = 'WD' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
 
-        return response()->json(['message' => 'Ward added successfully']);
+            $ward = Ward::create([
+                'ward_id' => $wardId,
+                'name' => $request->name,
+                'floor' => $request->floor,
+                'bed_limit' => $request->bed_limit,
+                'status' => $request->status,
+            ]);
+
+            Log::info('Ward Created Successfully', [
+                'ward_id' => $ward->ward_id,
+                'created_by' => auth()->id()
+            ]);
+
+            return response()->json(['message' => 'Ward added successfully']);
+        } catch (\Exception $e) {
+
+            Log::error('Ward Creation Failed', [
+                'error' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ]);
+
+            return response()->json(['message' => 'Something went wrong'], 500);
+        }
     }
+
 
     public function storeBed(Request $request)
     {
