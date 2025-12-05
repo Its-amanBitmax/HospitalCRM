@@ -166,36 +166,8 @@
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Quick Actions</h3>
-                <div class="grid grid-cols-2 gap-3">
-                    <a href="#" class="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors group">
-                        <div class="bg-white p-3 rounded-lg shadow-sm mb-2 group-hover:shadow transition-shadow">
-                            <i class="fas fa-calendar-plus text-blue-600 text-xl"></i>
-                        </div>
-                        <span class="text-sm font-medium text-gray-700">New Appointment</span>
-                    </a>
-                    <a href="#" class="flex flex-col items-center justify-center p-4 bg-green-50 rounded-xl hover:bg-green-100 transition-colors group">
-                        <div class="bg-white p-3 rounded-lg shadow-sm mb-2 group-hover:shadow transition-shadow">
-                            <i class="fas fa-user-plus text-green-600 text-xl"></i>
-                        </div>
-                        <span class="text-sm font-medium text-gray-700">Add Patient</span>
-                    </a>
-                    <a href="#" class="flex flex-col items-center justify-center p-4 bg-purple-50 rounded-xl hover:bg-purple-100 transition-colors group">
-                        <div class="bg-white p-3 rounded-lg shadow-sm mb-2 group-hover:shadow transition-shadow">
-                            <i class="fas fa-file-invoice text-purple-600 text-xl"></i>
-                        </div>
-                        <span class="text-sm font-medium text-gray-700">Generate Bill</span>
-                    </a>
-                    <a href="#" class="flex flex-col items-center justify-center p-4 bg-amber-50 rounded-xl hover:bg-amber-100 transition-colors group">
-                        <div class="bg-white p-3 rounded-lg shadow-sm mb-2 group-hover:shadow transition-shadow">
-                            <i class="fas fa-chart-bar text-amber-600 text-xl"></i>
-                        </div>
-                        <span class="text-sm font-medium text-gray-700">Reports</span>
-                    </a>
-                </div>
-            </div>
+            
+           
         </div>
 
         <!-- Right Column: Tables -->
@@ -210,7 +182,7 @@
                             </div>
                             <h2 class="text-xl font-bold text-gray-800">Recent Appointments</h2>
                         </div>
-                        <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
+                        <a href="{{route('receptionist.appointments')}}" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center">
                             View All <i class="fas fa-arrow-right ml-1 text-xs"></i>
                         </a>
                     </div>
@@ -286,7 +258,7 @@
                             </div>
                             <h2 class="text-xl font-bold text-gray-800">Recent Patient Visits</h2>
                         </div>
-                        <a href="#" class="text-sm font-medium text-green-600 hover:text-green-800 flex items-center">
+                        <a href="{{route('receptionist.patients')}}" class="text-sm font-medium text-green-600 hover:text-green-800 flex items-center">
                             View All <i class="fas fa-arrow-right ml-1 text-xs"></i>
                         </a>
                     </div>

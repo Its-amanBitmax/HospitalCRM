@@ -53,7 +53,7 @@
                         </a>
 
                         <form action="{{ route('hospital.schedule.delete', $schedule->id) }}" method="POST"
-                            onsubmit="return confirm('Are you sure?');">
+                            onsubmit="return confirm('Are you sure you want to delete this ?');">
                             @csrf
                             @method('DELETE')
                             <button class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">

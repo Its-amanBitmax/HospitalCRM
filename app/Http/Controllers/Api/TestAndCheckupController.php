@@ -88,4 +88,32 @@ public function test_booking(Request $request)
 
 
 
+public function Userbookings(Request $request)
+{
+    // Authenticated user via Sanctum
+    $user = auth('sanctum')->user();
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'User not authenticated.'
+        ], 401);
+    }
+
+    // Fetch all bookings of this user with related test and user data
+    $bookings = TestBook::with(['test', 'user'])
+        ->where('user_id', $user->id)
+        ->orderBy('booking_date', 'desc')
+        ->get();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'User bookings fetched successfully',
+        'data' => $bookings
+    ]);
+}
+
+
+
+
 }

@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class TestBook extends Model
 {
 
+
+
+
+protected $table = 'testbook';
+
     protected $fillable = [
         'user_id',
         'test_checkup_id',

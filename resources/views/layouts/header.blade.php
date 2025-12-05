@@ -1,4 +1,4 @@
-<header id="header" class=" bg-white-800 shadow-lg sticky top-0 z-40 transition-all duration-300" style="background-color:#daf6f6;">
+<header id="header" class=" bg-white-800 shadow-lg sticky top-0 z-40 transition-all duration-300" style="background-color:#daf6f6; width:100%;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center py-4">
             

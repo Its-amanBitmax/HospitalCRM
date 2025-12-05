@@ -1,9 +1,8 @@
 @extends('layouts.layout')
-
 @section('content')
-<div class="min-h-screen " style="width: 90%;">
-    <div class="container mx-auto px-2 py-6">
 
+<div class="">
+    <div class="container mx-auto px-2 py-6">
         <!-- Enhanced Header -->
         <div class="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 rounded-2xl shadow-2xl mb-8">
             <div class="absolute inset-0 opacity-10">
@@ -270,43 +269,43 @@
                 <table class="w-full">
                     <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
                         <tr>
-                            <th class="px-8 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-hashtag text-gray-400"></i>
                                     #
                                 </div>
                             </th>
-                            <th class="px-8 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-flask text-gray-400"></i>
                                     Test Name
                                 </div>
                             </th>
-                            <th class="px-8 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-tag text-gray-400"></i>
                                     Category
                                 </div>
                             </th>
-                            <th class="px-8 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-vial text-gray-400"></i>
                                     Sample Type
                                 </div>
                             </th>
-                            <th class="px-8 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-utensils text-gray-400"></i>
                                     Fasting
                                 </div>
                             </th>
-                            <th class="px-8 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-circle text-gray-400"></i>
                                     Status
                                 </div>
                             </th>
-                            <th class="px-8 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            <th class="px-4 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-cog text-gray-400"></i>
                                     Actions
@@ -317,14 +316,14 @@
                     <tbody class="divide-y divide-gray-200">
                         @forelse($tests as $index => $test)
                         <tr class="hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-indigo-50/30 transition-all duration-200 group">
-                            <td class="px-8 py-5 whitespace-nowrap">
+                            <td class="px-4 py-5 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg text-sm font-semibold text-gray-700 group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors">
                                         {{ $index + 1 }}
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-8 py-5">
+                            <td class="px-4 py-5">
                                 <div>
                                     <div class="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">
                                         {{ $test->test_name }}
@@ -336,19 +335,19 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="px-8 py-5 whitespace-nowrap">
+                            <td class="px-4 py-5 whitespace-nowrap">
                                 <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-green-50 to-emerald-50 text-emerald-800 border border-green-100">
                                     <i class="fas fa-tag mr-1.5 text-green-500"></i>
                                     {{ $test->category }}
                                 </span>
                             </td>
-                            <td class="px-8 py-5 whitespace-nowrap">
+                            <td class="px-4 py-5 whitespace-nowrap">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-vial text-gray-400"></i>
                                     <span class="text-sm text-gray-700">{{ $test->sample_type ?? 'N/A' }}</span>
                                 </div>
                             </td>
-                            <td class="px-8 py-5 whitespace-nowrap">
+                            <td class="px-4 py-5 whitespace-nowrap">
                                 @if($test->fasting_required)
                                 <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-orange-50 to-amber-50 text-amber-800 border border-orange-100">
                                     <i class="fas fa-utensils mr-1.5 text-orange-500"></i>
@@ -361,7 +360,7 @@
                                 </span>
                                 @endif
                             </td>
-                            <td class="px-8 py-5 whitespace-nowrap">
+                            <td class="px-4 py-5 whitespace-nowrap">
                                 @if($test->status == 'active')
                                 <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-green-50 to-emerald-50 text-emerald-800 border border-green-100 shadow-sm">
                                     <i class="fas fa-circle text-green-500 mr-1.5 animate-pulse"></i>
@@ -374,7 +373,7 @@
                                 </span>
                                 @endif
                             </td>
-                            <td class="px-8 py-5 whitespace-nowrap">
+                            <td class="px-4 py-5 whitespace-nowrap">
                                 <div class="flex items-center gap-2">
                                     <a href="{{ route('admin.test.checkup.edit', $test->id) }}"
                                         class="group/edit inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-50 to-amber-50 text-amber-700 rounded-lg hover:from-yellow-100 hover:to-amber-100 transition-all duration-200 border border-yellow-100 hover:shadow-md">
@@ -526,5 +525,8 @@
     });
 </script>
 @endpush
+
+
+
 
 @endsection
