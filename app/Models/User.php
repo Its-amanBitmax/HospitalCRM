@@ -105,4 +105,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(BedAssignment::class)->where('status', 'active');
     }
+
+    public function testBook()
+    {
+        return $this->hasMany(TestBook::class, 'user_id');
+    }
 }

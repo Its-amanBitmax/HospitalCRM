@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\DoctorLoginController;
 use App\Http\Controllers\Api\RelativeController;
+use App\Http\Controllers\Api\TestAndCheckupController;
+use App\Http\Controllers\Api\HospitalScheduleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -55,3 +57,10 @@ Route::middleware('auth:sanctum')->post('/doctor/update-appointment-status', [Do
 Route::middleware('auth:sanctum')->get('/schedules/today', [\App\Http\Controllers\Api\ScheduleController::class, 'getTodaySchedules']);
 
 Route::middleware('auth:sanctum')->get('/doctor/today/task', [DoctorLoginController::class, 'doctor_today_task']);
+
+
+Route::middleware('auth:sanctum')->post('/test/booking', [TestAndCheckupController::class, 'test_booking']);
+
+
+Route::get('/test/checkups', [TestAndCheckupController::class, 'get_all_testcheckup']);
+Route::get('/hospital/schedules', [HospitalScheduleController::class, 'index']);

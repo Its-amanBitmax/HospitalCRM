@@ -7,6 +7,7 @@ use App\Http\Controllers\WardBedController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\HospitalScheduleController;
 use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\EmployeeLoginController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\TestAndCheckupController;
 
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/login-selection', function () {
@@ -359,4 +361,37 @@ Route::prefix('receptionist')->group(function () {
     )->name('receptionists.profile.update');
     Route::get('/receptionist/attendance', [ReceptionController::class, 'receptionist_attendence'])->name('receptionist.attendance');
     Route::post('/receptionist/attendance', [ReceptionController::class, 'mark_receptionist_attendence'])->name('receptionist.attendance.mark');
-});
+   });
+
+    Route::get('/test/index', [TestAndCheckupController::class, 'test_and_checkup'])->name('admin.test.checkup');
+    Route::get('/test/checkups/create', [TestAndCheckupController::class, 'create'])
+        ->name('admin.testcheckup.create');
+Route::post('/test/checkup/store', [TestAndCheckupController::class, 'store'])
+    ->name('admin.testcheckup.store');
+    
+    Route::get('/test/checkup/{test}/edit', [TestAndCheckupController::class, 'edit'])
+    ->name('admin.test.checkup.edit');
+
+// Update test/checkup
+Route::post('/test/checkup/{test}', [TestAndCheckupController::class, 'update'])
+    ->name('admin.test.checkup.update');
+Route::delete('/test/checkup/{id}', [TestAndCheckupController::class, 'destroy'])
+        ->name('admin.testandcheckup.destroy');
+
+
+        
+
+Route::get('hospital/schedule', [HospitalScheduleController::class, 'index'])->name('hospital.schedule.index');
+Route::get('hospital/schedule/create', [HospitalScheduleController::class, 'create'])->name('hospital.schedule.create');
+Route::post('hospital/schedule/store', [HospitalScheduleController::class, 'store'])->name('hospital.schedule.store');
+
+Route::get('hospital/schedule/edit/{id}', [HospitalScheduleController::class, 'edit'])->name('hospital.schedule.edit');
+Route::post('hospital/schedule/update/{id}', [HospitalScheduleController::class, 'update'])->name('hospital.schedule.update');
+
+Route::delete('hospital/schedule/delete/{id}', [HospitalScheduleController::class, 'destroy'])->name('hospital.schedule.delete');
+
+
+
+
+
+

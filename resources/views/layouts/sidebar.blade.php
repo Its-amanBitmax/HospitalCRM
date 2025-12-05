@@ -262,13 +262,13 @@
       </div>
 
       <div id="lab-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-bg-white-200 border-bg-white-700 pl-3 mt-1">
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+        <a href="{{ route('admin.test.checkup') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-flask text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
-          <span class="sidebar-text text-sm">Tests</span>
+          <span class="sidebar-text text-sm">Test/Checkup</span>
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+        <a href="{{ route('hospital.schedule.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-vial text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
-          <span class="sidebar-text text-sm">Patients / Samples</span>
+          <span class="sidebar-text text-sm">Hospital / Schedule</span>
         </a>
         <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-chart-line text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
