@@ -106,7 +106,11 @@ public function appointments()
     return $this->hasMany(Appointment::class, 'doctor_id', 'id');
 }
 
-
+// In Employee.php
+public function uploadedReports()
+{
+    return $this->hasMany(TestReport::class, 'doctor_id');
+}
 
 
 }

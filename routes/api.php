@@ -62,6 +62,10 @@ Route::middleware('auth:sanctum')->get('/doctor/today/task', [DoctorLoginControl
 Route::middleware('auth:sanctum')->post('/test/booking', [TestAndCheckupController::class, 'test_booking']);
 
 Route::middleware('auth:sanctum')->get('/users/booking/list', [TestAndCheckupController::class, 'Userbookings']);
+Route::middleware('auth:sanctum')->post('/upload/reporting', [TestAndCheckupController::class, 'upload_report_as_user']);
+Route::middleware('auth:sanctum')->post('/upload/doctor/reporting', [TestAndCheckupController::class, 'upload_report_as_doctor']);
+
+
 
 Route::get('/test/checkups', [TestAndCheckupController::class, 'get_all_testcheckup']);
 Route::get('/hospital/schedules', [HospitalScheduleController::class, 'index']);

@@ -276,29 +276,6 @@ public function bookAppointment(Request $request)
 
 
 
-//      public function UserByAppointments(Request $request)
-// {
-//     $user = $request->user();
-
-   
-//     $appointments = $user->appointments()
-//         ->with(['doctor', 'relative']) 
-//         ->orderBy('appointment_date', 'asc') 
-//         ->get();
-
-//     $appointmentsCount = $appointments->count();
-
-//     return response()->json([
-//         'status' => true,
-//         'appointments_count' => $appointmentsCount,  
-//         'appointments' => $appointments,
-//         'user' => [
-//             'id' => $user->id,
-//             'name' => $user->full_name ?? $user->name ?? 'Unknown',
-//         ]
-//     ]);
-// }
-
 
 
 

@@ -110,4 +110,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(TestBook::class, 'user_id');
     }
+
+
+
+// In User.php
+public function testReports()
+{
+    return $this->hasMany(TestReport::class, 'user_id');
+}
+
+
 }
