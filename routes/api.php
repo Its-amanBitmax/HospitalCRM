@@ -47,6 +47,11 @@ Route::middleware('auth:sanctum')->prefix('relatives')->group(function () {
     Route::post('/{relative_id}', [RelativeController::class, 'update']);
     Route::delete('/{relative_id}', [RelativeController::class, 'destroy']);
 });
+
+
+
+
+
 Route::post('/doctor/login', [DoctorLoginController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/doctor/logout', [DoctorLoginController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/doctor/profile', [DoctorLoginController::class, 'getProfile']);
