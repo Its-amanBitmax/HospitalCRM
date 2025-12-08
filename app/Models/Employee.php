@@ -79,9 +79,10 @@ class Employee extends Authenticatable
     }
 
     public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
+{
+    return $this->belongsTo(Department::class, 'department_id', 'id');
+}
+
 
     public function schedules()
     {
@@ -105,7 +106,11 @@ public function appointments()
     return $this->hasMany(Appointment::class, 'doctor_id', 'id');
 }
 
-
+// In Employee.php
+public function uploadedReports()
+{
+    return $this->hasMany(TestReport::class, 'doctor_id');
+}
 
 
 }

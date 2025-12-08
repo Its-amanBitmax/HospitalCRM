@@ -240,15 +240,15 @@
     <div class="space-y-4">
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Select Ward</label>
-        <select id="bedWard" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200"></select>
+        <select id="bedWard" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200"></select>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Bed ID (Unique)</label>
-        <input type="text" id="bedId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200" placeholder="Enter unique bed number">
+        <input type="text" id="bedId" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200" placeholder="Enter unique bed number">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Type</label>
-        <select id="bedType" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
+        <select id="bedType" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200">
           <option>General</option>
           <option>Critical</option>
           <option>Deluxe</option>
@@ -256,7 +256,7 @@
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Status</label>
-        <select id="bedStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700 text-white transition duration-200">
+        <select id="bedStatus" class="mt-1 block w-full px-3 py-2 border border-gray-300 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white-700  transition duration-200">
           <option>Active</option>
           <option>Occupied</option>
           <option>Maintenance</option>

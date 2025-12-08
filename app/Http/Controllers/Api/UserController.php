@@ -293,6 +293,7 @@ class UserController extends Controller
             'email' => $request->email ?? $user->email,
             'mobile_no' => $request->mobile_no ?? $user->mobile_no,
             'age' => $request->age ?? $user->age,
+            'age' => $request->blood_group ?? $user->blood_group,
             'gender' => $request->gender ?? $user->gender,
             'full_address' => $request->full_address ?? $user->full_address,
             'username' => $request->username ?? $user->username,

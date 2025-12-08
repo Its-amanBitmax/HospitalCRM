@@ -524,9 +524,19 @@ class AdminController extends Controller
         return response()->json(['message' => 'User deleted successfully']);
     }
 
-    public function patientRegistration()
-    {
-        $admin = Auth::guard('admin')->user();
-        return view('admin.patient-registration', compact('admin'));
-    }
+  public function patientRegistration()
+{
+    // Logged-in user (admin or receptionist)
+    $user = Auth::guard('admin')->user() ?? Auth::guard('receptionist')->user();
+
+    // SAME DETAILS for both
+    $admin = \App\Models\Admin::first(); 
+
+    return view('admin.patient-registration', [
+        'user' => $user,
+        'admin' => $admin
+    ]);
+}
+
+
 }

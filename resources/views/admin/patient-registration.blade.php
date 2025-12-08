@@ -237,17 +237,21 @@
     <div>
       <div class="header">
         <div class="logo">
-          @if($admin->logo)
-            <img src="{{ asset('storage/' . $admin->logo) }}" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-          @else
-            CCH
-          @endif
+        @if(optional($admin)->logo)
+    <img src="{{ asset('storage/' . $admin->logo) }}"
+         alt="Logo"
+         style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+@else
+    CCH
+@endif
+
         </div>
         <div class="hospital-info">
-          <h1>{{ $admin->hospital_name ?? 'Hospital Name' }}</h1>
-          <p>{{ $admin->company_address ?? 'Address' }}</p>
-          <p>Phone: {{ $admin->company_contact ?? 'Phone' }} | Email: {{ $admin->company_email ?? 'Email' }}</p>
-        </div>
+    <h1>{{ $admin->hospital_name ?? 'Hospital Name' }}</h1>
+    <p>{{ $admin->company_address ?? 'Address' }}</p>
+    <p>Phone: {{ $admin->company_contact ?? 'Phone' }} | Email: {{ $admin->company_email ?? 'Email' }}</p>
+</div>
+
       </div>
 
       <div class="form-title">PATIENT REGISTRATION FORM</div>

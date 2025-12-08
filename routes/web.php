@@ -7,6 +7,7 @@ use App\Http\Controllers\WardBedController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\HospitalScheduleController;
 use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\EmployeeLoginController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\TestAndCheckupController;
 
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/login-selection', function () {
@@ -151,7 +153,7 @@ Route::prefix('admin')->group(function () {
         Route::put('/update-opd-patient/{id}', [AdminController::class, 'updateOpdPatient'])->name('admin.update-opd-patient');
         Route::delete('/delete-opd-patient/{id}', [AdminController::class, 'deleteOpdPatient'])->name('admin.delete-opd-patient');
 
-        Route::get('/patient-registration', [AdminController::class, 'patientRegistration'])->name('admin.patient-registration');
+        // Route::get('/patient-registration', [AdminController::class, 'patientRegistration'])->name('admin.patient-registration');
 
         Route::get('/emergency-patients', [AdminController::class, 'emergencyPatients'])->name('admin.emergency-patients');
         Route::get('/get-emergency-patients', [AdminController::class, 'getEmergencyPatients'])->name('admin.get-emergency-patients');
@@ -295,40 +297,23 @@ Route::prefix('admin')->group(function () {
 
 
 
-Route::get('/doctor/users/{userId}/checkup/create', [PatientVisitController::class, 'doctorCreateCheckup'])
-    ->name('employee.users.checkups.create');
 
-Route::post('/doctor/users/{userId}/checkup/store', [PatientVisitController::class, 'storePatientCheckup'])
-    ->name('employee.users.checkups.store');
-
-
-
-Route::get(
-    'doctor/users/{userId}/checkups/{checkupId}/edit',
-    [PatientVisitController::class, 'doctor_Edit_Checkup']
-)->name('employee.users.checkups.edit');
-
-Route::post(
-    'doctor/users/{userId}/checkups/{checkupId}/update',
-    [PatientVisitController::class, 'doctor_update_Checkup']
-)->name('employee.users.checkups.update');
-
-
-Route::delete('doctor/users/{userId}/checkups/{checkupId}',[PatientVisitController::class, 'doctor_delete_Checkup'])->name('employee.users.checkups.delete');
-
-
-
-
-Route::get('doctor/users/{userId}/documents/create',[PatientVisitController::class, 'doctorCreateDocument'])->name('employee.users.documents.create');
-Route::post('doctor/users/{userId}/documents',[PatientVisitController::class, 'doctorStoreDocument'])->name('employee.users.documents.store');
-Route::delete('doctor/users/{userId}/documents/{documentId}',[PatientVisitController::class, 'doctorDeleteDocument'])->name('employee.users.documents.delete');
-Route::get('doctor/profile/settings', [PatientVisitController::class, 'doctor_profile_settings'])->name('employee.profile.settings');
-Route::post('doctor/profile-settings', [PatientVisitController::class, 'update_doctor_profile'])
-    ->name('doctor.update.profile');
-Route::get('/doctor/settings', [PatientVisitController::class, 'settings'])
-    ->name('doctor.settings');
-Route::post('/doctor/update/settings', [PatientVisitController::class, 'updateSettings'])
-    ->name('doctor.update.settings');
+Route::prefix('doctor')->group(function () {
+    Route::get('/doctor/users/{userId}/checkup/create', [PatientVisitController::class, 'doctorCreateCheckup'])->name('employee.users.checkups.create');
+    Route::post('/doctor/users/{userId}/checkup/store', [PatientVisitController::class, 'storePatientCheckup'])->name('employee.users.checkups.store');
+    Route::get('doctor/users/{userId}/checkups/{checkupId}/edit', [PatientVisitController::class, 'doctor_Edit_Checkup'])->name('employee.users.checkups.edit');
+    Route::post('doctor/users/{userId}/checkups/{checkupId}/update', [PatientVisitController::class, 'doctor_update_Checkup'])->name('employee.users.checkups.update');
+    Route::delete('doctor/users/{userId}/checkups/{checkupId}', [PatientVisitController::class, 'doctor_delete_Checkup'])->name('employee.users.checkups.delete');
+    Route::get('doctor/users/{userId}/documents/create', [PatientVisitController::class, 'doctorCreateDocument'])->name('employee.users.documents.create');
+    Route::post('doctor/users/{userId}/documents', [PatientVisitController::class, 'doctorStoreDocument'])->name('employee.users.documents.store');
+    Route::delete('doctor/users/{userId}/documents/{documentId}', [PatientVisitController::class, 'doctorDeleteDocument'])->name('employee.users.documents.delete');
+    Route::get('doctor/profile/settings', [PatientVisitController::class, 'doctor_profile_settings'])->name('employee.profile.settings');
+    Route::post('doctor/profile-settings', [PatientVisitController::class, 'update_doctor_profile'])->name('doctor.update.profile');
+    Route::get('/doctor/settings', [PatientVisitController::class, 'settings'])->name('doctor.settings');
+    Route::post('/doctor/update/settings', [PatientVisitController::class, 'updateSettings'])->name('doctor.update.settings');
+    Route::get('/doctor/attendence', [PatientVisitController::class, 'doctor_attendence'])->name('doctor.attendence');
+    Route::post('/doctor/attendance/mark', [PatientVisitController::class, 'doctor_attendance_mark'])->name('doctor.attendance.mark');
+});
 
 
 
@@ -342,25 +327,72 @@ Route::post('/doctor/update/settings', [PatientVisitController::class, 'updateSe
 
 
 
-// Receptionist Dashboard
-Route::get('/receptionists', [ReceptionController::class, 'get_receptions'])
-    ->name('receptionists.dashboard');
-Route::get('/receptionist/appointments', [ReceptionController::class, 'get_appointments'])
-    ->name('receptionist.appointments');
-Route::get('/receptionist/patients', [ReceptionController::class, 'get_patients'])
-    ->name('receptionist.patients');
-Route::get('receptionist/{user}/visits', [ReceptionController::class, 'showUserVisits'])->name('visits.show');
-Route::get('receptionist/{user}/view', [ReceptionController::class, 'ViewUsers'])->name('visits.view');
-Route::get('receptionist/{user}/visits/create', [ReceptionController::class, 'createUserVisit'])->name('visits.create');
-Route::post('receptionist/{user}/visits', [ReceptionController::class, 'storeUserVisit'])->name('visits.store');
-Route::get('receptionist/{user}/visits/{visit}/edit', [ReceptionController::class, 'editUserVisit'])->name('visits.edit');
-Route::post('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'updateUserVisit'])->name('visits.update');
-Route::delete('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'deleteUserVisit'])->name('visits.delete');
-Route::get('/patients/create', [ReceptionController::class, 'patient_create'])->name('patients.create');
-Route::post('/patients/save', [ReceptionController::class, 'patient_save'])->name('patients.save');
-Route::get('/patients/{id}/edit', [ReceptionController::class, 'patient_edit'])
-    ->name('patients.edit');
-Route::put('/patients/{id}/update', [ReceptionController::class, 'patient_update'])
-    ->name('patients.update');
-Route::get('/patients/{id}/delete', [ReceptionController::class, 'patient_delete'])
-    ->name('patients.delete');
+Route::prefix('receptionist')->group(function () {
+    Route::get('/receptionists', [ReceptionController::class, 'get_receptions'])
+        ->name('receptionists.dashboard');
+    Route::get('/receptionist/appointments', [ReceptionController::class, 'get_appointments'])
+        ->name('receptionist.appointments');
+    Route::get('/receptionist/patients', [ReceptionController::class, 'get_patients'])
+        ->name('receptionist.patients');
+    Route::get('receptionist/{user}/visits', [ReceptionController::class, 'showUserVisits'])->name('visits.show');
+    Route::get('receptionist/{user}/view', [ReceptionController::class, 'ViewUsers'])->name('visits.view');
+    Route::get('receptionist/{user}/visits/create', [ReceptionController::class, 'createUserVisit'])->name('visits.create');
+    Route::post('receptionist/{user}/visits', [ReceptionController::class, 'storeUserVisit'])->name('visits.store');
+    Route::get('receptionist/{user}/visits/{visit}/edit', [ReceptionController::class, 'editUserVisit'])->name('visits.edit');
+    Route::post('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'updateUserVisit'])->name('visits.update');
+    Route::delete('receptionist/{user}/visits/{visit}', [ReceptionController::class, 'deleteUserVisit'])->name('visits.delete');
+    Route::get('/patients/create', [ReceptionController::class, 'patient_create'])->name('patients.create');
+    Route::post('/patients/save', [ReceptionController::class, 'patient_save'])->name('patients.save');
+    Route::get('/patients/{id}/edit', [ReceptionController::class, 'patient_edit'])
+        ->name('patients.edit');
+    Route::put('/patients/{id}/update', [ReceptionController::class, 'patient_update'])
+        ->name('patients.update');
+    Route::get('/patients/{id}/delete', [ReceptionController::class, 'patient_delete'])
+        ->name('patients.delete');
+    Route::get('/receptionists/profile', [ReceptionController::class, 'get_profile_settings'])
+        ->name('receptionists.profile.settings');
+
+    Route::get('/receptionists/profile/view', [ReceptionController::class, 'profile_view'])
+        ->name('receptionists.profile.view');
+
+    Route::post(
+        '/receptionists/profile/update',
+        [ReceptionController::class, 'update_profile']
+    )->name('receptionists.profile.update');
+    Route::get('/receptionist/attendance', [ReceptionController::class, 'receptionist_attendence'])->name('receptionist.attendance');
+    Route::post('/receptionist/attendance', [ReceptionController::class, 'mark_receptionist_attendence'])->name('receptionist.attendance.mark');
+   });
+
+    Route::get('/test/index', [TestAndCheckupController::class, 'test_and_checkup'])->name('admin.test.checkup');
+    Route::get('/test/checkups/create', [TestAndCheckupController::class, 'create'])
+        ->name('admin.testcheckup.create');
+Route::post('/test/checkup/store', [TestAndCheckupController::class, 'store'])
+    ->name('admin.testcheckup.store');
+    
+    Route::get('/test/checkup/{test}/edit', [TestAndCheckupController::class, 'edit'])
+    ->name('admin.test.checkup.edit');
+
+// Update test/checkup
+Route::post('/test/checkup/{test}', [TestAndCheckupController::class, 'update'])
+    ->name('admin.test.checkup.update');
+Route::delete('/test/checkup/{id}', [TestAndCheckupController::class, 'destroy'])
+        ->name('admin.testandcheckup.destroy');
+
+
+        
+
+Route::get('hospital/schedule', [HospitalScheduleController::class, 'index'])->name('hospital.schedule.index');
+Route::get('hospital/schedule/create', [HospitalScheduleController::class, 'create'])->name('hospital.schedule.create');
+Route::post('hospital/schedule/store', [HospitalScheduleController::class, 'store'])->name('hospital.schedule.store');
+
+Route::get('hospital/schedule/edit/{id}', [HospitalScheduleController::class, 'edit'])->name('hospital.schedule.edit');
+Route::post('hospital/schedule/update/{id}', [HospitalScheduleController::class, 'update'])->name('hospital.schedule.update');
+
+Route::delete('hospital/schedule/delete/{id}', [HospitalScheduleController::class, 'destroy'])->name('hospital.schedule.delete');
+
+
+
+
+
+
+ Route::get('/patient-registration', [AdminController::class, 'patientRegistration'])->name('admin.patient-registration');

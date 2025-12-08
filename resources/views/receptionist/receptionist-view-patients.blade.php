@@ -1,7 +1,7 @@
 @extends('layouts.receptionist')
 
 @section('content')
-<div class="p-6 min-h-screen bg-gray-100">
+<div class="min-h-scree">
 
     <!-- Header -->
   <div class="bg-white shadow rounded-lg p-5 mb-6 flex justify-between items-center">

@@ -7,7 +7,10 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\Api\SkillController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\DoctorLoginController;
 use App\Http\Controllers\Api\RelativeController;
+use App\Http\Controllers\Api\TestAndCheckupController;
+use App\Http\Controllers\Api\HospitalScheduleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,7 +18,7 @@ use App\Http\Controllers\Api\RelativeController;
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider and assigned the "api" middleware group.
-|
+| 
 */
 
 Route::post('/register', [UserController::class, 'register']);
@@ -23,7 +26,7 @@ Route::post('/login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getProfile']);
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/skills', [SkillController::class, 'index']);
-Route::middleware('auth:sanctum')->put('/update-profile', [UserController::class, 'updateProfile']);
+Route::middleware('auth:sanctum')->post('/update-profile', [UserController::class, 'updateProfile']);
 Route::get('/user/{id}', [UserController::class, 'getUserById']);
 Route::post('/check-user', [UserController::class, 'checkUserExists']);
 Route::post('/update-credentials', [UserController::class, 'updateCredentials']);
@@ -44,10 +47,30 @@ Route::middleware('auth:sanctum')->prefix('relatives')->group(function () {
     Route::post('/{relative_id}', [RelativeController::class, 'update']);
     Route::delete('/{relative_id}', [RelativeController::class, 'destroy']);
 });
-Route::post('/doctor/login', [\App\Http\Controllers\Api\DoctorLoginController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/doctor/logout', [\App\Http\Controllers\Api\DoctorLoginController::class, 'logout']);
-Route::middleware('auth:sanctum')->get('/doctor/profile', [\App\Http\Controllers\Api\DoctorLoginController::class, 'getProfile']);
-Route::middleware('auth:sanctum')->post('/doctor/profile/update', [\App\Http\Controllers\Api\DoctorLoginController::class, 'updateProfile']);
 
-Route::middleware('auth:sanctum')->get('/doctor/appointments-consultations', [\App\Http\Controllers\Api\DoctorLoginController::class, 'getAppointmentsAndConsultations']);
+
+
+
+
+Route::post('/doctor/login', [DoctorLoginController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/doctor/logout', [DoctorLoginController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/doctor/profile', [DoctorLoginController::class, 'getProfile']);
+Route::middleware('auth:sanctum')->post('/doctor/profile/update', [DoctorLoginController::class, 'updateProfile']);
+
+Route::middleware('auth:sanctum')->get('/doctor/appointments-consultations', [DoctorLoginController::class, 'getAppointmentsAndConsultations']);
+Route::middleware('auth:sanctum')->post('/doctor/update-appointment-status', [DoctorLoginController::class, 'updateAppointmentStatus']);
 Route::middleware('auth:sanctum')->get('/schedules/today', [\App\Http\Controllers\Api\ScheduleController::class, 'getTodaySchedules']);
+
+Route::middleware('auth:sanctum')->get('/doctor/today/task', [DoctorLoginController::class, 'doctor_today_task']);
+
+
+Route::middleware('auth:sanctum')->post('/test/booking', [TestAndCheckupController::class, 'test_booking']);
+
+Route::middleware('auth:sanctum')->get('/users/booking/list', [TestAndCheckupController::class, 'Userbookings']);
+Route::middleware('auth:sanctum')->post('/upload/reporting', [TestAndCheckupController::class, 'upload_report_as_user']);
+Route::middleware('auth:sanctum')->post('/upload/doctor/reporting', [TestAndCheckupController::class, 'upload_report_as_doctor']);
+
+
+
+Route::get('/test/checkups', [TestAndCheckupController::class, 'get_all_testcheckup']);
+Route::get('/hospital/schedules', [HospitalScheduleController::class, 'index']);

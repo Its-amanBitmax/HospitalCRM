@@ -133,5 +133,5 @@
         </div>
     @endif
 </div>
-<script src="https://cdn.tailwindcss.com"></script>
+
 @endsection
