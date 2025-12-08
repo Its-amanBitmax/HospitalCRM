@@ -26,7 +26,7 @@
     <div class="mb-6">
       <nav class="flex flex-wrap gap-2" aria-label="Tabs">
         @if($user->type !== 'ipd')
-        <button onclick="showTab('visits')" id="visits-tab" class="tab-button px-4 py-2 rounded-lg flex items-center gap-2 transition ">
+        <button onclick="showTab('visits')" id="visits-tab" class="tab-button px-4 py-2 text-white rounded-lg flex items-center gap-2 transition ">
           <i class="fas fa-calendar"></i> Visits
         </button>
         @endif
@@ -94,9 +94,16 @@
     <div id="checkups-content" class="tab-content hidden">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold text-gray-800 ">Patient Checkups</h2>
-        <a href="{{ route('admin.users.checkups.create', $user->id) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
-          <i class="fas fa-plus"></i> Add Checkup
-        </a>
+        <div class="flex gap-3">
+          <a href="{{ route('admin.users.checkups.create', $user->id) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+            <i class="fas fa-plus"></i> Add Checkup
+          </a>
+          <!-- @if($user->type === 'emergency')
+          <button onclick="openEmergencyModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+            <i class="fas fa-exclamation-triangle"></i> Emergency
+          </button>
+          @endif -->
+        </div>
       </div>
       <div class="overflow-x-auto">
         <table class="min-w-full bg-white bg-white-800 border border-gray-200 ">
@@ -348,7 +355,7 @@
       const btn = document.getElementById(tab + '-tab');
       if (btn) {
         btn.classList.remove('active', 'bg-blue-600', 'text-white');
-        btn.classList.add('bg-white-200', 'text-gray-700', 'bg-gray-700', 'text-gray-300');
+        btn.classList.add('bg-white-200', 'text-white', 'bg-gray-700', 'text-white');
       }
     });
 
@@ -362,5 +369,118 @@
       selectedBtn.classList.add('active', 'bg-blue-600', 'text-white');
     }
   }
+</script>
+
+<!-- Emergency Verification Modal -->
+<div id="emergencyModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div class="mt-3">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-lg font-medium text-gray-900">Emergency Verification</h3>
+          <p class="text-sm text-gray-600">User: {{ $user->full_name }}</p>
+        </div>
+        <button onclick="closeEmergencyModal()" class="text-gray-400 hover:text-gray-600">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <form id="emergencyForm" action="#" method="POST">
+        @csrf
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="verification_type">
+            Verification Type
+          </label>
+          <select id="verification_type" name="verification_type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            <option value="">Select Type</option>
+            <option value="family">Family Verification</option>
+            <option value="police">Police Verification</option>
+          </select>
+        </div>
+        <div id="family_fields" class="hidden">
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="family_name">
+              Family Member Name
+            </label>
+            <input type="text" id="family_name" name="family_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter family member name">
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="family_relation">
+              Relation
+            </label>
+            <input type="text" id="family_relation" name="family_relation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="e.g., Father, Mother, Son">
+          </div>
+        </div>
+        <div id="police_fields" class="hidden">
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="police_station">
+              Police Station Name
+            </label>
+            <input type="text" id="police_station" name="police_station" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter police station name">
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="police_address">
+              Police Station Address
+            </label>
+            <textarea id="police_address" name="police_address" rows="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter police station address"></textarea>
+          </div>
+          <div class="mb-4">
+            <label class="flex items-center">
+              <input type="checkbox" id="police_verified" name="police_verified" class="mr-2 leading-tight">
+              <span class="text-sm font-bold text-gray-700">Verification Confirmed</span>
+            </label>
+          </div>
+        </div>
+       
+        <div class="flex items-center justify-between">
+          <button type="button" onclick="closeEmergencyModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Cancel
+          </button>
+          <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Submit Verification
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openEmergencyModal() {
+    document.getElementById('emergencyModal').classList.remove('hidden');
+  }
+
+  function closeEmergencyModal() {
+    document.getElementById('emergencyModal').classList.add('hidden');
+    // Reset form
+    document.getElementById('emergencyForm').reset();
+    document.getElementById('family_fields').classList.add('hidden');
+    document.getElementById('police_fields').classList.add('hidden');
+  }
+
+  // Handle verification type change
+  document.getElementById('verification_type').addEventListener('change', function() {
+    const type = this.value;
+    const familyFields = document.getElementById('family_fields');
+    const policeFields = document.getElementById('police_fields');
+
+    if (type === 'family') {
+      familyFields.classList.remove('hidden');
+      policeFields.classList.add('hidden');
+    } else if (type === 'police') {
+      policeFields.classList.remove('hidden');
+      familyFields.classList.add('hidden');
+    } else {
+      familyFields.classList.add('hidden');
+      policeFields.classList.add('hidden');
+    }
+  });
+
+  // Handle form submission (you can customize this based on your backend requirements)
+  document.getElementById('emergencyForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Here you would typically send the form data to your backend
+    alert('Emergency verification submitted successfully!');
+    closeEmergencyModal();
+  });
 </script>
 @endsection
