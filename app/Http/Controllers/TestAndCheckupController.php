@@ -144,5 +144,30 @@ class TestAndCheckupController extends Controller
             ->with('success', 'Test / Checkup deleted successfully!');
     }
 
+
+
+
+public function test_book_users()
+{
+    $users = User::whereHas('testBook')->with('testBook.test')->get();
+
+    return view('admin.testandcheckup.test-user-list', compact('users'));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 }

@@ -334,8 +334,8 @@
                             }
 
                             // Convert saved DB time (e.g. "14:30:00" ) → "14:30"
-                            $savedStart=$shift->start_time ? \Carbon\Carbon::parse($shift->start_time)->format("H:i") : "";
-                            $savedEnd = $shift->end_time ? \Carbon\Carbon::parse($shift->end_time)->format("H:i") : "";
+                            $savedStart=$shift->start_time ? $shift->start_time->format("H:i") : "";
+                            $savedEnd = $shift->end_time ? $shift->end_time->format("H:i") : "";
                             @endphp
 
 
@@ -391,10 +391,24 @@
                     @foreach($employee->professions as $index => $profession)
                     <div class="profession-item grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <input type="hidden" name="professions[{{ $index }}][id]" value="{{ $profession->id }}">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Title</label>
-                            <input type="text" name="professions[{{ $index }}][title]" value="{{ old('professions.' . $index . '.title', $profession->title) }}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
-                        </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Title</label>
+                <select name="professions[{{ $index }}][title]" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">
+                    <option value="">Select Profession</option>
+                    <option value="Doctor" {{ old('professions.' . $index . '.title', $profession->title) == 'Doctor' ? 'selected' : '' }}>Doctor</option>
+                    <option value="Nurse" {{ old('professions.' . $index . '.title', $profession->title) == 'Nurse' ? 'selected' : '' }}>Nurse</option>
+                    <option value="Technician" {{ old('professions.' . $index . '.title', $profession->title) == 'Technician' ? 'selected' : '' }}>Technician</option>
+                    <option value="Pharmacist" {{ old('professions.' . $index . '.title', $profession->title) == 'Pharmacist' ? 'selected' : '' }}>Pharmacist</option>
+                    <option value="Receptionist" {{ old('professions.' . $index . '.title', $profession->title) == 'Receptionist' ? 'selected' : '' }}>Receptionist</option>
+                    <option value="Manager" {{ old('professions.' . $index . '.title', $profession->title) == 'Manager' ? 'selected' : '' }}>Manager</option>
+                    <option value="Ward Boy" {{ old('professions.' . $index . '.title', $profession->title) == 'Ward Boy' ? 'selected' : '' }}>Ward Boy</option>
+                    <option value="Cleaner" {{ old('professions.' . $index . '.title', $profession->title) == 'Cleaner' ? 'selected' : '' }}>Cleaner</option>
+                    <option value="Security" {{ old('professions.' . $index . '.title', $profession->title) == 'Security' ? 'selected' : '' }}>Security</option>
+                    <option value="Accountant" {{ old('professions.' . $index . '.title', $profession->title) == 'Accountant' ? 'selected' : '' }}>Accountant</option>
+                    <option value="Laborist" {{ old('professions.' . $index . '.title', $profession->title) == 'Laborist' ? 'selected' : '' }}>Laborist</option>
+                    <option value="Other" {{ old('professions.' . $index . '.title', $profession->title) == 'Other' ? 'selected' : '' }}>Other</option>
+                </select>
+            </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 text-gray-300 mb-1">Department</label>
                             <select name="professions[{{ $index }}][department_id]" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white-700 text-black">

@@ -254,22 +254,79 @@
         const modal = document.getElementById("appointmentModal");
         const details = document.getElementById("appointmentDetails");
 
-        const bookedBy =
-            app.for_user_type === "self" ?
-            `${app.user?.name ?? "User"} (Self)` :
-            `${app.relative?.name ?? "Relative"} (${app.relative?.relation ?? "-"})`;
+        let bookedByHtml = '';
+        if (app.for_user_type === 'self') {
+            const imageSrc = app.user?.image ? `/${app.user.image}` : '/image/default.png';
+            bookedByHtml = `
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <img src="${imageSrc}" alt="User Image" class="w-12 h-12 rounded-full object-cover border-2 border-gray-300">
+                        <div>
+                            <h3 class="font-semibold text-lg">${app.user?.full_name ?? 'User'}</h3>
+                            <p class="text-sm text-gray-600">Booked By (Self)</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <p><strong>Age:</strong> ${app.user?.age ?? 'N/A'}</p>
+                        <p><strong>Gender:</strong> ${app.user?.gender ?? 'N/A'}</p>
+                        <p><strong>Mobile:</strong> ${app.user?.mobile_no ?? 'N/A'}</p>
+                        <p><strong>Email:</strong> ${app.user?.email ?? 'N/A'}</p>
+                        <p><strong>Blood Group:</strong> ${app.user?.blood_group ?? 'N/A'}</p>
+                        <p><strong>Address:</strong> ${app.user?.full_address ?? 'N/A'}</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            const imageSrc = app.relative?.image ? `/${app.relative.image}` : '/image/default.png';
+            bookedByHtml = `
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <img src="${imageSrc}" alt="Relative Image" class="w-12 h-12 rounded-full object-cover border-2 border-gray-300">
+                        <div>
+                            <h3 class="font-semibold text-lg">${app.relative?.name ?? 'Relative'}</h3>
+                            <p class="text-sm text-gray-600">Booked For (${app.relative?.relation ?? '-'})</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <p><strong>Age:</strong> ${app.relative?.age ?? 'N/A'}</p>
+                        <p><strong>Gender:</strong> ${app.relative?.gender ?? 'N/A'}</p>
+                        <p><strong>Blood Group:</strong> ${app.relative?.blood_group ?? 'N/A'}</p>
+                    </div>
+                </div>
+            `;
+        }
 
         details.innerHTML = `
-        <p><strong>Code:</strong> ${app.appointment_code}</p>
-        <p><strong>Patient:</strong> ${bookedBy}</p>
-        <p><strong>Doctor:</strong> ${app.doctor?.name ?? "N/A"}</p>
-        <p><strong>Date:</strong> ${app.appointment_date}</p>
-        <p><strong>Time:</strong> ${formatTime(app.appointment_time)}</p>
-        <p><strong>Subtype:</strong> ${app.subtype ?? "—"}</p>
-        <p><strong>Issue:</strong> ${app.issue ?? "—"}</p>
-        <p><strong>Description:</strong> ${app.description ?? "—"}</p>
-        <p><strong>Status:</strong> ${app.status}</p>
-    `;
+            <div class="space-y-4">
+                <div class="bg-blue-50 p-3 rounded-lg">
+                    <p class="text-lg font-semibold text-blue-800"><strong>Appointment Code:</strong> ${app.appointment_code}</p>
+                </div>
+                ${bookedByHtml}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-green-50 p-3 rounded-lg">
+                        <p><strong class="text-green-800">Doctor:</strong> ${app.doctor?.name ?? 'N/A'}</p>
+                    </div>
+                    <div class="bg-yellow-50 p-3 rounded-lg">
+                        <p><strong class="text-yellow-800">Date:</strong> ${app.appointment_date}</p>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded-lg">
+                        <p><strong class="text-purple-800">Time:</strong> ${formatTime(app.appointment_time)}</p>
+                    </div>
+                    <div class="bg-red-50 p-3 rounded-lg">
+                        <p><strong class="text-red-800">Status:</strong> ${app.status}</p>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg">
+                    <p><strong>Subtype:</strong> ${app.subtype ?? '—'}</p>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg">
+                    <p><strong>Issue:</strong> ${app.issue ?? '—'}</p>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg">
+                    <p><strong>Description:</strong> ${app.description ?? '—'}</p>
+                </div>
+            </div>
+        `;
 
         // Set form actions
         document.getElementById("acceptForm").action =
