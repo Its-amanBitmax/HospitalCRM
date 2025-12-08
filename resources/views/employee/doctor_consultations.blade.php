@@ -67,8 +67,13 @@
     }
 
     @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
 
     @keyframes slideUp {
@@ -76,6 +81,7 @@
             opacity: 0;
             transform: translateY(20px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
@@ -100,36 +106,36 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 function formatConsultationTime($time) {
-    if (!$time) return '—';
+if (!$time) return '—';
 
-    // Check if it's a time range (contains ' - ')
-    if (strpos($time, ' - ') !== false) {
-        $parts = explode(' - ', $time);
-        $start = trim($parts[0] ?? '');
-        $end = trim($parts[1] ?? '');
+// Check if it's a time range (contains ' - ')
+if (strpos($time, ' - ') !== false) {
+$parts = explode(' - ', $time);
+$start = trim($parts[0] ?? '');
+$end = trim($parts[1] ?? '');
 
-        try {
-            $startFormatted = $start ? Carbon::parse($start)->format('h:i A') : '';
-            $endFormatted = $end ? Carbon::parse($end)->format('h:i A') : '';
-            return $endFormatted ? "$startFormatted - $endFormatted" : $startFormatted;
-        } catch (\Exception $e) {
-            return $time; // Return original if parsing fails
-        }
-    }
+try {
+$startFormatted = $start ? Carbon::parse($start)->format('h:i A') : '';
+$endFormatted = $end ? Carbon::parse($end)->format('h:i A') : '';
+return $endFormatted ? "$startFormatted - $endFormatted" : $startFormatted;
+} catch (\Exception $e) {
+return $time; // Return original if parsing fails
+}
+}
 
-    // Single time
-    try {
-        return Carbon::parse($time)->format('h:i A');
-    } catch (\Exception $e) {
-        return $time; // Return original if parsing fails
-    }
+// Single time
+try {
+return Carbon::parse($time)->format('h:i A');
+} catch (\Exception $e) {
+return $time; // Return original if parsing fails
+}
 }
 
 // Calculate today's consultations
 $todayCount = \App\Models\Appointment::where('doctor_id', auth('doctor')->id())
-    ->whereDate('appointment_date', Carbon::today())
-    ->where('status', 'Confirmed')
-    ->count();
+->whereDate('appointment_date', Carbon::today())
+->where('status', 'Confirmed')
+->count();
 
 // Calculate completion rate
 $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
@@ -279,7 +285,7 @@ $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
                                         </div>
                                         @endif
                                     </div>
-                                    
+
                                     <div class="flex-1">
                                         <div class="flex flex-wrap items-center gap-3 mb-2">
                                             <h3 class="font-semibold text-gray-900 text-lg">
@@ -293,7 +299,7 @@ $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
                                                 {{ $app->for_user_type === 'self' ? 'Self' : $app->relative->relation ?? 'Relative' }}
                                             </span>
                                         </div>
-                                        
+
                                         <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                                             <span class="inline-flex items-center gap-2 bg-blue-50 px-3 py-1 rounded-lg">
                                                 <i class="fas fa-clock text-blue-500"></i>
@@ -312,7 +318,7 @@ $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Status & Actions -->
                                 <div class="flex flex-col items-end gap-3">
                                     <span class="status-badge shadow-sm
@@ -327,30 +333,29 @@ $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
                                             @endif mr-1"></i>
                                         {{ $app->status }}
                                     </span>
-                                    
+
                                     <div class="flex items-center gap-2">
                                         <button onclick='showConsultationDetails(@json($app))'
                                             class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 text-sm font-medium shadow-md hover:shadow-lg">
                                             <i class="fas fa-eye"></i>
-                                           
                                         </button>
-                                        
+
                                         @if($app->status == 'Pending')
                                         <form method="POST" action="{{ route('employee.appointments.accept', $app->appointment_id) }}" class="inline">
                                             @csrf @method('PUT')
-                                            <button type="submit" 
-                                                    onclick="return confirm('Are you sure you want to accept this consultation?')"
-                                                    class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-200 text-sm font-medium shadow-md hover:shadow-lg">
+                                            <button type="submit"
+                                                onclick="return confirm('Are you sure you want to accept this consultation?')"
+                                                class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-200 text-sm font-medium shadow-md hover:shadow-lg">
                                                 <i class="fas fa-check"></i>
                                                 Accept
                                             </button>
                                         </form>
-                                        
+
                                         <form method="POST" action="{{ route('employee.appointments.reject', $app->appointment_id) }}" class="inline">
                                             @csrf @method('PUT')
-                                            <button type="submit" 
-                                                    onclick="return confirm('Are you sure you want to reject this consultation?')"
-                                                    class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-lg hover:from-red-600 hover:to-rose-700 transition-all duration-200 text-sm font-medium shadow-md hover:shadow-lg">
+                                            <button type="submit"
+                                                onclick="return confirm('Are you sure you want to reject this consultation?')"
+                                                class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-lg hover:from-red-600 hover:to-rose-700 transition-all duration-200 text-sm font-medium shadow-md hover:shadow-lg">
                                                 <i class="fas fa-times"></i>
                                                 Reject
                                             </button>
@@ -359,7 +364,7 @@ $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                         @endforeach
                     </div>
                     @endif
@@ -392,12 +397,12 @@ $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
                                 Cancelled ({{ $cancelled ?? 0 }})
                             </button>
                         </div>
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                   placeholder="Filter by date">
+                                placeholder="Filter by date">
                             <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                   placeholder="Search by patient name...">
+                                placeholder="Search by patient name...">
                         </div>
                     </div>
 
@@ -445,10 +450,10 @@ $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
                                             @elseif($app->status == 'Cancelled') fa-times-circle
                                             @endif mr-1"></i>
                                         {{ $app->status }}
-                                        
+
                                     </span>
                                     <button onclick='showConsultationDetails(@json($app))'
-                                            class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 text-sm font-medium shadow-md hover:shadow-lg">
+                                        class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 text-sm font-medium shadow-md hover:shadow-lg">
                                         <i class="fas fa-eye"></i>
                                         View
                                     </button>
@@ -538,7 +543,7 @@ $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
                                 {{ $activity->user->full_name ?? $activity->relative->name }} consultation
                             </p>
                             <p class="text-xs text-gray-500">
-                                {{ Carbon::parse($activity->appointment_date)->format('M d') }} • 
+                                {{ Carbon::parse($activity->appointment_date)->format('M d') }} •
                                 {{ formatConsultationTime($activity->appointment_time) }}
                             </p>
                         </div>
@@ -658,7 +663,7 @@ $completionRate = $total > 0 ? round(($confirmed / $total) * 100, 1) : 0;
             console.error('Modal element not found');
             return;
         }
-        
+
         const bookedBy = app.for_user_type === 'self' ?
             `Booked by themselves` :
             `Booked for ${app.relative?.name} (${app.relative?.relation ?? 'Relative'})`;

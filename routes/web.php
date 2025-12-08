@@ -379,6 +379,9 @@ Route::delete('/test/checkup/{id}', [TestAndCheckupController::class, 'destroy']
         ->name('admin.testandcheckup.destroy');
 
 
+        Route::get('/test/user', [TestAndCheckupController::class, 'test_book_users'])
+        ->name('admin.testbookuser.list');
+
         
 
 Route::get('hospital/schedule', [HospitalScheduleController::class, 'index'])->name('hospital.schedule.index');

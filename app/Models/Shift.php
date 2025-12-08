@@ -13,6 +13,11 @@ class Shift extends Model
         'end_time',
     ];
 
+    protected $casts = [
+        'start_time' => 'datetime:H:i',
+        'end_time' => 'datetime:H:i',
+    ];
+
     public function employee()
     {
         return $this->belongsTo(Employee::class);

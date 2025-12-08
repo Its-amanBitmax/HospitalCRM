@@ -101,54 +101,53 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Doctor</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Code</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Time</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Doctor</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Patient</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Issue</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($appointments as $appointment)
                     <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10">
-                                    <img src="{{ $appointment->doctor && $appointment->doctor->image
-             ? Storage::url($appointment->doctor->image)
-             : asset('image/default.png') }}"
-                                        alt="Doctor Image"
-                                        class="h-10 w-10 rounded-full object-cover border-2 border-gray-200">
-                                </div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium text-gray-900">{{ $appointment->doctor->name ?? 'N/A' }}</p>
-                                    <p class="text-xs text-gray-500">Doctor</p>
-                                </div>
-                            </div>
+                        <td class="px-6 py-4 font-semibold">{{ $appointment->appointment_code }}</td>
+                        <td class="px-6 py-4">
+                            {{ \Carbon\Carbon::parse($appointment->appointment_date)->format('d M Y') }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900 font-medium">{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('d M Y') }}</div>
-                            <div class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('l') }}</div>
+                        <td class="px-6 py-4">
+                            @if(str_contains($appointment->appointment_time, '-'))
+                                {{ $appointment->appointment_time }}
+                            @else
+                                {{ \Carbon\Carbon::parse($appointment->appointment_time)->format('h:i A') }}
+                            @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900 font-medium">{{ \Carbon\Carbon::parse($appointment->start_time)->format('h:i A') }}</div>
-                            <div class="text-xs text-gray-500">to {{ \Carbon\Carbon::parse($appointment->end_time)->format('h:i A') }}</div>
+                        <td class="px-6 py-4">
+                            {{ $appointment->doctor->name ?? 'Dr. Unknown' }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="text-sm text-gray-900 font-medium">{{ $appointment->type }}</span>
+                        <td class="px-6 py-4">
+                            @if($appointment->for_user_type === 'self')
+                                {{ $appointment->user->full_name ?? 'N/A' }}
+                            @else
+                                {{ $appointment->relative->name ?? 'N/A' }}
+                            @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            @php
-                            $status = $appointment->status;
-                            $statusColor = 'bg-gray-100 text-gray-800';
-                            if($status == 'pending') $statusColor = 'bg-yellow-100 text-yellow-800';
-                            elseif($status == 'confirmed') $statusColor = 'bg-green-100 text-green-800';
-                            elseif($status == 'cancelled') $statusColor = 'bg-red-100 text-red-800';
-                            elseif($status == 'booked') $statusColor = 'bg-blue-100 text-blue-800';
-                            @endphp
-                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColor }}">
-                                {{ ucfirst($status) }}
+                        <td class="px-6 py-4">
+                            {{ Str::limit($appointment->issue, 30) }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full text-xs border">
+                                {{ $appointment->status }}
                             </span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <button onclick='showAppointmentDetails(@json($appointment))'
+                                class="text-blue-600 font-medium text-sm">
+                                <i class="fa fa-eye mr-1"></i> View
+                            </button>
                         </td>
                     </tr>
                     @endforeach
@@ -159,4 +158,126 @@
     </div>
 
 </div>
+
+<!-- ========================= -->
+<!--  APPOINTMENT DETAILS MODAL -->
+<!-- ========================= -->
+
+<div id="appointmentModal" class="fixed inset-0 bg-white/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white bg-white-800 rounded-2xl shadow-xl w-full max-w-lg mx-4 relative">
+
+        <div class="flex justify-between items-center px-6 py-4 border-b">
+            <h2 class="text-lg font-semibold">Appointment Details</h2>
+            <button onclick="closeModal()" class="text-gray-500 text-2xl">&times;</button>
+        </div>
+
+        <div class="px-6 py-4 space-y-3" id="appointmentDetails"></div>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!--       JAVASCRIPT         -->
+<!-- ========================= -->
+
+<script>
+
+function showAppointmentDetails(app) {
+
+    const modal = document.getElementById("appointmentModal");
+    const detailsDiv = document.getElementById("appointmentDetails");
+
+    let bookedByHtml = '';
+    if (app.for_user_type === 'self') {
+        const imageSrc = app.user?.image ? `/${app.user.image}` : '/image/default.png';
+        bookedByHtml = `
+            <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <img src="${imageSrc}" alt="User Image" class="w-12 h-12 rounded-full object-cover border-2 border-gray-300">
+                    <div>
+                        <h3 class="font-semibold text-lg">${app.user?.full_name ?? 'User'}</h3>
+                        <p class="text-sm text-gray-600">Booked By (Self)</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-sm">
+                    <p><strong>Age:</strong> ${app.user?.age ?? 'N/A'}</p>
+                    <p><strong>Gender:</strong> ${app.user?.gender ?? 'N/A'}</p>
+                    <p><strong>Mobile:</strong> ${app.user?.mobile_no ?? 'N/A'}</p>
+                    <p><strong>Email:</strong> ${app.user?.email ?? 'N/A'}</p>
+                    <p><strong>Blood Group:</strong> ${app.user?.blood_group ?? 'N/A'}</p>
+                    <p><strong>Address:</strong> ${app.user?.full_address ?? 'N/A'}</p>
+                </div>
+            </div>
+        `;
+    } else {
+        const imageSrc = app.relative?.image ? `/${app.relative.image}` : '/image/default.png';
+        bookedByHtml = `
+            <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <img src="${imageSrc}" alt="Relative Image" class="w-12 h-12 rounded-full object-cover border-2 border-gray-300">
+                    <div>
+                        <h3 class="font-semibold text-lg">${app.relative?.name ?? 'Relative'}</h3>
+                        <p class="text-sm text-gray-600">Booked For (${app.relative?.relation ?? '-'})</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-sm">
+                    <p><strong>Age:</strong> ${app.relative?.age ?? 'N/A'}</p>
+                    <p><strong>Gender:</strong> ${app.relative?.gender ?? 'N/A'}</p>
+                    <p><strong>Blood Group:</strong> ${app.relative?.blood_group ?? 'N/A'}</p>
+                </div>
+            </div>
+        `;
+    }
+
+    detailsDiv.innerHTML = `
+        <div class="space-y-4">
+            <div class="bg-blue-50 p-3 rounded-lg">
+                <p class="text-lg font-semibold text-blue-800"><strong>Appointment Code:</strong> ${app.appointment_code}</p>
+            </div>
+            ${bookedByHtml}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-green-50 p-3 rounded-lg">
+                    <p><strong class="text-green-800">Doctor:</strong> ${app.doctor?.name ?? 'N/A'}</p>
+                </div>
+                <div class="bg-yellow-50 p-3 rounded-lg">
+                    <p><strong class="text-yellow-800">Date:</strong> ${app.appointment_date}</p>
+                </div>
+                <div class="bg-purple-50 p-3 rounded-lg">
+                    <p><strong class="text-purple-800">Time:</strong> ${formatTime(app.appointment_time)}</p>
+                </div>
+                <div class="bg-red-50 p-3 rounded-lg">
+                    <p><strong class="text-red-800">Status:</strong> ${app.status}</p>
+                </div>
+            </div>
+            <div class="bg-gray-50 p-3 rounded-lg">
+                <p><strong>Issue:</strong> ${app.issue ?? '—'}</p>
+            </div>
+            <div class="bg-gray-50 p-3 rounded-lg">
+                <p><strong>Description:</strong> ${app.description ?? '—'}</p>
+            </div>
+        </div>
+    `;
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+}
+
+function closeModal() {
+    const modal = document.getElementById("appointmentModal");
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+}
+
+function formatTime(timeStr) {
+    const [hour, minute] = timeStr.split(":");
+    let h = parseInt(hour);
+    const suffix = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    return `${h}:${minute} ${suffix}`;
+}
+
+</script>
+
 @endsection

@@ -215,6 +215,7 @@ class ReceptionController extends Controller
         $appointments = Appointment::with('doctor')
 
             ->orderBy('appointment_date', 'desc')
+            ->where('status', 'confirmed')
             ->get();
 
         return view('receptionist.receptionist-appointments', compact('appointments'));
