@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\TestCheckup;
 use App\Models\TestBook;
 use App\Models\User;
+use App\Models\TestReport;
 use Illuminate\Http\Request;
 
 class TestAndCheckupController extends Controller
@@ -152,6 +153,49 @@ public function test_book_users()
     $users = User::whereHas('testBook')->with('testBook.test')->get();
 
     return view('admin.testandcheckup.test-user-list', compact('users'));
+}
+
+public function uploadReport(Request $request)
+{
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'booking_id' => 'required|exists:testbook,id',
+        'report_file' => 'required|file|mimes:pdf,jpg,png,doc,docx|max:2048',
+        'doctor_id' => 'required|exists:employees,id',
+        'test_name' => 'required|string',
+    ]);
+
+    $file = $request->file('report_file');
+    $fileName = time() . '_' . $file->getClientOriginalName();
+    $filePath = $file->storeAs('test_reports', $fileName, 'public');
+
+    TestReport::create([
+        'user_id' => $request->user_id,
+        'doctor_id' => $request->doctor_id,
+        'file_path' => $filePath,
+        'file_name' => $request->test_name . '_' . $fileName,
+        'user_status' => 'active',
+        'doctor_status' => 'active',
+    ]);
+
+    // Update test booking status to completed
+    $booking = TestBook::find($request->booking_id);
+    $booking->update(['status' => 'completed']);
+
+    return response()->json(['success' => true, 'message' => 'Report uploaded and test marked as completed.']);
+}
+
+public function updateStatus(Request $request)
+{
+    $request->validate([
+        'booking_id' => 'required|exists:testbook,id',
+        'status' => 'required|in:in_progress,completed,booked',
+    ]);
+
+    $booking = TestBook::find($request->booking_id);
+    $booking->update(['status' => $request->status]);
+
+    return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
 }
 
 

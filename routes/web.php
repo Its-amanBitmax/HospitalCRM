@@ -363,24 +363,28 @@ Route::prefix('receptionist')->group(function () {
     Route::post('/receptionist/attendance', [ReceptionController::class, 'mark_receptionist_attendence'])->name('receptionist.attendance.mark');
    });
 
-    Route::get('/test/index', [TestAndCheckupController::class, 'test_and_checkup'])->name('admin.test.checkup');
-    Route::get('/test/checkups/create', [TestAndCheckupController::class, 'create'])
+Route::get('/admin/test/index', [TestAndCheckupController::class, 'test_and_checkup'])->name('admin.test.checkup');
+    Route::get('/admin/test/checkups/create', [TestAndCheckupController::class, 'create'])
         ->name('admin.testcheckup.create');
-Route::post('/test/checkup/store', [TestAndCheckupController::class, 'store'])
+Route::post('/admin/test/checkup/store', [TestAndCheckupController::class, 'store'])
     ->name('admin.testcheckup.store');
-    
-    Route::get('/test/checkup/{test}/edit', [TestAndCheckupController::class, 'edit'])
+
+    Route::get('/admin/test/checkup/{test}/edit', [TestAndCheckupController::class, 'edit'])
     ->name('admin.test.checkup.edit');
 
 // Update test/checkup
-Route::post('/test/checkup/{test}', [TestAndCheckupController::class, 'update'])
+Route::post('/admin/test/checkup/{test}', [TestAndCheckupController::class, 'update'])
     ->name('admin.test.checkup.update');
-Route::delete('/test/checkup/{id}', [TestAndCheckupController::class, 'destroy'])
+Route::delete('/admin/test/checkup/{id}', [TestAndCheckupController::class, 'destroy'])
         ->name('admin.testandcheckup.destroy');
 
 
-        Route::get('/test/user', [TestAndCheckupController::class, 'test_book_users'])
+        Route::get('/admin/test/user', [TestAndCheckupController::class, 'test_book_users'])
         ->name('admin.testbookuser.list');
+        Route::post('/admin/test/report/upload', [TestAndCheckupController::class, 'uploadReport'])
+        ->name('admin.test.report.upload');
+        Route::post('/admin/test/booking/status/update', [TestAndCheckupController::class, 'updateStatus'])
+        ->name('admin.test.booking.status.update');
 
         
 
