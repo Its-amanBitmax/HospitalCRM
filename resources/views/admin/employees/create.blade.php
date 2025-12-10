@@ -362,7 +362,8 @@
                         <option value="Receptionist" {{ old('professions.0.title') == 'Receptionist' ? 'selected' : '' }}>Receptionist</option>
                         <option value="Manager" {{ old('professions.0.title') == 'Manager' ? 'selected' : '' }}>Manager</option>
                         <option value="Ward Boy" {{ old('professions.0.title') == 'Ward Boy' ? 'selected' : '' }}>Ward Boy</option>
-                        <option value="Cleaner" {{ old('professions.0.title') == 'Cleaner' ? 'selected' : '' }}>Cleaner</option>
+                        <option value="Driver" {{ old('professions.0.title') == 'Driver' ? 'selected' : '' }}>                        <option value="Cleaner" {{ old('professions.0.title') == 'Driver' ? 'selected' : '' }}>Cleaner</option>
+</option>
                         <option value="Security" {{ old('professions.0.title') == 'Security' ? 'selected' : '' }}>Security</option>
                         <option value="Accountant" {{ old('professions.0.title') == 'Accountant' ? 'selected' : '' }}>Accountant</option>
                         <option value="Laborist" {{ old('professions.0.title') == 'Laborist' ? 'selected' : '' }}>Laborist</option>
