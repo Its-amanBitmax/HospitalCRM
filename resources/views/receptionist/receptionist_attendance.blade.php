@@ -162,7 +162,7 @@
                     </span>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 md:grid-   -2 lg:grid-cols-4 gap-6">
                     <!-- Clock In Status -->
                     <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
                         <div class="flex items-center space-x-4">
@@ -588,16 +588,29 @@
             const button = type === 'clock_in' ? clockInBtn : clockOutBtn;
             const originalText = button.innerHTML;
 
-            // Add loading animation
-            button.innerHTML = `
-            <div class="relative flex items-center space-x-2">
-                <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Processing...</span>
-            </div>
-        `;
-            button.disabled = true;
-
             try {
+                // Get GPS location
+                const position = await getCurrentPosition();
+                const { latitude, longitude } = position.coords;
+
+                // Get address using Nominatim API
+                let location = null;
+                try {
+                    const nominatimUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+                    const nominatimResponse = await fetch(nominatimUrl);
+                    const nominatimData = await nominatimResponse.json();
+
+                    if (nominatimData && nominatimData.display_name) {
+                        location = nominatimData.display_name;
+                    }
+                } catch (nominatimError) {
+                    console.warn('Nominatim API failed:', nominatimError);
+                    // Continue without location, PHP will handle fallback
+                }
+
+                // Get server information
+                const serverInfo = getServerInfo();
+
                 const response = await fetch("{{ route('receptionist.attendance.mark') }}", {
                     method: "POST",
                     headers: {
@@ -606,25 +619,102 @@
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        type
+                        type,
+                        latitude,
+                        longitude,
+                        location,
+                        server_info: serverInfo
                     })
                 });
 
                 const data = await response.json();
                 if (response.ok) {
+                    // Show success message
                     showToast(data.message, 'success');
-                    setTimeout(() => location.reload(), 1500);
+
+                    // Directly disable buttons based on attendance type without changing button text
+                    if (type === 'clock_in') {
+                        // After clock in: disable clock in, enable clock out
+                        if (clockInBtn) {
+                            clockInBtn.disabled = true;
+                            clockInBtn.classList.remove('bg-gradient-to-r', 'from-green-500', 'to-emerald-600', 'hover:from-green-600', 'hover:to-emerald-700', 'hover:shadow-xl', 'hover:-translate-y-0.5');
+                            clockInBtn.classList.add('bg-gray-300', 'cursor-not-allowed');
+                        }
+                        if (clockOutBtn) {
+                            clockOutBtn.disabled = false;
+                            clockOutBtn.classList.remove('bg-gray-300', 'cursor-not-allowed');
+                            clockOutBtn.classList.add('bg-gradient-to-r', 'from-red-500', 'to-pink-600', 'hover:from-red-600', 'hover:to-pink-700', 'hover:shadow-xl', 'hover:-translate-y-0.5');
+                        }
+                        // Update small buttons too
+                        if (clockInBtnSmall) clockInBtnSmall.style.display = 'none';
+                        if (clockOutBtnSmall) clockOutBtnSmall.style.display = 'inline-block';
+                    } else if (type === 'clock_out') {
+                        // After clock out: disable both buttons
+                        if (clockInBtn) {
+                            clockInBtn.disabled = true;
+                            clockInBtn.classList.remove('bg-gradient-to-r', 'from-green-500', 'to-emerald-600', 'hover:from-green-600', 'hover:to-emerald-700', 'hover:shadow-xl', 'hover:-translate-y-0.5');
+                            clockInBtn.classList.add('bg-gray-300', 'cursor-not-allowed');
+                        }
+                        if (clockOutBtn) {
+                            clockOutBtn.disabled = true;
+                            clockOutBtn.classList.remove('bg-gradient-to-r', 'from-red-500', 'to-pink-600', 'hover:from-red-600', 'hover:to-pink-700', 'hover:shadow-xl', 'hover:-translate-y-0.5');
+                            clockOutBtn.classList.add('bg-gray-300', 'cursor-not-allowed');
+                        }
+                        // Update small buttons too
+                        if (clockInBtnSmall) clockInBtnSmall.style.display = 'none';
+                        if (clockOutBtnSmall) clockOutBtnSmall.style.display = 'none';
+                    }
+
+                    window.location.reload(); // Reload immediately after success
                 } else {
                     showToast(data.message || 'Error!', 'error');
-                    button.innerHTML = originalText;
-                    button.disabled = false;
                 }
             } catch (error) {
-                showToast("Network error!", 'error');
-                button.innerHTML = originalText;
-                button.disabled = false;
+                if (error.code === 1) {
+                    showToast("Location access denied. Please enable GPS and try again.", 'error');
+                } else if (error.code === 2) {
+                    showToast("Location unavailable. Please check your GPS settings.", 'error');
+                } else if (error.code === 3) {
+                    showToast("Location request timed out. Please try again.", 'error');
+                } else {
+                    showToast("Error getting location: " + error.message, 'error');
+                }
             }
         };
+
+        // Get current GPS position
+        function getCurrentPosition() {
+            return new Promise(function(resolve, reject) {
+                if (!navigator.geolocation) {
+                    reject(new Error('Geolocation is not supported by this browser.'));
+                    return;
+                }
+
+                navigator.geolocation.getCurrentPosition(
+                    resolve,
+                    reject,
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 300000 // 5 minutes
+                    }
+                );
+            });
+        }
+
+        // Get server information
+        function getServerInfo() {
+            return {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                cookieEnabled: navigator.cookieEnabled,
+                onLine: navigator.onLine,
+                screenResolution: screen.width + 'x' + screen.height,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                timestamp: new Date().toISOString()
+            };
+        }
 
         // Event listeners for main buttons
         if (clockInBtn) clockInBtn.addEventListener("click", () => markAttendance("clock_in"));

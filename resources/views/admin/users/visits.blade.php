@@ -98,11 +98,14 @@
           <a href="{{ route('admin.users.checkups.create', $user->id) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
             <i class="fas fa-plus"></i> Add Checkup
           </a>
-          <!-- @if($user->type === 'emergency')
+          @if($user->type === 'emergency')
           <button onclick="openEmergencyModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
             <i class="fas fa-exclamation-triangle"></i> Emergency
           </button>
-          @endif -->
+          <a href="{{ route('admin.users.emergency-details', $user->id) }}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+            <i class="fas fa-info-circle"></i> Emergency Details
+          </a>
+          @endif
         </div>
       </div>
       <div class="overflow-x-auto">
@@ -384,7 +387,7 @@
           <i class="fas fa-times"></i>
         </button>
       </div>
-      <form id="emergencyForm" action="#" method="POST">
+      <form id="emergencyForm" action="{{ route('admin.users.verification.store', $user->id) }}" method="POST">
         @csrf
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="verification_type">
@@ -475,12 +478,71 @@
     }
   });
 
-  // Handle form submission (you can customize this based on your backend requirements)
+  // Handle form submission
   document.getElementById('emergencyForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    alert('Emergency verification submitted successfully!');
-    closeEmergencyModal();
+
+    const formData = new FormData(this);
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+
+    // Disable button and show loading
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
+
+    fetch(this.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Show success message
+        showAlert('success', data.message);
+        // Close modal
+        closeEmergencyModal();
+        // Reset form
+        this.reset();
+        // Hide conditional fields
+        document.getElementById('family_fields').classList.add('hidden');
+        document.getElementById('police_fields').classList.add('hidden');
+      } else {
+        showAlert('error', data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      showAlert('error', 'An error occurred while submitting the form.');
+    })
+    .finally(() => {
+      // Re-enable button
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+    });
   });
+
+  // Function to show alerts
+  function showAlert(type, message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `fixed top-4 right-4 px-4 py-3 rounded-lg shadow-lg z-50 ${
+      type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+    }`;
+    alertDiv.innerHTML = `
+      <div class="flex items-center">
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>
+        ${message}
+      </div>
+    `;
+    document.body.appendChild(alertDiv);
+
+    // Remove after 5 seconds
+    setTimeout(() => {
+      alertDiv.remove();
+    }, 5000);
+  }
 </script>
 @endsection

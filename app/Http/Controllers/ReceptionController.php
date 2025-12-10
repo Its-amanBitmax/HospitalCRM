@@ -13,6 +13,7 @@ use App\Models\RoomAssignment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class ReceptionController extends Controller
 {
@@ -621,166 +622,251 @@ class ReceptionController extends Controller
     }
 
 
-  public function receptionist_attendence()
-{
-    $employee = auth('receptionist')->user();
-    $today = Carbon::today('Asia/Kolkata')->toDateString();
-    
-    // Get filter from request or default to 'today'
-    $filter = request()->get('filter', 'today');
-    $startDate = null;
-    $endDate = null;
-    
-    // Calculate date ranges based on filter
-    switch ($filter) {
-        case 'weekly':
-            $startDate = Carbon::today('Asia/Kolkata')->startOfWeek()->toDateString();
-            $endDate = Carbon::today('Asia/Kolkata')->endOfWeek()->toDateString();
-            break;
-            
-        case 'monthly':
-            $startDate = Carbon::today('Asia/Kolkata')->startOfMonth()->toDateString();
-            $endDate = Carbon::today('Asia/Kolkata')->endOfMonth()->toDateString();
-            break;
-            
-        case 'today':
-        default:
-            $startDate = $today;
-            $endDate = $today;
-            break;
+    public function receptionist_attendence()
+    {
+        $employee = auth('receptionist')->user();
+        $today = Carbon::today('Asia/Kolkata')->toDateString();
+
+        // Get filter from request or default to 'all'
+        $filter = request()->get('filter', 'all');
+        $startDate = null;
+        $endDate = null;
+
+        // Calculate date ranges based on filter
+        switch ($filter) {
+            case 'weekly':
+                $startDate = Carbon::today('Asia/Kolkata')->startOfWeek()->toDateString();
+                $endDate = Carbon::today('Asia/Kolkata')->endOfWeek()->toDateString();
+                break;
+
+            case 'monthly':
+                $startDate = Carbon::today('Asia/Kolkata')->startOfMonth()->toDateString();
+                $endDate = Carbon::today('Asia/Kolkata')->endOfMonth()->toDateString();
+                break;
+
+            case 'today':
+                $startDate = $today;
+                $endDate = $today;
+                break;
+
+            case 'all':
+            default:
+                // No date filter for all records
+                break;
+        }
+
+        // Get today's attendance
+        $attendance = Attendance::where('employee_id', $employee->id)
+            ->where('date', $today)
+            ->first();
+
+        // Get attendance history based on filter
+        $history = Attendance::where('employee_id', $employee->id)
+            ->when($filter === 'today', function ($query) use ($today) {
+                return $query->where('date', $today);
+            })
+            ->when($filter === 'weekly', function ($query) use ($startDate, $endDate) {
+                return $query->whereBetween('date', [$startDate, $endDate]);
+            })
+            ->when($filter === 'monthly', function ($query) use ($startDate, $endDate) {
+                return $query->whereBetween('date', [$startDate, $endDate]);
+            })
+            ->when($filter === 'all', function ($query) {
+                // No additional filter for all records
+                return $query;
+            })
+            ->orderBy('date', 'desc')
+            ->get();
+
+        // Calculate statistics
+        $totalDays = $history->count();
+        $presentDays = $history->where('status', 'present')->count();
+        $lateDays = $history->where('status', 'late')->count();
+        $absentDays = $history->where('status', 'absent')->count();
+        $halfDays = $history->where('status', 'half_day')->count();
+
+        // Calculate attendance percentage
+        $attendancePercentage = $totalDays > 0
+            ? round(($presentDays + ($halfDays * 0.5)) / $totalDays * 100, 1)
+            : 0;
+
+        // Calculate average working hours
+        $totalHours = 0;
+        $daysWithClockOut = 0;
+
+        foreach ($history as $record) {
+            if ($record->check_in && $record->check_out) {
+                $start = Carbon::createFromFormat('H:i:s', $record->check_in);
+                $end = Carbon::createFromFormat('H:i:s', $record->check_out);
+                $totalHours += $end->diffInHours($start, true);
+                $daysWithClockOut++;
+            }
+        }
+
+        $averageHours = $daysWithClockOut > 0 ? round($totalHours / $daysWithClockOut, 1) : 0;
+
+        // Get current week and month names
+        $weekRange = $startDate && $endDate ?
+            Carbon::parse($startDate)->format('d M') . ' - ' . Carbon::parse($endDate)->format('d M') :
+            null;
+
+        $monthName = $filter === 'monthly' ?
+            Carbon::today('Asia/Kolkata')->format('F Y') :
+            null;
+
+        return view('receptionist.receptionist_attendance', compact(
+            'attendance',
+            'history',
+            'filter',
+            'weekRange',
+            'monthName',
+            'totalDays',
+            'presentDays',
+            'lateDays',
+            'employee',
+            'absentDays',
+            'halfDays',
+            'attendancePercentage',
+            'averageHours'
+        ));
     }
-    
-    // Get today's attendance
-    $attendance = Attendance::where('employee_id', $employee->id)
-        ->where('date', $today)
-        ->first();
-    
-    // Get attendance history based on filter
-    $history = Attendance::where('employee_id', $employee->id)
-        ->when($filter === 'today', function ($query) use ($today) {
-            return $query->where('date', $today);
-        })
-        ->when($filter === 'weekly', function ($query) use ($startDate, $endDate) {
-            return $query->whereBetween('date', [$startDate, $endDate]);
-        })
-        ->when($filter === 'monthly', function ($query) use ($startDate, $endDate) {
-            return $query->whereBetween('date', [$startDate, $endDate]);
-        })
-        ->orderBy('date', 'desc')
-        ->get();
-    
-    // Calculate statistics
-    $totalDays = $history->count();
-    $presentDays = $history->where('status', 'present')->count();
-    $lateDays = $history->where('status', 'late')->count();
-    $absentDays = $history->where('status', 'absent')->count();
-    $halfDays = $history->where('status', 'half_day')->count();
-    
-    // Calculate attendance percentage
-    $attendancePercentage = $totalDays > 0 
-        ? round(($presentDays + ($halfDays * 0.5)) / $totalDays * 100, 1)
-        : 0;
-    
-    // Calculate average working hours
-    $totalHours = 0;
-    $daysWithClockOut = 0;
-    
-    foreach ($history as $record) {
-        if ($record->check_in && $record->check_out) {
-            $start = Carbon::createFromFormat('H:i:s', $record->check_in);
-            $end = Carbon::createFromFormat('H:i:s', $record->check_out);
-            $totalHours += $end->diffInHours($start, true);
-            $daysWithClockOut++;
+
+    // Handle Clock In / Clock Out
+    public function mark_receptionist_attendence(Request $request)
+    {
+        $request->validate([
+            'type' => 'required|in:clock_in,clock_out',
+        ]);
+
+        $employee = auth('receptionist')->user();
+        $today = Carbon::today('Asia/Kolkata')->toDateString(); // +5:30 timezone
+        $now   = Carbon::now('Asia/Kolkata')->format('H:i:s');    // +5:30 timezone
+
+        $attendance = Attendance::firstOrNew([
+            'employee_id' => $employee->id,
+            'date' => $today
+        ]);
+
+        try {
+            if ($request->type === 'clock_in') {
+                if ($attendance->check_in) {
+                    return response()->json(['message' => 'Already Clocked In!'], 422);
+                }
+
+                $attendance->check_in = $now;
+                $attendance->check_in_ip = $request->ip();
+                $attendance->check_in_latitude = $request->latitude;
+                $attendance->check_in_longitude = $request->longitude;
+                $attendance->check_in_server = json_encode($request->server_info);
+
+                // Use location provided by JavaScript (from Nominatim API) or fallback to IP-based location
+                if ($request->location) {
+                    $attendance->check_in_location = $request->location;
+                    Log::info('Clock in location from JavaScript: ' . $request->location);
+                } else {
+                    // Fallback to IP-based location if no location provided
+                    try {
+                        $ip = $request->ip();
+                        $locationData = json_decode(file_get_contents("http://ip-api.com/json/{$ip}"), true);
+                        if ($locationData && $locationData['status'] === 'success') {
+                            $attendance->check_in_location = $locationData['city'] . ', ' . $locationData['regionName'] . ', ' . $locationData['country'];
+                            Log::info('Clock in fallback IP location: ' . $attendance->check_in_location);
+                        } else {
+                            Log::warning('Failed to get IP location for clock in');
+                        }
+                    } catch (\Exception $e) {
+                        Log::error('Failed to fetch IP location for clock in: ' . $e->getMessage());
+                    }
+                }
+
+                $attendance->save();
+
+                // Check if clock-in is after 9:30 AM, mark as half-day
+                $checkInTime = Carbon::createFromFormat('H:i:s', $attendance->check_in, 'Asia/Kolkata');
+                $morningLimit = Carbon::createFromTime(9, 30, 0, 'Asia/Kolkata');
+                if ($checkInTime->gt($morningLimit)) {
+                    $attendance->status = 'half_day';
+                    $attendance->save();
+                    Log::info('Clock in: late arrival, marked as half_day');
+                }
+
+                return response()->json(['message' => 'Clocked In Successfully!']);
+            }
+
+
+            if ($request->type === 'clock_out') {
+                if (!$attendance->check_in) {
+                    return response()->json(['message' => 'Clock In first!'], 422);
+                }
+                if ($attendance->check_out) {
+                    return response()->json(['message' => 'Already Clocked Out!'], 422);
+                }
+
+                $attendance->check_out = $now;
+                $attendance->check_out_ip = $request->ip();
+                $attendance->check_out_latitude = $request->latitude;
+                $attendance->check_out_longitude = $request->longitude;
+                $attendance->check_out_server = json_encode($request->server_info);
+
+                // Use location provided by JavaScript (from Nominatim API) or fallback to IP-based location
+                if ($request->location) {
+                    $attendance->check_out_location = $request->location;
+                    Log::info('Clock out location from JavaScript: ' . $request->location);
+                } else {
+                    // Fallback to IP-based location if no location provided
+                    try {
+                        $ip = $request->ip();
+                        $locationData = json_decode(file_get_contents("http://ip-api.com/json/{$ip}"), true);
+                        if ($locationData && $locationData['status'] === 'success') {
+                            $attendance->check_out_location = $locationData['city'] . ', ' . $locationData['regionName'] . ', ' . $locationData['country'];
+                            Log::info('Clock out fallback IP location: ' . $attendance->check_out_location);
+                        } else {
+                            Log::warning('Failed to get IP location for clock out');
+                        }
+                    } catch (\Exception $e) {
+                        Log::error('Failed to fetch IP location for clock out: ' . $e->getMessage());
+                    }
+                }
+
+                $attendance->save();
+
+                // Calculate total hours worked and update status
+                if ($attendance->check_in && $attendance->check_out) {
+                    $checkInTime = Carbon::createFromFormat('H:i:s', $attendance->check_in, 'Asia/Kolkata');
+                    $checkOutTime = Carbon::createFromFormat('H:i:s', $attendance->check_out, 'Asia/Kolkata');
+                    $totalHours = $checkOutTime->diffInHours($checkInTime, true);
+
+                    Log::info('Clock out: check_in=' . $attendance->check_in . ', check_out=' . $attendance->check_out . ', totalHours=' . $totalHours);
+
+                    // Check for half-day conditions: clock in after 9:30 AM or clock out before 6:30 PM
+                    $morningLimit = Carbon::createFromTime(9, 30, 0, 'Asia/Kolkata');
+                    $eveningLimit = Carbon::createFromTime(18, 30, 0, 'Asia/Kolkata');
+
+                    if ($checkInTime->gt($morningLimit) || $checkOutTime->lt($eveningLimit)) {
+                        $attendance->status = 'half_day';
+                        Log::info('Clock out: half-day due to late clock-in or early clock-out');
+                    } else {
+                        // Update status based on total hours worked
+                        if ($totalHours >= 8) {
+                            $attendance->status = 'present';
+                        } elseif ($totalHours >= 4) {
+                            $attendance->status = 'half_day';
+                        } else {
+                            $attendance->status = 'absent';
+                        }
+                    }
+
+                    Log::info('Clock out: setting status to ' . $attendance->status);
+                    $attendance->save();
+                    Log::info('Clock out: status saved successfully');
+                }
+
+                return response()->json(['message' => 'Clocked Out Successfully!']);
+            }
+        } catch (\Exception $e) {
+            Log::error('Attendance marking error: ' . $e->getMessage());
+            Log::error('Request data: ' . json_encode($request->all()));
+            return response()->json(['message' => 'Something went wrong!'], 500);
         }
     }
-    
-    $averageHours = $daysWithClockOut > 0 ? round($totalHours / $daysWithClockOut, 1) : 0;
-    
-    // Get current week and month names
-    $weekRange = $startDate && $endDate ? 
-        Carbon::parse($startDate)->format('d M') . ' - ' . Carbon::parse($endDate)->format('d M') : 
-        null;
-    
-    $monthName = $filter === 'monthly' ? 
-        Carbon::today('Asia/Kolkata')->format('F Y') : 
-        null;
-    
-    return view('receptionist.receptionist_attendance', compact(
-        'attendance',
-        'history',
-        'filter',
-        'weekRange',
-        'monthName',
-        'totalDays',
-        'presentDays',
-        'lateDays',
-        'employee',
-        'absentDays',
-        'halfDays',
-        'attendancePercentage',
-        'averageHours'
-    ));
-}
-
-// Handle Clock In / Clock Out
-public function mark_receptionist_attendence(Request $request)
-{
-    $request->validate([
-        'type' => 'required|in:clock_in,clock_out',
-    ]);
-
-    $employee = auth('receptionist')->user();
-    $today = Carbon::today('Asia/Kolkata')->toDateString(); // +5:30 timezone
-    $now   = Carbon::now('Asia/Kolkata')->format('H:i');    // +5:30 timezone
-
-    $attendance = Attendance::firstOrNew([
-        'employee_id' => $employee->id,
-        'date' => $today
-    ]);
-
-    try {
-        if ($request->type === 'clock_in') {
-    if ($attendance->check_in) {
-        return response()->json(['message' => 'Already Clocked In!'], 422);
-    }
-
-    $attendance->check_in = $now;
-
-    // Status logic
-    $currentTime = Carbon::now('Asia/Kolkata');
-    $morningLimit = Carbon::createFromTime(9, 30, 0, 'Asia/Kolkata');   // 09:30
-    $eveningLimit = Carbon::createFromTime(18, 30, 0, 'Asia/Kolkata');  // 18:30
-
-    if ($currentTime->lte($morningLimit)) {
-        $attendance->status = 'present';
-    } elseif ($currentTime->gt($morningLimit) && $currentTime->lte($eveningLimit)) {
-        $attendance->status = 'half_day';
-    } else {
-        $attendance->status = 'absent'; // Optional, if someone clocks in after 18:30
-    }
-
-    $attendance->save();
-
-    return response()->json(['message' => 'Clocked In Successfully!']);
-}
-
-
-        if ($request->type === 'clock_out') {
-            if (!$attendance->check_in) {
-                return response()->json(['message' => 'Clock In first!'], 422);
-            }
-            if ($attendance->check_out) {
-                return response()->json(['message' => 'Already Clocked Out!'], 422);
-            }
-
-            $attendance->check_out = $now;
-            $attendance->save();
-
-            return response()->json(['message' => 'Clocked Out Successfully!']);
-        }
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'Something went wrong!'], 500);
-    }
-}
-
 }

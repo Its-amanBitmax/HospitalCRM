@@ -112,14 +112,28 @@ public function login(Request $request)
         return redirect()->route('receptionists.dashboard');
     }
 
+    if ($role === "nurse") {
+        Auth::guard('nurse')->login($employee);
+        return redirect()->route('nurse.dashboard');
+    }
+
     // If profession is something else (lab, nurse, etc)
     return response()->json(['error' => 'Your role is not allowed for login'], 200);
 }
 
 
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::logout();
+        // Logout from all guards
+        Auth::guard('doctor')->logout();
+        Auth::guard('receptionist')->logout();
+        Auth::guard('admin')->logout();
+          Auth::guard('nurse')->logout();
+
+        // Invalidate the session
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->route('login.selection');
     }
 }

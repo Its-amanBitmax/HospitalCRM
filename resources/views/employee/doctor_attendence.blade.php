@@ -526,11 +526,102 @@
             }, 3000);
         };
 
+        // Get current location with timeout
+        const getCurrentLocation = () => {
+            return new Promise((resolve, reject) => {
+                if (!navigator.geolocation) {
+                    reject(new Error('Geolocation is not supported by this browser.'));
+                    return;
+                }
+
+                const timeoutId = setTimeout(() => {
+                    reject(new Error('Location request timed out'));
+                }, 8000); // 8 second timeout
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        clearTimeout(timeoutId);
+                        resolve({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        });
+                    },
+                    (error) => {
+                        clearTimeout(timeoutId);
+                        reject(error);
+                    }, {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 300000 // 5 minutes
+                    }
+                );
+            });
+        };
+
+        // Get location name from coordinates using Nominatim API
+        const getLocationName = async (latitude, longitude) => {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`, {
+                    headers: {
+                        'User-Agent': 'HospitalCRM/1.0'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch location data');
+                }
+
+                const data = await response.json();
+
+                if (data && data.display_name) {
+                    return data.display_name;
+                } else {
+                    throw new Error('No location data found');
+                }
+            } catch (error) {
+                console.error('Error fetching location name:', error);
+                return null;
+            }
+        };
+
+        // Get server info
+        const getServerInfo = () => {
+            return {
+                user_agent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                cookie_enabled: navigator.cookieEnabled,
+                online: navigator.onLine,
+                timestamp: new Date().toISOString()
+            };
+        };
+
+        // Global flag to prevent multiple simultaneous requests
+        let isAttendanceProcessing = false;
+
+        // Define functions for event listeners
+        const markClockIn = () => markAttendance('clock_in');
+        const markClockOut = () => markAttendance('clock_out');
+
         // Attendance marking
         const markAttendance = async (type) => {
+            // Prevent multiple simultaneous requests
+            if (isAttendanceProcessing) {
+                return;
+            }
+            isAttendanceProcessing = true;
+
+            // Remove event listeners to prevent multiple clicks
+            document.getElementById('clockInBtn')?.removeEventListener('click', markClockIn);
+            document.getElementById('clockOutBtn')?.removeEventListener('click', markClockOut);
+
             const button = type === 'clock_in' ? document.getElementById('clockInBtn') : document.getElementById('clockOutBtn');
             const originalContent = button.innerHTML;
             const buttonText = type === 'clock_in' ? 'Clocking In...' : 'Clocking Out...';
+
+            // Disable both buttons immediately
+            document.getElementById('clockInBtn').disabled = true;
+            document.getElementById('clockOutBtn').disabled = true;
 
             // Show loading state
             button.innerHTML = `
@@ -541,12 +632,25 @@
             </div>
             <div class="text-left">
                 <div class="font-bold">${buttonText}</div>
-                <div class="text-xs opacity-90">Processing...</div>
+                <div class="text-xs opacity-90">Getting location...</div>
             </div>
         `;
-            button.disabled = true;
 
             try {
+                // Get GPS coordinates
+                const coords = await getCurrentLocation();
+
+                // Update loading text to processing
+                button.querySelector('.text-xs').textContent = 'Processing...';
+                // Force UI update
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                // Get location name
+                const location = await getLocationName(coords.latitude, coords.longitude);
+
+                // Get server info
+                const serverInfo = getServerInfo();
+
                 const response = await fetch("{{ route('doctor.attendance.mark') }}", {
                     method: "POST",
                     headers: {
@@ -555,7 +659,11 @@
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        type
+                        type,
+                        latitude: coords.latitude,
+                        longitude: coords.longitude,
+                        location: location,
+                        server_info: serverInfo
                     })
                 });
 
@@ -563,18 +671,37 @@
 
                 if (response.ok) {
                     showToast(data.message, 'success');
+                    // Reset processing flag to allow further actions if reload fails
+                    isAttendanceProcessing = false;
+                    // Keep buttons disabled until page reloads to prevent repeated processing
                     setTimeout(() => {
-                        location.reload();
-                    }, 1500);
+                        try {
+                            location.reload();
+                        } catch (error) {
+                            console.error('Reload failed, using fallback:', error);
+                            window.location.href = window.location.href;
+                        }
+                    }, 3000); // Match toast duration
                 } else {
                     showToast(data.message || 'Something went wrong!', 'error');
                     button.innerHTML = originalContent;
                     button.disabled = false;
+                    document.getElementById('clockInBtn').disabled = false;
+                    document.getElementById('clockOutBtn').disabled = false;
+                    isAttendanceProcessing = false;
                 }
             } catch (error) {
-                showToast("Network error! Please check your connection.", 'error');
+                console.error('Attendance marking error:', error);
+                if (error.message.includes('Geolocation')) {
+                    showToast("Location access denied. Please enable location services.", 'error');
+                } else {
+                    showToast("Network error! Please check your connection.", 'error');
+                }
                 button.innerHTML = originalContent;
                 button.disabled = false;
+                document.getElementById('clockInBtn').disabled = false;
+                document.getElementById('clockOutBtn').disabled = false;
+                isAttendanceProcessing = false;
             }
         };
 

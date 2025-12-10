@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Models\Admin;
 use App\Mail\OtpMail;
 
@@ -530,7 +531,7 @@ class AdminController extends Controller
     $user = Auth::guard('admin')->user() ?? Auth::guard('receptionist')->user();
 
     // SAME DETAILS for both
-    $admin = \App\Models\Admin::first(); 
+    $admin = \App\Models\Admin::first();
 
     return view('admin.patient-registration', [
         'user' => $user,
@@ -538,5 +539,99 @@ class AdminController extends Controller
     ]);
 }
 
+    public function storeVerification(Request $request, $userId)
+    {
+        try {
+            // Debug: Log all request data
+            \Log::info('Verification request data', [
+                'all_data' => $request->all(),
+                'verification_type' => $request->verification_type,
+                'family_name' => $request->family_name,
+                'family_name_type' => gettype($request->family_name),
+                'family_relation' => $request->family_relation,
+                'family_relation_type' => gettype($request->family_relation),
+                'police_station' => $request->police_station,
+                'police_station_type' => gettype($request->police_station),
+                'police_address' => $request->police_address,
+                'police_verified' => $request->police_verified,
+                'has_police_verified' => $request->has('police_verified'),
+            ]);
+
+            // Prepare validation rules based on verification type
+            $rules = [
+                'verification_type' => 'required|in:family,police',
+            ];
+
+            if ($request->verification_type === 'family') {
+                $rules['family_name'] = 'required|string|max:255';
+                $rules['family_relation'] = 'required|string|max:255';
+            } elseif ($request->verification_type === 'police') {
+                $rules['police_station'] = 'required|string|max:255';
+                $rules['police_address'] = 'required|string';
+            }
+
+            $request->validate($rules);
+
+            // Check if user exists
+            $user = \App\Models\User::findOrFail($userId);
+
+            // Create verification record
+            $verification = \App\Models\Verification::create([
+                'user_id' => $userId,
+                'verification_type' => $request->verification_type,
+                'family_name' => $request->family_name,
+                'family_relation' => $request->family_relation,
+                'police_station' => $request->police_station,
+                'police_address' => $request->police_address,
+                'police_verified' => $request->boolean('police_verified'),
+            ]);
+
+            \Log::info('Verification created successfully', ['verification_id' => $verification->id]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Verification submitted successfully!',
+                'verification' => $verification
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Verification creation failed', [
+                'user_id' => $userId,
+                'error' => $e->getMessage(),
+                'request_data' => $request->all()
+            ]);
+
+            return response()->jon([
+                'success' => false,
+                'message' => 'Failed to save verification: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function showEmergencyDetails($userId)
+    {
+        $user = \App\Models\User::findOrFail($userId);
+        $verifications = \App\Models\Verification::where('user_id', $userId)->get();
+
+        return view('admin.users.emergency-details', compact('user', 'verifications'));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
+
+
+
+
+
+
