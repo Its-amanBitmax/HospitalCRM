@@ -24,6 +24,7 @@ use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\NurseController;
 use App\Http\Controllers\TestAndCheckupController;
 
 Route::get('/', [WelcomeController::class, 'index']);
@@ -139,6 +140,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/users/{id}/documents/create', [PatientVisitController::class, 'createDocument'])->name('admin.users.documents.create');
         Route::post('/users/{id}/documents', [PatientVisitController::class, 'storeDocument'])->name('admin.users.documents.store');
         Route::delete('/users/{id}/documents/{documentId}', [PatientVisitController::class, 'destroyDocument'])->name('admin.users.documents.destroy');
+        Route::post('/users/{id}/verification', [AdminController::class, 'storeVerification'])->name('admin.users.verification.store');
+        Route::get('/users/{id}/emergency-details', [AdminController::class, 'showEmergencyDetails'])->name('admin.users.emergency-details');
 
         Route::get('/registered-users', [AdminController::class, 'registeredUsers'])->name('admin.registered-users');
         Route::get('/get-registered-users', [AdminController::class, 'getRegisteredUsers'])->name('admin.get-registered-users');
@@ -457,9 +460,37 @@ Route::post('hospital/schedule/update/{id}', [HospitalScheduleController::class,
 
 Route::delete('hospital/schedule/delete/{id}', [HospitalScheduleController::class, 'destroy'])->name('hospital.schedule.delete');
 
+Route::get('/patient-registration', [AdminController::class, 'patientRegistration'])->name('admin.patient-registration');
 
 
 
 
 
- Route::get('/patient-registration', [AdminController::class, 'patientRegistration'])->name('admin.patient-registration');
+
+Route::get('/nurse/dashboard', [EmployeeController::class, 'nurse_dashboard'])
+    ->name('nurse.dashboard');
+Route::get('/nurse/all/patients', [NurseController::class, 'get_users'])
+    ->name('nurse.patients');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -89,7 +89,7 @@ $companyName = $admin ? $admin->hospital_name : 'Hospital CRM';
                 <div>
                     <button id="sidebar-toggle" class="text-xl text-gray-600 hover:text-gray-800 transition-colors">
                         <i class="fas fa-bars"></i>
-                    </button> <span class="text-xl font-bold ml-2">@yield('header-title', 'Welcome, ' . auth('doctor')->user()->name)</span>
+                    </button> <span class="text-xl font-bold ml-2">@yield('header-title', 'Welcome, ' . (auth('doctor')->user()->name ?? 'Doctor'))</span>
 
                 </div>
 
@@ -97,12 +97,12 @@ $companyName = $admin ? $admin->hospital_name : 'Hospital CRM';
                     <!-- Trigger -->
                     <div class="flex items-center gap-3 cursor-pointer" id="dropdownToggle">
                         <span class="text-sm font-medium">
-                            {{ auth('doctor')->user()->name }}
+                            {{ auth('doctor')->user()->name ?? 'Doctor' }}
                         </span>
                         @php
                         $user = auth('doctor')->user();
 
-                        if ($user->image && \Storage::disk('public')->exists($user->image)) {
+                        if ($user && $user->image && \Storage::disk('public')->exists($user->image)) {
                         // Generate URL for storage/public folder
                         $imageSrc = \Storage::url($user->image);
                         } else {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,14 +38,21 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .image-section {
             flex: 1.2;
             background: linear-gradient(rgba(11, 113, 122, 0.8), rgba(44, 193, 193, 0.7)),
-                        url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+                url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
             background-size: cover;
             position: relative;
             display: flex;
@@ -147,7 +155,7 @@
             background: #f8f9fa;
             border-radius: 12px;
             padding: 5px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .toggle-btn {
@@ -182,13 +190,20 @@
             background: white;
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             animation: fadeIn 0.8s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .welcome-text {
@@ -304,7 +319,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: all 0.6s;
         }
 
@@ -434,6 +449,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="image-section">
@@ -503,158 +519,157 @@
         </div>
     </div>
 
-<script>
+    <script>
+        // Toggle between patient and employee login
+        const patientToggle = document.getElementById('patient-toggle');
+        const employeeToggle = document.getElementById('employee-toggle');
+        const identifierLabel = document.getElementById('identifier-label');
+        const identifierIcon = document.getElementById('identifier-icon');
+        const identifierInput = document.getElementById('login-identifier');
+        const loginBtn = document.getElementById('login-btn');
+        const signupLink = document.getElementById('signup-link');
 
-// Toggle between patient and employee login
-const patientToggle = document.getElementById('patient-toggle');
-const employeeToggle = document.getElementById('employee-toggle');
-const identifierLabel = document.getElementById('identifier-label');
-const identifierIcon = document.getElementById('identifier-icon');
-const identifierInput = document.getElementById('login-identifier');
-const loginBtn = document.getElementById('login-btn');
-const signupLink = document.getElementById('signup-link');
+        // Default: Patient Mode
+        function setPatientMode() {
+            patientToggle.classList.add('active');
+            employeeToggle.classList.remove('active');
 
-// Default: Patient Mode
-function setPatientMode() {
-    patientToggle.classList.add('active');
-    employeeToggle.classList.remove('active');
+            identifierLabel.textContent = 'Username';
+            identifierIcon.className = 'fas fa-user';
+            identifierInput.placeholder = 'Enter your username';
 
-    identifierLabel.textContent = 'Username';
-    identifierIcon.className = 'fas fa-user';
-    identifierInput.placeholder = 'Enter your username';
-
-    loginBtn.textContent = 'Login to Account';
-    signupLink.style.display = 'block';
-}
-
-function setEmployeeMode() {
-    employeeToggle.classList.add('active');
-    patientToggle.classList.remove('active');
-
-identifierLabel.textContent = 'Employee Code';
-identifierInput.placeholder = 'Enter your employee code';
-identifierIcon.className = 'fas fa-id-card';
-
-    loginBtn.textContent = 'Access Portal';
-    signupLink.style.display = 'none';
-}
-
-patientToggle.addEventListener('click', setPatientMode);
-employeeToggle.addEventListener('click', setEmployeeMode);
-
-
-// ---------------------
-// FORM SUBMIT
-// ---------------------
-document.getElementById('login-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const identifier = identifierInput.value.trim();
-    const password = document.getElementById('login-password').value;
-    const isPatient = patientToggle.classList.contains('active');
-
-    if (isPatient) {
-        if (identifier === 'user123' && password === 'pass123') {
-            successMessage("Login Successful!");
-            setTimeout(() => window.location.href = '/patient/dashboard', 1200);
-        } else {
-            showError("Invalid Patient Credentials!");
-        }
-        return;
-    }
-
-    // Employee Login
-    const formData = new FormData();
-    formData.append('identifier', identifier);
-    formData.append('password', password);
-    formData.append('_token', document.querySelector('input[name="_token"]').value);
-
-    fetch('/employee/userlogin', {
-        method: 'POST',
-        body: formData
-    })
-    .then(async res => {
-
-        if (res.redirected) {
-            window.location.href = res.url;
-            return;
+            loginBtn.textContent = 'Login to Account';
+            signupLink.style.display = 'block';
         }
 
-        let data = await res.json();
+        function setEmployeeMode() {
+            employeeToggle.classList.add('active');
+            patientToggle.classList.remove('active');
 
-        if (data.error) {
-            showError(data.error);
-        } else {
-            showError("Invalid employee credentials");
+            identifierLabel.textContent = 'Employee Code';
+            identifierInput.placeholder = 'Enter your employee code';
+            identifierIcon.className = 'fas fa-id-card';
+
+            loginBtn.textContent = 'Access Portal';
+            signupLink.style.display = 'none';
         }
-    })
-    .catch(() => showError("Server error, please try again."));
-});
+
+        patientToggle.addEventListener('click', setPatientMode);
+        employeeToggle.addEventListener('click', setEmployeeMode);
 
 
-// ---------------------
-// SUCCESS UI
-// ---------------------
-function successMessage(msg) {
-    const btn = document.querySelector('.auth-btn');
-    btn.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
-    btn.style.background = 'linear-gradient(to right, #4CAF50, #45a049)';
-}
+        // ---------------------
+        // FORM SUBMIT
+        // ---------------------
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const identifier = identifierInput.value.trim();
+            const password = document.getElementById('login-password').value;
+            const isPatient = patientToggle.classList.contains('active');
+
+            if (isPatient) {
+                if (identifier === 'user123' && password === 'pass123') {
+                    successMessage("Login Successful!");
+                    setTimeout(() => window.location.href = '/patient/dashboard', 1200);
+                } else {
+                    showError("Invalid Patient Credentials!");
+                }
+                return;
+            }
+
+            // Employee Login
+            const formData = new FormData();
+            formData.append('identifier', identifier);
+            formData.append('password', password);
+            formData.append('_token', document.querySelector('input[name="_token"]').value);
+
+            fetch('/employee/userlogin', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(async res => {
+
+                    if (res.redirected) {
+                        window.location.href = res.url;
+                        return;
+                    }
+
+                    let data = await res.json();
+
+                    if (data.error) {
+                        showError(data.error);
+                    } else {
+                        showError("Invalid employee credentials");
+                    }
+                })
+                .catch(() => showError("Server error, please try again."));
+        });
 
 
-// ---------------------
-// ERROR UI + Animation
-// ---------------------
-function showError(message) {
-    const btn = document.querySelector('.auth-btn');
-    const originalText = btn.textContent;
-
-    btn.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
-    btn.style.background = 'linear-gradient(to right, #f44336, #d32f2f)';
-
-    setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.style.background = 'linear-gradient(to right, #0B717A, #2CC1C1)';
-    }, 2000);
-
-    const card = document.querySelector('.login-card');
-    card.style.animation = 'shake 0.5s';
-    setTimeout(() => card.style.animation = '', 500);
-}
+        // ---------------------
+        // SUCCESS UI
+        // ---------------------
+        function successMessage(msg) {
+            const btn = document.querySelector('.auth-btn');
+            btn.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+            btn.style.background = 'linear-gradient(to right, #4CAF50, #45a049)';
+        }
 
 
-// ---------------------
-// Password Toggle
-// ---------------------
-document.getElementById('password-toggle').addEventListener('click', function() {
-    const pwd = document.getElementById('login-password');
-    const icon = this.querySelector('i');
+        // ---------------------
+        // ERROR UI + Animation
+        // ---------------------
+        function showError(message) {
+            const btn = document.querySelector('.auth-btn');
+            const originalText = btn.textContent;
 
-    if (pwd.type === 'password') {
-        pwd.type = 'text';
-        icon.classList.replace('fa-eye', 'fa-eye-slash');
-    } else {
-        pwd.type = 'password';
-        icon.classList.replace('fa-eye-slash', 'fa-eye');
-    }
-});
+            btn.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            btn.style.background = 'linear-gradient(to right, #f44336, #d32f2f)';
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = 'linear-gradient(to right, #0B717A, #2CC1C1)';
+            }, 2000);
+
+            const card = document.querySelector('.login-card');
+            card.style.animation = 'shake 0.5s';
+            setTimeout(() => card.style.animation = '', 500);
+        }
 
 
-// Shake Animation Inject
-const style = document.createElement('style');
-style.textContent = `
+        // ---------------------
+        // Password Toggle
+        // ---------------------
+        document.getElementById('password-toggle').addEventListener('click', function() {
+            const pwd = document.getElementById('login-password');
+            const icon = this.querySelector('i');
+
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                pwd.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+
+
+        // Shake Animation Inject
+        const style = document.createElement('style');
+        style.textContent = `
     @keyframes shake {
         0%, 100% { transform: translateX(0); }
         10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
         20%, 40%, 60%, 80% { transform: translateX(5px); }
     }
 `;
-document.head.appendChild(style);
-
-</script>
+        document.head.appendChild(style);
+    </script>
 
 
 
 
 </body>
+
 </html>

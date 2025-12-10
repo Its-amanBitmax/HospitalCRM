@@ -55,9 +55,9 @@
 
 
     <!-- Employee Cards Grid -->
-   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    @forelse($employees as $employee)
-        <div class="bg-white bg-white-800 shadow-md rounded-lg overflow-hidden border border-gray-200 border-gray-700 flex flex-col h-full">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @forelse($employees as $employee)
+        <div class="bg-white bg-white-800 shadow-md rounded-lg overflow-hidden border border-gray-200  flex flex-col h-full">
 
             <!-- Card Header -->
             <div class="p-4 border-b border-gray-200 border-gray-700">
@@ -67,19 +67,18 @@
                 <div class="text-center mt-3">
                     <!-- Profile Image or Initial -->
                     @if($employee->image)
-                        <img
-                            src="{{ asset('storage/' . $employee->image) }}"
-                            alt="{{ $employee->name }}"
-                            class="w-24 h-24 object-cover rounded-full border-2 border-gray-300 border-gray-600 mx-auto mb-2"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                        >
-                        <div class="hidden w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-2 text-black text-2xl font-bold">
-                            {{ strtoupper(substr($employee->name, 0, 1)) }}
-                        </div>
+                    <img
+                        src="{{ asset('storage/' . $employee->image) }}"
+                        alt="{{ $employee->name }}"
+                        class="w-24 h-24 object-cover rounded-full border-2 border-gray-300 border-gray-600 mx-auto mb-2"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-2 text-black text-2xl font-bold">
+                        {{ strtoupper(substr($employee->name, 0, 1)) }}
+                    </div>
                     @else
-                        <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-2 text-black text-2xl font-bold">
-                            {{ strtoupper(substr($employee->name, 0, 1)) }}
-                        </div>
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-2 text-black text-2xl font-bold">
+                        {{ strtoupper(substr($employee->name, 0, 1)) }}
+                    </div>
                     @endif
 
                     <!-- Name -->
@@ -89,9 +88,13 @@
 
                     <!-- Status -->
                     <div class="mt-1">
-                        <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full {{ $employee->status == 'Active' ? 'bg-green-100 text-green-800 bg-green-800 text-green-200' : 'bg-red-100 text-red-800 bg-red-800 text-red-200' }}">
+                        <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full
+    {{ $employee->status == 'Active'
+        ? 'bg-green-100 text-green-800'
+        : 'bg-red-100 text-red-800' }}">
                             {{ $employee->status ?? 'Active' }}
                         </span>
+
                     </div>
                 </div>
             </div>
@@ -106,48 +109,48 @@
                 </p>
 
                 @if($employee->professions->isNotEmpty())
-                    <p class="text-sm text-gray-600 text-gray-400">
-                        <strong>Title:</strong> {{ $employee->professions->first()->title ?? 'N/A' }}
-                    </p>
+                <p class="text-sm text-gray-600 text-gray-400">
+                    <strong>Title:</strong> {{ $employee->professions->first()->title ?? 'N/A' }}
+                </p>
                 @endif
 
                 @if($employee->specialities->isNotEmpty())
-                    <p class="text-sm text-gray-600 text-gray-400">
-                        <strong>Specialities:</strong>
-                        <span class="font-medium text-gray-800 text-gray-200">
-                            {{ $employee->specialities->pluck('skill')->implode(', ') }}
-                        </span>
-                    </p>
-                    <p class="text-sm text-gray-600 text-gray-400">
-                        <strong>Experience:</strong>
-                        <span class="font-medium text-gray-800 text-gray-200">
-                            {{ $employee->specialities->pluck('pivot.years_of_experience')->implode(', ') }} years
-                        </span>
-                    </p>
+                <p class="text-sm text-gray-600 text-gray-400">
+                    <strong>Specialities:</strong>
+                    <span class="font-medium text-gray-800 text-gray-200">
+                        {{ $employee->specialities->pluck('skill')->implode(', ') }}
+                    </span>
+                </p>
+                <p class="text-sm text-gray-600 text-gray-400">
+                    <strong>Experience:</strong>
+                    <span class="font-medium text-gray-800 text-gray-200">
+                        {{ $employee->specialities->pluck('pivot.years_of_experience')->implode(', ') }} years
+                    </span>
+                </p>
                 @else
-                    <p class="text-sm text-gray-600 text-gray-400 italic">No specialities added</p>
+                <p class="text-sm text-gray-600 text-gray-400 italic">No specialities added</p>
                 @endif
             </div>
 
             <!-- Card Footer (Actions) -->
             <div class="p-4 bg-white-50 bg-white-900 border-t border-gray-200 border-gray-700 mt-auto">
                 <form action="{{ route('admin.employees.toggle-status', $employee) }}"
-                      method="POST"
-                      onsubmit="return confirm('Are you sure you want to toggle the status of {{ addslashes($employee->name) }}?')">
+                    method="POST"
+                    onsubmit="return confirm('Are you sure you want to toggle the status of {{ addslashes($employee->name) }}?')">
                     @csrf
                     <button type="submit"
-                            class="w-full {{ $employee->status == 'Active' ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700' }} text-white font-bold py-2 px-3 rounded text-sm transition">
+                        class="w-full {{ $employee->status == 'Active' ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700' }} text-white font-bold py-2 px-3 rounded text-sm transition">
                         {{ $employee->status == 'Active' ? 'Deactivate' : 'Activate' }}
                     </button>
                 </form>
             </div>
         </div>
-    @empty
+        @empty
         <div class="col-span-full text-center py-10">
             <p class="text-gray-500 text-gray-400 text-lg">No nurses found.</p>
         </div>
-    @endforelse
-</div>
+        @endforelse
+    </div>
 
     <!-- Pagination -->
     <div class="mt-8 flex justify-center">
@@ -157,20 +160,31 @@
 
 <style>
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+
+    .animate-fade-in {
+        animation: fadeIn 0.4s ease-out;
+    }
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         @if(session('success'))
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            toastMessage.textContent = '{{ session('success') }}';
-            toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.add('hidden'), 3000);
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        toastMessage.textContent = '{{ session('
+        success ') }}';
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 3000);
         @endif
     });
 </script>

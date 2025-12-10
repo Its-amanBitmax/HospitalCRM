@@ -14,6 +14,8 @@ use App\Models\RoomAssignment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PatientVisitController extends Controller
@@ -308,6 +310,9 @@ class PatientVisitController extends Controller
 
         // Only include visits assigned to this doctor
         $doctorId = auth('doctor')->id();
+        if (!$doctorId) {
+            return redirect()->route('employee.userlogin')->with('error', 'Please login as doctor to create checkups.');
+        }
         $visits = PatientVisit::where('user_id', $userId)
             ->whereHas('consultantAssignment', function ($q) use ($doctorId) {
                 $q->where('employee_id', $doctorId)
@@ -451,6 +456,9 @@ class PatientVisitController extends Controller
     {
         // 1. Get logged-in doctor ID
         $doctorId = auth('doctor')->id();
+        if (!$doctorId) {
+            return redirect()->route('employee.userlogin')->with('error', 'Please login as doctor to access reports.');
+        }
 
         // 2. Get room assignment IDs assigned to this doctor
         $assignmentIds = RoomAssignment::where('employee_id', $doctorId)
@@ -473,6 +481,9 @@ class PatientVisitController extends Controller
     public function doctor_profile_settings()
     {
         $doctor = auth('doctor')->user();
+        if (!$doctor) {
+            return redirect()->route('employee.userlogin')->with('error', 'Please login as doctor to access profile settings.');
+        }
 
         // fetch address
         $address = Address::where('employee_id', $doctor->id)->first();
@@ -483,6 +494,9 @@ class PatientVisitController extends Controller
     public function update_doctor_profile(Request $request)
     {
         $doctor = auth('doctor')->user();
+        if (!$doctor) {
+            return redirect()->route('employee.userlogin')->with('error', 'Please login as doctor to update profile.');
+        }
 
         // ===========================
         // UPDATE DOCTOR BASIC DETAILS
@@ -526,6 +540,9 @@ class PatientVisitController extends Controller
     public function settings()
     {
         $doctor = auth('doctor')->user();
+        if (!$doctor) {
+            return redirect()->route('employee.userlogin')->with('error', 'Please login as doctor to access settings.');
+        }
 
         // Load all related data like admin edit page
         $doctor->load([
@@ -549,6 +566,9 @@ class PatientVisitController extends Controller
 public function doctor_attendence(Request $request)
 {
     $doctor = auth('doctor')->user();
+    if (!$doctor) {
+        return redirect()->route('employee.userlogin')->with('error', 'Please login as doctor to access attendance.');
+    }
     $today = Carbon::now('Asia/Kolkata')->toDateString();
     $filter = $request->query('filter', 'today');
 
@@ -586,6 +606,9 @@ public function doctor_attendance_mark(Request $request)
     ]);
 
     $doctor = auth('doctor')->user();
+    if (!$doctor) {
+        return response()->json(['message' => 'Unauthorized access. Please login as doctor.'], 401);
+    }
     $now = Carbon::now('Asia/Kolkata');
     $today = $now->toDateString();
     $time24 = $now->format('H:i:s'); // Store full time in DB
@@ -600,11 +623,43 @@ public function doctor_attendance_mark(Request $request)
             return response()->json(['message' => 'Already Clocked In!'], 400);
         }
 
-        // Determine status
-        $attendance->status = $time24 <= '09:30:00' ? 'present' : 'half_day';
         $attendance->check_in = $time24;
+        $attendance->check_in_ip = $request->ip();
+        $attendance->check_in_latitude = $request->latitude;
+        $attendance->check_in_longitude = $request->longitude;
+        $attendance->check_in_server = json_encode($request->server_info);
         $attendance->notes = $request->notes;
+
+        // Use location provided by JavaScript (from Nominatim API) or fallback to IP-based location
+        if ($request->location) {
+            $attendance->check_in_location = $request->location;
+            Log::info('Clock in location from JavaScript: ' . $request->location);
+        } else {
+            // Fallback to IP-based location if no location provided
+            try {
+                $ip = $request->ip();
+                $locationData = json_decode(file_get_contents("http://ip-api.com/json/{$ip}"), true);
+                if ($locationData && $locationData['status'] === 'success') {
+                    $attendance->check_in_location = $locationData['city'] . ', ' . $locationData['regionName'] . ', ' . $locationData['country'];
+                    Log::info('Clock in fallback IP location: ' . $attendance->check_in_location);
+                } else {
+                    Log::warning('Failed to get IP location for clock in');
+                }
+            } catch (\Exception $e) {
+                Log::error('Failed to fetch IP location for clock in: ' . $e->getMessage());
+            }
+        }
+
         $attendance->save();
+
+        // Check if clock-in is after 9:30 AM, mark as half-day
+        $checkInTime = Carbon::createFromFormat('H:i:s', $attendance->check_in, 'Asia/Kolkata');
+        $morningLimit = Carbon::createFromTime(9, 30, 0, 'Asia/Kolkata');
+        if ($checkInTime->gt($morningLimit)) {
+            $attendance->status = 'half_day';
+            $attendance->save();
+            Log::info('Clock in: late arrival, marked as half_day');
+        }
 
         return response()->json(['message' => 'Clocked In Successfully!']);
     }
@@ -618,8 +673,64 @@ public function doctor_attendance_mark(Request $request)
         }
 
         $attendance->check_out = $time24;
+        $attendance->check_out_ip = $request->ip();
+        $attendance->check_out_latitude = $request->latitude;
+        $attendance->check_out_longitude = $request->longitude;
+        $attendance->check_out_server = json_encode($request->server_info);
         $attendance->notes = $request->notes;
+
+        // Use location provided by JavaScript (from Nominatim API) or fallback to IP-based location
+        if ($request->location) {
+            $attendance->check_out_location = $request->location;
+            Log::info('Clock out location from JavaScript: ' . $request->location);
+        } else {
+            // Fallback to IP-based location if no location provided
+            try {
+                $ip = $request->ip();
+                $locationData = json_decode(file_get_contents("http://ip-api.com/json/{$ip}"), true);
+                if ($locationData && $locationData['status'] === 'success') {
+                    $attendance->check_out_location = $locationData['city'] . ', ' . $locationData['regionName'] . ', ' . $locationData['country'];
+                    Log::info('Clock out fallback IP location: ' . $attendance->check_out_location);
+                } else {
+                    Log::warning('Failed to get IP location for clock out');
+                }
+            } catch (\Exception $e) {
+                Log::error('Failed to fetch IP location for clock out: ' . $e->getMessage());
+            }
+        }
+
         $attendance->save();
+
+        // Calculate total hours worked and update status
+        if ($attendance->check_in && $attendance->check_out) {
+            $checkInTime = Carbon::createFromFormat('H:i:s', $attendance->check_in, 'Asia/Kolkata');
+            $checkOutTime = Carbon::createFromFormat('H:i:s', $attendance->check_out, 'Asia/Kolkata');
+            $totalHours = $checkOutTime->diffInHours($checkInTime, true);
+
+            Log::info('Clock out: check_in=' . $attendance->check_in . ', check_out=' . $attendance->check_out . ', totalHours=' . $totalHours);
+
+            // Check for half-day conditions: clock in after 9:30 AM or clock out before 6:30 PM
+            $morningLimit = Carbon::createFromTime(9, 30, 0, 'Asia/Kolkata');
+            $eveningLimit = Carbon::createFromTime(18, 30, 0, 'Asia/Kolkata');
+
+            if ($checkInTime->gt($morningLimit) || $checkOutTime->lt($eveningLimit)) {
+                $attendance->status = 'half_day';
+                Log::info('Clock out: half-day due to late clock-in or early clock-out');
+            } else {
+                // Update status based on total hours worked
+                if ($totalHours >= 8) {
+                    $attendance->status = 'present';
+                } elseif ($totalHours >= 4) {
+                    $attendance->status = 'half_day';
+                } else {
+                    $attendance->status = 'absent';
+                }
+            }
+
+            Log::info('Clock out: setting status to ' . $attendance->status);
+            $attendance->save();
+            Log::info('Clock out: status saved successfully');
+        }
 
         return response()->json(['message' => 'Clocked Out Successfully!']);
     }

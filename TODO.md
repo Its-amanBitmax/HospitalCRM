@@ -1,22 +1,14 @@
-# Test and Checkup Module Implementation
+# Location Fetching Update - TODO
 
-## Tasks
-- [x] Create migration for tests table
-- [x] Create migration for test_results table
-- [x] Create Test model
-- [x] Create TestResult model
-- [x] Implement TestAndCheckupController with CRUD operations
-- [x] Create views for tests management
-- [x] Create views for checkups management
-- [x] Add routes for test and checkup functionality
-- [x] Run migrations
-- [x] Test functionality
+## Completed Tasks
+- [x] Update JavaScript in receptionist_attendance.blade.php to fetch address using Nominatim API after getting GPS coordinates
+- [x] Send the address as 'location' in the AJAX request to PHP
+- [x] Modify PHP controller to use provided 'location' directly, fall back to IP-based only if not provided
+- [x] Add detailed logging in PHP for debugging
+- [x] Implement half-day marking for clock-in after 9:30 AM
 
-## Completed
-- [ ] Plan approved by user
-- [ ] Created migrations for tests and test_results tables
-- [ ] Created Test and TestResult models with relationships and scopes
-- [ ] Implemented TestAndCheckupController with full CRUD operations for tests, test results, and checkups
-- [ ] Added routes for tests, test-results, and checkups in admin section
-- [ ] Created views for tests index, create; test-results index, create; checkups index, create
-- [ ] Ran migrations successfully
+## Followup Steps
+- [ ] Test the updated location fetching functionality
+- [ ] Verify location storage in database
+- [ ] Monitor logs for any issues with Nominatim API or IP fallback
+- [ ] Test the half-day logic for late clock-ins
