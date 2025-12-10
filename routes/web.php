@@ -19,8 +19,10 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EmployeeLoginController;
 use App\Http\Controllers\AmbulanceController;
+use App\Http\Controllers\BloodBankController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
+
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\TestAndCheckupController;
 
@@ -214,6 +216,24 @@ Route::prefix('admin')->group(function () {
             '/ambulances/available-drivers',
             [AmbulanceController::class, 'getAvailableDrivers']
         )->name('admin.ambulances.availableDrivers');
+
+         Route::get('blood-banks', [BloodBankController::class, 'index'])
+            ->name('admin.bloodbanks.index');
+
+        Route::get('blood-banks/create', [BloodBankController::class, 'create'])
+            ->name('admin.bloodbanks.create');
+
+        Route::post('blood-banks', [BloodBankController::class, 'store'])
+            ->name('admin.bloodbanks.store');
+
+        Route::get('blood-banks/{bloodBank}/edit', [BloodBankController::class, 'edit'])
+            ->name('admin.bloodbanks.edit');
+
+        Route::put('blood-banks/{bloodBank}', [BloodBankController::class, 'update'])
+            ->name('admin.bloodbanks.update');
+
+        Route::delete('blood-banks/{bloodBank}', [BloodBankController::class, 'destroy'])
+            ->name('admin.bloodbanks.destroy');
     
         Route::get('/doctors', [EmployeeController::class, 'doctors'])->name('admin.doctors');
         Route::get('/nurses', [EmployeeController::class, 'nurses'])->name('admin.nurses');
