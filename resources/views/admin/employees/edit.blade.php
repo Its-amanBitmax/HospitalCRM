@@ -402,7 +402,7 @@
                     <option value="Receptionist" {{ old('professions.' . $index . '.title', $profession->title) == 'Receptionist' ? 'selected' : '' }}>Receptionist</option>
                     <option value="Manager" {{ old('professions.' . $index . '.title', $profession->title) == 'Manager' ? 'selected' : '' }}>Manager</option>
                     <option value="Ward Boy" {{ old('professions.' . $index . '.title', $profession->title) == 'Ward Boy' ? 'selected' : '' }}>Ward Boy</option>
-                    <option value="Cleaner" {{ old('professions.' . $index . '.title', $profession->title) == 'Cleaner' ? 'selected' : '' }}>Cleaner</option>
+                    <option value="Driver" {{ old('professions.' . $index . '.title', $profession->title) == 'Driver' ? 'selected' : '' }}>Driver</option>
                     <option value="Security" {{ old('professions.' . $index . '.title', $profession->title) == 'Security' ? 'selected' : '' }}>Security</option>
                     <option value="Accountant" {{ old('professions.' . $index . '.title', $profession->title) == 'Accountant' ? 'selected' : '' }}>Accountant</option>
                     <option value="Laborist" {{ old('professions.' . $index . '.title', $profession->title) == 'Laborist' ? 'selected' : '' }}>Laborist</option>

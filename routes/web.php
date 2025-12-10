@@ -18,6 +18,7 @@ use App\Http\Controllers\HospitalVisitController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EmployeeLoginController;
+use App\Http\Controllers\AmbulanceController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\AttendanceController;
@@ -178,6 +179,45 @@ Route::prefix('admin')->group(function () {
             'destroy' => 'admin.employees.destroy',
         ]);
 
+          Route::get('/ambulances', [AmbulanceController::class, 'index'])
+            ->name('admin.ambulances.index');
+
+        // ✅ CREATE FORM (IMPORTANT – missing tha)
+        Route::get('/ambulances/create', [AmbulanceController::class, 'create'])
+            ->name('admin.ambulances.create');
+
+        // ✅ STORE (FORM SUBMIT)
+        Route::post('/ambulances', [AmbulanceController::class, 'store'])
+            ->name('admin.ambulances.store');
+
+        // ✅ SHOW (optional – agar use ho)
+        Route::get('/ambulances/{ambulance}', [AmbulanceController::class, 'show'])
+            ->name('admin.ambulances.show');
+
+        // ✅ EDIT FORM
+        Route::get('/ambulances/{ambulance}/edit', [AmbulanceController::class, 'edit'])
+            ->name('admin.ambulances.edit');
+
+        // ✅ UPDATE
+        Route::put('/ambulances/{ambulance}', [AmbulanceController::class, 'update'])
+            ->name('admin.ambulances.update');
+
+        // ✅ DELETE
+        Route::delete('/ambulances/{ambulance}', [AmbulanceController::class, 'destroy'])
+            ->name('admin.ambulances.destroy');
+
+        // ✅ ASSIGN DRIVER
+        Route::post(
+            '/ambulances/{ambulance}/assign-driver',
+            [AmbulanceController::class, 'assignDriver']
+        )->name('admin.ambulances.assignDriver');
+
+        // ✅ AVAILABLE DRIVERS (dropdown)
+        Route::get(
+            '/ambulances/available-drivers',
+            [AmbulanceController::class, 'getAvailableDrivers']
+        )->name('admin.ambulances.availableDrivers');
+    
         Route::get('/doctors', [EmployeeController::class, 'doctors'])->name('admin.doctors');
         Route::get('/nurses', [EmployeeController::class, 'nurses'])->name('admin.nurses');
         Route::post('/employees/{employee}/toggle-status', [EmployeeController::class, 'toggleStatus'])->name('admin.employees.toggle-status');
