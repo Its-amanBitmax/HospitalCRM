@@ -179,7 +179,7 @@ Route::prefix('admin')->group(function () {
             'destroy' => 'admin.employees.destroy',
         ]);
 
-          Route::get('/ambulances', [AmbulanceController::class, 'index'])
+        Route::get('/ambulances', [AmbulanceController::class, 'index'])
             ->name('admin.ambulances.index');
 
         // ✅ CREATE FORM (IMPORTANT – missing tha)
@@ -217,7 +217,7 @@ Route::prefix('admin')->group(function () {
             '/ambulances/available-drivers',
             [AmbulanceController::class, 'getAvailableDrivers']
         )->name('admin.ambulances.availableDrivers');
-    
+
         Route::get('/doctors', [EmployeeController::class, 'doctors'])->name('admin.doctors');
         Route::get('/nurses', [EmployeeController::class, 'nurses'])->name('admin.nurses');
         Route::post('/employees/{employee}/toggle-status', [EmployeeController::class, 'toggleStatus'])->name('admin.employees.toggle-status');
@@ -404,32 +404,32 @@ Route::prefix('receptionist')->group(function () {
     )->name('receptionists.profile.update');
     Route::get('/receptionist/attendance', [ReceptionController::class, 'receptionist_attendence'])->name('receptionist.attendance');
     Route::post('/receptionist/attendance', [ReceptionController::class, 'mark_receptionist_attendence'])->name('receptionist.attendance.mark');
-   });
+});
 
 Route::get('/admin/test/index', [TestAndCheckupController::class, 'test_and_checkup'])->name('admin.test.checkup');
-    Route::get('/admin/test/checkups/create', [TestAndCheckupController::class, 'create'])
-        ->name('admin.testcheckup.create');
+Route::get('/admin/test/checkups/create', [TestAndCheckupController::class, 'create'])
+    ->name('admin.testcheckup.create');
 Route::post('/admin/test/checkup/store', [TestAndCheckupController::class, 'store'])
     ->name('admin.testcheckup.store');
 
-    Route::get('/admin/test/checkup/{test}/edit', [TestAndCheckupController::class, 'edit'])
+Route::get('/admin/test/checkup/{test}/edit', [TestAndCheckupController::class, 'edit'])
     ->name('admin.test.checkup.edit');
 
 // Update test/checkup
 Route::post('/admin/test/checkup/{test}', [TestAndCheckupController::class, 'update'])
     ->name('admin.test.checkup.update');
 Route::delete('/admin/test/checkup/{id}', [TestAndCheckupController::class, 'destroy'])
-        ->name('admin.testandcheckup.destroy');
+    ->name('admin.testandcheckup.destroy');
 
 
-        Route::get('/admin/test/user', [TestAndCheckupController::class, 'test_book_users'])
-        ->name('admin.testbookuser.list');
-        Route::post('/admin/test/report/upload', [TestAndCheckupController::class, 'uploadReport'])
-        ->name('admin.test.report.upload');
-        Route::post('/admin/test/booking/status/update', [TestAndCheckupController::class, 'updateStatus'])
-        ->name('admin.test.booking.status.update');
+Route::get('/admin/test/user', [TestAndCheckupController::class, 'test_book_users'])
+    ->name('admin.testbookuser.list');
+Route::post('/admin/test/report/upload', [TestAndCheckupController::class, 'uploadReport'])
+    ->name('admin.test.report.upload');
+Route::post('/admin/test/booking/status/update', [TestAndCheckupController::class, 'updateStatus'])
+    ->name('admin.test.booking.status.update');
 
-        
+
 
 Route::get('hospital/schedule', [HospitalScheduleController::class, 'index'])->name('hospital.schedule.index');
 Route::get('hospital/schedule/create', [HospitalScheduleController::class, 'create'])->name('hospital.schedule.create');
@@ -449,28 +449,7 @@ Route::get('/patient-registration', [AdminController::class, 'patientRegistratio
 
 Route::get('/nurse/dashboard', [EmployeeController::class, 'nurse_dashboard'])
     ->name('nurse.dashboard');
-Route::get('/nurse/all/patients', [NurseController::class, 'get_users'])
-    ->name('nurse.patients');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Route::get('/nurse/create/task', [NurseController::class, 'get_task'])
+    ->name('admin.nurse.task');
+Route::post('/nurse/task/storsavee', [NurseController::class, 'save_nurse_task'])
+    ->name('nurse.task.save');

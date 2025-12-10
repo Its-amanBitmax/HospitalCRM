@@ -80,9 +80,9 @@ class Employee extends Authenticatable
     }
 
     public function department()
-{
-    return $this->belongsTo(Department::class, 'department_id', 'id');
-}
+    {
+        return $this->belongsTo(Department::class, 'department_id', 'id');
+    }
 
 
     public function schedules()
@@ -90,28 +90,38 @@ class Employee extends Authenticatable
         return $this->hasMany(Schedule::class);
     }
     public function attendances()
-{
-    return $this->hasMany(Attendance::class, 'employee_id', 'id');
-}
+    {
+        return $this->hasMany(Attendance::class, 'employee_id', 'id');
+    }
 
 
-public function receptions()
-{
-    return $this->hasMany(\App\Models\Reception::class, 'assigned_employee');
-}
+    public function receptions()
+    {
+        return $this->hasMany(\App\Models\Reception::class, 'assigned_employee');
+    }
 
-// App/Models/Employee.php
+    // App/Models/Employee.php
 
-public function appointments()
-{
-    return $this->hasMany(Appointment::class, 'doctor_id', 'id');
-}
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id', 'id');
+    }
 
-// In Employee.php
-public function uploadedReports()
-{
-    return $this->hasMany(TestReport::class, 'doctor_id');
-}
+    // In Employee.php
+    public function uploadedReports()
+    {
+        return $this->hasMany(TestReport::class, 'doctor_id');
+    }
 
 
+
+    public function nurseTasks()
+    {
+        return $this->hasMany(NurseTask::class, 'nurse_id');
+    }
+
+    public function doctorTasks()
+    {
+        return $this->hasMany(NurseTask::class, 'doctor_id');
+    }
 }
