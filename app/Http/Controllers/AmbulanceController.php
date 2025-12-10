@@ -242,6 +242,16 @@ public function assignDriver(Request $request, $id)
     ]);
 }
 
+public function edit(Ambulance $ambulance)
+{
+    $drivers = Employee::whereHas('professions', function ($q) {
+        $q->where('title', 'Driver');
+    })->get();
+
+    return view('admin.ambulances.edit', compact('ambulance', 'drivers'));
+}
+
+
 /* ================= AVAILABLE DRIVERS ================= */
 public function getAvailableDrivers()
 {
