@@ -124,4 +124,9 @@ class Employee extends Authenticatable
     {
         return $this->hasMany(NurseTask::class, 'doctor_id');
     }
+
+    public function patients()
+    {
+        return $this->belongsToMany(User::class, 'nurse_patient', 'nurse_id', 'patient_id');
+    }
 }

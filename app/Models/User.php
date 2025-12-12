@@ -120,4 +120,12 @@ public function testReports()
 }
 
 
+
+public function nurses()
+{
+    return $this->belongsToMany(Employee::class, 'nurse_patient', 'patient_id', 'nurse_id');
+}
+
+
+
 }

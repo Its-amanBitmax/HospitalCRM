@@ -95,10 +95,17 @@
           <span class="sidebar-text text-sm text-bg-white">All Nurses</span>
         </a>
 
-        <a href="{{ route('admin.nurse.task') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('admin.nurses') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
+        <a href="{{ route('nurse.tasks') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('admin.nurses') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
           <i class="fas fa-user-nurse text-bg-white text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
-          <span class="sidebar-text text-sm text-bg-white">Create Task</span>
+          <span class="sidebar-text text-sm text-bg-white">Nurse Task</span>
         </a>
+
+
+        <a href="{{ route('nurse.all.patients') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('admin.nurses') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
+          <i class="fas fa-user-nurse text-bg-white text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
+          <span class="sidebar-text text-sm text-bg-white">Patient List</span>
+        </a>
+
       </div>
 
       <div id="bloodbank-toggle" class="flex items-center justify-between mt-3 mb-1 cursor-pointer px-3 py-3 rounded-lg transition-all duration-200 hover:bg-white-50 hover:bg-white-900/20 border border-transparent hover:border-bg-white-200 group">
@@ -110,7 +117,12 @@
       </div>
 
       <div id="bloodbank-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-bg-white-200 border-bg-white-700 pl-3 mt-1">
-        <!-- Blood Bank sub-links will be added here later -->
+        <a href="{{ route('admin.bloodbanks.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('admin.bloodbanks') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
+          <i class="fas fa-tint text-bg-white-500 text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
+          <span class="sidebar-text text-sm">Blood Bank</span>
+        </a>
+
+
       </div>
     </div>
 
@@ -185,6 +197,10 @@
         <a href="{{ route('admin.banner') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('admin.banner') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
           <i class="fas fa-image text-bg-white-500 text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Banners</span>
+        </a>
+        <a href="{{ route('admin.ambulances.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('admin.ambulances.*') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
+          <i class="fas fa-ambulance text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
+          <span class="sidebar-text text-sm">Ambulances</span>
         </a>
         <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-headset text-bg-white-500 text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
@@ -306,10 +322,7 @@
           <i class="fas fa-hospital text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Visits</span>
         </a>
-        <a href="{{ route('admin.ambulances.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group {{ request()->routeIs('admin.ambulances.*') ? 'bg-white-100 text-bg-white-700 border-bg-white-200 bg-white-900/30 text-bg-white-300 border-bg-white-700 shadow-sm' : 'text-gray-700 text-gray-300' }}">
-          <i class="fas fa-ambulance text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
-          <span class="sidebar-text text-sm">Ambulances</span>
-        </a>
+
       </div>
     </div>
   </nav>

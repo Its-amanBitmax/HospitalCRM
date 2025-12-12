@@ -12,6 +12,9 @@ class NurseTask extends Model
         'nurse_id',
         'doctor_id',
         'notes',
+        'start_date',
+        'end_date',
+        'status'
     ];
 
     public function department()

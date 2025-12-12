@@ -19,8 +19,10 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EmployeeLoginController;
 use App\Http\Controllers\AmbulanceController;
+use App\Http\Controllers\BloodBankController;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
+
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\NurseController;
 use App\Http\Controllers\TestAndCheckupController;
@@ -217,6 +219,24 @@ Route::prefix('admin')->group(function () {
             '/ambulances/available-drivers',
             [AmbulanceController::class, 'getAvailableDrivers']
         )->name('admin.ambulances.availableDrivers');
+
+        Route::get('blood-banks', [BloodBankController::class, 'index'])
+            ->name('admin.bloodbanks.index');
+
+        Route::get('blood-banks/create', [BloodBankController::class, 'create'])
+            ->name('admin.bloodbanks.create');
+
+        Route::post('blood-banks', [BloodBankController::class, 'store'])
+            ->name('admin.bloodbanks.store');
+
+        Route::get('blood-banks/{bloodBank}/edit', [BloodBankController::class, 'edit'])
+            ->name('admin.bloodbanks.edit');
+
+        Route::put('blood-banks/{bloodBank}', [BloodBankController::class, 'update'])
+            ->name('admin.bloodbanks.update');
+
+        Route::delete('blood-banks/{bloodBank}', [BloodBankController::class, 'destroy'])
+            ->name('admin.bloodbanks.destroy');
 
         Route::get('/doctors', [EmployeeController::class, 'doctors'])->name('admin.doctors');
         Route::get('/nurses', [EmployeeController::class, 'nurses'])->name('admin.nurses');
@@ -447,9 +467,38 @@ Route::get('/patient-registration', [AdminController::class, 'patientRegistratio
 
 
 
-Route::get('/nurse/dashboard', [EmployeeController::class, 'nurse_dashboard'])
-    ->name('nurse.dashboard');
+Route::prefix('nurse')->group(function () {
+
+    Route::get('/nurse/dashboard', [NurseController::class, 'nurse_dashboard'])
+        ->name('nurse.dashboard');
+    Route::get('/my/assigned/patients', [NurseController::class, 'get_my_assigned_patients'])
+        ->name('nurse.assigned.patients');
+    Route::get('/nurse/attendance', [NurseController::class, 'nurse_attendance'])
+        ->name('nurse.attendance');
+
+    // Clock In / Clock Out action (AJAX)
+    Route::post('/nurse/attendance/mark', [NurseController::class, 'mark_nurse_attendance'])
+        ->name('nurse.mark.attendance');
+});
+
 Route::get('/nurse/create/task', [NurseController::class, 'get_task'])
     ->name('admin.nurse.task');
-Route::post('/nurse/task/storsavee', [NurseController::class, 'save_nurse_task'])
+Route::post('/nurse/task/store/save', [NurseController::class, 'save_nurse_task'])
     ->name('nurse.task.save');
+Route::get('/nurse/tasks', [NurseController::class, 'get_all_nurse_task'])
+    ->name('nurse.tasks');
+Route::get('nurse-task/edit/{id}', [NurseController::class, 'edit_nurse_task'])->name('nurse.task.edit');
+Route::post('nurse-task/update/{id}', [NurseController::class, 'update_nurse_task'])->name('nurse.task.update');
+Route::delete('/nurse/task/delete/{id}', [NurseController::class, 'delete_nurse_task'])->name('nurse.task.delete');
+Route::post('/nurse/task/{id}/update-status', [NurseController::class, 'update_task_status'])
+    ->name('nurse.task.update.status');
+
+Route::get('/admin/nurse/all/patients', [NurseController::class, 'get_patients_for_nurse'])
+    ->name('nurse.all.patients');
+
+Route::post('/nurse/assign', [NurseController::class, 'assignNurse'])->name('nurse.assign');
+
+Route::get('/nurse/all/bads', [NurseController::class, 'get_beds'])
+    ->name('nurse.all.bads');
+
+

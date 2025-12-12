@@ -56,7 +56,7 @@
                 {{-- Nurse --}}
                 <div>
                     <label class="text-gray-600 font-medium">Nurse (optional)</label>
-                    <select name="nurse_id" class="mt-1 p-3 border rounded-lg w-full bg-gray-50">
+                    <select name="nurse_id" class="mt-1 p-3 border rounded-lg w-full bg-gray-50" required>
                         <option value="">Select Nurse</option>
                         @foreach($nurses as $nurse)
                         <option value="{{ $nurse->id }}">{{ $nurse->name }}</option>
@@ -84,11 +84,11 @@
                 {{-- Initial Task Block --}}
                 <div class="task-item border rounded-lg p-4 relative">
 
-                    {{-- Add/Remove Buttons --}}
+                    <!-- {{-- Add/Remove Buttons --}}
                     <div class="absolute top-2 right-2 flex gap-1">
                         <button type="button" class="text-blue-500 font-bold text-xl add-task-btn">+</button>
                         <button type="button" class="text-red-500 font-bold text-xl remove-task-btn">&times;</button>
-                    </div>
+                    </div> -->
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -122,7 +122,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
     let taskIndex = 1; // next task index
 
     document.addEventListener('click', function(e) {
@@ -145,15 +145,15 @@
         }
 
         // Remove task
-        if(e.target && e.target.classList.contains('remove-task-btn')) {
-            const taskItem = e.target.closest('.task-item');
-            if(container.children.length > 1) { // keep at least one
-                taskItem.remove();
-            } else {
-                alert('At least one task is required.');
-            }
-        }
+        // if(e.target && e.target.classList.contains('remove-task-btn')) {
+        //     const taskItem = e.target.closest('.task-item');
+        //     if(container.children.length > 1) { 
+        //         taskItem.remove();
+        //     } else {
+        //         alert('At least one task is required.');
+        //     }
+        // }
     });
-</script>
+</script> -->
 
 @endsection
