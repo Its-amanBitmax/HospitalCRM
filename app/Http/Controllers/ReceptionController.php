@@ -622,6 +622,9 @@ class ReceptionController extends Controller
     }
 
 
+
+
+
     public function receptionist_attendence()
     {
         $employee = auth('receptionist')->user();

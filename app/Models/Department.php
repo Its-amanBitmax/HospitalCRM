@@ -27,4 +27,10 @@ class Department extends Model
     {
         return $this->department_name;
     }
+
+
+    public function tasks()
+    {
+        return $this->hasMany(NurseTask::class);
+    }
 }

@@ -36,4 +36,10 @@ class Room extends Model
     {
         return $this->hasMany(RoomAssignment::class);
     }
+
+
+    public function tasks()
+    {
+        return $this->hasMany(NurseTask::class);
+    }
 }

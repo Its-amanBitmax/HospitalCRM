@@ -113,48 +113,59 @@ document.addEventListener('DOMContentLoaded', function () {
     const endInput = document.getElementById('end_time');
     const errorText = document.getElementById('shiftError');
 
-    // Doctor shifts passed from backend
+    // Pass only the time part (HH:MM) from backend to match select values
     const shifts = @json($shifts->map(fn($s) => [
-        'start' => $s->start_time,
-        'end' => $s->end_time,
+        'start' => \Carbon\Carbon::parse($s->start_time)->format('H:i'),
+        'end'   => \Carbon\Carbon::parse($s->end_time)->format('H:i'),
     ]));
 
-    // Convert "HH:mm:ss" or "HH:mm" → minutes
     function toMinutes(timeStr) {
         const [h, m] = timeStr.split(':').map(Number);
         return h * 60 + m;
     }
 
-    // Check if task fits within shift, even if shift crosses midnight
-    function isWithinShift(taskStart, taskEnd, shiftStart, shiftEnd) {
-        // Case 1: Normal shift (same day)
-        if (shiftEnd > shiftStart) {
-            return taskStart >= shiftStart && taskEnd <= shiftEnd;
+    // Format time as 03:00 AM for display
+    function formatDisplay(timeStr) {
+        const date = new Date(`2025-01-01 ${timeStr}:00`);
+        return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    }
+
+    // Properly check if [taskStart, taskEnd] is fully within a shift
+    function isTaskWithinShift(taskStartMin, taskEndMin, shiftStartMin, shiftEndMin) {
+        const shiftDuration = shiftEndMin >= shiftStartMin 
+            ? shiftEndMin - shiftStartMin 
+            : (1439 - shiftStartMin) + shiftEndMin + 1; // overnight
+
+        // Normal shift (non-overnight)
+        if (shiftEndMin >= shiftStartMin) {
+            return taskStartMin >= shiftStartMin && taskEndMin <= shiftEndMin;
         }
-        // Case 2: Overnight shift (e.g. 20:00 → 03:00)
+        // Overnight shift
         else {
-            return (taskStart >= shiftStart && taskStart <= 1439) || (taskStart >= 0 && taskStart <= shiftEnd)
-                && (taskEnd >= shiftStart && taskEnd <= 1439) || (taskEnd >= 0 && taskEnd <= shiftEnd);
+            return (taskStartMin >= shiftStartMin || taskStartMin <= shiftEndMin) &&
+                   (taskEndMin >= shiftStartMin || taskEndMin <= shiftEndMin);
         }
     }
 
     form.addEventListener('submit', function (e) {
         if (shifts.length === 0) {
             e.preventDefault();
-            alert('⚠️ This doctor has no assigned shifts.');
+            errorText.classList.remove('hidden');
+            errorText.textContent = '⚠️ This doctor has no assigned shifts.';
             return;
         }
 
-        const taskStart = toMinutes(startInput.value);
-        const taskEnd = toMinutes(endInput.value);
+        const taskStartMin = toMinutes(startInput.value);
+        const taskEndMin = toMinutes(endInput.value);
 
+        // Optional: prevent end before start unless overnight shift exists — but for simplicity allow it if within any shift
         let fits = false;
 
         for (const shift of shifts) {
-            const shiftStart = toMinutes(shift.start);
-            const shiftEnd = toMinutes(shift.end);
+            const sStart = toMinutes(shift.start);
+            const sEnd = toMinutes(shift.end);
 
-            if (isWithinShift(taskStart, taskEnd, shiftStart, shiftEnd)) {
+            if (isTaskWithinShift(taskStartMin, taskEndMin, sStart, sEnd)) {
                 fits = true;
                 break;
             }
@@ -163,8 +174,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!fits) {
             e.preventDefault();
             errorText.classList.remove('hidden');
-            errorText.textContent =
-                `⚠️ Task timing must be within one of the doctor’s shifts: ${shifts.map(s => s.start + '–' + s.end).join(', ')}`;
+            const shiftDisplay = shifts.map(s => 
+                `${formatDisplay(s.start)}–${formatDisplay(s.end)}`
+            ).join(', ');
+            errorText.textContent = `⚠️ Task timing must be within one of the doctor’s shifts: ${shiftDisplay}`;
         } else {
             errorText.classList.add('hidden');
         }
