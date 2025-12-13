@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Attendance;
+use App\Models\Bed;
+use App\Models\BedAssignment;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\NurseTask;
@@ -11,6 +14,7 @@ use App\Models\Speciality;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class NurseController extends Controller
@@ -78,8 +82,6 @@ class NurseController extends Controller
         ));
     }
 
-
-
     // Show the form
     public function get_task()
     {
@@ -127,9 +129,6 @@ class NurseController extends Controller
         return redirect()->back()->with('success', 'Tasks created successfully!');
     }
 
-
-
-
     public function get_all_nurse_task(Request $request)
     {
         $query = NurseTask::with(['nurse', 'doctor', 'room', 'department'])
@@ -152,7 +151,6 @@ class NurseController extends Controller
 
         return view('admin.nurse.all-task', compact('tasks'));
     }
-
 
     public function edit_nurse_task($id)
     {
@@ -195,7 +193,6 @@ class NurseController extends Controller
         return redirect()->route('nurse.tasks')->with('success', 'Nurse task updated successfully!');
     }
 
-
     public function delete_nurse_task($id)
     {
         // Find the task
@@ -212,7 +209,6 @@ class NurseController extends Controller
     }
 
     // Add this method to your NurseController for updating task status
-    // Add this method to your NurseController for updating only task status
     public function update_task_status(Request $request, $id)
     {
         $request->validate([
@@ -233,8 +229,6 @@ class NurseController extends Controller
 
         return redirect()->route('nurse.dashboard')->with('success', 'Task status updated successfully!');
     }
-
-
 
     public function nurse_attendance()
     {
@@ -405,8 +399,6 @@ class NurseController extends Controller
         }
     }
 
-
-
     public function get_patients_for_nurse()
     {
         // Fetch all patients
@@ -417,7 +409,6 @@ class NurseController extends Controller
 
         return view('admin.nurse.patient_list', compact('users', 'nurses'));
     }
-
 
     public function assignNurse(Request $request)
     {
@@ -437,26 +428,194 @@ class NurseController extends Controller
         return redirect()->back()->with('success', 'Nurse assigned successfully.');
     }
 
+    public function get_my_assigned_patients()
+    {
+        $nurse = auth('nurse')->user();
 
-  public function get_my_assigned_patients()
+        $patients = $nurse->patients;
+        return view('nurse.patient_list', compact('patients'));
+    }
+
+    // In your Controller (e.g., BedController.php)
+    public function get_beds()
+    {
+        // Get all beds with their ward and active assignment with user
+        $beds = Bed::with(['ward', 'bedAssignments' => function ($query) {
+            $query->where('status', 'active')->with(['user' => function ($q) {
+                // Select additional user fields for detailed view
+                $q->select('id', 'type', 'email', 'mobile_no', 'full_address', 'full_name', 'age', 'gender', 'blood_group', 'father_spouse_name', 'alternate_no', 'city', 'state', 'pin_code');
+            }]);
+        }])->get();
+
+        return view('nurse.all-beds', compact('beds'));
+    }
+
+
+    // NurseController.php में
+    public function getAvailableUsers($type)
+    {
+        try {
+            // Validate type parameter
+            $validTypes = ['ipd', 'opd', 'emergency'];
+            if (!in_array(strtolower($type), $validTypes)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid patient type'
+                ], 400);
+            }
+
+            // Get users who are NOT currently assigned to any active bed
+            $assignedUserIds = BedAssignment::where('status', 'active')
+                ->pluck('user_id')
+                ->toArray();
+
+            // Get users by type who are not assigned
+            $users = User::where('type', strtolower($type))
+                ->whereNotIn('id', $assignedUserIds)
+                ->select(
+                    'id',
+                    'email',
+                    'full_name',
+                    'mobile_no',
+                    'type',
+                    'full_address',
+                    'age',
+                    'gender',
+                    'blood_group',
+                    'father_spouse_name',
+                    'city',
+                    'state',
+                    'pin_code',
+                    'alternate_no'
+                )
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'users' => $users,
+                'count' => $users->count(),
+                'type' => $type
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching users: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    /**
+     * Assign a bed to a user
+     */
+    public function assignBed(Request $request)
+    {
+        $request->validate([
+            'bed_id' => 'required|exists:beds,id',
+            'user_id' => 'required|exists:users,id',
+            'assigned_date' => 'required|date',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            // Check if bed is available
+            $bed = Bed::find($request->bed_id);
+            if ($bed->status !== 'Active') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bed is not available for assignment'
+                ]);
+            }
+
+            // Check if user already has active bed assignment
+            $existingAssignment = BedAssignment::where('user_id', $request->user_id)
+                ->where('status', 'active')
+                ->first();
+
+            if ($existingAssignment) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User already has an active bed assignment'
+                ]);
+            }
+
+            // Create bed assignment
+            $assignment = BedAssignment::create([
+                'user_id' => $request->user_id,
+                'bed_id' => $request->bed_id,
+                'assigned_date' => $request->assigned_date,
+                'status' => 'active',
+            ]);
+
+            // Update bed status
+            $bed->update(['status' => 'Occupied']);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Bed assigned successfully',
+                'assignment' => $assignment
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error assigning bed: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Discharge a patient from bed
+     */
+    public function dischargePatient($assignmentId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $assignment = BedAssignment::findOrFail($assignmentId);
+
+            // Update assignment status
+            $assignment->update([
+                'status' => 'discharged',
+                'discharge_date' => now(),
+            ]);
+
+            // Update bed status back to Active
+            $bed = $assignment->bed;
+            $bed->update(['status' => 'Active']);
+
+            DB::commit();
+
+            return redirect()->route('nurse.all.bads')
+                ->with('success', 'Patient discharged successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('nurse.all.bads')
+                ->with('error', 'Error discharging patient: ' . $e->getMessage());
+        }
+    }
+
+
+
+public function get_today_appointments()
 {
-    $nurse = auth('nurse')->user(); 
+    $today = Carbon::today()->toDateString();
 
-    $patients = $nurse->patients; 
-    return view('nurse.patient_list', compact('patients'));
+    $appointments = Appointment::with(['user', 'doctor'])
+        ->whereDate('appointment_date', $today)
+        ->where('status', 'Confirmed')
+        ->orderBy('appointment_time')
+        ->get();
+
+    return view('nurse.nurse-appointments', compact('appointments'));
 }
 
 
-public function get_beds()
-{
-    // Get all beds with their active assignment and user info
-    $beds = \App\Models\Bed::with(['bedAssignments' => function($query) {
-        $query->where('status', 'active')
-              ->with('user'); // Assuming user relationship exists
-    }])->get();
-    
-    return view('nurse.all-beds', compact('beds'));
-}
+
+
 
 
 

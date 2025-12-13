@@ -540,7 +540,27 @@ Route::get('/admin/nurse/all/patients', [NurseController::class, 'get_patients_f
 
 Route::post('/nurse/assign', [NurseController::class, 'assignNurse'])->name('nurse.assign');
 
-Route::get('/nurse/all/bads', [NurseController::class, 'get_beds'])
-    ->name('nurse.all.bads');
+// Nurse routes
+Route::prefix('nurse')->group(function () {
+    // Bed Management
+    Route::get('/all/bads', [NurseController::class, 'get_beds'])
+        ->name('nurse.all.bads');
+        
+    // Get available users for bed assignment
+    Route::get('/available-users/{type}', [NurseController::class, 'getAvailableUsers'])
+        ->name('nurse.available.users');
+        
+    // Assign bed to patient
+    Route::post('/assign-bed', [NurseController::class, 'assignBed'])
+        ->name('nurse.assign.bed');
+        
+    // Discharge patient
+    Route::post('/bed-assignments/{assignment}/discharge', [NurseController::class, 'dischargePatient'])
+        ->name('nurse.discharge.patient');
 
+        Route::get(
+        '/nurse/today-appointments',
+        [NurseController::class, 'get_today_appointments']
+    )->name('nurse.today.appointments');
+});
 
