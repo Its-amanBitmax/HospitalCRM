@@ -20,8 +20,11 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EmployeeLoginController;
 use App\Http\Controllers\AmbulanceController;
 use App\Http\Controllers\BloodBankController;
+use App\Http\Controllers\StoreController;
+use App\Http\Controllers\MedicineController;
+use App\Http\Controllers\Admin\InventoryController;
+use App\Http\Controllers\Admin\SaleController;
 use App\Mail\OtpMail;
-use Illuminate\Support\Facades\Mail;
 
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\NurseController;
@@ -250,6 +253,45 @@ Route::prefix('admin')->group(function () {
             'edit' => 'admin.specialities.edit',
             'update' => 'admin.specialities.update',
             'destroy' => 'admin.specialities.destroy',
+        ]);
+        Route::resource('stores', StoreController::class)->names([
+            'index' => 'admin.store.index',
+            'create' => 'admin.store.create',
+            'store' => 'admin.store.store',
+            'show' => 'admin.store.show',
+            'edit' => 'admin.store.edit',
+            'update' => 'admin.store.update',
+            'destroy' => 'admin.store.destroy',
+        ]);
+
+        Route::resource('inventory', InventoryController::class)->names([
+            'index' => 'admin.inventory.index',
+            'create' => 'admin.inventory.create',
+            'store' => 'admin.inventory.store',
+            'show' => 'admin.inventory.show',
+            'edit' => 'admin.inventory.edit',
+            'update' => 'admin.inventory.update',
+            'destroy' => 'admin.inventory.destroy',
+        ]);
+
+        Route::resource('medicine', MedicineController::class)->names([
+            'index' => 'admin.medicine.index',
+            'create' => 'admin.medicine.create',
+            'store' => 'admin.medicine.store',
+            'show' => 'admin.medicine.show',
+            'edit' => 'admin.medicine.edit',
+            'update' => 'admin.medicine.update',
+            'destroy' => 'admin.medicine.destroy',
+        ]);
+
+        Route::resource('sales', SaleController::class)->names([
+            'index' => 'admin.sales.index',
+            'create' => 'admin.sales.create',
+            'store' => 'admin.sales.store',
+            'show' => 'admin.sales.show',
+            'edit' => 'admin.sales.edit',
+            'update' => 'admin.sales.update',
+            'destroy' => 'admin.sales.destroy',
         ]);
 
         Route::get('/rooms', [App\Http\Controllers\RoomController::class, 'index'])->name('admin.rooms');
