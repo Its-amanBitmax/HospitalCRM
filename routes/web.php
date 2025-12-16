@@ -529,8 +529,12 @@ Route::post('/nurse/task/store/save', [NurseController::class, 'save_nurse_task'
     ->name('nurse.task.save');
 Route::get('/nurse/tasks', [NurseController::class, 'get_all_nurse_task'])
     ->name('nurse.tasks');
-Route::get('nurse-task/edit/{id}', [NurseController::class, 'edit_nurse_task'])->name('nurse.task.edit');
-Route::post('nurse-task/update/{id}', [NurseController::class, 'update_nurse_task'])->name('nurse.task.update');
+Route::get('nurse-task/edit/{id}', [NurseController::class, 'edit_nurse_task'])
+    ->name('nurse.task.edit');
+
+Route::post('nurse-task/update/{id}', [NurseController::class, 'update_nurse_task'])
+    ->name('nurse.task.update');
+
 Route::delete('/nurse/task/delete/{id}', [NurseController::class, 'delete_nurse_task'])->name('nurse.task.delete');
 Route::post('/nurse/task/{id}/update-status', [NurseController::class, 'update_task_status'])
     ->name('nurse.task.update.status');

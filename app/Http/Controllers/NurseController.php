@@ -157,23 +157,26 @@ class NurseController extends Controller
         return redirect()->back()->with('success', 'Tasks created successfully!');
     }
 
-
     public function get_all_nurse_task(Request $request)
     {
         $query = NurseTask::with(['nurse', 'doctor', 'room', 'department'])
             ->orderBy('id', 'desc');
 
         // Optional: Add search functionality
-        if ($request->has('search') && $request->search) {
-            $query->whereHas('nurse', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%');
-            })
-                ->orWhereHas('doctor', function ($q) use ($request) {
-                    $q->where('name', 'like', '%' . $request->search . '%');
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('nurse', function ($q2) use ($search) {
+                    $q2->where('name', 'like', '%' . $search . '%');
                 })
-                ->orWhereHas('department', function ($q) use ($request) {
-                    $q->where('name', 'like', '%' . $request->search . '%');
-                });
+                    ->orWhereHas('doctor', function ($q2) use ($search) {
+                        $q2->where('name', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('department', function ($q2) use ($search) {
+                        $q2->where('name', 'like', '%' . $search . '%');
+                    });
+            });
         }
 
         $tasks = $query->paginate(15);
@@ -181,19 +184,21 @@ class NurseController extends Controller
         return view('admin.nurse.all-task', compact('tasks'));
     }
 
+
     public function edit_nurse_task($id)
     {
-        // Same nurse + same date ke tasks ko group maan rahe hain
+        // base task
         $baseTask = NurseTask::findOrFail($id);
 
+        // same nurse + same date = group
         $tasks = NurseTask::where('nurse_id', $baseTask->nurse_id)
             ->where('start_date', $baseTask->start_date)
             ->where('end_date', $baseTask->end_date)
             ->get();
 
-        $users = User::all();
+        $users       = User::all();
         $departments = Department::all();
-        $rooms = Room::all();
+        $rooms       = Room::all();
 
         $doctors = Employee::whereHas(
             'professions',
@@ -217,31 +222,32 @@ class NurseController extends Controller
         ));
     }
 
-
-
-    public function update_nurse_task(Request $request)
+    // ================= UPDATE =================
+    public function update_nurse_task(Request $request, $id)
     {
         $request->validate([
             'start_date' => 'required|date',
             'end_date'   => 'required|date|after_or_equal:start_date',
 
             'tasks' => 'required|array',
-            'tasks.*.nurse_id' => 'required|exists:employees,id',
             'tasks.*.user_id'  => 'required|exists:users,id',
+            'tasks.*.nurse_id' => 'required|exists:employees,id',
 
             'tasks.*.start_time' => 'required|string',
             'tasks.*.end_time'   => 'required|string',
             'tasks.*.notes'      => 'nullable|string',
         ]);
 
+        // existing ids from form
         $idsFromForm = collect($request->tasks)
             ->pluck('id')
             ->filter()
             ->toArray();
 
-        // Delete removed tasks
+        // delete removed tasks
         NurseTask::where('nurse_id', $request->tasks[0]['nurse_id'])
             ->where('start_date', $request->start_date)
+            ->where('end_date', $request->end_date)
             ->whereNotIn('id', $idsFromForm)
             ->delete();
 
