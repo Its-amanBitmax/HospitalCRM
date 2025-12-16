@@ -17,17 +17,19 @@ return new class extends Migration
             $table->unsignedBigInteger('room_id')->nullable();
             $table->unsignedBigInteger('nurse_id')->nullable();
             $table->unsignedBigInteger('doctor_id')->nullable();
-
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->longText('notes')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-
+            $table->string('start_time')->nullable();
+            $table->string('end_time')->nullable();
             // foreign keys
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
             $table->foreign('room_id')->references('id')->on('rooms')->onDelete('set null');
 
             // BOTH refer to employees table
             $table->foreign('nurse_id')->references('id')->on('employees')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('doctor_id')->references('id')->on('employees')->onDelete('set null');
 
             $table->timestamps();

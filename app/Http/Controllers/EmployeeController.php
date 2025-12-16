@@ -399,9 +399,6 @@ class EmployeeController extends Controller
 
 
 
-public function nurse_dashboard(){
-    return view('nurse.nurse-dashboard');
-}
 
 
 

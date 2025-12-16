@@ -82,35 +82,14 @@ $nurseImage = $nurse->image ? asset('storage/' . $nurse->image) : 'https://ui-av
                 </li>
 
                 <li>
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <a href="{{route('nurse.today.appointments')}}" class="flex items-center p-2 rounded hover:bg-gray-100">
                         <i class="fas fa-calendar-check w-6 text-center"></i>
                         <span class="ml-2" x-show="sidebarOpen" x-transition>Appointments</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100">
-                        <i class="fas fa-vials w-6 text-center"></i>
-                        <span class="ml-2" x-show="sidebarOpen" x-transition>Tests / Samples</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100">
-                        <i class="fas fa-pills w-6 text-center"></i>
-                        <span class="ml-2" x-show="sidebarOpen" x-transition>Medicine Delivery</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100">
-                        <i class="fas fa-file-medical w-6 text-center"></i>
-                        <span class="ml-2" x-show="sidebarOpen" x-transition>Reports</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <a href="{{route('nurse.emergency.patients')}}" class="flex items-center p-2 rounded hover:bg-gray-100">
                         <i class="fas fa-ambulance w-6 text-center"></i>
                         <span class="ml-2" x-show="sidebarOpen" x-transition>Emergency</span>
                     </a>
@@ -144,12 +123,23 @@ $nurseImage = $nurse->image ? asset('storage/' . $nurse->image) : 'https://ui-av
 
                     <div x-show="open"
                         @click.outside="open = false"
-                        class="absolute right-0 mt-1 w-40 bg-white text-black rounded shadow-lg">
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+                        class="absolute right-0 mt-1 w-40 bg-white text-black  shadow-lg">
+                        <a href="{{route('nurse.profile')}}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user-circle mr-3 text-gray-500"></i>
+                            Profile
+                        </a>
+
+                        <!-- Settings -->
+                        <a href="{{route('nurse.view.profile')}}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-cog mr-3 text-gray-500"></i>
+                            Settings
+                        </a>
+
+                        <!-- Logout -->
                         <form action="{{ route('employee.logout') }}" method="POST">
                             @csrf
-                            <button class="block w-full text-left px-4 py-2 hover:bg-gray-100 border-t">
+                            <button type="submit" class="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-3"></i>
                                 Logout
                             </button>
                         </form>

@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\DoctorLoginController;
 use App\Http\Controllers\Api\RelativeController;
 use App\Http\Controllers\Api\TestAndCheckupController;
 use App\Http\Controllers\Api\HospitalScheduleController;
+use App\Http\Controllers\Api\NurseLoginController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -74,3 +76,17 @@ Route::middleware('auth:sanctum')->post('/upload/doctor/reporting', [TestAndChec
 
 Route::get('/test/checkups', [TestAndCheckupController::class, 'get_all_testcheckup']);
 Route::get('/hospital/schedules', [HospitalScheduleController::class, 'index']);
+
+
+
+
+
+Route::post('/nurse/login', [NurseLoginController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/nurse/profile', [NurseLoginController::class, 'get_profile']);
+    Route::post('/nurse/update/profile', [NurseLoginController::class, 'update_profile']);
+    Route::get('/nurse/my-patients', [NurseLoginController::class, 'myPatients']);
+
+});
+
+

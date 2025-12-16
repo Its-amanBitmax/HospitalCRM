@@ -545,6 +545,23 @@ Route::prefix('nurse')->group(function () {
     // Bed Management
     Route::get('/all/bads', [NurseController::class, 'get_beds'])
         ->name('nurse.all.bads');
+
+    // Get available users for bed assignment
+    Route::get('/available-users/{type}', [NurseController::class, 'getAvailableUsers'])
+        ->name('nurse.available.users');
+
+    // Assign bed to patient
+    Route::post('/assign-bed', [NurseController::class, 'assignBed'])
+        ->name('nurse.assign.bed');
+
+    // Discharge patient
+    Route::post('/bed-assignments/{assignment}/discharge', [NurseController::class, 'dischargePatient'])
+        ->name('nurse.discharge.patient');
+
+    Route::get(
+        '/nurse/today-appointments',
+        [NurseController::class, 'get_today_appointments']
+    )->name('nurse.today.appointments');
         
     // Get available users for bed assignment
     Route::get('/available-users/{type}', [NurseController::class, 'getAvailableUsers'])
@@ -564,3 +581,14 @@ Route::prefix('nurse')->group(function () {
     )->name('nurse.today.appointments');
 });
 
+    Route::get(
+        '/nurse/emergency',
+        [NurseController::class, 'get_emergency_patients']
+    )->name('nurse.emergency.patients');
+
+
+    Route::get('/nurse/profile', [NurseController::class, 'get_profile'])->name('nurse.profile');
+    Route::get('/nurse/view/profile', [NurseController::class, 'view_profile'])->name('nurse.view.profile');
+    Route::post('/nurse/update/profile', [NurseController::class, 'update_profile'])->name('nurse.update.profile');
+    
+});
