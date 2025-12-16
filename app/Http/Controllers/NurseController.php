@@ -97,40 +97,66 @@ class NurseController extends Controller
         $departments = Department::all();
         $rooms = Room::all();
 
-        // $users = User::all();
+        $users = User::all();
 
-        return view('admin.nurse.create-task', compact('nurses', 'doctors', 'departments', 'rooms',));
+        return view('admin.nurse.create-task', compact('nurses', 'doctors', 'departments', 'rooms', 'users'));
     }
 
     // Save form data
     public function save_nurse_task(Request $request)
     {
+        // ✅ VALIDATION
         $request->validate([
-            'nurse_id'      => 'nullable|exists:employees,id',
-            'doctor_id'     => 'nullable|exists:employees,id',
-            'department_id' => 'nullable|exists:departments,id',
-            'room_id'       => 'nullable|exists:rooms,id',
-            'tasks'         => 'required|array',
-            'tasks.*.start_date' => 'required|date',
-            'tasks.*.end_date'   => 'required|date|after_or_equal:tasks.*.start_date',
-            'tasks.*.notes'      => 'nullable|string',
+            // Common
+            'start_date' => 'required|date',
+            'end_date'   => 'required|date|after_or_equal:start_date',
+
+            // Tasks
+            'tasks' => 'required|array|min:1',
+
+            'tasks.*.user_id' => 'required|exists:users,id',
+            'tasks.*.department_id' => 'nullable|exists:departments,id',
+            'tasks.*.room_id' => 'nullable|exists:rooms,id',
+            'tasks.*.nurse_id' => 'required|exists:employees,id',
+            'tasks.*.doctor_id' => 'nullable|exists:employees,id',
+
+            'tasks.*.start_time' => [
+                'required',
+                'regex:/^\d{2}:\d{2}$/'
+            ],
+            'tasks.*.end_time' => [
+                'required',
+                'regex:/^\d{2}:\d{2}$/'
+            ],
+
+            'tasks.*.notes' => 'nullable|string',
         ]);
 
+        // ✅ SAVE TASKS
         foreach ($request->tasks as $task) {
             NurseTask::create([
-                'department_id' => $request->department_id,
-                'room_id'       => $request->room_id,
-                'nurse_id'      => $request->nurse_id,
-                'doctor_id'     => $request->doctor_id,
+                'user_id'       => $task['user_id'],
+                'department_id' => $task['department_id'] ?? null,
+                'room_id'       => $task['room_id'] ?? null,
+                'nurse_id'      => $task['nurse_id'],
+                'doctor_id'     => $task['doctor_id'] ?? null,
+
+                // common dates
+                'start_date'    => $request->start_date,
+                'end_date'      => $request->end_date,
+
+                // time (varchar)
+                'start_time'    => $task['start_time'],
+                'end_time'      => $task['end_time'],
+
                 'notes'         => $task['notes'] ?? '',
-                'start_date'    => $task['start_date'],
-                'end_date'      => $task['end_date'],
-                'status'      => 'pending',
+                'status'        => 'pending',
             ]);
         }
 
         return redirect()->back()->with('success', 'Tasks created successfully!');
     }
+
 
     public function get_all_nurse_task(Request $request)
     {
@@ -157,44 +183,108 @@ class NurseController extends Controller
 
     public function edit_nurse_task($id)
     {
-        $task = NurseTask::with(['nurse', 'doctor', 'room', 'department'])->findOrFail($id);
+        // Same nurse + same date ke tasks ko group maan rahe hain
+        $baseTask = NurseTask::findOrFail($id);
 
-        $departments = \App\Models\Department::all();
-        $rooms = \App\Models\Room::all();
-        $doctors = \App\Models\Employee::whereHas('professions', fn($q) => $q->where('title', 'Doctor'))->get();
-        $nurses = \App\Models\Employee::whereHas('professions', fn($q) => $q->where('title', 'Nurse'))->get();
+        $tasks = NurseTask::where('nurse_id', $baseTask->nurse_id)
+            ->where('start_date', $baseTask->start_date)
+            ->where('end_date', $baseTask->end_date)
+            ->get();
 
-        return view('admin.nurse.edit-task', compact('task', 'departments', 'rooms', 'doctors', 'nurses'));
+        $users = User::all();
+        $departments = Department::all();
+        $rooms = Room::all();
+
+        $doctors = Employee::whereHas(
+            'professions',
+            fn($q) =>
+            $q->where('title', 'Doctor')
+        )->get();
+
+        $nurses = Employee::whereHas(
+            'professions',
+            fn($q) =>
+            $q->where('title', 'Nurse')
+        )->get();
+
+        return view('admin.nurse.edit-task', compact(
+            'tasks',
+            'users',
+            'departments',
+            'rooms',
+            'doctors',
+            'nurses'
+        ));
     }
 
-    public function update_nurse_task(Request $request, $id)
+
+
+    public function update_nurse_task(Request $request)
     {
         $request->validate([
-            'nurse_id'      => 'nullable|exists:employees,id',
-            'doctor_id'     => 'nullable|exists:employees,id',
-            'department_id' => 'nullable|exists:departments,id',
-            'room_id'       => 'nullable|exists:rooms,id',
-            'start_date'    => 'required|date',
-            'end_date'      => 'required|date|after_or_equal:start_date',
-            'notes'         => 'nullable|string',
-            'status'        => 'required|in:pending,in-progress,completed',
+            'start_date' => 'required|date',
+            'end_date'   => 'required|date|after_or_equal:start_date',
+
+            'tasks' => 'required|array',
+            'tasks.*.nurse_id' => 'required|exists:employees,id',
+            'tasks.*.user_id'  => 'required|exists:users,id',
+
+            'tasks.*.start_time' => 'required|string',
+            'tasks.*.end_time'   => 'required|string',
+            'tasks.*.notes'      => 'nullable|string',
         ]);
 
-        $task = NurseTask::findOrFail($id);
+        $idsFromForm = collect($request->tasks)
+            ->pluck('id')
+            ->filter()
+            ->toArray();
 
-        $task->update([
-            'department_id' => $request->department_id,
-            'room_id'       => $request->room_id,
-            'nurse_id'      => $request->nurse_id,
-            'doctor_id'     => $request->doctor_id,
-            'start_date'    => $request->start_date,
-            'end_date'      => $request->end_date,
-            'notes'         => $request->notes,
-            'status'        => $request->status,
-        ]);
+        // Delete removed tasks
+        NurseTask::where('nurse_id', $request->tasks[0]['nurse_id'])
+            ->where('start_date', $request->start_date)
+            ->whereNotIn('id', $idsFromForm)
+            ->delete();
 
-        return redirect()->route('nurse.tasks')->with('success', 'Nurse task updated successfully!');
+        foreach ($request->tasks as $task) {
+
+            // UPDATE
+            if (!empty($task['id'])) {
+                NurseTask::where('id', $task['id'])->update([
+                    'user_id'       => $task['user_id'],
+                    'department_id' => $task['department_id'] ?? null,
+                    'room_id'       => $task['room_id'] ?? null,
+                    'nurse_id'      => $task['nurse_id'],
+                    'doctor_id'     => $task['doctor_id'] ?? null,
+                    'start_date'    => $request->start_date,
+                    'end_date'      => $request->end_date,
+                    'start_time'    => $task['start_time'],
+                    'end_time'      => $task['end_time'],
+                    'notes'         => $task['notes'] ?? '',
+                ]);
+            }
+            // CREATE
+            else {
+                NurseTask::create([
+                    'user_id'       => $task['user_id'],
+                    'department_id' => $task['department_id'] ?? null,
+                    'room_id'       => $task['room_id'] ?? null,
+                    'nurse_id'      => $task['nurse_id'],
+                    'doctor_id'     => $task['doctor_id'] ?? null,
+                    'start_date'    => $request->start_date,
+                    'end_date'      => $request->end_date,
+                    'start_time'    => $task['start_time'],
+                    'end_time'      => $task['end_time'],
+                    'notes'         => $task['notes'] ?? '',
+                    'status'        => 'pending',
+                ]);
+            }
+        }
+
+        return redirect()
+            ->route('nurse.tasks')
+            ->with('success', 'Nurse tasks updated successfully!');
     }
+
 
     public function delete_nurse_task($id)
     {
@@ -671,202 +761,198 @@ class NurseController extends Controller
 
 
     public function update_profile(Request $request)
-{
-    $nurse = auth('nurse')->user();
+    {
+        $nurse = auth('nurse')->user();
 
-    if (!$nurse) {
-        return redirect()->route('nurse.login');
+        if (!$nurse) {
+            return redirect()->route('nurse.login');
+        }
+
+        DB::transaction(function () use ($request, $nurse) {
+            /* ================= BASIC UPDATE ================= */
+            $nurse->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'gender' => $request->gender,
+                'dob' => $request->date_of_birth,
+                'hire_date' => $request->hire_date,
+                'status' => $request->status,
+                'department_id' => $request->department_id,
+            ]);
+
+            /* ================= IMAGE UPLOAD ================= */
+            if ($request->hasFile('image')) {
+                // delete old image
+                if ($nurse->image && Storage::disk('public')->exists($nurse->image)) {
+                    Storage::disk('public')->delete($nurse->image);
+                }
+
+                // store new image
+                $path = $request->file('image')->store('employees', 'public');
+
+                // update image column
+                $nurse->update(['image' => $path]);
+            }
+
+            /* ================= ADDRESSES ================= */
+            if ($request->addresses) {
+                foreach ($request->addresses as $address) {
+                    if (!empty($address['id'])) {
+                        $existing = $nurse->addresses()->find($address['id']);
+                        if ($existing) {
+                            $existing->update([
+                                'address_type' => $address['address_type'] ?? $existing->address_type,
+                                'street' => $address['street'] ?? $existing->street,
+                                'city' => $address['city'] ?? $existing->city,
+                                'state' => $address['state'] ?? $existing->state,
+                                'country' => $address['country'] ?? $existing->country,
+                                'postal_code' => $address['postal_code'] ?? $existing->postal_code,
+                            ]);
+                        }
+                    } else {
+                        $nurse->addresses()->create([
+                            'address_type' => $address['address_type'] ?? 'Home',
+                            'street' => $address['street'] ?? '',
+                            'city' => $address['city'] ?? '',
+                            'state' => $address['state'] ?? '',
+                            'country' => $address['country'] ?? '',
+                            'postal_code' => $address['postal_code'] ?? '',
+                        ]);
+                    }
+                }
+            }
+
+            /* ================= PROFESSIONS ================= */
+            if ($request->professions) {
+                foreach ($request->professions as $profession) {
+                    if (!empty($profession['id'])) {
+                        $existing = $nurse->professions()->find($profession['id']);
+                        if ($existing) {
+                            $existing->update([
+                                'title' => $profession['title'] ?? $existing->title,
+                                'department_id' => $profession['department_id'] ?? $existing->department_id,
+                            ]);
+                        }
+                    } else {
+                        $nurse->professions()->create([
+                            'title' => $profession['title'] ?? '',
+                            'department_id' => $profession['department_id'] ?? null,
+                        ]);
+                    }
+                }
+            }
+
+            /* ================= QUALIFICATIONS ================= */
+            if ($request->qualifications) {
+                foreach ($request->qualifications as $qualification) {
+                    if (!empty($qualification['id'])) {
+                        $existing = $nurse->qualifications()->find($qualification['id']);
+                        if ($existing) {
+                            $existing->update([
+                                'degree' => $qualification['degree'] ?? $existing->degree,
+                                'institution' => $qualification['institution'] ?? $existing->institution,
+                                'year_completed' => $qualification['year_completed'] ?? $existing->year_completed,
+                            ]);
+                        }
+                    } else {
+                        $nurse->qualifications()->create([
+                            'degree' => $qualification['degree'] ?? '',
+                            'institution' => $qualification['institution'] ?? '',
+                            'year_completed' => $qualification['year_completed'] ?? '',
+                        ]);
+                    }
+                }
+            }
+
+            /* ================= FAMILY DETAILS ================= */
+            if ($request->family_details) {
+                foreach ($request->family_details as $family) {
+                    if (!empty($family['id'])) {
+                        $existing = $nurse->familyDetails()->find($family['id']);
+                        if ($existing) {
+                            $existing->update([
+                                'name' => $family['name'] ?? $existing->name,
+                                'relationship' => $family['relationship'] ?? $existing->relationship,
+                                'date_of_birth' => $family['date_of_birth'] ?? $existing->date_of_birth,
+                                'contact_number' => $family['contact_number'] ?? $existing->contact_number,
+                            ]);
+                        }
+                    } else {
+                        $nurse->familyDetails()->create([
+                            'name' => $family['name'] ?? '',
+                            'relationship' => $family['relationship'] ?? '',
+                            'date_of_birth' => $family['date_of_birth'] ?? null,
+                            'contact_number' => $family['contact_number'] ?? '',
+                        ]);
+                    }
+                }
+            }
+
+            /* ================= DOCUMENTS UPLOAD ================= */
+            if ($request->hasFile('documents')) {
+                foreach ($request->file('documents') as $doc) {
+                    $storedPath = $doc->store('employee_documents', 'public');
+
+                    $nurse->documents()->create([
+                        'document_type' => $doc->getClientOriginalExtension(),
+                        'document_path' => $storedPath,
+                        'uploaded_at' => now(),
+                    ]);
+                }
+            }
+
+            /* ================= DELETE RELATED DATA ================= */
+            // Delete addresses
+            if ($request->filled('deleted_addresses')) {
+                $ids = json_decode($request->deleted_addresses, true);
+                if (is_array($ids) && count($ids) > 0) {
+                    $nurse->addresses()->whereIn('id', $ids)->delete();
+                }
+            }
+
+            // Delete professions
+            if ($request->filled('deleted_professions')) {
+                $ids = json_decode($request->deleted_professions, true);
+                if (is_array($ids) && count($ids) > 0) {
+                    $nurse->professions()->whereIn('id', $ids)->delete();
+                }
+            }
+
+            // Delete qualifications
+            if ($request->filled('deleted_qualifications')) {
+                $ids = json_decode($request->deleted_qualifications, true);
+                if (is_array($ids) && count($ids) > 0) {
+                    $nurse->qualifications()->whereIn('id', $ids)->delete();
+                }
+            }
+
+            // Delete family details
+            if ($request->filled('deleted_family_details')) {
+                $ids = json_decode($request->deleted_family_details, true);
+                if (is_array($ids) && count($ids) > 0) {
+                    $nurse->familyDetails()->whereIn('id', $ids)->delete();
+                }
+            }
+
+            // Delete documents
+            if ($request->filled('deleted_documents')) {
+                $ids = json_decode($request->deleted_documents, true);
+
+                if (is_array($ids) && count($ids) > 0) {
+                    foreach ($nurse->documents()->whereIn('id', $ids)->get() as $doc) {
+                        if (Storage::disk('public')->exists($doc->document_path)) {
+                            Storage::disk('public')->delete($doc->document_path);
+                        }
+
+                        $doc->delete();
+                    }
+                }
+            }
+        });
+
+        return redirect()
+            ->back()
+            ->with('success', 'Profile updated successfully');
     }
-
-    DB::transaction(function () use ($request, $nurse) {
-        /* ================= BASIC UPDATE ================= */
-        $nurse->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'gender' => $request->gender,
-            'dob' => $request->date_of_birth,
-            'hire_date' => $request->hire_date,
-            'status' => $request->status,
-            'department_id' => $request->department_id,
-        ]);
-
-        /* ================= IMAGE UPLOAD ================= */
-        if ($request->hasFile('image')) {
-            // delete old image
-            if ($nurse->image && Storage::disk('public')->exists($nurse->image)) {
-                Storage::disk('public')->delete($nurse->image);
-            }
-
-            // store new image
-            $path = $request->file('image')->store('employees', 'public');
-
-            // update image column
-            $nurse->update(['image' => $path]);
-        }
-
-        /* ================= ADDRESSES ================= */
-        if ($request->addresses) {
-            foreach ($request->addresses as $address) {
-                if (!empty($address['id'])) {
-                    $existing = $nurse->addresses()->find($address['id']);
-                    if ($existing) {
-                        $existing->update([
-                            'address_type' => $address['address_type'] ?? $existing->address_type,
-                            'street' => $address['street'] ?? $existing->street,
-                            'city' => $address['city'] ?? $existing->city,
-                            'state' => $address['state'] ?? $existing->state,
-                            'country' => $address['country'] ?? $existing->country,
-                            'postal_code' => $address['postal_code'] ?? $existing->postal_code,
-                        ]);
-                    }
-                } else {
-                    $nurse->addresses()->create([
-                        'address_type' => $address['address_type'] ?? 'Home',
-                        'street' => $address['street'] ?? '',
-                        'city' => $address['city'] ?? '',
-                        'state' => $address['state'] ?? '',
-                        'country' => $address['country'] ?? '',
-                        'postal_code' => $address['postal_code'] ?? '',
-                    ]);
-                }
-            }
-        }
-
-        /* ================= PROFESSIONS ================= */
-        if ($request->professions) {
-            foreach ($request->professions as $profession) {
-                if (!empty($profession['id'])) {
-                    $existing = $nurse->professions()->find($profession['id']);
-                    if ($existing) {
-                        $existing->update([
-                            'title' => $profession['title'] ?? $existing->title,
-                            'department_id' => $profession['department_id'] ?? $existing->department_id,
-                        ]);
-                    }
-                } else {
-                    $nurse->professions()->create([
-                        'title' => $profession['title'] ?? '',
-                        'department_id' => $profession['department_id'] ?? null,
-                    ]);
-                }
-            }
-        }
-
-        /* ================= QUALIFICATIONS ================= */
-        if ($request->qualifications) {
-            foreach ($request->qualifications as $qualification) {
-                if (!empty($qualification['id'])) {
-                    $existing = $nurse->qualifications()->find($qualification['id']);
-                    if ($existing) {
-                        $existing->update([
-                            'degree' => $qualification['degree'] ?? $existing->degree,
-                            'institution' => $qualification['institution'] ?? $existing->institution,
-                            'year_completed' => $qualification['year_completed'] ?? $existing->year_completed,
-                        ]);
-                    }
-                } else {
-                    $nurse->qualifications()->create([
-                        'degree' => $qualification['degree'] ?? '',
-                        'institution' => $qualification['institution'] ?? '',
-                        'year_completed' => $qualification['year_completed'] ?? '',
-                    ]);
-                }
-            }
-        }
-
-        /* ================= FAMILY DETAILS ================= */
-        if ($request->family_details) {
-            foreach ($request->family_details as $family) {
-                if (!empty($family['id'])) {
-                    $existing = $nurse->familyDetails()->find($family['id']);
-                    if ($existing) {
-                        $existing->update([
-                            'name' => $family['name'] ?? $existing->name,
-                            'relationship' => $family['relationship'] ?? $existing->relationship,
-                            'date_of_birth' => $family['date_of_birth'] ?? $existing->date_of_birth,
-                            'contact_number' => $family['contact_number'] ?? $existing->contact_number,
-                        ]);
-                    }
-                } else {
-                    $nurse->familyDetails()->create([
-                        'name' => $family['name'] ?? '',
-                        'relationship' => $family['relationship'] ?? '',
-                        'date_of_birth' => $family['date_of_birth'] ?? null,
-                        'contact_number' => $family['contact_number'] ?? '',
-                    ]);
-                }
-            }
-        }
-
-        /* ================= DOCUMENTS UPLOAD ================= */
-        if ($request->hasFile('documents')) {
-            foreach ($request->file('documents') as $doc) {
-                $storedPath = $doc->store('employee_documents', 'public');
-
-                $nurse->documents()->create([
-                    'document_type' => $doc->getClientOriginalExtension(),
-                    'document_path' => $storedPath,
-                    'uploaded_at' => now(),
-                ]);
-            }
-        }
-
-        /* ================= DELETE RELATED DATA ================= */
-        // Delete addresses
-        if ($request->filled('deleted_addresses')) {
-            $ids = json_decode($request->deleted_addresses, true);
-            if (is_array($ids) && count($ids) > 0) {
-                $nurse->addresses()->whereIn('id', $ids)->delete();
-            }
-        }
-
-        // Delete professions
-        if ($request->filled('deleted_professions')) {
-            $ids = json_decode($request->deleted_professions, true);
-            if (is_array($ids) && count($ids) > 0) {
-                $nurse->professions()->whereIn('id', $ids)->delete();
-            }
-        }
-
-        // Delete qualifications
-        if ($request->filled('deleted_qualifications')) {
-            $ids = json_decode($request->deleted_qualifications, true);
-            if (is_array($ids) && count($ids) > 0) {
-                $nurse->qualifications()->whereIn('id', $ids)->delete();
-            }
-        }
-
-        // Delete family details
-        if ($request->filled('deleted_family_details')) {
-            $ids = json_decode($request->deleted_family_details, true);
-            if (is_array($ids) && count($ids) > 0) {
-                $nurse->familyDetails()->whereIn('id', $ids)->delete();
-            }
-        }
-
-        // Delete documents
-        if ($request->filled('deleted_documents')) {
-            $ids = json_decode($request->deleted_documents, true);
-            
-            if (is_array($ids) && count($ids) > 0) {
-                foreach ($nurse->documents()->whereIn('id', $ids)->get() as $doc) {
-                    if (Storage::disk('public')->exists($doc->document_path)) {
-                        Storage::disk('public')->delete($doc->document_path);
-                    }
-                    
-                    $doc->delete();
-                }
-            }
-        }
-    });
-
-    return redirect()
-        ->back()
-        ->with('success', 'Profile updated successfully');
-}
-
-    
-
-   
 }

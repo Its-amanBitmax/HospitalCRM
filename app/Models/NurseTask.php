@@ -11,9 +11,12 @@ class NurseTask extends Model
         'room_id',
         'nurse_id',
         'doctor_id',
+        'user_id',
         'notes',
         'start_date',
+        'start_time',
         'end_date',
+        'end_time',
         'status'
     ];
 
@@ -35,5 +38,12 @@ class NurseTask extends Model
     public function doctor()
     {
         return $this->belongsTo(Employee::class, 'doctor_id');
+    }
+
+
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

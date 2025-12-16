@@ -4,156 +4,205 @@
 
 <div class="min-h-screen">
 
+    {{-- Success --}}
     @if (session('success'))
-    <div class="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300">
-        {{ session('success') }}
-    </div>
+        <div class="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300">
+            {{ session('success') }}
+        </div>
     @endif
 
+    {{-- Errors --}}
     @if ($errors->any())
-    <div class="mb-4 p-3 rounded bg-red-100 text-red-800 border border-red-300">
-        <ul class="list-disc ml-4">
-            @foreach ($errors->all() as $e)
-            <li>{{ $e }}</li>
-            @endforeach
-        </ul>
-    </div>
+        <div class="mb-4 p-3 rounded bg-red-100 text-red-800 border border-red-300">
+            <ul class="list-disc ml-4">
+                @foreach ($errors->all() as $e)
+                    <li>{{ $e }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
-    <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-8">
+    <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-8">
 
         <h1 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">
             Create Nurse Task
         </h1>
 
-        <form action="{{ route('nurse.task.save') }}" method="POST" id="taskForm">
+        <form action="{{ route('nurse.task.save') }}" method="POST">
             @csrf
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                {{-- Department --}}
+            {{-- ================= COMMON DATES ================= --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label class="text-gray-600 font-medium">Department (optional)</label>
-                    <select name="department_id" class="mt-1 p-3 border rounded-lg w-full bg-gray-50">
-                        <option value="">Select Department</option>
-                        @foreach($departments as $dept)
-                        <option value="{{ $dept->id }}">{{ $dept->name }}</option>
-                        @endforeach
-                    </select>
+                    <label class="font-medium text-gray-600">Start Date</label>
+                    <input type="date" name="start_date"
+                        class="mt-1 p-3 border rounded-lg w-full bg-gray-50" required>
                 </div>
 
-                {{-- Room --}}
                 <div>
-                    <label class="text-gray-600 font-medium">Room (optional)</label>
-                    <select name="room_id" class="mt-1 p-3 border rounded-lg w-full bg-gray-50">
-                        <option value="">Select Room</option>
-                        @foreach($rooms as $room)
-                        <option value="{{ $room->id }}">{{ $room->room_no }}</option>
-                        @endforeach
-                    </select>
+                    <label class="font-medium text-gray-600">End Date</label>
+                    <input type="date" name="end_date"
+                        class="mt-1 p-3 border rounded-lg w-full bg-gray-50" required>
                 </div>
-
-                {{-- Nurse --}}
-                <div>
-                    <label class="text-gray-600 font-medium">Nurse</label>
-                    <select name="nurse_id" class="mt-1 p-3 border rounded-lg w-full bg-gray-50" required>
-                        <option value="">Select Nurse</option>
-                        @foreach($nurses as $nurse)
-                        <option value="{{ $nurse->id }}">{{ $nurse->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                {{-- Doctor --}}
-                <div>
-                    <label class="text-gray-600 font-medium">Doctor (optional)</label>
-                    <select name="doctor_id" class="mt-1 p-3 border rounded-lg w-full bg-gray-50">
-                        <option value="">Select Doctor</option>
-                        @foreach($doctors as $doctor)
-                        <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
             </div>
 
-            <h2 class="mt-6 text-lg font-semibold">Tasks</h2>
+            {{-- ================= TASKS ================= --}}
+            <h2 class="text-lg font-semibold mb-2">Tasks</h2>
 
-            <div id="tasksContainer" class="space-y-4 mt-2">
+            <div id="tasksContainer" class="space-y-4">
 
-                {{-- Initial Task Block --}}
+                {{-- TASK BLOCK --}}
                 <div class="task-item border rounded-lg p-4 relative">
 
-                    <!-- {{-- Add/Remove Buttons --}}
-                    <div class="absolute top-2 right-2 flex gap-1">
-                        <button type="button" class="text-blue-500 font-bold text-xl add-task-btn">+</button>
-                        <button type="button" class="text-red-500 font-bold text-xl remove-task-btn">&times;</button>
-                    </div> -->
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="text-gray-600 font-medium">Start Date</label>
-                            <input type="date" name="tasks[0][start_date]" class="mt-1 p-2 border rounded-lg w-full">
-                        </div>
-
-                        <div>
-                            <label class="text-gray-600 font-medium">End Date</label>
-                            <input type="date" name="tasks[0][end_date]" class="mt-1 p-2 border rounded-lg w-full">
-                        </div>
+                    {{-- Add / Remove --}}
+                    <div class="absolute top-2 right-2 flex gap-2">
+                        <button type="button" class="add-task-btn text-blue-600 text-xl font-bold">+</button>
+                        <button type="button" class="remove-task-btn text-red-600 text-xl font-bold">&times;</button>
                     </div>
 
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                        {{-- User --}}
+                        <div>
+                            <label class="font-medium text-gray-600">User</label>
+                            <select name="tasks[0][user_id]"
+                                class="mt-1 p-2 border rounded w-full bg-gray-50" required>
+                                <option value="">Select</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->full_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Department --}}
+                        <div>
+                            <label class="font-medium text-gray-600">Department</label>
+                            <select name="tasks[0][department_id]"
+                                class="mt-1 p-2 border rounded w-full bg-gray-50">
+                                <option value="">Select</option>
+                                @foreach($departments as $dept)
+                                    <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Room --}}
+                        <div>
+                            <label class="font-medium text-gray-600">Room</label>
+                            <select name="tasks[0][room_id]"
+                                class="mt-1 p-2 border rounded w-full bg-gray-50">
+                                <option value="">Select</option>
+                                @foreach($rooms as $room)
+                                    <option value="{{ $room->id }}">{{ $room->room_no }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Nurse --}}
+                        <div>
+                            <label class="font-medium text-gray-600">Nurse</label>
+                            <select name="tasks[0][nurse_id]"
+                                class="mt-1 p-2 border rounded w-full bg-gray-50" required>
+                                <option value="">Select</option>
+                                @foreach($nurses as $nurse)
+                                    <option value="{{ $nurse->id }}">{{ $nurse->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Doctor --}}
+                        <div>
+                            <label class="font-medium text-gray-600">Doctor</label>
+                            <select name="tasks[0][doctor_id]"
+                                class="mt-1 p-2 border rounded w-full bg-gray-50">
+                                <option value="">Select</option>
+                                @foreach($doctors as $doctor)
+                                    <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Start Time --}}
+                        <div>
+                            <label class="font-medium text-gray-600">Start Time</label>
+                            <select name="tasks[0][start_time]"
+                                class="mt-1 p-2 border rounded w-full bg-gray-50" required>
+                                <option value="">Select</option>
+                                @for($i=0;$i<24;$i++)
+                                    @php $t = sprintf('%02d:00',$i); @endphp
+                                    <option value="{{ $t }}">{{ $t }}</option>
+                                @endfor
+                            </select>
+                        </div>
+
+                        {{-- End Time --}}
+                        <div>
+                            <label class="font-medium text-gray-600">End Time</label>
+                            <select name="tasks[0][end_time]"
+                                class="mt-1 p-2 border rounded w-full bg-gray-50" required>
+                                <option value="">Select</option>
+                                @for($i=0;$i<24;$i++)
+                                    @php $t = sprintf('%02d:00',$i); @endphp
+                                    <option value="{{ $t }}">{{ $t }}</option>
+                                @endfor
+                            </select>
+                        </div>
+
+                    </div>
+
+                    {{-- Notes --}}
                     <div class="mt-4">
-                        <label class="text-gray-600 font-medium">Notes</label>
-                        <textarea name="tasks[0][notes]" class="mt-1 p-2 border rounded-lg w-full min-h-[100px]" placeholder="Add details..." required></textarea>
+                        <label class="font-medium text-gray-600">Notes</label>
+                        <textarea name="tasks[0][notes]"
+                            class="mt-1 p-2 border rounded-lg w-full min-h-[90px]"
+                            placeholder="Task details..." required></textarea>
                     </div>
 
                 </div>
-
             </div>
 
+            {{-- SAVE --}}
             <div class="mt-8 text-right">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg text-white shadow">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg text-white shadow">
                     Save
                 </button>
             </div>
 
         </form>
-
     </div>
 </div>
 
-<!-- <script>
-    let taskIndex = 1; // next task index
+{{-- ================= JS ================= --}}
+<script>
+let taskIndex = 1;
 
-    document.addEventListener('click', function(e) {
-        const container = document.getElementById('tasksContainer');
+document.addEventListener('click', function(e) {
+    const container = document.getElementById('tasksContainer');
 
-        // Add new task
-        if(e.target && e.target.classList.contains('add-task-btn')) {
-            const newTask = e.target.closest('.task-item').cloneNode(true);
+    // ADD
+    if (e.target.classList.contains('add-task-btn')) {
+        const block = e.target.closest('.task-item');
+        const clone = block.cloneNode(true);
 
-            // Update inputs and textareas
-            newTask.querySelectorAll('input, textarea').forEach(function(input) {
-                const name = input.getAttribute('name');
-                const newName = name.replace(/\d+/, taskIndex);
-                input.setAttribute('name', newName);
-                input.value = ''; // clear previous value
-            });
+        clone.querySelectorAll('select, textarea').forEach(el => {
+            el.name = el.name.replace(/\d+/, taskIndex);
+            el.value = '';
+        });
 
-            container.appendChild(newTask);
-            taskIndex++;
+        container.appendChild(clone);
+        taskIndex++;
+    }
+
+    // REMOVE
+    if (e.target.classList.contains('remove-task-btn')) {
+        if (container.children.length > 1) {
+            e.target.closest('.task-item').remove();
+        } else {
+            alert('At least one task is required');
         }
-
-        // Remove task
-        // if(e.target && e.target.classList.contains('remove-task-btn')) {
-        //     const taskItem = e.target.closest('.task-item');
-        //     if(container.children.length > 1) { 
-        //         taskItem.remove();
-        //     } else {
-        //         alert('At least one task is required.');
-        //     }
-        // }
-    });
-</script> -->
+    }
+});
+</script>
 
 @endsection
