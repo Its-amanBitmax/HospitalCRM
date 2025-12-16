@@ -217,15 +217,15 @@
       </div>
 
       <div id="pharmacy-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-bg-white-200 border-bg-white-700 pl-3 mt-1">
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+        <a href="{{ route('admin.sales.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-shopping-cart text-bg-white-500 text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Sales & Billing</span>
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+        <a href="{{ route('admin.inventory.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-cogs text-bg-white-500 text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Inventory</span>
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+        <a href="{{ route('admin.medicine.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-pills text-bg-white-500 text-bg-white-400 group-hover:text-bg-white group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Medicine</span>
         </a>
@@ -233,11 +233,8 @@
           <i class="fas fa-chart-line text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Reports</span>
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
-          <i class="fas fa-boxes text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
-          <span class="sidebar-text text-sm">Stock</span>
-        </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+       
+        <a href="{{ route('admin.store.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-store text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Store</span>
         </a>

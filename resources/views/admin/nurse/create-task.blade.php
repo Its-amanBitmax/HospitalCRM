@@ -55,7 +55,7 @@
 
                 {{-- Nurse --}}
                 <div>
-                    <label class="text-gray-600 font-medium">Nurse (optional)</label>
+                    <label class="text-gray-600 font-medium">Nurse</label>
                     <select name="nurse_id" class="mt-1 p-3 border rounded-lg w-full bg-gray-50" required>
                         <option value="">Select Nurse</option>
                         @foreach($nurses as $nurse)

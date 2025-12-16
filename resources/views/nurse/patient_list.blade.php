@@ -61,7 +61,19 @@
                             @endif
                             <div>
                                 <h3 class="font-semibold text-gray-800">{{ $patient->full_name }}</h3>
-                                <div class="flex items-center gap-2 mt-1"> <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">ID: {{ $patient->id }}</span> @if($patient->type == 'ipd') <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">IPD</span> @else <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded">OPD</span> @endif </div>
+                                <div class="flex items-center gap-2 mt-1"> <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">ID: {{ $patient->id }}</span> @if($patient->type == 'ipd')
+    <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">IPD</span>
+
+@elseif($patient->type == 'emergency')
+    <span class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded">Emergency</span>
+
+@elseif($patient->type == 'opd')
+    <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded">OPD</span>
+
+@else
+    <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">Unknown</span>
+@endif
+ </div>
                             </div>
                         </div>
                         <div class="relative group">

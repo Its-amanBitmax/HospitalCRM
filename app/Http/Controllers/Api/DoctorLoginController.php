@@ -96,6 +96,8 @@ class DoctorLoginController extends Controller
 
 
 
+   
+
 
     public function logout(Request $request)
     {
@@ -272,6 +274,9 @@ class DoctorLoginController extends Controller
             'consultations' => $consultations
         ]);
     }
+
+
+    
 
     // public function updateAppointmentStatus(Request $request)
     // {

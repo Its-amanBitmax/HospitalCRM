@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class NurseController extends Controller
 {
@@ -33,7 +34,7 @@ class NurseController extends Controller
         // Fetch nurse tasks/assignments
         $tasks = NurseTask::where('nurse_id', $nurse->id)
             ->with(['department', 'room', 'doctor', 'nurse'])
-            ->orderBy('start_date', 'asc')
+            ->orderBy('start_date', 'desc')
             ->get();
 
         // Get today's date
@@ -96,7 +97,9 @@ class NurseController extends Controller
         $departments = Department::all();
         $rooms = Room::all();
 
-        return view('admin.nurse.create-task', compact('nurses', 'doctors', 'departments', 'rooms'));
+        // $users = User::all();
+
+        return view('admin.nurse.create-task', compact('nurses', 'doctors', 'departments', 'rooms',));
     }
 
     // Save form data
@@ -599,24 +602,271 @@ class NurseController extends Controller
     }
 
 
+    // Controller में कोई change नहीं
+    public function get_today_appointments()
+    {
+        $today = Carbon::today()->toDateString();
 
-public function get_today_appointments()
+        $appointments = Appointment::with(['user', 'doctor', 'doctor.department', 'relative'])
+            ->whereDate('appointment_date', $today)
+            ->where('status', 'Confirmed')
+            ->orderByRaw("TIME(STR_TO_DATE(SUBSTRING_INDEX(appointment_time, '-', 1), '%h:%i %p'))")
+            ->get();
+
+        return view('nurse.nurse-appointments', compact('appointments'));
+    }
+
+
+    public function get_emergency_patients()
+    {
+        // Set Asia/Kolkata timezone
+        date_default_timezone_set('Asia/Kolkata');
+
+        $emergencyPatients = User::where('type', 'emergency')
+            ->where('status', 'active')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Check if it's an AJAX request
+        if (request()->ajax() || request()->has('ajax')) {
+            return response()->json([
+                'html' => view('nurse.emergency_content_partial', compact('emergencyPatients'))->render(),
+                'count' => $emergencyPatients->count(),
+                'timestamp' => now()->toDateTimeString()
+            ]);
+        }
+
+        return view('nurse.emergency_patient', compact('emergencyPatients'));
+    }
+
+
+
+    public function get_profile()
+    {
+        // 'nurse' guard से employee डाटा fetch करें
+        $nurse = auth('nurse')->user();
+
+        if (!$nurse) {
+            return redirect()->route('nurse.login');
+        }
+
+        // Employee के साथ सभी related data fetch करें
+        $nurse->load(['department', 'payroll', 'addresses', 'professions', 'qualifications', 'documents', 'familyDetails']);
+
+        return view('nurse.profile', compact('nurse'));
+    }
+
+    public function view_profile()
+    {
+        $nurse = auth('nurse')->user();
+
+        if (!$nurse) {
+            return redirect()->route('nurse.login');
+        }
+
+        $nurse->load(['department', 'payroll', 'addresses', 'professions', 'qualifications', 'documents', 'familyDetails']);
+
+        return view('nurse.edit-profile', compact('nurse'));
+    }
+
+
+    public function update_profile(Request $request)
 {
-    $today = Carbon::today()->toDateString();
+    $nurse = auth('nurse')->user();
 
-    $appointments = Appointment::with(['user', 'doctor'])
-        ->whereDate('appointment_date', $today)
-        ->where('status', 'Confirmed')
-        ->orderBy('appointment_time')
-        ->get();
+    if (!$nurse) {
+        return redirect()->route('nurse.login');
+    }
 
-    return view('nurse.nurse-appointments', compact('appointments'));
+    DB::transaction(function () use ($request, $nurse) {
+        /* ================= BASIC UPDATE ================= */
+        $nurse->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'dob' => $request->date_of_birth,
+            'hire_date' => $request->hire_date,
+            'status' => $request->status,
+            'department_id' => $request->department_id,
+        ]);
+
+        /* ================= IMAGE UPLOAD ================= */
+        if ($request->hasFile('image')) {
+            // delete old image
+            if ($nurse->image && Storage::disk('public')->exists($nurse->image)) {
+                Storage::disk('public')->delete($nurse->image);
+            }
+
+            // store new image
+            $path = $request->file('image')->store('employees', 'public');
+
+            // update image column
+            $nurse->update(['image' => $path]);
+        }
+
+        /* ================= ADDRESSES ================= */
+        if ($request->addresses) {
+            foreach ($request->addresses as $address) {
+                if (!empty($address['id'])) {
+                    $existing = $nurse->addresses()->find($address['id']);
+                    if ($existing) {
+                        $existing->update([
+                            'address_type' => $address['address_type'] ?? $existing->address_type,
+                            'street' => $address['street'] ?? $existing->street,
+                            'city' => $address['city'] ?? $existing->city,
+                            'state' => $address['state'] ?? $existing->state,
+                            'country' => $address['country'] ?? $existing->country,
+                            'postal_code' => $address['postal_code'] ?? $existing->postal_code,
+                        ]);
+                    }
+                } else {
+                    $nurse->addresses()->create([
+                        'address_type' => $address['address_type'] ?? 'Home',
+                        'street' => $address['street'] ?? '',
+                        'city' => $address['city'] ?? '',
+                        'state' => $address['state'] ?? '',
+                        'country' => $address['country'] ?? '',
+                        'postal_code' => $address['postal_code'] ?? '',
+                    ]);
+                }
+            }
+        }
+
+        /* ================= PROFESSIONS ================= */
+        if ($request->professions) {
+            foreach ($request->professions as $profession) {
+                if (!empty($profession['id'])) {
+                    $existing = $nurse->professions()->find($profession['id']);
+                    if ($existing) {
+                        $existing->update([
+                            'title' => $profession['title'] ?? $existing->title,
+                            'department_id' => $profession['department_id'] ?? $existing->department_id,
+                        ]);
+                    }
+                } else {
+                    $nurse->professions()->create([
+                        'title' => $profession['title'] ?? '',
+                        'department_id' => $profession['department_id'] ?? null,
+                    ]);
+                }
+            }
+        }
+
+        /* ================= QUALIFICATIONS ================= */
+        if ($request->qualifications) {
+            foreach ($request->qualifications as $qualification) {
+                if (!empty($qualification['id'])) {
+                    $existing = $nurse->qualifications()->find($qualification['id']);
+                    if ($existing) {
+                        $existing->update([
+                            'degree' => $qualification['degree'] ?? $existing->degree,
+                            'institution' => $qualification['institution'] ?? $existing->institution,
+                            'year_completed' => $qualification['year_completed'] ?? $existing->year_completed,
+                        ]);
+                    }
+                } else {
+                    $nurse->qualifications()->create([
+                        'degree' => $qualification['degree'] ?? '',
+                        'institution' => $qualification['institution'] ?? '',
+                        'year_completed' => $qualification['year_completed'] ?? '',
+                    ]);
+                }
+            }
+        }
+
+        /* ================= FAMILY DETAILS ================= */
+        if ($request->family_details) {
+            foreach ($request->family_details as $family) {
+                if (!empty($family['id'])) {
+                    $existing = $nurse->familyDetails()->find($family['id']);
+                    if ($existing) {
+                        $existing->update([
+                            'name' => $family['name'] ?? $existing->name,
+                            'relationship' => $family['relationship'] ?? $existing->relationship,
+                            'date_of_birth' => $family['date_of_birth'] ?? $existing->date_of_birth,
+                            'contact_number' => $family['contact_number'] ?? $existing->contact_number,
+                        ]);
+                    }
+                } else {
+                    $nurse->familyDetails()->create([
+                        'name' => $family['name'] ?? '',
+                        'relationship' => $family['relationship'] ?? '',
+                        'date_of_birth' => $family['date_of_birth'] ?? null,
+                        'contact_number' => $family['contact_number'] ?? '',
+                    ]);
+                }
+            }
+        }
+
+        /* ================= DOCUMENTS UPLOAD ================= */
+        if ($request->hasFile('documents')) {
+            foreach ($request->file('documents') as $doc) {
+                $storedPath = $doc->store('employee_documents', 'public');
+
+                $nurse->documents()->create([
+                    'document_type' => $doc->getClientOriginalExtension(),
+                    'document_path' => $storedPath,
+                    'uploaded_at' => now(),
+                ]);
+            }
+        }
+
+        /* ================= DELETE RELATED DATA ================= */
+        // Delete addresses
+        if ($request->filled('deleted_addresses')) {
+            $ids = json_decode($request->deleted_addresses, true);
+            if (is_array($ids) && count($ids) > 0) {
+                $nurse->addresses()->whereIn('id', $ids)->delete();
+            }
+        }
+
+        // Delete professions
+        if ($request->filled('deleted_professions')) {
+            $ids = json_decode($request->deleted_professions, true);
+            if (is_array($ids) && count($ids) > 0) {
+                $nurse->professions()->whereIn('id', $ids)->delete();
+            }
+        }
+
+        // Delete qualifications
+        if ($request->filled('deleted_qualifications')) {
+            $ids = json_decode($request->deleted_qualifications, true);
+            if (is_array($ids) && count($ids) > 0) {
+                $nurse->qualifications()->whereIn('id', $ids)->delete();
+            }
+        }
+
+        // Delete family details
+        if ($request->filled('deleted_family_details')) {
+            $ids = json_decode($request->deleted_family_details, true);
+            if (is_array($ids) && count($ids) > 0) {
+                $nurse->familyDetails()->whereIn('id', $ids)->delete();
+            }
+        }
+
+        // Delete documents
+        if ($request->filled('deleted_documents')) {
+            $ids = json_decode($request->deleted_documents, true);
+            
+            if (is_array($ids) && count($ids) > 0) {
+                foreach ($nurse->documents()->whereIn('id', $ids)->get() as $doc) {
+                    if (Storage::disk('public')->exists($doc->document_path)) {
+                        Storage::disk('public')->delete($doc->document_path);
+                    }
+                    
+                    $doc->delete();
+                }
+            }
+        }
+    });
+
+    return redirect()
+        ->back()
+        ->with('success', 'Profile updated successfully');
 }
 
+    
 
-
-
-
-
-
+   
 }
