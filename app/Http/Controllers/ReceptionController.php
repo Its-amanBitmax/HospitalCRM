@@ -436,12 +436,17 @@ class ReceptionController extends Controller
         return redirect()->route('receptionist.patients')->with('success', 'User created successfully.');
     }
 
+
+
     public function patient_edit($id)
     {
         $user = User::findOrFail($id);
 
         return view('receptionist.receptionist-edit-patient', compact('user'));
     }
+
+
+    
 
     public function patient_update(Request $request, $id)
     {

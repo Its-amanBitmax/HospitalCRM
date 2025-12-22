@@ -1,4 +1,8 @@
-@extends('layouts.layout')
+@php
+$layout = auth('pharmacist')->check() ? 'layouts.pharmacist' : 'layouts.layout';
+@endphp
+
+@extends($layout)
 
 @section('content')
 <div class="max-w-5xl mx-auto p-6">

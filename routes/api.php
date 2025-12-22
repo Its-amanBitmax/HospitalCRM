@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\RelativeController;
 use App\Http\Controllers\Api\TestAndCheckupController;
 use App\Http\Controllers\Api\HospitalScheduleController;
 use App\Http\Controllers\Api\NurseLoginController;
+use App\Http\Controllers\Api\PharmacyLoginController;
+use App\Http\Controllers\Api\ReceptionloginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,7 +88,35 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/nurse/profile', [NurseLoginController::class, 'get_profile']);
     Route::post('/nurse/update/profile', [NurseLoginController::class, 'update_profile']);
     Route::get('/nurse/my-patients', [NurseLoginController::class, 'myPatients']);
-
+    Route::get('/nurse/my-tasks', [NurseLoginController::class, 'get_my_all_task']);
+    Route::get('/nurse/my-attendence', [NurseLoginController::class, 'get_my_attendence']);
+    Route::post('/nurse/tasks/{id}/status', [NurseLoginController::class, 'update_task_status']);
 });
 
 
+
+
+
+Route::post('/reception/login', [ReceptionloginController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/reception/profile', [ReceptionloginController::class, 'get_profile']);
+    Route::post('/reception/update/profile', [ReceptionloginController::class, 'update_profile']);
+    Route::get('/reception/dashboard', [ReceptionloginController::class, 'get_receptions']);
+    Route::get('/reception/appointments', [ReceptionloginController::class, 'get_appointments']);
+    Route::get('/reception/patients', [ReceptionloginController::class, 'get_patients']);
+    Route::get('/reception/user-visits/{user}', [ReceptionloginController::class, 'showUserVisits']);
+    Route::post('/reception/users/{user_id}/visits', [ReceptionloginController::class, 'storeUserVisit']);
+    Route::get('/reception/create-visit-data', [ReceptionloginController::class, 'createUserVisit']);
+    Route::post('/reception/{user_id}/visits/{visit_id}/update', [ReceptionloginController::class, 'updateUserVisit']);
+    Route::post('/reception/patients/create', [ReceptionloginController::class, 'patient_save']);
+    Route::post('/reception/patients/{id}/update', [ReceptionloginController::class, 'patient_update']);
+    Route::get('/reception/my-attendances', [ReceptionloginController::class, 'myAttendances']);
+});
+
+Route::post('/pharmacist/login', [PharmacyLoginController::class, 'pharmacistLogin']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/pharmacy/profile', [PharmacyLoginController::class, 'get_profile']);
+    Route::post('/pharmacy/update/profile', [PharmacyLoginController::class, 'update_profile']);
+ 
+});
+             

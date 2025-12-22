@@ -61,6 +61,12 @@ return [
             'provider' => 'employees'
         ],
 
+        
+        'pharmacist' => [
+            'driver'   => 'session',
+            'provider' => 'employees'
+        ],
+
     ],
 
     /*

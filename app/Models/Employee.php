@@ -22,6 +22,7 @@ class Employee extends Authenticatable
         'employee_code',
         'password',
         'department_id',
+        'store_id',
     ];
 
     protected $hidden = [
@@ -129,4 +130,15 @@ class Employee extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'nurse_patient', 'nurse_id', 'patient_id');
     }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+    
+    public function transactions()
+{
+    return $this->hasMany(Transaction::class, 'created_by');
+}
+
 }

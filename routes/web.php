@@ -27,8 +27,12 @@ use App\Http\Controllers\Admin\SaleController;
 use App\Mail\OtpMail;
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NurseController;
+use App\Http\Controllers\PharmacyController;
+use App\Http\Controllers\SetChargesController;
 use App\Http\Controllers\TestAndCheckupController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/login-selection', function () {
@@ -254,45 +258,7 @@ Route::prefix('admin')->group(function () {
             'update' => 'admin.specialities.update',
             'destroy' => 'admin.specialities.destroy',
         ]);
-        Route::resource('stores', StoreController::class)->names([
-            'index' => 'admin.store.index',
-            'create' => 'admin.store.create',
-            'store' => 'admin.store.store',
-            'show' => 'admin.store.show',
-            'edit' => 'admin.store.edit',
-            'update' => 'admin.store.update',
-            'destroy' => 'admin.store.destroy',
-        ]);
 
-        Route::resource('inventory', InventoryController::class)->names([
-            'index' => 'admin.inventory.index',
-            'create' => 'admin.inventory.create',
-            'store' => 'admin.inventory.store',
-            'show' => 'admin.inventory.show',
-            'edit' => 'admin.inventory.edit',
-            'update' => 'admin.inventory.update',
-            'destroy' => 'admin.inventory.destroy',
-        ]);
-
-        Route::resource('medicine', MedicineController::class)->names([
-            'index' => 'admin.medicine.index',
-            'create' => 'admin.medicine.create',
-            'store' => 'admin.medicine.store',
-            'show' => 'admin.medicine.show',
-            'edit' => 'admin.medicine.edit',
-            'update' => 'admin.medicine.update',
-            'destroy' => 'admin.medicine.destroy',
-        ]);
-
-        Route::resource('sales', SaleController::class)->names([
-            'index' => 'admin.sales.index',
-            'create' => 'admin.sales.create',
-            'store' => 'admin.sales.store',
-            'show' => 'admin.sales.show',
-            'edit' => 'admin.sales.edit',
-            'update' => 'admin.sales.update',
-            'destroy' => 'admin.sales.destroy',
-        ]);
 
         Route::get('/rooms', [App\Http\Controllers\RoomController::class, 'index'])->name('admin.rooms');
         Route::get('/get-rooms', [App\Http\Controllers\RoomController::class, 'getRooms'])->name('admin.get-rooms');
@@ -529,8 +495,12 @@ Route::post('/nurse/task/store/save', [NurseController::class, 'save_nurse_task'
     ->name('nurse.task.save');
 Route::get('/nurse/tasks', [NurseController::class, 'get_all_nurse_task'])
     ->name('nurse.tasks');
-Route::get('nurse-task/edit/{id}', [NurseController::class, 'edit_nurse_task'])->name('nurse.task.edit');
-Route::post('nurse-task/update/{id}', [NurseController::class, 'update_nurse_task'])->name('nurse.task.update');
+Route::get('nurse-task/edit/{id}', [NurseController::class, 'edit_nurse_task'])
+    ->name('nurse.task.edit');
+
+Route::post('nurse-task/update/{id}', [NurseController::class, 'update_nurse_task'])
+    ->name('nurse.task.update');
+
 Route::delete('/nurse/task/delete/{id}', [NurseController::class, 'delete_nurse_task'])->name('nurse.task.delete');
 Route::post('/nurse/task/{id}/update-status', [NurseController::class, 'update_task_status'])
     ->name('nurse.task.update.status');
@@ -585,10 +555,76 @@ Route::prefix('nurse')->group(function () {
         '/nurse/emergency',
         [NurseController::class, 'get_emergency_patients']
     )->name('nurse.emergency.patients');
-
-
     Route::get('/nurse/profile', [NurseController::class, 'get_profile'])->name('nurse.profile');
     Route::get('/nurse/view/profile', [NurseController::class, 'view_profile'])->name('nurse.view.profile');
     Route::post('/nurse/update/profile', [NurseController::class, 'update_profile'])->name('nurse.update.profile');
+});
+
+Route::get('/pharmacist/dashboard', [PharmacyController::class, 'pharmacist_dashboard'])->name('pharmacist.dashboard');
+Route::get('/pharmacist/profile', [PharmacyController::class, 'profile_view'])->name('pharmacist.profile');
+Route::get('/pharmacist/edit/profile', [PharmacyController::class, 'edit_profile'])->name('pharmacist.edit.profile');
+Route::post('/pharmacist/update/profile', [PharmacyController::class, 'update_profile'])->name('pharmacist.update.profile');
+Route::resource('stores', StoreController::class)->names([
+    'index' => 'admin.store.index',
+    'create' => 'admin.store.create',
+    'store' => 'admin.store.store',
+    'show' => 'admin.store.show',
+    'edit' => 'admin.store.edit',
+    'update' => 'admin.store.update',
+    'destroy' => 'admin.store.destroy',
+]);
+
+Route::resource('medicine', MedicineController::class)->names([
+    'index' => 'admin.medicine.index',
+    'create' => 'admin.medicine.create',
+    'store' => 'admin.medicine.store',
+    'show' => 'admin.medicine.show',
+    'edit' => 'admin.medicine.edit',
+    'update' => 'admin.medicine.update',
+    'destroy' => 'admin.medicine.destroy',
+]);
+
+Route::resource('sales', SaleController::class)->names([
+    'index' => 'admin.sales.index',
+    'create' => 'admin.sales.create',
+    'store' => 'admin.sales.store',
+    'show' => 'admin.sales.show',
+    'edit' => 'admin.sales.edit',
+    'update' => 'admin.sales.update',
+    'destroy' => 'admin.sales.destroy',
+]);
+
+Route::resource('inventory', InventoryController::class)->names([
+    'index' => 'admin.inventory.index',
+    'create' => 'admin.inventory.create',
+    'store' => 'admin.inventory.store',
+    'show' => 'admin.inventory.show',
+    'edit' => 'admin.inventory.edit',
+    'update' => 'admin.inventory.update',
+    'destroy' => 'admin.inventory.destroy',
+]);
+
+Route::resource('accountant/transctions', TransactionController::class)->names([
+    'index' => 'admin.transctions.index',
+    'create' => 'admin.transctions.create',
+    'store' => 'admin.transctions.store',
+    'show' => 'admin.transctions.show',
+    'edit' => 'admin.transctions.edit',
+    'update' => 'admin.transctions.update',
+    'destroy' => 'admin.transctions.destroy',
+]);
+
+Route::resource('invoice/index', InvoiceController::class)->names([
+    'index' => 'admin.invoice.index',
+]);
+Route::get('/invoice/generate/{id}', [InvoiceController::class, 'invoice_generate'])->name('admin.invoice.generate');
+
+Route::get('/set/charges', [SetChargesController::class, 'index'])->name('admin.charges.index');
+Route::get('/set/charges/create', [SetChargesController::class, 'create'])->name('admin.charges.create');
+Route::post('/set/charges/store', [SetChargesController::class, 'store'])
+    ->name('admin.charges.store');
+Route::get('/set/charges/{id}/edit', [SetChargesController::class, 'edit'])->name('admin.charges.edit');
+Route::post('/set/charges/{id}/update', [SetChargesController::class, 'update'])->name('admin.charges.update');
+Route::post('/set/charges/{id}', [SetChargesController::class, 'destroy'])->name('admin.charges.destroy');
     
 
