@@ -145,7 +145,7 @@ class UserController extends Controller
         }
 
         // If password doesn't match
-        if (!\Hash::check($request->password, $user->password)) {
+        if (!Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid username or password.',
@@ -269,6 +269,8 @@ class UserController extends Controller
             'alternate_no' => 'nullable|string|max:15',
             'id_proof_type' => 'nullable|string|max:255',
             'id_number' => 'nullable|string|max:255',
+            'blood_group' => 'nullable|string|max:255',
+            
         ]);
 
         if ($validator->fails()) {
@@ -293,7 +295,7 @@ class UserController extends Controller
             'email' => $request->email ?? $user->email,
             'mobile_no' => $request->mobile_no ?? $user->mobile_no,
             'age' => $request->age ?? $user->age,
-            'age' => $request->blood_group ?? $user->blood_group,
+            'blood_group' => $request->blood_group ?? $user->blood_group,
             'gender' => $request->gender ?? $user->gender,
             'full_address' => $request->full_address ?? $user->full_address,
             'username' => $request->username ?? $user->username,
@@ -306,6 +308,7 @@ class UserController extends Controller
             'alternate_no' => $request->alternate_no ?? $user->alternate_no,
             'id_proof_type' => $request->id_proof_type ?? $user->id_proof_type,
             'id_number' => $request->id_number ?? $user->id_number,
+            
         ]);
 
         return response()->json([
@@ -400,7 +403,7 @@ class UserController extends Controller
             ], 400);
         }
 
-        // ✅ Require either email or mobile_no
+        
         if (empty($request->email) && empty($request->mobile_no)) {
             return response()->json([
                 'status' => false,
@@ -408,7 +411,7 @@ class UserController extends Controller
             ], 400);
         }
 
-        // ✅ Find user more safely
+        
         $user = User::when($request->email, function ($query) use ($request) {
             $query->where('email', $request->email);
         })

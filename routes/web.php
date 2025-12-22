@@ -591,4 +591,4 @@ Route::prefix('nurse')->group(function () {
     Route::get('/nurse/view/profile', [NurseController::class, 'view_profile'])->name('nurse.view.profile');
     Route::post('/nurse/update/profile', [NurseController::class, 'update_profile'])->name('nurse.update.profile');
     
-});
+
