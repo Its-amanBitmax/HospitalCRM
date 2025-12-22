@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Employee;
+use App\Models\NurseTask;
+use App\Models\Attendance;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -86,7 +89,7 @@ class NurseLoginController extends Controller
 
     public function get_profile(Request $request)
     {
-        $nurse = $request->user(); //get_profile sanctum se auth nurse
+        $nurse = $request->user(); // Sanctum auth nurse
 
         if (!$nurse) {
             return response()->json([
@@ -95,6 +98,7 @@ class NurseLoginController extends Controller
             ], 401);
         }
 
+        // Load all relations
         $nurse->load([
             'department',
             'payroll',
@@ -105,16 +109,23 @@ class NurseLoginController extends Controller
             'familyDetails'
         ]);
 
+        // Full URL for nurse image
+        if ($nurse->image) {
+            $nurse->image = url('public/storage/' . $nurse->image);
+        } else {
+            $nurse->image = null;
+        }
+
+        // If department has image_url
+        if ($nurse->department && $nurse->department->image_url) {
+            $nurse->department->image_url = url('public/storage/' . $nurse->department->image_url);
+        }
+
         return response()->json([
             'status' => true,
             'data' => $nurse
         ], 200);
     }
-
-
-
-
-
 
 
     public function update_profile(Request $request)
@@ -262,7 +273,6 @@ class NurseLoginController extends Controller
         ], 200);
     }
 
-
     public function myPatients(Request $request)
     {
         $nurse = $request->user(); // Sanctum nurse
@@ -295,6 +305,107 @@ class NurseLoginController extends Controller
                 'nurse' => $nurseData,
                 'patients' => $patients
             ]
+        ], 200);
+    }
+
+    public function get_my_all_task(Request $request)
+    {
+        $authUser = $request->user(); // Sanctum authenticated nurse
+
+        // Fetch tasks with related models
+        $tasks = NurseTask::with(['nurse', 'doctor', 'room', 'department', 'user'])
+            ->where('nurse_id', $authUser->id)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        // Convert collection to array for safe modification
+        $tasksArray = $tasks->toArray();
+
+        foreach ($tasksArray as &$task) {
+            // Nurse image
+            if (isset($task['nurse']['image']) && $task['nurse']['image']) {
+                $task['nurse']['image'] = url('public/storage/' . $task['nurse']['image']);
+            }
+
+            // Doctor image
+            if (isset($task['doctor']['image']) && $task['doctor']['image']) {
+                $task['doctor']['image'] = url('public/storage/' . $task['doctor']['image']);
+            }
+
+            // User image
+            if (isset($task['user']['image']) && $task['user']['image']) {
+                $task['user']['image'] = url('public/storage/' . $task['user']['image']);
+            }
+
+            // Department image
+            if (isset($task['department']['image_url']) && $task['department']['image_url']) {
+                $task['department']['image_url'] = url('public/storage/' . $task['department']['image_url']);
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'tasks'  => $tasksArray
+        ]);
+    }
+
+
+
+
+
+
+
+    public function get_my_attendence(Request $request)
+    {
+        $user = $request->user(); // Sanctum authenticated user
+
+        $attendences = Attendance::where('employee_id', $user->id)
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $attendences
+        ]);
+    }
+
+
+    public function update_task_status(Request $request, $id)
+    {
+        // Validate request
+        $request->validate([
+            'status' => 'required|in:pending,in-progress,completed',
+        ]);
+
+        // Find task
+        $task = NurseTask::find($id);
+
+        if (!$task) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Task not found.'
+            ], 404);
+        }
+
+        // Authenticated nurse
+        $nurse = $request->user(); // Sanctum auth nurse
+
+        // Authorization check
+        if ($task->nurse_id != $nurse->id) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You are not authorized to update this task.'
+            ], 403);
+        }
+
+        // Update status
+        $task->status = $request->status;
+        $task->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Task status updated successfully!',
+            'task' => $task
         ], 200);
     }
 }

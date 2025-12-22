@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->string('start_time')->nullable();
             $table->string('end_time')->nullable();
+            $table->string('task_name')->nullable();
             // foreign keys
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
             $table->foreign('room_id')->references('id')->on('rooms')->onDelete('set null');

@@ -14,6 +14,7 @@ class NurseTask extends Model
         'user_id',
         'notes',
         'start_date',
+        'task_name',
         'start_time',
         'end_date',
         'end_time',

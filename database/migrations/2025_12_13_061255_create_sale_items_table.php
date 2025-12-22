@@ -12,20 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sale_items', function (Blueprint $table) {
-$table->id();
+            $table->id();
 
 
-$table->foreignId('sale_id')->constrained('sales')->cascadeOnDelete();
-$table->foreignId('medicine_id')->constrained('medicines');
+            $table->foreignId('sale_id')->constrained('sales')->cascadeOnDelete();
+            $table->foreignId('medicine_id')->constrained('medicines');
 
 
-$table->integer('quantity');
-$table->decimal('price', 10, 2);
-$table->decimal('total', 10, 2);
+            $table->integer('quantity');
+            $table->decimal('price', 10, 2);
+            $table->decimal('total', 10, 2);
 
 
-$table->timestamps();
-});
+            $table->timestamps();
+        });
     }
 
     /**

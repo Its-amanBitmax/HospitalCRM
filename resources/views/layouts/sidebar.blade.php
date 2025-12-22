@@ -1,7 +1,7 @@
 <aside id="sidebar" class="w-64 fixed top-0 left-0 h-screen overflow-y-auto shadow-xl transition-all duration-300 " style="-ms-overflow-style: none; scrollbar-width: none; z-index: 1006;">
   <!-- Logo Section -->
   <div class="flex items-center justify-center px-4 py-5 border-b border-gray-100  shadow-sm" style="height: 80px; background-color:#daf6f6;">
-    <div class="flex items-center justify-center w-12 h-12 rounded-lg  bg-gray-900/20">
+    <div class="flex items-center justify-center w-12 h-12 rounded-lg  ">
       <img src="{{ $admin && $admin->logo ? asset('storage/' . $admin->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}"
         alt="{{ $admin && $admin->hospital_name ? $admin->hospital_name . ' Logo' : 'Dreams EMR Logo' }}"
         class="w-8 h-8">
@@ -249,11 +249,11 @@
       </div>
 
       <div id="account-dropdown" class="space-y-2 overflow-hidden transition-all duration-300 max-h-0 ml-4 border-l-2 border-bg-white-200 border-bg-white-700 pl-3 mt-1">
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+        <a href="{{ route('admin.transctions.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-money-bill-wave text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Transactions</span>
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+        <a href="{{ route('admin.invoice.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-file-invoice text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Invoices</span>
         </a>
@@ -261,7 +261,7 @@
           <i class="fas fa-chart-line text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Reports</span>
         </a>
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
+        <a href="{{ route('admin.charges.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 border border-transparent hover:border-bg-white-200 hover:bg-white-50 hover:bg-white-900/20 group text-gray-700 text-gray-300">
           <i class="fas fa-dollar-sign text-bg-white-500 text-bg-white-400 group-hover:text-bg-white-600 group-hover:text-bg-white-300 w-4 text-center text-sm"></i>
           <span class="sidebar-text text-sm">Pricing & Charges</span>
         </a>

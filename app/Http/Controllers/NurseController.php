@@ -103,59 +103,51 @@ class NurseController extends Controller
     }
 
     // Save form data
-    public function save_nurse_task(Request $request)
-    {
-        // ✅ VALIDATION
-        $request->validate([
-            // Common
-            'start_date' => 'required|date',
-            'end_date'   => 'required|date|after_or_equal:start_date',
+   public function save_nurse_task(Request $request)
+{
+    // ✅ VALIDATION
+  $request->validate([
+    'start_date' => 'required|date',
+    'end_date'   => 'required|date|after_or_equal:start_date',
+    'tasks' => 'required|array|min:1',
+    'tasks.*.user_id' => 'required|exists:users,id',
+    'tasks.*.department_id' => 'nullable|exists:departments,id',
+    'tasks.*.room_id' => 'nullable|exists:rooms,id',
+    'tasks.*.nurse_id' => 'required|exists:employees,id',
+    'tasks.*.doctor_id' => 'nullable|exists:employees,id',
+    'tasks.*.start_time' => ['required','regex:/^(0?[1-9]|1[0-2]):[0-5][0-9]\s*(AM|PM)$/i'],
+    'tasks.*.end_time'   => ['required','regex:/^(0?[1-9]|1[0-2]):[0-5][0-9]\s*(AM|PM)$/i'],
+    'tasks.*.notes' => 'nullable|string',
+    'tasks.*.task_name' => 'nullable|string|max:255',
+]);
 
-            // Tasks
-            'tasks' => 'required|array|min:1',
 
-            'tasks.*.user_id' => 'required|exists:users,id',
-            'tasks.*.department_id' => 'nullable|exists:departments,id',
-            'tasks.*.room_id' => 'nullable|exists:rooms,id',
-            'tasks.*.nurse_id' => 'required|exists:employees,id',
-            'tasks.*.doctor_id' => 'nullable|exists:employees,id',
+    // ✅ SAVE TASKS
+    foreach ($request->tasks as $task) {
+        NurseTask::create([
+            'user_id'       => $task['user_id'],
+            'department_id' => $task['department_id'] ?? null,
+            'room_id'       => $task['room_id'] ?? null,
+            'nurse_id'      => $task['nurse_id'],
+            'doctor_id'     => $task['doctor_id'] ?? null,
 
-            'tasks.*.start_time' => [
-                'required',
-                'regex:/^\d{2}:\d{2}$/'
-            ],
-            'tasks.*.end_time' => [
-                'required',
-                'regex:/^\d{2}:\d{2}$/'
-            ],
+            // common dates
+            'start_date'    => $request->start_date,
+            'end_date'      => $request->end_date,
 
-            'tasks.*.notes' => 'nullable|string',
+            // time (varchar)
+            'start_time'    => $task['start_time'],
+            'end_time'      => $task['end_time'],
+
+            'notes'         => $task['notes'] ?? '',
+            'task_name'    => $task['task_name'] ?? '', // ✅ Save add-on
+            'status'        => 'pending',
         ]);
-
-        // ✅ SAVE TASKS
-        foreach ($request->tasks as $task) {
-            NurseTask::create([
-                'user_id'       => $task['user_id'],
-                'department_id' => $task['department_id'] ?? null,
-                'room_id'       => $task['room_id'] ?? null,
-                'nurse_id'      => $task['nurse_id'],
-                'doctor_id'     => $task['doctor_id'] ?? null,
-
-                // common dates
-                'start_date'    => $request->start_date,
-                'end_date'      => $request->end_date,
-
-                // time (varchar)
-                'start_time'    => $task['start_time'],
-                'end_time'      => $task['end_time'],
-
-                'notes'         => $task['notes'] ?? '',
-                'status'        => 'pending',
-            ]);
-        }
-
-        return redirect()->back()->with('success', 'Tasks created successfully!');
     }
+
+    return redirect()->back()->with('success', 'Tasks created successfully!');
+}
+
 
     public function get_all_nurse_task(Request $request)
     {
@@ -223,73 +215,65 @@ class NurseController extends Controller
     }
 
     // ================= UPDATE =================
-    public function update_nurse_task(Request $request, $id)
-    {
-        $request->validate([
-            'start_date' => 'required|date',
-            'end_date'   => 'required|date|after_or_equal:start_date',
+public function update_nurse_task(Request $request, $id)
+{
+    // ✅ VALIDATION
+    $request->validate([
+        'start_date' => 'required|date',
+        'end_date'   => 'required|date|after_or_equal:start_date',
 
-            'tasks' => 'required|array',
-            'tasks.*.user_id'  => 'required|exists:users,id',
-            'tasks.*.nurse_id' => 'required|exists:employees,id',
+        'tasks' => 'required|array|min:1',
+        'tasks.*.user_id'  => 'required|exists:users,id',
+        'tasks.*.nurse_id' => 'required|exists:employees,id',
+        'tasks.*.start_time' => ['required','regex:/^(0?[1-9]|1[0-2]):[0-5][0-9]\s*(AM|PM)$/i'],
+        'tasks.*.end_time'   => ['required','regex:/^(0?[1-9]|1[0-2]):[0-5][0-9]\s*(AM|PM)$/i'],
+        'tasks.*.notes'      => 'nullable|string',
+        'tasks.*.task_name'  => 'nullable|string|max:255',
+    ]);
 
-            'tasks.*.start_time' => 'required|string',
-            'tasks.*.end_time'   => 'required|string',
-            'tasks.*.notes'      => 'nullable|string',
-        ]);
+    // existing task IDs from form
+    $idsFromForm = collect($request->tasks)
+        ->pluck('id')
+        ->filter()
+        ->toArray();
 
-        // existing ids from form
-        $idsFromForm = collect($request->tasks)
-            ->pluck('id')
-            ->filter()
-            ->toArray();
+    // delete tasks removed in form
+    NurseTask::where('nurse_id', $request->tasks[0]['nurse_id'])
+        ->where('start_date', $request->start_date)
+        ->where('end_date', $request->end_date)
+        ->whereNotIn('id', $idsFromForm)
+        ->delete();
 
-        // delete removed tasks
-        NurseTask::where('nurse_id', $request->tasks[0]['nurse_id'])
-            ->where('start_date', $request->start_date)
-            ->where('end_date', $request->end_date)
-            ->whereNotIn('id', $idsFromForm)
-            ->delete();
+    foreach ($request->tasks as $task) {
 
-        foreach ($request->tasks as $task) {
+        $data = [
+            'user_id'       => $task['user_id'],
+            'department_id' => $task['department_id'] ?? null,
+            'room_id'       => $task['room_id'] ?? null,
+            'nurse_id'      => $task['nurse_id'],
+            'doctor_id'     => $task['doctor_id'] ?? null,
+            'start_date'    => $request->start_date,
+            'end_date'      => $request->end_date,
+            'start_time'    => $task['start_time'],
+            'end_time'      => $task['end_time'],
+            'notes'         => $task['notes'] ?? '',
+            'task_name'     => $task['task_name'] ?? '',
+        ];
 
+        if (!empty($task['id'])) {
             // UPDATE
-            if (!empty($task['id'])) {
-                NurseTask::where('id', $task['id'])->update([
-                    'user_id'       => $task['user_id'],
-                    'department_id' => $task['department_id'] ?? null,
-                    'room_id'       => $task['room_id'] ?? null,
-                    'nurse_id'      => $task['nurse_id'],
-                    'doctor_id'     => $task['doctor_id'] ?? null,
-                    'start_date'    => $request->start_date,
-                    'end_date'      => $request->end_date,
-                    'start_time'    => $task['start_time'],
-                    'end_time'      => $task['end_time'],
-                    'notes'         => $task['notes'] ?? '',
-                ]);
-            }
+            NurseTask::where('id', $task['id'])->update($data);
+        } else {
             // CREATE
-            else {
-                NurseTask::create([
-                    'user_id'       => $task['user_id'],
-                    'department_id' => $task['department_id'] ?? null,
-                    'room_id'       => $task['room_id'] ?? null,
-                    'nurse_id'      => $task['nurse_id'],
-                    'doctor_id'     => $task['doctor_id'] ?? null,
-                    'start_date'    => $request->start_date,
-                    'end_date'      => $request->end_date,
-                    'start_time'    => $task['start_time'],
-                    'end_time'      => $task['end_time'],
-                    'notes'         => $task['notes'] ?? '',
-                    'status'        => 'pending',
-                ]);
-            }
+            $data['status'] = 'pending';
+            NurseTask::create($data);
         }
-
-        return redirect()
-            ->route('nurse.tasks')
-            ->with('success', 'Nurse tasks updated successfully!');
     }
+
+    return redirect()
+        ->route('nurse.tasks')
+        ->with('success', 'Nurse tasks updated successfully!');
+}
 
 
     public function delete_nurse_task($id)

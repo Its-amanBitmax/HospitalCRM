@@ -175,6 +175,9 @@ $layout = auth('nurse')->check() ? 'layouts.nursionist' : 'layouts.layout';
                             Location
                         </th>
                         <th class="py-3 px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Date
+                        </th>
+                        <th class="py-3 px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Timeline
                         </th>
                         <th class="py-3 px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -273,6 +276,31 @@ $layout = auth('nurse')->check() ? 'layouts.nursionist' : 'layouts.layout';
                                 </div>
                             </div>
                         </td>
+
+
+
+                        <td class="py-4 px-6">
+                            <div class="space-y-2">
+                                <div class="text-sm">
+                                    <div class="flex items-center gap-2 text-gray-700">
+                                        <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        <span class="font-medium">{{ $task->start_time }}</span>
+                                    </div>
+                                </div>
+                                <div class="text-sm">
+                                    <div class="flex items-center gap-2 text-gray-700">
+                                        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        <span class="font-medium">{{ $task->end_time }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+
 
                         <!-- Status Column -->
                         <td class="py-4 px-6">

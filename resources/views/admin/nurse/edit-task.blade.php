@@ -125,11 +125,13 @@
                                 <label class="block font-medium text-gray-700 mb-1">Start Time</label>
                                 <select name="tasks[{{ $i }}][start_time]" class="w-full border p-2 rounded bg-white" required>
                                     <option value="">Select</option>
-                                    @for($h = 0; $h < 24; $h++)
-                                        @for($m = 0; $m < 60; $m += 30)
-                                            @php $time = sprintf("%02d:%02d", $h, $m); @endphp
-                                            <option value="{{ $time }}" {{ $task->start_time==$time?'selected':'' }}>{{ $time }}</option>
-                                        @endfor
+                                    @for($h=0; $h<24; $h++)
+                                        @php
+                                            $hour = $h % 12 == 0 ? 12 : $h % 12;
+                                            $ampm = $h < 12 ? 'AM' : 'PM';
+                                            $time = sprintf('%02d:00', $hour) . ' ' . $ampm;
+                                        @endphp
+                                        <option value="{{ $time }}" {{ $task->start_time==$time?'selected':'' }}>{{ $time }}</option>
                                     @endfor
                                 </select>
                             </div>
@@ -139,15 +141,23 @@
                                 <label class="block font-medium text-gray-700 mb-1">End Time</label>
                                 <select name="tasks[{{ $i }}][end_time]" class="w-full border p-2 rounded bg-white" required>
                                     <option value="">Select</option>
-                                    @for($h = 0; $h < 24; $h++)
-                                        @for($m = 0; $m < 60; $m += 30)
-                                            @php $time = sprintf("%02d:%02d", $h, $m); @endphp
-                                            <option value="{{ $time }}" {{ $task->end_time==$time?'selected':'' }}>{{ $time }}</option>
-                                        @endfor
+                                    @for($h=0; $h<24; $h++)
+                                        @php
+                                            $hour = $h % 12 == 0 ? 12 : $h % 12;
+                                            $ampm = $h < 12 ? 'AM' : 'PM';
+                                            $time = sprintf('%02d:00', $hour) . ' ' . $ampm;
+                                        @endphp
+                                        <option value="{{ $time }}" {{ $task->end_time==$time?'selected':'' }}>{{ $time }}</option>
                                     @endfor
                                 </select>
                             </div>
 
+                        </div>
+
+                        {{-- Add-ons Section (Task Name) --}}
+                        <div class="mt-4">
+                            <label class="block font-medium text-gray-700 mb-1">Task Name</label>
+                            <input type="text" name="tasks[{{ $i }}][task_name]" value="{{ $task->task_name ?? '' }}" class="mt-1 p-2 border rounded-lg w-full bg-white" placeholder="Task name...">
                         </div>
 
                         {{-- Notes --}}
@@ -190,7 +200,9 @@ document.addEventListener('click', e => {
             el.name = el.name.replace(/\d+/, taskIndex);
         });
 
+        // remove hidden id field
         clone.querySelector('input[type="hidden"]')?.remove();
+
         container.appendChild(clone);
         taskIndex++;
     }
