@@ -48,10 +48,7 @@
                 <div class="text-sm text-gray-600 text-gray-400">Inactive</div>
             </div>
         </div>
-    </div>
-
-
-
+    </div>  
     <!-- Filters -->
     <div class="mb-6 bg-gray-50 p-4 rounded-lg">
         <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -235,24 +232,6 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Edit Modal -->
 <div id="editModal" class="fixed inset-0 hidden bg-white bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white bg-white-900 p-6 rounded-lg shadow-lg w-full max-w-md">
@@ -401,8 +380,4 @@
         document.getElementById('cancelAssignBtn').onclick = () => modal.style.display = 'none';
     });
 </script>
-
-
-
-
 @endsection

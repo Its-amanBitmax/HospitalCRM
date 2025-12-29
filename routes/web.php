@@ -534,6 +534,25 @@ Route::prefix('nurse')->group(function () {
         '/nurse/today-appointments',
         [NurseController::class, 'get_today_appointments']
     )->name('nurse.today.appointments');
+        
+    // Get available users for bed assignment
+    Route::get('/available-users/{type}', [NurseController::class, 'getAvailableUsers'])
+        ->name('nurse.available.users');
+        
+    // Assign bed to patient
+    Route::post('/assign-bed', [NurseController::class, 'assignBed'])
+        ->name('nurse.assign.bed');
+        
+    // Discharge patient
+    Route::post('/bed-assignments/{assignment}/discharge', [NurseController::class, 'dischargePatient'])
+        ->name('nurse.discharge.patient');
+
+        Route::get(
+        '/nurse/today-appointments',
+        [NurseController::class, 'get_today_appointments']
+    )->name('nurse.today.appointments');
+});
+
     Route::get(
         '/nurse/emergency',
         [NurseController::class, 'get_emergency_patients']
@@ -608,6 +627,7 @@ Route::post('/set/charges/store', [SetChargesController::class, 'store'])
 Route::get('/set/charges/{id}/edit', [SetChargesController::class, 'edit'])->name('admin.charges.edit');
 Route::post('/set/charges/{id}/update', [SetChargesController::class, 'update'])->name('admin.charges.update');
 Route::post('/set/charges/{id}', [SetChargesController::class, 'destroy'])->name('admin.charges.destroy');
+    
 
 Route::get('/set/expensis/index', [ExpensisController::class, 'index'])->name('admin.expensis.index');
 Route::get('/set/expensis/create', [ExpensisController::class, 'create'])->name('admin.expensis.create');
