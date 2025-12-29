@@ -1,9 +1,13 @@
-@extends('layouts.layout')
+@php
+$layout = auth('accountant')->check() ? 'layouts.accountant' : 'layouts.layout';
+@endphp
+
+@extends($layout)
 
 @section('title', 'Transactions Dashboard')
 
 @section('content')
-<div class="container ">
+<div class="container max-w-[960px]">
     <!-- Header Section -->
     <div class="mb-8">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

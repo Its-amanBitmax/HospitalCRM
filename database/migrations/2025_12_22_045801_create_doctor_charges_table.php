@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
 
             // Doctor (Employee) relation
-            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('employee_id')->nullable();
 
+            $table->string('name')->nullable();
             // Main charge amount
             $table->decimal('charge', 10, 2);
 
             // Type: test / appointment / consultation
-            $table->enum('type', ['test', 'appointment', 'consultation']);
+            $table->enum('type', ['test', 'appointment', 'consultation'])->nullable();
 
             // Sub type: video / voice / chat / online / offline etc
             $table->string('sub_type')->nullable();

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminProfileController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Admin\SaleController;
 use App\Mail\OtpMail;
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\ExpensisController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NurseController;
 use App\Http\Controllers\PharmacyController;
@@ -599,7 +601,6 @@ Route::resource('invoice/index', InvoiceController::class)->names([
     'index' => 'admin.invoice.index',
 ]);
 Route::get('/invoice/generate/{id}', [InvoiceController::class, 'invoice_generate'])->name('admin.invoice.generate');
-
 Route::get('/set/charges', [SetChargesController::class, 'index'])->name('admin.charges.index');
 Route::get('/set/charges/create', [SetChargesController::class, 'create'])->name('admin.charges.create');
 Route::post('/set/charges/store', [SetChargesController::class, 'store'])
@@ -608,3 +609,16 @@ Route::get('/set/charges/{id}/edit', [SetChargesController::class, 'edit'])->nam
 Route::post('/set/charges/{id}/update', [SetChargesController::class, 'update'])->name('admin.charges.update');
 Route::post('/set/charges/{id}', [SetChargesController::class, 'destroy'])->name('admin.charges.destroy');
 
+Route::get('/set/expensis/index', [ExpensisController::class, 'index'])->name('admin.expensis.index');
+Route::get('/set/expensis/create', [ExpensisController::class, 'create'])->name('admin.expensis.create');
+Route::post('/set/expensis/store', [ExpensisController::class, 'store'])->name('admin.expensis.store');
+Route::get('/set/expensis/{id}/edit', [ExpensisController::class, 'edit'])->name('admin.expensis.edit');
+Route::put('/set/expensis/{id}', [ExpensisController::class, 'update'])->name('admin.expensis.update');
+Route::delete('/set/expensis/{id}', [ExpensisController::class, 'destroy'])->name('admin.expensis.destroy');
+Route::get('/my/account', [AccountantController::class, 'my_account'])->name('admin.my.account');
+Route::get('/account/report', [AccountantController::class, 'reports'])->name('admin.account.report');
+
+Route::get('/account/dashboard', [AccountantController::class, 'account_dashboard'])->name('account.dashboard');
+Route::get('/account/profile', [AccountantController::class, 'account_profile'])->name('account.profile');
+Route::get('/account/edit/profile', [AccountantController::class, 'edit_profile'])->name('account.edit.profile');
+Route::post('/account/update/profile', [AccountantController::class, 'update_profile'])->name('account.update.profile');

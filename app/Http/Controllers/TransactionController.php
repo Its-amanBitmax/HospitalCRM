@@ -8,55 +8,58 @@ use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-public function index(Request $request)
-{
-    $query = Transaction::query();
+    public function index(Request $request)
+    {
+        $query = Transaction::query();
 
-    // Apply filters
-    if ($request->filled('module')) {
-        $query->where('module', $request->module);
+        // Apply filters
+        if ($request->filled('module')) {
+            $query->where('module', $request->module);
+        }
+
+        if ($request->filled('transaction_type')) {
+            $query->where('transaction_type', $request->transaction_type);
+        }
+
+        if ($request->filled('payment_mode')) {
+            $query->where('payment_mode', $request->payment_mode);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('from_date')) {
+            $query->whereDate('transaction_date', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('transaction_date', '<=', $request->to_date);
+        }
+
+        // Apply sorting
+        switch ($request->sort) {
+            case 'oldest':
+                $query->orderBy('transaction_date', 'asc');
+                break;
+            case 'amount_high':
+                $query->orderBy('amount', 'desc');
+                break;
+            case 'amount_low':
+                $query->orderBy('amount', 'asc');
+                break;
+            default:
+                $query->orderBy('transaction_date', 'desc');
+                break;
+        }
+
+        $transactions = $query->get();
+
+        return view('admin.accountant.index', compact('transactions'));
     }
 
-    if ($request->filled('transaction_type')) {
-        $query->where('transaction_type', $request->transaction_type);
-    }
 
-    if ($request->filled('payment_mode')) {
-        $query->where('payment_mode', $request->payment_mode);
-    }
 
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
-    }
-
-    if ($request->filled('from_date')) {
-        $query->whereDate('transaction_date', '>=', $request->from_date);
-    }
-
-    if ($request->filled('to_date')) {
-        $query->whereDate('transaction_date', '<=', $request->to_date);
-    }
-
-    // Apply sorting
-    switch ($request->sort) {
-        case 'oldest':
-            $query->orderBy('transaction_date', 'asc');
-            break;
-        case 'amount_high':
-            $query->orderBy('amount', 'desc');
-            break;
-        case 'amount_low':
-            $query->orderBy('amount', 'asc');
-            break;
-        default:
-            $query->orderBy('transaction_date', 'desc');
-            break;
-    }
-
-    $transactions = $query->get();
-
-    return view('admin.accountant.index', compact('transactions'));
-}
     public function create()
     {
         return view('admin.accountant.create');
@@ -95,5 +98,4 @@ public function index(Request $request)
             ->route('admin.transctions.index')
             ->with('success', 'Transaction added successfully with ID: ' . $transactionId);
     }
-
 }

@@ -1,5 +1,8 @@
-@extends('layouts.layout')
+@php
+$layout = auth('accountant')->check() ? 'layouts.accountant' : 'layouts.layout';
+@endphp
 
+@extends($layout)
 @section('title', 'Add Transaction')
 
 @section('content')

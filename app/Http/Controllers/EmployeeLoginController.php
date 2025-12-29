@@ -122,6 +122,11 @@ class EmployeeLoginController extends Controller
             return redirect()->route('pharmacist.dashboard');
         }
 
+         if ($role === "accountant") {
+            Auth::guard('accountant')->login($employee);
+            return redirect()->route('account.dashboard');
+        }
+
         // If profession is something else (lab, nurse, etc)
         return response()->json(['error' => 'Your role is not allowed for login'], 200);
     }

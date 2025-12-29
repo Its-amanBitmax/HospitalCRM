@@ -12,6 +12,7 @@ class DoctorCharge extends Model
     protected $fillable = [
         'employee_id',
         'charge',
+        'name',
         'type',
         'sub_type',
         'description',

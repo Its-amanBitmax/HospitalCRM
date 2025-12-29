@@ -5,7 +5,7 @@ $layout = auth('pharmacist')->check() ? 'layouts.pharmacist' : 'layouts.layout';
 @extends($layout)
 @section('content')
 <div class="min-h-screen ">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-[960px] mx-auto">
         <!-- Header Section -->
         <div class="mb-6 md:mb-8">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

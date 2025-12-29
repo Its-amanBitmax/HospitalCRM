@@ -1,26 +1,11 @@
-# TODO: Fix Pharmacist Dashboard Data Loading Issue
+# Expense Management Department Integration Plan
 
-## Problem
-- Data is not loading on the pharmacist dashboard.
-- Pharmacists don't have a `store_id` assigned, causing queries to fail.
+## Tasks to Complete
 
-## Solution Steps
-- [x] Create migration to add `store_id` to employees table
-- [x] Run migration to update database
-- [x] Update Employee model fillable array to include `store_id`
-- [x] Add store relationship to Employee model
-- [x] Add error handling in PharmacyController for missing store_id
-- [x] Update dashboard view to show error message when no store assigned
-- [ ] Assign store_id to existing pharmacist employees in database
-- [ ] Test the dashboard with assigned store_id
-
-## Next Steps
-1. Assign store_id to pharmacist employees via database seeder or manual update
-2. Test dashboard functionality
-3. Ensure all queries work correctly with store filtering
-
-## Summary of Changes Made
-- Added `store_id` column to employees table via migration
-- Updated Employee model to include `store_id` in fillable and added store relationship
-- Added error handling in PharmacyController to show message when no store assigned
-- Updated dashboard view to display error message
+- [x] Update ExpensisController: Add Department import, fetch departments in create() and edit() methods, modify store/update to handle department_id
+- [x] Update Expenses model: Add relationship to Department, update fillable to include department_id
+- [x] Update create.blade.php: Change department text input to select dropdown populated from departments
+- [x] Update edit.blade.php: Same as create, pre-select current department
+- [x] Update index.blade.php: Display department name from relationship and load relationship in controller
+- [x] Update validation in store/update to validate department_id
+- [x] Create and run migration to add department_id column to expenses table

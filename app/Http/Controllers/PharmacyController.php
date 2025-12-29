@@ -365,4 +365,13 @@ class PharmacyController extends Controller
             ->with('success', 'Profile updated successfully');
     }
 
+
+
+
+
+
+
+
+
+    
 }

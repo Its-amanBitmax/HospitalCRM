@@ -4,7 +4,7 @@ $layout = auth('pharmacist')->check() ? 'layouts.pharmacist' : 'layouts.layout';
 
 @extends($layout)
 @section('content')
-<div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-8 px-4">
+<div class="min-h-screen ">
     <div class="max-w-4xl mx-auto">
         <!-- Header Section -->
         <div class="mb-8">

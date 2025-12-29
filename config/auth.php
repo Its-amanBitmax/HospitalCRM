@@ -61,8 +61,12 @@ return [
             'provider' => 'employees'
         ],
 
-        
         'pharmacist' => [
+            'driver'   => 'session',
+            'provider' => 'employees'
+        ],
+
+        'accountant' => [
             'driver'   => 'session',
             'provider' => 'employees'
         ],

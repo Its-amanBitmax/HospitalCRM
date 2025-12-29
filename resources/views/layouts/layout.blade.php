@@ -11,6 +11,8 @@
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
     <link rel="icon" type="image/png" href="{{ Auth::guard('admin')->user() && Auth::guard('admin')->user()->logo ? asset('storage/' . Auth::guard('admin')->user()->logo) : asset('image/Gemini_Generated_Image_xxqbl3xxqbl3xxqb.png') }}">
@@ -27,6 +29,7 @@
                 @include('layouts.header')
                 <main class="flex-1 p-6" style="background-color: #f3fcfc;">
                     @yield('content')
+                    
                 </main>
                 @if(!isset($hideFooter))
                     @include('layouts.footer')

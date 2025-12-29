@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AccountantLoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
@@ -29,21 +30,27 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getProfile']);
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
-Route::middleware('auth:sanctum')->get('/skills', [SkillController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/update-profile', [UserController::class, 'updateProfile']);
 Route::get('/user/{id}', [UserController::class, 'getUserById']);
 Route::post('/check-user', [UserController::class, 'checkUserExists']);
 Route::post('/update-credentials', [UserController::class, 'updateCredentials']);
-Route::get('/banners', [BannerController::class, 'getBanners']);
+
 Route::get('/skills', [SkillController::class, 'index']);
 Route::get('/doctors', [SkillController::class, 'getDoctors']);
-Route::middleware('auth:sanctum')->get('/organization', [AdminController::class, 'getOrganizationDetails']);
 Route::get('/doctors/{doctor}/availability', [SkillController::class, 'getAvailability']);
+Route::middleware('auth:sanctum')->get('/skills', [SkillController::class, 'index']);
+
+Route::middleware('auth:sanctum')->get('/organization', [AdminController::class, 'getOrganizationDetails']);
+
+Route::get('/banners', [BannerController::class, 'getBanners']);
+Route::get('/banners', [BannerController::class, 'getBanners']);
+
 Route::middleware('auth:sanctum')->prefix('appointments')->group(function () {
     Route::post('/book', [AppointmentController::class, 'bookAppointment']);
     Route::get('/user', [AppointmentController::class, 'getUserAppointments']);
     Route::post('/cancel/{appointment_id}', [AppointmentController::class, 'cancelAppointment']);
 });
+
 Route::middleware('auth:sanctum')->prefix('relatives')->group(function () {
     Route::post('/add', [RelativeController::class, 'store']);
     Route::get('/', [RelativeController::class, 'index']);
@@ -52,36 +59,22 @@ Route::middleware('auth:sanctum')->prefix('relatives')->group(function () {
     Route::delete('/{relative_id}', [RelativeController::class, 'destroy']);
 });
 
-
-
-
-
 Route::post('/doctor/login', [DoctorLoginController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/doctor/logout', [DoctorLoginController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/doctor/profile', [DoctorLoginController::class, 'getProfile']);
 Route::middleware('auth:sanctum')->post('/doctor/profile/update', [DoctorLoginController::class, 'updateProfile']);
-
 Route::middleware('auth:sanctum')->get('/doctor/appointments-consultations', [DoctorLoginController::class, 'getAppointmentsAndConsultations']);
 Route::middleware('auth:sanctum')->post('/doctor/update-appointment-status', [DoctorLoginController::class, 'updateAppointmentStatus']);
 Route::middleware('auth:sanctum')->get('/schedules/today', [\App\Http\Controllers\Api\ScheduleController::class, 'getTodaySchedules']);
-
 Route::middleware('auth:sanctum')->get('/doctor/today/task', [DoctorLoginController::class, 'doctor_today_task']);
 
-
 Route::middleware('auth:sanctum')->post('/test/booking', [TestAndCheckupController::class, 'test_booking']);
-
 Route::middleware('auth:sanctum')->get('/users/booking/list', [TestAndCheckupController::class, 'Userbookings']);
 Route::middleware('auth:sanctum')->post('/upload/reporting', [TestAndCheckupController::class, 'upload_report_as_user']);
 Route::middleware('auth:sanctum')->post('/upload/doctor/reporting', [TestAndCheckupController::class, 'upload_report_as_doctor']);
-
-
-
 Route::get('/test/checkups', [TestAndCheckupController::class, 'get_all_testcheckup']);
+
 Route::get('/hospital/schedules', [HospitalScheduleController::class, 'index']);
-
-
-
-
 
 Route::post('/nurse/login', [NurseLoginController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
@@ -92,10 +85,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/nurse/my-attendence', [NurseLoginController::class, 'get_my_attendence']);
     Route::post('/nurse/tasks/{id}/status', [NurseLoginController::class, 'update_task_status']);
 });
-
-
-
-
 
 Route::post('/reception/login', [ReceptionloginController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
@@ -117,6 +106,26 @@ Route::post('/pharmacist/login', [PharmacyLoginController::class, 'pharmacistLog
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/pharmacy/profile', [PharmacyLoginController::class, 'get_profile']);
     Route::post('/pharmacy/update/profile', [PharmacyLoginController::class, 'update_profile']);
- 
+    Route::post('/pharmacy/create/store', [PharmacyLoginController::class, 'create_store']);
+    Route::post('/pharmacy/update/stores/{id}', [PharmacyLoginController::class, 'update_store']);
+    Route::get('/pharmacy/all/stores', [PharmacyLoginController::class, 'getAllStore']);
+    Route::post('/pharmacy/create/medicines', [PharmacyLoginController::class, 'create_medicine']);
+    Route::post('pharmacy/update/medicines/{id}', [PharmacyLoginController::class, 'update_medicine']);
+    Route::get('/pharmacy/all/medicines', [PharmacyLoginController::class, 'getAllMedicines']);
+    Route::post('/pharmacy/create/inventory', [PharmacyLoginController::class, 'create_inventory']);
+    Route::post('/pharmacy/create/sales', [PharmacyLoginController::class, 'create_sale']);
+    Route::get('/pharmacy/all/sales', [PharmacyLoginController::class, 'getAllSales']);
+    Route::get('/pharmacy/all/inventories', [PharmacyLoginController::class, 'getInventory']);
+    Route::get('/pharmacy/dashboard', [PharmacyLoginController::class, 'pharmacistDashboard']);
 });
-             
+
+Route::post('/accountant/login', [AccountantLoginController::class, 'Accountantlogin']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/accountant/profile', [AccountantLoginController::class, 'get_profile']);
+    Route::post('/accountant/update/profile', [AccountantLoginController::class, 'update_profile']);
+    Route::get('/accountant/transactions', [AccountantLoginController::class, 'get_transactions']);
+    Route::post('accountant/create/transactions', [AccountantLoginController::class, 'create_transactions']);
+    Route::get('/accountant/expenses', [AccountantLoginController::class, 'get_expenses']);
+});
+
+
