@@ -384,7 +384,7 @@ class AccountantLoginController extends Controller
         }
     }
 
-  public function get_expenses()
+    public function get_expenses()
     {
         $expenses = Expenses::with('department')
             ->latest()
@@ -396,8 +396,4 @@ class AccountantLoginController extends Controller
             'data' => $expenses
         ], 200);
     }
-
-
-
-
 }
