@@ -84,6 +84,5 @@ class ExpensisController extends Controller
 
      return redirect()->route('admin.expensis.index')
     ->with('success', 'Expense deleted successfully');
-
     }
 }
