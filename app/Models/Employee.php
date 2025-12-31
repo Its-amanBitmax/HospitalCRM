@@ -40,6 +40,11 @@ class Employee extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
+    public function getAuthIdentifierName()
+    {
+        return 'employee_code';
+    }
+
     public function qualifications()
     {
         return $this->hasMany(Qualification::class);
@@ -135,10 +140,9 @@ class Employee extends Authenticatable
     {
         return $this->belongsTo(Store::class);
     }
-    
-    public function transactions()
-{
-    return $this->hasMany(Transaction::class, 'created_by');
-}
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'created_by');
+    }
 }

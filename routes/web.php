@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AccountantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminProfileController;
@@ -26,15 +25,16 @@ use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\SaleController;
 use App\Mail\OtpMail;
-
-use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\ExpensisController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\NurseController;
 use App\Http\Controllers\PharmacyController;
-use App\Http\Controllers\SetChargesController;
-use App\Http\Controllers\TestAndCheckupController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\AccountantController;
+use App\Http\Controllers\SetChargesController;
+use App\Http\Controllers\ExpensisController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\LabornistController;
+use App\Http\Controllers\NurseController;
+use App\Http\Controllers\TestAndCheckupController;
 
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/login-selection', function () {
@@ -260,7 +260,7 @@ Route::prefix('admin')->group(function () {
             'update' => 'admin.specialities.update',
             'destroy' => 'admin.specialities.destroy',
         ]);
-
+       
 
         Route::get('/rooms', [App\Http\Controllers\RoomController::class, 'index'])->name('admin.rooms');
         Route::get('/get-rooms', [App\Http\Controllers\RoomController::class, 'getRooms'])->name('admin.get-rooms');
@@ -497,12 +497,8 @@ Route::post('/nurse/task/store/save', [NurseController::class, 'save_nurse_task'
     ->name('nurse.task.save');
 Route::get('/nurse/tasks', [NurseController::class, 'get_all_nurse_task'])
     ->name('nurse.tasks');
-Route::get('nurse-task/edit/{id}', [NurseController::class, 'edit_nurse_task'])
-    ->name('nurse.task.edit');
-
-Route::post('nurse-task/update/{id}', [NurseController::class, 'update_nurse_task'])
-    ->name('nurse.task.update');
-
+Route::get('nurse-task/edit/{id}', [NurseController::class, 'edit_nurse_task'])->name('nurse.task.edit');
+Route::post('nurse-task/update/{id}', [NurseController::class, 'update_nurse_task'])->name('nurse.task.update');
 Route::delete('/nurse/task/delete/{id}', [NurseController::class, 'delete_nurse_task'])->name('nurse.task.delete');
 Route::post('/nurse/task/{id}/update-status', [NurseController::class, 'update_task_status'])
     ->name('nurse.task.update.status');
@@ -557,10 +553,18 @@ Route::prefix('nurse')->group(function () {
         '/nurse/emergency',
         [NurseController::class, 'get_emergency_patients']
     )->name('nurse.emergency.patients');
+
+
     Route::get('/nurse/profile', [NurseController::class, 'get_profile'])->name('nurse.profile');
     Route::get('/nurse/view/profile', [NurseController::class, 'view_profile'])->name('nurse.view.profile');
     Route::post('/nurse/update/profile', [NurseController::class, 'update_profile'])->name('nurse.update.profile');
-});
+    
+
+
+
+
+
+
 
 Route::get('/pharmacist/dashboard', [PharmacyController::class, 'pharmacist_dashboard'])->name('pharmacist.dashboard');
 Route::get('/pharmacist/profile', [PharmacyController::class, 'profile_view'])->name('pharmacist.profile');
@@ -627,7 +631,6 @@ Route::post('/set/charges/store', [SetChargesController::class, 'store'])
 Route::get('/set/charges/{id}/edit', [SetChargesController::class, 'edit'])->name('admin.charges.edit');
 Route::post('/set/charges/{id}/update', [SetChargesController::class, 'update'])->name('admin.charges.update');
 Route::post('/set/charges/{id}', [SetChargesController::class, 'destroy'])->name('admin.charges.destroy');
-    
 
 Route::get('/set/expensis/index', [ExpensisController::class, 'index'])->name('admin.expensis.index');
 Route::get('/set/expensis/create', [ExpensisController::class, 'create'])->name('admin.expensis.create');
@@ -642,3 +645,9 @@ Route::get('/account/dashboard', [AccountantController::class, 'account_dashboar
 Route::get('/account/profile', [AccountantController::class, 'account_profile'])->name('account.profile');
 Route::get('/account/edit/profile', [AccountantController::class, 'edit_profile'])->name('account.edit.profile');
 Route::post('/account/update/profile', [AccountantController::class, 'update_profile'])->name('account.update.profile');
+
+Route::get('/laborist/dashboard', [LabornistController::class, 'dashboard'])->name('laborist.dashboard');
+Route::get('/laborist/view/profile', [LabornistController::class, 'view_profile'])->name('laborist.view.profile');
+Route::get('/laborist/profile/pdf', [LabornistController::class, 'downloadProfilePDF'])->name('laborist.profile.pdf');
+Route::get('/laborist/profile/edit', [LabornistController::class, 'edit_profile'])->name('laborist.profile.edit');
+Route::post('/laborist/profile/update', [LabornistController::class, 'update_profile'])->name('laborist.profile.update');

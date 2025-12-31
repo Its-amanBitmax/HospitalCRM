@@ -122,9 +122,14 @@ class EmployeeLoginController extends Controller
             return redirect()->route('pharmacist.dashboard');
         }
 
-         if ($role === "accountant") {
+        if ($role === "accountant") {
             Auth::guard('accountant')->login($employee);
             return redirect()->route('account.dashboard');
+        }
+
+        if ($role === "laborist") {
+            Auth::guard('laborist')->login($employee);
+            return redirect()->route('laborist.dashboard');
         }
 
         // If profession is something else (lab, nurse, etc)
@@ -139,6 +144,9 @@ class EmployeeLoginController extends Controller
         Auth::guard('receptionist')->logout();
         Auth::guard('admin')->logout();
         Auth::guard('nurse')->logout();
+        Auth::guard('pharmacist')->logout();
+        Auth::guard('accountant')->logout();
+        Auth::guard('laborist')->logout();
 
         // Invalidate the session
         $request->session()->invalidate();
@@ -146,12 +154,4 @@ class EmployeeLoginController extends Controller
 
         return redirect()->route('login.selection');
     }
-
-
-
-
-  
-
-
-    
 }

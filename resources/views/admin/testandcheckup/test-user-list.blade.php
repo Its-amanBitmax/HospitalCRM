@@ -1,9 +1,13 @@
-@extends('layouts.layout')
+@php
+$layout = auth('laborist')->check() ? 'layouts.labornist' : 'layouts.layout';
+@endphp
+
+@extends($layout)
 
 @section('content')
-<div class="container mx-auto px-2 py-6">
+<div class="container w-[960px]">
     <!-- Enhanced Header -->
-    <div class="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 rounded-2xl shadow-2xl mb-8">
+    <div class="relative overflow-hidden bg-gradient-to-r from-cyan-30 via-cyan-30 to-cyan-30 rounded-2xl shadow-2xl mb-8">
         <div class="absolute inset-0 opacity-10">
             <div class="absolute top-0 left-0 w-64 h-64 bg-blue-300 rounded-full filter blur-3xl"></div>
             <div class="absolute bottom-0 right-0 w-64 h-64 bg-indigo-300 rounded-full filter blur-3xl"></div>
@@ -11,13 +15,13 @@
         <div class="relative z-10 p-8">
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
                 <div>
-                    <h1 class="text-4xl font-bold text-white mb-3 flex items-center gap-4">
-                        <div class="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
-                            <i class="fas fa-users text-white text-2xl"></i>
+                    <h1 class="text-4xl font-bold mb-3 flex items-center gap-4">
+                        <div class="p-3  backdrop-blur-sm rounded-xl">
+                            <i class="fas fa-users text-2xl"></i>
                         </div>
                         Test Booked Users
                     </h1>
-                    <p class="text-blue-100 text-lg">Manage and view all users who have booked tests</p>
+                    <p class=" text-lg">Manage and view all users who have booked tests</p>
                 </div>
             </div>
         </div>

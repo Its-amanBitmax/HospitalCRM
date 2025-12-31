@@ -71,6 +71,12 @@ return [
             'provider' => 'employees'
         ],
 
+        'laborist' => [
+            'driver'   => 'session',
+            'provider' => 'employees',
+          
+        ],
+
     ],
 
     /*

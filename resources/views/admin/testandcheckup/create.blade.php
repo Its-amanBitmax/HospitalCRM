@@ -1,4 +1,8 @@
-@extends('layouts.layout')
+@php
+$layout = auth('laborist')->check() ? 'layouts.labornist' : 'layouts.layout';
+@endphp
+
+@extends($layout)
 
 @section('content')
 <div class="container mx-auto">

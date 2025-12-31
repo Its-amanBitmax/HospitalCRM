@@ -251,7 +251,7 @@
 
         .form-group input {
             width: 100%;
-            padding: 14px 14px 14px 45px;
+            padding: 14px 45px 14px 45px;
             border: 2px solid #e1e5e9;
             border-radius: 10px;
             font-size: 1rem;
@@ -472,10 +472,7 @@
             </div>
 
             <div class="toggle-buttons">
-                <button class="toggle-btn active" id="patient-toggle">
-                    <i class="fas fa-user-injured"></i> Patient
-                </button>
-                <button class="toggle-btn" id="employee-toggle">
+                <button class="toggle-btn active" id="employee-toggle">
                     <i class="fas fa-user-md"></i> Employee
                 </button>
             </div>
@@ -520,8 +517,7 @@
     </div>
 
     <script>
-        // Toggle between patient and employee login
-        const patientToggle = document.getElementById('patient-toggle');
+        // Employee login only
         const employeeToggle = document.getElementById('employee-toggle');
         const identifierLabel = document.getElementById('identifier-label');
         const identifierIcon = document.getElementById('identifier-icon');
@@ -529,22 +525,9 @@
         const loginBtn = document.getElementById('login-btn');
         const signupLink = document.getElementById('signup-link');
 
-        // Default: Patient Mode
-        function setPatientMode() {
-            patientToggle.classList.add('active');
-            employeeToggle.classList.remove('active');
-
-            identifierLabel.textContent = 'Username';
-            identifierIcon.className = 'fas fa-user';
-            identifierInput.placeholder = 'Enter your username';
-
-            loginBtn.textContent = 'Login to Account';
-            signupLink.style.display = 'block';
-        }
-
+        // Set Employee Mode as default
         function setEmployeeMode() {
             employeeToggle.classList.add('active');
-            patientToggle.classList.remove('active');
 
             identifierLabel.textContent = 'Employee Code';
             identifierInput.placeholder = 'Enter your employee code';
@@ -554,8 +537,8 @@
             signupLink.style.display = 'none';
         }
 
-        patientToggle.addEventListener('click', setPatientMode);
-        employeeToggle.addEventListener('click', setEmployeeMode);
+        // Initialize to employee mode
+        setEmployeeMode();
 
 
         // ---------------------
@@ -566,17 +549,6 @@
 
             const identifier = identifierInput.value.trim();
             const password = document.getElementById('login-password').value;
-            const isPatient = patientToggle.classList.contains('active');
-
-            if (isPatient) {
-                if (identifier === 'user123' && password === 'pass123') {
-                    successMessage("Login Successful!");
-                    setTimeout(() => window.location.href = '/patient/dashboard', 1200);
-                } else {
-                    showError("Invalid Patient Credentials!");
-                }
-                return;
-            }
 
             // Employee Login
             const formData = new FormData();
